@@ -1,0 +1,66 @@
+<!--旅店信息-->
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">旅店信息</h1>
+    </div>
+    <div class="page__bd">
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on">未完成</div>
+                <div class="weui-navbar__item">已完成</div>
+            </div>
+            <div class="weui-tab__panel">
+                <div class="weui-cells" style="margin-top: 0;">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到已完成详情页-->
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>先锋路禧龙宾馆</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+    });
+    $('.weui-cell__bd').on('click', function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    });
+
+</script> 
