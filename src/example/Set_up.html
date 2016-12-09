@@ -1,0 +1,92 @@
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">设置值班民警</h1>
+    </div>
+    <div class="weui-cells  weui-cells_radio">
+        <div class="weui-cell">
+            <div class="weui-cell__bd cell-center">
+                <p>今天是：2016-12-8 星期四</p>
+            </div>
+        </div>
+            <label class="weui-cell weui-check__label" for="x11">
+                <div class="weui-cell__bd">
+                    <p>赵警官</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" id="x11">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="x12">
+
+                <div class="weui-cell__bd">
+                    <p>钱警官</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+        <label class="weui-cell weui-check__label" for="x13">
+
+            <div class="weui-cell__bd">
+                <p>孙警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x13" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x14">
+
+            <div class="weui-cell__bd">
+                <p>李警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x14" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x15">
+
+            <div class="weui-cell__bd">
+                <p>周警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x16">
+
+            <div class="weui-cell__bd">
+                <p>吴警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x16" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+    </div>
+    <div class="weui-btn-area" data-id="hotel_news">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
+    </div>
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已确定</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var $toast = $('#toast');
+        $('.weui-btn-area').on('click', function () {
+            if ($toast.css('display') != 'none') return;
+            $toast.fadeIn(100);
+            setTimeout(function () {
+                $toast.fadeOut(100);
+            }, 1200);
+        });
+</script>
