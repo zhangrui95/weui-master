@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-<title>WeUI</title>
-<link rel="stylesheet" href="../style/weui.css"/>
-<link rel="stylesheet" href="./example.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>WeUI</title>
+    <link rel="stylesheet" href="../style/weui.css"/>
+    <link rel="stylesheet" href="./example.css"/>
 </head>
 <body ontouchstart>
 <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
@@ -244,6 +244,18 @@
                     <img src="./images/icon_nav_z-index.png" alt="">
                 </div>
             </li>
+            <li>
+                <div class="weui-flex js_item" data-id="hotel_news">
+                    <p class="weui-flex__item">旅店信息</p>
+                    <img src="./images/icon_nav_z-index.png" alt="">
+                </div>
+            </li>
+            <li>
+                <div class="weui-flex js_item" data-id="Set_up">
+                    <p class="weui-flex__item">设置值班民警</p>
+                    <img src="./images/icon_nav_z-index.png" alt="">
+                </div>
+            </li>
         </ul>
     </div>
     <div class="page__ft">
@@ -261,9 +273,9 @@
         });
         $('.js_category').on('click', function(){
             var $this = $(this),
-                $inner = $this.next('.js_categoryInner'),
-                $page = $this.parents('.page'),
-                $parent = $(this).parent('li');
+                    $inner = $this.next('.js_categoryInner'),
+                    $page = $this.parents('.page'),
+                    $parent = $(this).parent('li');
             var innerH = $inner.data('height');
             bear = $page;
 
@@ -1955,7 +1967,7 @@
 <div class="page">
     <div class="page__hd">
         <h1 class="page__title">基本信息</h1>
-	</div>
+    </div>
     <div class="page__bd">
         <div class="weui-cells__title">身份证号</div>
         <div class="weui-cells">
@@ -1977,7 +1989,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <div class="weui-uploader">
-					
+
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传</p>
                             <div class="weui-uploader__info">0/2</div>
@@ -2003,9 +2015,9 @@
             </div>
         </div>
     </div>
-	<div class="weui-btn-area">
-		<a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
-	</div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
+    </div>
     <!--BEGIN toast-->
     <div id="toast" style="display: none;">
         <div class="weui-mask_transparent"></div>
@@ -2019,10 +2031,10 @@
 <script type="text/javascript">
     $(function(){
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
-            $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
-            $uploaderInput = $("#uploaderInput"),
-            $uploaderFiles = $("#uploaderFiles")
-            ;
+                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+                $uploaderInput = $("#uploaderInput"),
+                $uploaderFiles = $("#uploaderFiles")
+                ;
 
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
@@ -2045,7 +2057,7 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-		
+
         var $toast = $('#toast');
         $('#showToast').on('click', function(){
             if ($toast.css('display') != 'none') return;
@@ -2055,24 +2067,7 @@
                 $toast.fadeOut(100);
             }, 2000);
         });
-    });
-</script> 
-<script type="text/javascript">
-    // toast
-    $(function(){
-        var $toast = $('#toast');
-        $('#showToast').on('click', function(){
-            if ($toast.css('display') != 'none') return;
 
-            $toast.fadeIn(100);
-            setTimeout(function () {
-                $toast.fadeOut(100);
-            }, 2000);
-        });
-    });
-
-    // loading
-    $(function(){
         var $loadingToast = $('#loadingToast');
         $('#showLoadingToast').on('click', function(){
             if ($loadingToast.css('display') != 'none') return;
@@ -2084,6 +2079,33 @@
         });
     });
 </script>
+<!--<script type="text/javascript">-->
+    <!--// toast-->
+<!--//    $(function(){-->
+<!--//        var $toast = $('#toast');-->
+<!--//        $('#showToast').on('click', function(){-->
+<!--//            if ($toast.css('display') != 'none') return;-->
+<!--//-->
+<!--//            $toast.fadeIn(100);-->
+<!--//            setTimeout(function () {-->
+<!--//                $toast.fadeOut(100);-->
+<!--//            }, 2000);-->
+<!--//        });-->
+<!--//    });-->
+
+    <!--// loading-->
+    <!--$(function(){-->
+        <!--var $loadingToast = $('#loadingToast');-->
+        <!--$('#showLoadingToast').on('click', function(){-->
+            <!--if ($loadingToast.css('display') != 'none') return;-->
+
+            <!--$loadingToast.fadeIn(100);-->
+            <!--setTimeout(function () {-->
+                <!--$loadingToast.fadeOut(100);-->
+            <!--}, 2000);-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
 
 </script>
 <script type="text/html" id="tpl_tab">
@@ -2091,48 +2113,44 @@
 <div class="page">
     <div class="page__hd">
         <h1 class="page__title">旅店信息</h1>
-	</div>
+    </div>
     <div class="page__bd">
         <div class="weui-tab">
             <div class="weui-navbar">
-                <div class="weui-navbar__item weui-bar__item_on">未完成</div>
-                <div class="weui-navbar__item">已完成</div>
+                <div class="weui-navbar__item weui-bar__item_on" href="#tab1">未完成</div>
+                <div class="weui-navbar__item" href="#tab2">已完成</div>
             </div>
             <div class="weui-tab__panel">
-                <div class="weui-cells" style="margin-top: 0;">
+                <div class="weui-cells" style="margin-top: 0;" id="tab1">
                     <div class="weui-cell">
                         <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
-                            <p>先锋路禧龙宾馆</p>
+                            <p>先锋路禧龙宾馆11</p>
                             <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
                         </div>
                     </div>
                     <div class="weui-cell">
-                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到已完成详情页-->
-                            <p>先锋路禧龙宾馆</p>
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆11</p>
                             <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
                         </div>
                     </div>
                     <div class="weui-cell">
-                        <div class="weui-cell__bd">
-                            <p>先锋路禧龙宾馆</p>
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆11</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells active" style="margin-top: 0;" id="tab2">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆22</p>
                             <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
                         </div>
                     </div>
                     <div class="weui-cell">
-                        <div class="weui-cell__bd">
-                            <p>先锋路禧龙宾馆</p>
-                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
-                        </div>
-                    </div>
-                    <div class="weui-cell">
-                        <div class="weui-cell__bd">
-                            <p>先锋路禧龙宾馆</p>
-                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
-                        </div>
-                    </div>
-                    <div class="weui-cell">
-                        <div class="weui-cell__bd">
-                            <p>先锋路禧龙宾馆</p>
+                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆22</p>
                             <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
                         </div>
                     </div>
@@ -2146,13 +2164,47 @@
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
-    });
-    $('.weui-cell__bd').on('click', function(){
-        var id = $(this).data('id');
-        window.pageManager.go(id);
+        $(".weui-navbar div").click(function() {
+            $(".weui-cells").hide();
+            var activeTab = $(this).attr("href");
+            $(activeTab).fadeIn();
+            return false;
+        });
+        $('.weui-cell__bd').on('click', function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        $.ajax({
+            type: "POST",
+            url: "",
+            async: true,
+            data:'',
+            success: function (data) {
+                console.log("success")
+                $('.weui-tab__panel').append(
+                   '<div class="weui-cells" style="margin-top: 0;" id="tab1">'+
+                        '<div class="weui-cell">'+
+                            '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
+                                '<p>'+
+                                    '先锋路禧龙宾馆'+
+                                '</p>'+
+                                '<div class="weui-cell__ft cell_fs">'+
+                                   '2016-11-30 15:56:20'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                   '</div>'
+                )
+            },
+            error: function (mes) {
+                console.log("error")
+            }
+        });
     });
 
-</script> 
+</script>
+
+
 
 </script>
 <script type="text/html" id="tpl_Unfinished_detail">
@@ -2198,7 +2250,22 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $.ajax({
+        type:"POST",
+        url:'list.json',
+        data:'',
+        async:true,
+        success:function(data){
+            var arr = data.datas;
+            console.log(arr);
+        },
+        error:function(mes){
 
+        }
+    })
+
+</script>
 </script>
 <script type="text/html" id="tpl_Finished_detail">
 <div class="page">
@@ -2254,10 +2321,182 @@
 </div>
 
 </script>
+<script type="text/html" id="tpl_hotel_news">
+<!--旅店信息-->
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">旅店信息</h1>
+    </div>
+    <div class="page__bd">
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on" href="#tab1">未完成</div>
+                <div class="weui-navbar__item" href="#tab2">已完成</div>
+            </div>
+            <div class="weui-tab__panel">
+                <div class="weui-cells" style="margin-top: 0;" id="tab1">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆11</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆11</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Unfinished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆11</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells active" style="margin-top: 0;" id="tab2">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆22</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" data-id="Finished_detail"><!--跳转到未完成详情页-->
+                            <p>先锋路禧龙宾馆22</p>
+                            <div class="weui-cell__ft cell_fs">2016-11-30 15:56:20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-btn-area" data-id="Set_up">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >设置今日值班民警</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
+    });
+    $(".weui-navbar div").click(function() {
+        $(".weui-cells").hide();
+        var activeTab = $(this).attr("href");
+        $(activeTab).fadeIn();
+        return false;
+    });
+    $('.weui-cell__bd').on('click', function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    });
+    $('.weui-btn-area').on('click', function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    });
+
+</script>
+
+</script>
+<script type="text/html" id="tpl_Set_up">
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">设置值班民警</h1>
+    </div>
+    <div class="weui-cells  weui-cells_radio">
+        <div class="weui-cell">
+            <div class="weui-cell__bd cell-center">
+                <p>今天是：2016-12-8 星期四</p>
+            </div>
+        </div>
+            <label class="weui-cell weui-check__label" for="x11">
+                <div class="weui-cell__bd">
+                    <p>赵警官</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" id="x11">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="x12">
+
+                <div class="weui-cell__bd">
+                    <p>钱警官</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+        <label class="weui-cell weui-check__label" for="x13">
+
+            <div class="weui-cell__bd">
+                <p>孙警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x13" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x14">
+
+            <div class="weui-cell__bd">
+                <p>李警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x14" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x15">
+
+            <div class="weui-cell__bd">
+                <p>周警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="x16">
+
+            <div class="weui-cell__bd">
+                <p>吴警官</p>
+            </div>
+            <div class="weui-cell__ft">
+                <input type="radio" name="radio1" class="weui-check" id="x16" checked="checked">
+                <span class="weui-icon-checked"></span>
+            </div>
+        </label>
+    </div>
+    <div class="weui-btn-area" data-id="hotel_news">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
+    </div>
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已确定</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var $toast = $('#toast');
+        $('.weui-btn-area').on('click', function () {
+            if ($toast.css('display') != 'none') return;
+            $toast.fadeIn(100);
+            setTimeout(function () {
+                $toast.fadeOut(100);
+            }, 1200);
+        });
+</script>
+</script>
 <!--new end-->
-<script src="./zepto.min.js"></script> 
-<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
-<script src="./weui.min.js"></script> 
+<script src="./zepto.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="./weui.min.js"></script>
 <script src="./example.js"></script>
 </body>
 </html>

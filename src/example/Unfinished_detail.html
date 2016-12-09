@@ -40,3 +40,19 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $.ajax({
+        type:"POST",
+        url:'list.json',
+        data:'',
+        async:true,
+        success:function(data){
+            var arr = data.datas;
+            console.log(arr);
+        },
+        error:function(mes){
+
+        }
+    })
+
+</script>
