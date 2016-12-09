@@ -49,3 +49,25 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+        $.ajax({
+            type: "POST",
+            url: "",
+            async: true,
+            data:'',
+            success: function (data) {
+                console.log("success")
+                $('.weui-cells').append(
+                        '<div class="weui-cell">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>'+
+                            '<div class="weui-cell__bd">'+
+                                '先锋路禧龙宾馆'+
+                            '</div>'+
+                        '</div>'
+                )
+            },
+            error: function (mes) {
+                console.log("error")
+            }
+        });
+</script>
