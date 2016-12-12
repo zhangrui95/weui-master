@@ -2577,7 +2577,7 @@
         });
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/api/Rota/index.json",
             async: true,
             data:'',
             success: function (data) {
@@ -2593,13 +2593,13 @@
             for(i=1;i<=1;i++){
                 $('.weui-cells').append(
                         '<label class="weui-cell weui-check__label" for="7">'+
-                        '<div class="weui-cell__bd">'+
-                        '<p>'+'张警官'+'</p>'+
-                        '</div>'+
-                        '<div class="weui-cell__ft">'+
-                        '<input type="radio" name="radio1" class="weui-check" id="7" checked="checked">'+
-                        '<span class="weui-icon-checked"></span>'+
-                        '</div>'+
+                            '<div class="weui-cell__bd">'+
+                                '<p>'+'张警官'+'</p>'+
+                            '</div>'+
+                            '<div class="weui-cell__ft">'+
+                                '<input type="radio" name="radio1" class="weui-check" id="7" checked="checked">'+
+                                '<span class="weui-icon-checked"></span>'+
+                            '</div>'+
                         '</label>'
                 )
             }
