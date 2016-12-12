@@ -2181,25 +2181,33 @@
             data:'',
             success: function (data) {
                 console.log("success")
-                $('.weui-tab__panel').append(
-                   '<div class="weui-cells" style="margin-top: 0;" id="tab1">'+
-                        '<div class="weui-cell">'+
-                            '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
-                                '<p>'+
-                                    '先锋路禧龙宾馆'+
-                                '</p>'+
-                                '<div class="weui-cell__ft cell_fs">'+
-                                   '2016-11-30 15:56:20'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                   '</div>'
-                )
             },
             error: function (mes) {
                 console.log("error")
             }
         });
+        function lists() {
+            for(i=0;i<=2;i++){
+                $('.weui-tab__panel').append(
+                        '<div class="weui-cells" style="margin-top: 0;" id="tab1">'+
+                            '<div class="weui-cell">'+
+                                '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
+                                    '<p>'+
+                                        '先锋路禧龙宾馆999'+
+                                    '</p>'+
+                                    '<div class="weui-cell__ft cell_fs">'+
+                                        '2016-11-30 15:56:20'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'
+                )
+            }
+            $('.weui-cell__bd').bind('click', function(){
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
+        }
     });
 
 </script>
@@ -2251,13 +2259,21 @@
     </div>
 </div>
 <script type="text/javascript">
-    $.ajax({
-        type: "POST",
-        url: "",
-        async: true,
-        data:'',
-        success: function (data) {
-            console.log("success");
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "",
+            async: true,
+            data:'',
+            success: function (data) {
+                console.log("success");
+                lists();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function lists() {
             $('.page__bd').append(
                     '<div class="weui-cells weui-cells_form">'+
                         '<div class="weui-cell">'+
@@ -2284,7 +2300,7 @@
                                 '2016-11-30 18:23:22'+
                             '</div>'+
                         '</div>'+
-                        '<div class="weui-cell">'+
+                            '<div class="weui-cell">'+
                             '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>'+
                             '<div class="weui-cell__bd">'+
                                 '李四 张三'+
@@ -2292,11 +2308,8 @@
                         '</div>'+
                     '</div>'
             )
-        },
-        error: function (mes) {
-            console.log("error");
         }
-    });
+    })
 </script>
 </script>
 <script type="text/html" id="tpl_Finished_detail">
@@ -2352,13 +2365,22 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(function(){
         $.ajax({
             type: "POST",
             url: "",
             async: true,
             data:'',
             success: function (data) {
-                console.log("success")
+                console.log("success");
+                lists();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function lists() {
+            for(i = 0;i<=1;i++){
                 $('.weui-cells').append(
                         '<div class="weui-cell">'+
                             '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>'+
@@ -2367,11 +2389,9 @@
                             '</div>'+
                         '</div>'
                 )
-            },
-            error: function (mes) {
-                console.log("error")
             }
-        });
+        }
+    })
 </script>
 
 </script>
@@ -2464,62 +2484,57 @@
                 <p>今天是：<span class="weekday"></span></p>
             </div>
         </div>
-            <label class="weui-cell weui-check__label" for="x11">
+            <label class="weui-cell weui-check__label" for="1">
                 <div class="weui-cell__bd">
                     <p>赵警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" class="weui-check" name="radio1" id="x11">
+                    <input type="radio" class="weui-check" name="radio1" id="1">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x12">
-
+            <label class="weui-cell weui-check__label" for="2">
                 <div class="weui-cell__bd">
                     <p>钱警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="2" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x13">
-
+            <label class="weui-cell weui-check__label" for="3">
                 <div class="weui-cell__bd">
                     <p>孙警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x13" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="3" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x14">
-
+            <label class="weui-cell weui-check__label" for="4">
                 <div class="weui-cell__bd">
                     <p>李警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x14" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="4" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x15">
-
+            <label class="weui-cell weui-check__label" for="5">
                 <div class="weui-cell__bd">
                     <p>周警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="5" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x16">
-
+            <label class="weui-cell weui-check__label" for="6">
                 <div class="weui-cell__bd">
                     <p>吴警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x16" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="6" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
@@ -2567,22 +2582,28 @@
             data:'',
             success: function (data) {
                 console.log("success")
-                $('.weui-cells').append(
-                        '<label class="weui-cell weui-check__label" for="x17">'+
-                            '<div class="weui-cell__bd">'+
-                                '<p>'+'张警官'+'</p>'+
-                            '</div>'+
-                            '<div class="weui-cell__ft">'+
-                                '<input type="radio" name="radio1" class="weui-check" id="x17" checked="checked">'+
-                                    '<span class="weui-icon-checked"></span>'+
-                            '</div>'+
-                        '</label>'
-                )
+                lists();
+
             },
             error: function (mes) {
                 console.log("error")
             }
         });
+        function lists() {
+            for(i=1;i<=1;i++){
+                $('.weui-cells').append(
+                        '<label class="weui-cell weui-check__label" for="7">'+
+                        '<div class="weui-cell__bd">'+
+                        '<p>'+'张警官'+'</p>'+
+                        '</div>'+
+                        '<div class="weui-cell__ft">'+
+                        '<input type="radio" name="radio1" class="weui-check" id="7" checked="checked">'+
+                        '<span class="weui-icon-checked"></span>'+
+                        '</div>'+
+                        '</label>'
+                )
+            }
+        }
     })
 </script>
 </script>

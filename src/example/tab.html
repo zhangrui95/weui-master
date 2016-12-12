@@ -70,25 +70,33 @@
             data:'',
             success: function (data) {
                 console.log("success")
-                $('.weui-tab__panel').append(
-                   '<div class="weui-cells" style="margin-top: 0;" id="tab1">'+
-                        '<div class="weui-cell">'+
-                            '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
-                                '<p>'+
-                                    '先锋路禧龙宾馆'+
-                                '</p>'+
-                                '<div class="weui-cell__ft cell_fs">'+
-                                   '2016-11-30 15:56:20'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                   '</div>'
-                )
             },
             error: function (mes) {
                 console.log("error")
             }
         });
+        function lists() {
+            for(i=0;i<=2;i++){
+                $('.weui-tab__panel').append(
+                        '<div class="weui-cells" style="margin-top: 0;" id="tab1">'+
+                            '<div class="weui-cell">'+
+                                '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
+                                    '<p>'+
+                                        '先锋路禧龙宾馆999'+
+                                    '</p>'+
+                                    '<div class="weui-cell__ft cell_fs">'+
+                                        '2016-11-30 15:56:20'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'
+                )
+            }
+            $('.weui-cell__bd').bind('click', function(){
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
+        }
     });
 
 </script>

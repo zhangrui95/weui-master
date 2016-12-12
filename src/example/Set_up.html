@@ -8,62 +8,57 @@
                 <p>今天是：<span class="weekday"></span></p>
             </div>
         </div>
-            <label class="weui-cell weui-check__label" for="x11">
+            <label class="weui-cell weui-check__label" for="1">
                 <div class="weui-cell__bd">
                     <p>赵警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" class="weui-check" name="radio1" id="x11">
+                    <input type="radio" class="weui-check" name="radio1" id="1">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x12">
-
+            <label class="weui-cell weui-check__label" for="2">
                 <div class="weui-cell__bd">
                     <p>钱警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="2" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x13">
-
+            <label class="weui-cell weui-check__label" for="3">
                 <div class="weui-cell__bd">
                     <p>孙警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x13" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="3" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x14">
-
+            <label class="weui-cell weui-check__label" for="4">
                 <div class="weui-cell__bd">
                     <p>李警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x14" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="4" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x15">
-
+            <label class="weui-cell weui-check__label" for="5">
                 <div class="weui-cell__bd">
                     <p>周警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x15" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="5" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x16">
-
+            <label class="weui-cell weui-check__label" for="6">
                 <div class="weui-cell__bd">
                     <p>吴警官</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <input type="radio" name="radio1" class="weui-check" id="x16" checked="checked">
+                    <input type="radio" name="radio1" class="weui-check" id="6" checked="checked">
                     <span class="weui-icon-checked"></span>
                 </div>
             </label>
@@ -111,21 +106,27 @@
             data:'',
             success: function (data) {
                 console.log("success")
-                $('.weui-cells').append(
-                        '<label class="weui-cell weui-check__label" for="x17">'+
-                            '<div class="weui-cell__bd">'+
-                                '<p>'+'张警官'+'</p>'+
-                            '</div>'+
-                            '<div class="weui-cell__ft">'+
-                                '<input type="radio" name="radio1" class="weui-check" id="x17" checked="checked">'+
-                                    '<span class="weui-icon-checked"></span>'+
-                            '</div>'+
-                        '</label>'
-                )
+                lists();
+
             },
             error: function (mes) {
                 console.log("error")
             }
         });
+        function lists() {
+            for(i=1;i<=1;i++){
+                $('.weui-cells').append(
+                        '<label class="weui-cell weui-check__label" for="7">'+
+                        '<div class="weui-cell__bd">'+
+                        '<p>'+'张警官'+'</p>'+
+                        '</div>'+
+                        '<div class="weui-cell__ft">'+
+                        '<input type="radio" name="radio1" class="weui-check" id="7" checked="checked">'+
+                        '<span class="weui-icon-checked"></span>'+
+                        '</div>'+
+                        '</label>'
+                )
+            }
+        }
     })
 </script>
