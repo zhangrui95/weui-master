@@ -7,6 +7,7 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="text" placeholder=""/>
                 </div>
+                <span id="idCard" style="color:red;"></span>
             </div>
         </div>
         <div class="weui-gallery" id="gallery">
@@ -57,19 +58,21 @@
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles")
                 ;
-
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
-
                 if (url) {
                     src = url.createObjectURL(file);
                 } else {
                     src = e.target.result;
                 }
-
                 $uploaderFiles.append($(tmpl.replace('#url#', src)));
+                $(".weui-uploader__input-box").css("display","none");
+                $('.weui-gallery__opr').click(function () {
+                    $uploaderFiles.html('');
+                    $(".weui-uploader__input-box").css("display","block");
+                })
             }
         });
         $uploaderFiles.on("click", "li", function(){
@@ -79,17 +82,6 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-
-        var $toast = $('#toast');
-        $('#showToast').on('click', function(){
-            if ($toast.css('display') != 'none') return;
-
-            $toast.fadeIn(100);
-            setTimeout(function () {
-                $toast.fadeOut(100);
-            }, 2000);
-        });
-
         var $loadingToast = $('#loadingToast');
         $('#showLoadingToast').on('click', function(){
             if ($loadingToast.css('display') != 'none') return;
@@ -99,5 +91,38 @@
                 $loadingToast.fadeOut(100);
             }, 2000);
         });
+        $('.weui-input').on('blur',function () {
+            var idcard=$('.weui-input').val();
+            idCard(idcard);
+        });
+        function idCard(idcard){
+            filter = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)?$/;
+            if (filter.test(idcard)){
+                $('#idCard').html("");
+            }else{
+                $('#idCard').html("*无效的身份证号码");
+            }
+        }
+        $('#showToast').on('click',function(){
+            var value=$('.weui-input').val();
+            $.ajax({
+                type: "POST",
+                url: "api/task/save.json",
+                async: true,
+                data:{card:value},
+                success: function (card) {
+                    var $toast = $('#toast');
+                    $('.weui-btn-area').on('click', function () {
+                        if ($toast.css('display') != 'none') return;
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                        }, 1200);
+                    });
+                },
+                error: function () {
+                }
+            });
+        })
     });
 </script>
