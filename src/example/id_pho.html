@@ -82,47 +82,40 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-        var $loadingToast = $('#loadingToast');
-        $('#showLoadingToast').on('click', function(){
-            if ($loadingToast.css('display') != 'none') return;
 
-            $loadingToast.fadeIn(100);
-            setTimeout(function () {
-                $loadingToast.fadeOut(100);
-            }, 2000);
-        });
-        $('.weui-input').on('blur',function () {
-            var idcard=$('.weui-input').val();
-            idCard(idcard);
-        });
-        function idCard(idcard){
-            filter = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)?$/;
-            if (filter.test(idcard)){
-                $('#idCard').html("");
-            }else{
-                $('#idCard').html("*无效的身份证号码");
-            }
-        }
         $('#showToast').on('click',function(){
             var value=$('.weui-input').val();
-            $.ajax({
-                type: "POST",
-                url: "api/task/save.json",
-                async: true,
-                data:{card:value},
-                success: function (card) {
-                    var $toast = $('#toast');
-                    $('.weui-btn-area').on('click', function () {
+            idCard(value);
+        });
+        function idCard(value){
+            filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+            var $toast = $('#toast');
+            if (filter.test(value)){
+                $('#idCard').html("");
+                $.ajax({
+                    type: "POST",
+                    url: "api/task/save.json",
+                    async: true,
+                    data:{card:value},
+                    success: function (card) {
                         if ($toast.css('display') != 'none') return;
                         $toast.fadeIn(100);
                         setTimeout(function () {
                             $toast.fadeOut(100);
                         }, 1200);
-                    });
-                },
-                error: function () {
+                    },
+                    error: function () {
+                    }
+                });
+
+            }else{
+                if(value==''){
+                    $('#idCard').html("*身份证号码不能为空");
+                }else{
+                    $('#idCard').html("*无效的身份证号码");
                 }
-            });
-        })
+
+            }
+        }
     });
 </script>
