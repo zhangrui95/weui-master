@@ -7,9 +7,10 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="text" placeholder=""/>
                 </div>
-                <span id="idCard" style="color:red;"></span>
+                <span id="empty" class="active"><img src="./images/empty.png" class="empty"/></span>
             </div>
         </div>
+        <div id="idCard" class="prompt"></div>
         <div class="weui-gallery" id="gallery">
             <span class="weui-gallery__img" id="galleryImg"></span>
             <div class="weui-gallery__opr">
@@ -18,11 +19,10 @@
                 </a>
             </div>
         </div>
-        <div class="weui-cells weui-cells_form">
+        <div class="weui-cells weui-cells_form" style="margin-top: 0;">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <div class="weui-uploader">
-
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">照片上传</p>
                         </div>
@@ -82,7 +82,33 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-
+        $('.weui-input').blur(function () {
+            var value=$('.weui-input').val();
+            filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+                if (!filter.test(value)) {
+                    if (value == '') {
+                        $('#idCard').html("*身份证号码不能为空");
+                    } else {
+                        $('#idCard').html("*无效的身份证号码");
+                        $('#empty').css('display', 'block');
+                    }
+                }
+            });
+        $('.weui-input').focus(function(){
+            $('#idCard').html("");
+        });
+        $('.weui-input').keyup(function(){
+            if(($('.weui-input').val()+"").length>=1){
+                $('#empty').css('display', 'block');
+                $('#empty').click(function () {
+                    $('.weui-input').val('');
+                    $('#empty').css('display', 'none');
+                    $('#idCard').html("");
+                })
+            }else {
+                $('#empty').css('display', 'none');
+            }
+        });
         $('#showToast').on('click',function(){
             var value=$('.weui-input').val();
             idCard(value);
@@ -92,6 +118,7 @@
             var $toast = $('#toast');
             if (filter.test(value)){
                 $('#idCard').html("");
+                $('#empty').css('display','none');
                 $.ajax({
                     type: "POST",
                     url: "api/task/save.json",
@@ -113,6 +140,12 @@
                     $('#idCard').html("*身份证号码不能为空");
                 }else{
                     $('#idCard').html("*无效的身份证号码");
+                    $('#empty').css('display','block');
+                    $('#empty').click(function () {
+                        $('.weui-input').val('');
+                        $('#empty').css('display','none');
+                        $('#idCard').html("");
+                    })
                 }
 
             }
