@@ -96,7 +96,7 @@
                     type: "POST",
                     url: "api/task/save.json",
                     async: true,
-                    data:{card:value},
+                    data:{card:value,userid:$('#userid').val()},
                     success: function (card) {
                         if ($toast.css('display') != 'none') return;
                         $toast.fadeIn(100);
