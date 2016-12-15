@@ -1,6 +1,7 @@
 @import "../../base/fn";
 
 .weui-btn {
+    width: 180px;
     position: relative;
     display: block;
     margin-left: auto;
@@ -13,22 +14,23 @@
     text-decoration: none;
     color: @weuiBtnFontColor;
     line-height: unit(@weuiBtnHeight/@weuiBtnFontSize);
-    border-radius: @weuiBtnBorderRadius;
+    //border-radius: @weuiBtnBorderRadius;
+    border-radius: 50px;
     .setTapColor();
     overflow: hidden;
-    &:after {
-        content: " ";
-        width: 200%;
-        height: 200%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border: 1px solid rgba(0, 0, 0, .2);
-        transform: scale(.5);
-        transform-origin: 0 0;
-        box-sizing: border-box;
-        border-radius: @weuiBtnBorderRadius*2;
-    }
+    //&:after {
+    //    content: " ";
+    //    width: 200%;
+    //    height: 200%;
+    //    position: absolute;
+    //    top: 0;
+    //    left: 0;
+    //    border: 1px solid rgba(0, 0, 0, .2);
+    //    transform: scale(.5);
+    //    transform-origin: 0 0;
+    //    box-sizing: border-box;
+    //    border-radius: @weuiBtnBorderRadius*2;
+    //}
 }
 .weui-btn_inline {
     display: inline-block;

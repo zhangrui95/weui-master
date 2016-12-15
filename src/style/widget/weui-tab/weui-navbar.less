@@ -1,16 +1,19 @@
 @import "../../base/fn";
 
 .weui-navbar {
+    margin: 0 10px;
     display: flex;
     position: absolute;
     z-index: 500;
     top: 0;
     width: 100%;
-    background-color: #FAFAFA;
-
-    &:after {
-        .setBottomLine(#CCCCCC);
-    }
+    //background-color: #FAFAFA;
+    background-color:transparent;
+    color: #CCCCCC;
+    font-family:"微软雅黑";
+    //&:after {
+    //    .setBottomLine(#CCCCCC);
+    //}
 
     & + .weui-tab__panel {
         padding-top: 50px;
@@ -19,12 +22,13 @@
 }
 
 .weui-navbar__item {
+    margin-right: 20px;
     position: relative;
     display: block;
     flex: 1;
-    padding: 13px 0;
+    padding: 10px 0;
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
     .setTapColor();
 
     &:active {
@@ -32,16 +36,21 @@
     }
 
     &.weui-bar__item_on {
-        background-color: #EAEAEA;
+        //background-color: #EAEAEA;
+        background-color: transparent;
+        border-bottom: 2px solid #FFFFFF;
+        color: #FFFFFF;
+        border-radius: 2px;
     }
 
     &:after {
-        .setRightLine(#CCCCCC);
+        //.setRightLine(#CCCCCC);
+
     }
 
     &:last-child {
-        &:after {
-            display: none;
-        }
+        //&:after {
+        //    display: none;
+        //}
     }
 }

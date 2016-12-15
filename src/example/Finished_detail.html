@@ -1,49 +1,45 @@
 <div class="page">
-    <div class="page__hd">
-        <h1 class="page__title">已完成 详情</h1>
-    </div>
     <div class="page__bd details">
-        <div class="weui-cells weui-cells_form">
+        <div class="weui-cells weui-cells_form cells-ajax">
             <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>
-                <div class="weui-cell__bd">
-                    先锋路禧龙宾馆
+                <div class="weui-cell__bd bd-center cell-unleft">
+                    <img src="images/header.jpg" alt="" class="head-img">
                 </div>
             </div>
-            <div class="weui-cell">
+            <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
-                <div class="weui-cell__bd">
-                    230107********2020
+                <div class="weui-cell__bd bd-right">
+                    230105199207152623
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">照&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片</label></div>
-                <div class="weui-cell__bd">
-                    <img src="./images/pic_article.png" alt="" style="width: 100%">
+            <div class="weui-cell cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>
+                <div class="weui-cell__bd bd-right" >
+                    哈尔滨市禧龙宾馆
                 </div>
             </div>
-            <div class="weui-cell">
+            <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd bd-right">
                     2016-11-30 18:23:22
                 </div>
             </div>
-            <div class="weui-cell">
+            <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>
-                <div class="weui-cell__bd">
-                    2016-11-30 20:43:21
+                <div class="weui-cell__bd bd-right">
+                    2016-11-23 18:23:22
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>
-                <div class="weui-cell__bd">
-                    张小三
-                </div>
-            </div>
-            <div class="weui-cell">
+            <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd bd-right">
                     李四 张三
+                </div>
+            </div>
+            <div class="weui-cell cell-border">
+                <div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>
+                <div class="weui-cell__bd bd-right">
+                    李四
                 </div>
             </div>
         </div>
@@ -58,7 +54,7 @@
             data:'',
             success: function (data) {
                 console.log("success");
-                lists();
+//                lists();
             },
             error: function (mes) {
                 console.log("error");
@@ -66,7 +62,7 @@
         });
         function lists() {
             for(i = 0;i<=1;i++){
-                $('.weui-cells').append(
+                $('.cells-ajax').append(
                         '<div class="weui-cell">'+
                             '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>'+
                             '<div class="weui-cell__bd">'+

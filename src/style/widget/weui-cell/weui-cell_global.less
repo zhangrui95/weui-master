@@ -1,21 +1,23 @@
 @import "../../base/fn";
 
 .weui-cells {
-    margin-top: @weuiCellsMarginTop;
-    background-color: @weuiCellBg;
+    //margin-top: @weuiCellsMarginTop;
+    margin-top: 5px;
+    //background-color: @weuiCellBg;
+    background-color: transparent;
     line-height: @weuiCellLineHeight;
-    font-size: @weuiCellFontSize; //cell中间有效高度23px，跟客户端默认图标尺寸一致
-
+    //font-size: @weuiCellFontSize; //cell中间有效高度23px，跟客户端默认图标尺寸一致
+    font-size:18px;
+    color: #FFFFFF;
     overflow: hidden; //因为每个cell的border使用before元素left搞的，ie下伪元素的containing block估计跟标准不同，在cell上用oh不生效
-
     // onepx
     position: relative;
-    &:before {
-        .setTopLine(@weuiCellBorderColor);
-    }
-    &:after {
-        .setBottomLine(@weuiCellBorderColor);
-    }
+    //&:before {
+    //    .setTopLine(@weuiCellBorderColor);
+    //}
+    //&:after {
+    //    .setBottomLine(@weuiCellBorderColor);
+    //}
 }
 
 .weui-cells__title {
@@ -23,7 +25,8 @@
     margin-bottom: .3em; // 8px - 行高
     padding-left: @weuiCellGapH;
     padding-right: @weuiCellGapH;
-    color: @weuiTextColorGray;
+    //color: @weuiTextColorGray;
+    color: #FFFFFF;
     font-size: @weuiCellTipsFontSize;
 
     & + .weui-cells {
@@ -40,18 +43,23 @@
 }
 
 .weui-cell {
+    margin: 10px 12px;
     padding: @weuiCellGapV @weuiCellGapH;
     position: relative; //这个是为了兼容cells容器onepx方案被before挡住而做的
     display: flex;
     align-items: center;
-    &:before {
-        .setTopLine(@weuiCellBorderColor);
-        left: @weuiCellGapH;
-    }
+    //&:before {
+    //    .setTopLine(@weuiCellBorderColor);
+    //    left: @weuiCellGapH;
+    //}
     &:first-child {
         &:before {
             display: none;
         }
+    }
+    .img{
+        width: 28px;
+        margin-top: 28px;
     }
 }
 .weui-cell_primary{
@@ -59,8 +67,16 @@
 }
 .weui-cell__bd{
     flex: 1;
+    margin-left: 15px;
+    font-family: "微软雅黑";
 }
 .weui-cell__ft {
-    text-align: right;
-    color: @weuiTextColorGray;
+    //text-align: right;
+    //color: @weuiTextColorGray;
+    color: #CCCCCC;
+}
+.bg-cell{
+    background: rgba(255,255,255,15%);
+    border-radius: 5px;
+    height: 60px;
 }

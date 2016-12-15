@@ -3,7 +3,7 @@
 html, body {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
-
+    font-family: "微软雅黑";
 }
 
 body{
@@ -191,11 +191,11 @@ body, .page {
 }
 
 .page.actionsheet{
-    background-color: #FFFFFF;
+    background-color: transparent;
 }
 
 .page.dialog {
-    background-color: #FFFFFF;
+    background-color: transparent;
     .page__bd {
         padding: 0 15px;
     }
@@ -447,6 +447,8 @@ body, .page {
 }
 .cell_fs{
     font-size: 14px;
+    margin-top: 5px;
+
 }
 .cell-center{
     text-align: center;
@@ -455,8 +457,8 @@ body, .page {
     display: none;
 }
 .empty{
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
 }
 .prompt{
     color:red;
@@ -464,4 +466,49 @@ body, .page {
     height: 22px;
     line-height: 22px;
     margin: 0 10px
+}
+.page{
+    background: url("./images/app_bg.jpg") no-repeat;
+}
+.header-img{
+    width: 58px;
+    height: 58px;
+    background: #f8c076;
+    border-radius: 30px;
+    line-height: 58px;
+    text-align: center;
+    border: 2px solid #FFFFFF;
+    font: 16px/58px "微软雅黑" ;
+}
+.border-cell{
+    border: 1px solid #CCCCCC;
+}
+.head-img{
+    width: 130px;
+    height: 180px;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+.bd-center{
+    text-align: center;
+}
+.bd-right{
+    text-align: right;
+    font-size: 16px;
+}
+.cell-border{
+    border-bottom: 1px solid #666;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 15px;
+}
+.bd-margin{
+    margin-top: 13px;
+}
+.cell-margin{
+    min-height:20px;
+    height:auto;
+}
+.cell-unleft{
+    margin-left: 0;
 }
