@@ -82,20 +82,26 @@ gulp.task('build:example:style', function (){
 });
 
 gulp.task('build:example:html', function (){
-    gulp.src('src/example/index.html', option)
-        .pipe(tap(function (file){
-            var dir = path.dirname(file.path);
-            var contents = file.contents.toString();
-            contents = contents.replace(/<link\s+rel="import"\s+href="(.*)">/gi, function (match, $1){
-                var filename = path.join(dir, $1);
-                var id = path.basename(filename, '.html');
-                var content = fs.readFileSync(filename, 'utf-8');
-                return '<script type="text/html" id="tpl_'+ id +'">\n'+ content +'\n</script>';
-            });
-            file.contents = new Buffer(contents);
-        }))
-        .pipe(gulp.dest(dist))
-        .pipe(browserSync.reload({stream: true}));
+    var entryBuild = function (target) {
+        gulp.src(target, option)
+            .pipe(tap(function (file){
+                var dir = path.dirname(file.path);
+                var contents = file.contents.toString();
+                contents = contents.replace(/<link\s+rel="import"\s+href="(.*)">/gi, function (match, $1){
+                    var filename = path.join(dir, $1);
+                    var id = path.basename(filename, '.html');
+                    var content = fs.readFileSync(filename, 'utf-8');
+                    return '<script type="text/html" id="tpl_'+ id +'">\n'+ content +'\n</script>';
+                });
+                file.contents = new Buffer(contents);
+            }))
+            .pipe(gulp.dest(dist))
+            .pipe(browserSync.reload({stream: true}));
+    };
+    entryBuild('src/example/index.html');
+    entryBuild('src/example/index-all.html');
+    entryBuild('src/example/index-director.html');
+    entryBuild('src/example/index-police.html');
 });
 
 gulp.task('build:example', ['build:example:assets', 'build:example:style', 'build:example:html']);
@@ -122,7 +128,7 @@ gulp.task('server', function () {
             }
         },
         port: yargs.p,
-        startPath: '/example'
+        startPath: '/example/index-all.html'
     });
 });
 

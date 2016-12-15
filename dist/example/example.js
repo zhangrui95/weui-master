@@ -210,7 +210,7 @@ $(function () {
             imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
         };
 
-        $.getJSON('user/jsTicket.json?url=' + encodeURIComponent(location.href.split('#')[0]), function (res) {
+        $.getJSON('api/user/jsTicket.json?url=' + encodeURIComponent(location.href.split('#')[0]), function (res) {
             wx.config({
                 beta: true,
                 debug: false,

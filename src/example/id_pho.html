@@ -41,15 +41,6 @@
     <div class="weui-btn-area">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
     </div>
-    <!--BEGIN toast-->
-    <div id="toast" style="display: none;">
-        <div class="weui-mask_transparent"></div>
-        <div class="weui-toast">
-            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
-            <p class="weui-toast__content">已完成</p>
-        </div>
-    </div>
-    <!--end toast-->
 </div>
 <script type="text/javascript">
     $(function(){
@@ -93,7 +84,7 @@
                         $('#empty').css('display', 'block');
                     }
                 }
-            });
+        });
         $('.weui-input').focus(function(){
             $('#idCard').html("");
         });
@@ -125,11 +116,6 @@
                     async: true,
                     data:{card:value,userid:$('#userid').val()},
                     success: function (card) {
-                        if ($toast.css('display') != 'none') return;
-                        $toast.fadeIn(100);
-                        setTimeout(function () {
-                            $toast.fadeOut(100);
-                        }, 1200);
                     },
                     error: function () {
                     }
