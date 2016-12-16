@@ -1,6 +1,5 @@
 <!--旅店信息-->
 <div class="page">
-    <!--<img src="images/app_bg1.jpg" style="width: 100%;position: absolute;z-index: -1;">-->
     <div class="page__bd bg-page">
         <div class="weui-tab">
             <div class="weui-navbar">
@@ -10,36 +9,28 @@
             <div class="weui-tab__panel">
                 <div class="weui-cells"  id="tab1">
                     <div class="weui-cell bg-cell">
-                        <div class="header-img">禧龙</div>
-                        <div class="weui-cell__bd" data-id="Unfinished_detail">
-                            <p>哈尔滨禧龙宾馆(先锋路店)</p>
-                            <div class="weui-cell__ft cell_fs">
+                    <div class="header-img">禧龙</div>
+                    <div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >
+                            <p class="left-cell">
+                            哈尔滨禧龙宾馆(先锋路店)
+                            </p>
+                            <div class="weui-cell__ft cell_fs left-cell">
                                 15:56:20 pm
                             </div>
                         </div>
-                        <img src="./images/icon_detail.png" class="img"/>
-                    </div>
-                    <div class="weui-cell bg-cell">
-                        <div class="header-img">禧龙</div>
-                        <div class="weui-cell__bd" data-id="Unfinished_detail">
-                            <p>哈尔滨禧龙宾馆(先锋路店)</p>
-                            <div class="weui-cell__ft cell_fs">
-                                15:56:20 pm
-                            </div>
-                        </div>
-                        <img src="./images/icon_detail.png" class="img"/>
                     </div>
                 </div>
                 <div class="weui-cells active"  id="tab2">
                     <div class="weui-cell bg-cell">
-                        <div class="header-img">金芒果</div>
-                        <div class="weui-cell__bd" data-id="Finished_detail">
-                            <p>哈尔滨市金芒果快捷宾馆</p>
-                            <div class="weui-cell__ft cell_fs">
-                                15:56:20 pm
-                            </div>
+                    <div class="header-img">金芒果</div>
+                    <div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">
+                        <p class="left-cell">
+                            哈尔滨市金芒果快捷宾馆
+                        </p>
+                        <div class="weui-cell__ft cell_fs left-cell">
+                            15:56:20 pm
                         </div>
-                        <img src="./images/icon_detail.png" class="img"/>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -63,12 +54,12 @@
         });
         $.ajax({
             type: "POST",
-            url: "",
+            url: "api/task.json",
             async: true,
-            data:'',
+            data:'task',
             success: function (data) {
                 console.log("success")
-//                lists();
+                lists();
             },
             error: function (mes) {
                 console.log("error")
@@ -78,29 +69,27 @@
                 $('#tab1').append(
                             '<div class="weui-cell bg-cell">'+
                                 '<div class="header-img">'+'禧龙'+'</div>'+
-                                '<div class="weui-cell__bd" data-id="Unfinished_detail">'+
-                                    '<p>'+
+                                '<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >'+
+                                    '<p class="left-cell">'+
                                         '哈尔滨禧龙宾馆(先锋路店)'+
                                     '</p>'+
-                                    '<div class="weui-cell__ft cell_fs">'+
+                                    '<div class="weui-cell__ft cell_fs left-cell">'+
                                         '15:56:20 pm'+
                                     '</div>'+
                                 '</div>'+
-                                '<img src="./images/icon_detail.png" class="img"/> '+
                             '</div>'
                 )
                 $('#tab2').append(
                         '<div class="weui-cell bg-cell">'+
                             '<div class="header-img">'+'金芒果'+'</div>'+
-                            '<div class="weui-cell__bd" data-id="Finished_detail">'+
-                                '<p>'+
+                            '<div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">'+
+                                '<p class="left-cell">'+
                                     '哈尔滨市金芒果快捷宾馆'+
                                 '</p>'+
-                                '<div class="weui-cell__ft cell_fs">'+
+                                '<div class="weui-cell__ft cell_fs left-cell">'+
                                     '15:56:20 pm'+
                                 '</div>'+
                             '</div>'+
-                            '<img src="./images/icon_detail.png" class="img"/> '+
                         '</div>'
                 )
                 $('.weui-cell__bd').bind('click', function(){

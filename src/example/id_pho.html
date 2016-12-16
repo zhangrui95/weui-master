@@ -1,11 +1,25 @@
 <!--基本信息-->
 <div class="page">
     <div class="page__bd">
-        <div class="weui-cells__title">身份证号</div>
+        <div class="weui-cells weui-cells_form" style="margin-top: 0;">
+            <div class="weui-cell">
+                <div class="weui-cell__bd cell-unleft">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id="uploaderFiles">
+                            </ul>
+                            <div class="weui-uploader__input-box file-img">
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="weui-cells">
             <div class="weui-cell border-cell">
                 <div class="weui-cell__bd cell-unleft">
-                    <input class="weui-input" type="text" placeholder=""/>
+                    <input class="weui-input" type="text" placeholder="请输入旅客身份证号"/>
                 </div>
                 <span id="empty" class="active"><img src="./images/empty.png" class="empty"/></span>
             </div>
@@ -19,24 +33,6 @@
                 </a>
             </div>
         </div>
-        <div class="weui-cells weui-cells_form" style="margin-top: 0;">
-            <div class="weui-cell">
-                <div class="weui-cell__bd cell-unleft">
-                    <div class="weui-uploader">
-                        <div class="weui-uploader__hd">
-                            <p class="weui-uploader__title">照片上传</p>
-                        </div>
-                        <div class="weui-uploader__bd">
-                            <ul class="weui-uploader__files" id="uploaderFiles">
-                            </ul>
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="weui-btn-area">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
@@ -44,7 +40,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+        var tmpl = '<li class="weui-uploader__file file-li-img" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles")
