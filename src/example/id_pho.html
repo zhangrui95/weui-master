@@ -143,6 +143,7 @@
                 async: true,
                 data:{card:value,userid:$('#userid').val(),serverId:serverId},
                 success: function (card) {
+                    wx.closeWindow();
                 },
                 error: function () {
                 }
