@@ -9,7 +9,7 @@
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box file-img">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                                <input id="uploaderInput" class="weui-uploader__input" type="button" />
                             </div>
                         </div>
                     </div>
@@ -19,7 +19,7 @@
         <div class="weui-cells">
             <div class="weui-cell border-cell">
                 <div class="weui-cell__bd cell-unleft">
-                    <input class="weui-input" type="text" placeholder="请输入旅客身份证号"/>
+                    <input id="card" class="weui-input" type="text" placeholder="请输入旅客身份证号"/>
                 </div>
                 <span id="empty" class="active"><img src="./images/empty.png" class="empty"/></span>
             </div>
@@ -43,24 +43,29 @@
         var tmpl = '<li class="weui-uploader__file file-li-img" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
-                $uploaderFiles = $("#uploaderFiles")
+                $uploaderFiles = $("#uploaderFiles"),
+                localId
                 ;
-        $uploaderInput.on("change", function(e){
-            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-            for (var i = 0, len = files.length; i < len; ++i) {
-                var file = files[i];
-                if (url) {
-                    src = url.createObjectURL(file);
-                } else {
-                    src = e.target.result;
+        $uploaderInput.on("click", function(e){
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    localId = localIds[0];
+                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
+                    $(".weui-uploader__input-box").css("display","none");
+                    $('.weui-gallery__opr').click(function () {
+                        $uploaderFiles.html('');
+                        localId = '';
+                        $(".weui-uploader__input-box").css("display","block");
+                    })
+                },
+                fail:function(err){
+                    $('#idCard').html("选择照片失败！");
                 }
-                $uploaderFiles.append($(tmpl.replace('#url#', src)));
-                $(".weui-uploader__input-box").css("display","none");
-                $('.weui-gallery__opr').click(function () {
-                    $uploaderFiles.html('');
-                    $(".weui-uploader__input-box").css("display","block");
-                })
-            }
+            });
         });
         $uploaderFiles.on("click", "li", function(){
             $galleryImg.attr("style", this.getAttribute("style"));
@@ -69,9 +74,9 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-        $('.weui-input').blur(function () {
-            var value=$('.weui-input').val();
-            filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+        $('#card').blur(function () {
+            var value=$('#card').val();
+            var filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
                 if (!filter.test(value)) {
                     if (value == '') {
                         $('#idCard').html("*身份证号码不能为空");
@@ -81,14 +86,14 @@
                     }
                 }
         });
-        $('.weui-input').focus(function(){
+        $('#card').focus(function(){
             $('#idCard').html("");
         });
-        $('.weui-input').keyup(function(){
-            if(($('.weui-input').val()+"").length>=1){
+        $('#card').keyup(function(){
+            if(($('#card').val()+"").length>=1){
                 $('#empty').css('display', 'block');
                 $('#empty').click(function () {
-                    $('.weui-input').val('');
+                    $('#card').val('');
                     $('#empty').css('display', 'none');
                     $('#idCard').html("");
                 })
@@ -97,40 +102,51 @@
             }
         });
         $('#showToast').on('click',function(){
-            var value=$('.weui-input').val();
-            idCard(value);
-        });
-        function idCard(value){
-            filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-            var $toast = $('#toast');
-            if (filter.test(value)){
-                $('#idCard').html("");
-                $('#empty').css('display','none');
-                $.ajax({
-                    type: "POST",
-                    url: "api/task/save.json",
-                    async: true,
-                    data:{card:value,userid:$('#userid').val()},
-                    success: function (card) {
-                    },
-                    error: function () {
-                    }
-                });
-
-            }else{
+            if(localId==null||localId==''){
+                $('#idCard').html("*照片不能为空");
+                return;
+            }
+            var value=$('#card').val();
+            var filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+            if (!filter.test(value)){
                 if(value==''){
                     $('#idCard').html("*身份证号码不能为空");
                 }else{
                     $('#idCard').html("*无效的身份证号码");
                     $('#empty').css('display','block');
                     $('#empty').click(function () {
-                        $('.weui-input').val('');
+                        $('#card').val('');
                         $('#empty').css('display','none');
                         $('#idCard').html("");
                     })
                 }
-
+                return;
             }
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1,// 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    idCard(value,serverId);
+                },
+                fail:function(err){
+                    $('#idCard').html("上传照片失败！");
+                }
+            });
+        });
+        function idCard(value,serverId){
+            $('#idCard').html("");
+            $('#empty').css('display','none');
+            $.ajax({
+                type: "POST",
+                url: "api/task/save.json",
+                async: true,
+                data:{card:value,userid:$('#userid').val(),serverId:serverId},
+                success: function (card) {
+                },
+                error: function () {
+                }
+            });
         }
     });
 </script>
