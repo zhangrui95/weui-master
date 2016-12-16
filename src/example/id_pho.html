@@ -10,6 +10,7 @@
                             </ul>
                             <div class="weui-uploader__input-box file-img">
                                 <input id="uploaderInput" class="weui-uploader__input" type="button" />
+                                <p class="change-img">选择旅客照片</p>
                             </div>
                         </div>
                     </div>
@@ -76,15 +77,41 @@
         });
         $('#card').blur(function () {
             var value=$('#card').val();
-            var filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-                if (!filter.test(value)) {
-                    if (value == '') {
-                        $('#idCard').html("*身份证号码不能为空");
-                    } else {
-                        $('#idCard').html("*无效的身份证号码");
-                        $('#empty').css('display', 'block');
-                    }
+            $('#empty').css('display', 'none');
+            if (value == '') {
+                $('#idCard').html("*身份证号码不能为空");
+            }
+            var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
+            var pattern = new RegExp(ex);
+            if(pattern.test(value)){
+                var params = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                var checks = [ 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ];
+                var id=value;
+                var sum = 0;
+                for (var i = 0; i < 17; i++) {
+                    var tmp = id.charAt(i);
+                    sum += params[i] * tmp;
                 }
+                sum %= 11;
+                var check;
+                if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
+                    check = 10;
+                } else {
+                    check = id.charAt(17);
+                }
+
+                if (check == checks[sum]) {
+                    return true;
+                }else {
+                    $('#idCard').html("*无效的身份证号码");
+                    $('#empty').css('display', 'block');
+                    return false;
+                }
+                $('#idCard').html("");
+            }else {
+                $('#idCard').html("*无效的身份证号码");
+                $('#empty').css('display', 'block');
+            }
         });
         $('#card').focus(function(){
             $('#idCard').html("");
@@ -107,21 +134,42 @@
                 return;
             }
             var value=$('#card').val();
-            var filter = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-            if (!filter.test(value)){
-                if(value==''){
-                    $('#idCard').html("*身份证号码不能为空");
-                }else{
-                    $('#idCard').html("*无效的身份证号码");
-                    $('#empty').css('display','block');
-                    $('#empty').click(function () {
-                        $('#card').val('');
-                        $('#empty').css('display','none');
-                        $('#idCard').html("");
-                    })
+            var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
+            var pattern = new RegExp(ex);
+            if(pattern.test(value)){
+                var params = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                var checks = [ 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ];
+                var id=value;
+                var sum = 0;
+                for (var i = 0; i < 17; i++) {
+                    var tmp = id.charAt(i);
+                    sum += params[i] * tmp;
                 }
-                return;
-            }
+                sum %= 11;
+                var check;
+                if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
+                    check = 10;
+                } else {
+                    check = id.charAt(17);
+                }
+                if (check == checks[sum]) {
+                    return true;
+                } else {
+                    if(value==''){
+                        $('#idCard').html("*身份证号码不能为空");
+                    }else{
+                        $('#idCard').html("*无效的身份证号码");
+                        $('#empty').css('display','block');
+                        $('#empty').click(function () {
+                            $('#card').val('');
+                            $('#empty').css('display','none');
+                            $('#idCard').html("");
+                        })
+                    }
+                }
+                    return false;
+                }
+
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
