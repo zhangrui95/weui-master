@@ -46,7 +46,7 @@
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles"),
                 localId
-                ;
+        ;
         $uploaderInput.on("click", function(e){
             wx.chooseImage({
                 count: 1, // 默认9
@@ -130,7 +130,7 @@
                 $('#idCard').html("*照片不能为空");
                 return;
             }
-            if(!cardValid(($('#card').val())){
+            if(!cardValid(($('#card').val()))){
                 $('#idCard').html("*无效的身份证号码");
                 $('#empty').css('display', 'block');
                 return ;
