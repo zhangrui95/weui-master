@@ -173,17 +173,17 @@ $(function () {
         };
     }
     function preload(){
-        $(window).on("load", function(){
-            var imgList = [
-                "./images/layers/content.png",
-                "./images/layers/navigation.png",
-                "./images/layers/popout.png",
-                "./images/layers/transparent.gif"
-            ];
-            for (var i = 0, len = imgList.length; i < len; ++i) {
-                new Image().src = imgList[i];
-            }
-        });
+        // $(window).on("load", function(){
+        //     var imgList = [
+        //         "./images/layers/content.png",
+        //         "./images/layers/navigation.png",
+        //         "./images/layers/popout.png",
+        //         "./images/layers/transparent.gif"
+        //     ];
+        //     for (var i = 0, len = imgList.length; i < len; ++i) {
+        //         new Image().src = imgList[i];
+        //     }
+        // });
     }
     function androidInputBugFix(){
         // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
@@ -226,7 +226,11 @@ $(function () {
                     'onMenuShareQZone',
                     // 'setNavigationBarColor',
                     'setBounceBackground',
-                    'chooseImage'
+                    'previewImage',
+                    'chooseImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'closeWindow'
                 ]
             });
             wx.ready(function () {
