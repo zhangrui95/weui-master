@@ -130,7 +130,7 @@
                 $('#idCard').html("*照片不能为空");
                 return;
             }
-            if(!cardValid(value)){
+            if(!cardValid(($('#card').val())){
                 $('#idCard').html("*无效的身份证号码");
                 $('#empty').css('display', 'block');
                 return ;
@@ -140,7 +140,7 @@
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    idCard(value,serverId);
+                    idCard($('#card').val(),serverId);
                 },
                 fail:function(err){
                     $('#idCard').html("上传照片失败！");
