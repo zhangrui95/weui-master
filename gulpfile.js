@@ -99,9 +99,10 @@ gulp.task('build:example:html', function (){
             .pipe(browserSync.reload({stream: true}));
     };
     entryBuild('src/example/index.html');
-    entryBuild('src/example/index-all.html');
-    entryBuild('src/example/index-director.html');
-    entryBuild('src/example/index-police.html');
+    entryBuild('src/example/dev.html');
+    entryBuild('src/example/hotel.html');
+    entryBuild('src/example/leader.html');
+    entryBuild('src/example/police.html');
 });
 
 gulp.task('build:example', ['build:example:assets', 'build:example:style', 'build:example:html']);
@@ -128,7 +129,7 @@ gulp.task('server', function () {
             }
         },
         port: yargs.p,
-        startPath: '/example/index-all.html'
+        startPath: '/example/dev.html'
     });
 });
 
