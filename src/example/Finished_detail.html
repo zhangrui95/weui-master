@@ -1,6 +1,6 @@
 <div class="page">
-    <div class="page__bd details">
-        <div class="weui-cells weui-cells_form cells-ajax">
+    <div class="page__bd details cells-ajax">
+        <div class="weui-cells weui-cells_form ">
             <div class="weui-cell">
                 <div class="weui-cell__bd bd-center cell-unleft">
                     <img src="images/header.jpg" alt="" class="head-img">
@@ -49,24 +49,61 @@
     $(function(){
         $.ajax({
             type: "POST",
-            url: "",
+            url: "api/task.json",
             async: true,
             data:'',
             success: function (data) {
                 console.log("success");
-//                lists();
+                lists();
             },
             error: function (mes) {
                 console.log("error");
             }
         });
         function lists() {
-            for(i = 0;i<=1;i++){
+            for(i = 0;i<=data.length;i++){
                 $('.cells-ajax').append(
-                        '<div class="weui-cell">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>'+
-                            '<div class="weui-cell__bd">'+
-                                '先锋路禧龙宾馆'+
+                        '<div class="weui-cells weui-cells_form ">'
+                            '<div class="weui-cell">'+
+                                '<div class="weui-cell__bd bd-center cell-unleft">'+
+                                    '<img src="'+data[i].photo+'" alt="" class="head-img">'+
+                               '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data[i].card+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data[i].hotelName+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data[i].createTime+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data[i].doneTime+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data[i].name+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                   '李四'+
+                                '</div>'+
                             '</div>'+
                         '</div>'
                 )
