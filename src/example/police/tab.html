@@ -139,9 +139,9 @@
 //        }
 
         function lists() {
-            var Times = new Date( data[i].createTime ) ;
-            commonTime = Times.toLocaleString();
             for(i=0;i<=data.length;i++) {
+                var Times = new Date( data[i].createTime ) ;
+                commonTime = Times.toLocaleString();
                 $('#tab1').append(
                         '<div class="weui-cell bg-cell">' +
                             '<div class="header-img">' + '禧龙' + '</div>' +
