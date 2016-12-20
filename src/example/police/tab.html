@@ -7,37 +7,13 @@
                 <div class="weui-navbar__item" href="#tab2">已完成</div>
             </div>
             <div class="weui-tab__panel">
-                <div class="weui-cells"  id="tab1">
-                    <div class="weui-cell bg-cell" data-id="Unfinished_detail">
-                        <!--<div class="header-img">禧龙</div>-->
-                        <div class="weui-cell__bd cell_bd_border" >
-                                <p class="left-cell">
-                                    哈尔滨禧龙宾馆(先锋路店)
-                                </p>
-                                <div class="weui-cell__ft cell_fs left-cell">
-                                    15:56:20 pm
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="weui-cells active"  id="tab2">
-                    <div class="weui-cell bg-cell" data-id="Finished_detail">
-                    <!--<div class="header-img">金芒果</div>-->
-                    <div class="weui-cell__bd cell_bd_border" >
-                        <p class="left-cell">
-                            哈尔滨市金芒果快捷宾馆
-                        </p>
-                        <div class="weui-cell__ft cell_fs left-cell">
-                            15:56:20 pm
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <div class="weui-cells"  id="tab1"></div>
+                <div class="weui-cells active"  id="tab2"></div>
             </div>
-            <div class="weui-loadmore">
-                <i class="weui-loading"></i>
-                <span class="weui-loadmore__tips">正在加载</span>
-            </div>
+            <!--<div class="weui-loadmore">-->
+                <!--<i class="weui-loading"></i>-->
+                <!--<span class="weui-loadmore__tips">正在加载</span>-->
+            <!--</div>-->
             <!--<div class="weui-loadmore weui-loadmore_line">-->
                 <!--<span class="weui-loadmore__tips">暂无数据</span>-->
             <!--</div>-->
@@ -145,7 +121,7 @@
             console.log('typeof data',typeof data)
             for(var i=0;i<=data.length;i++) {
                 function getLocalTime(nS) {
-                    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                    return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
                 }
                 $('#tab1').append(
                         '<div class="weui-cell bg-cell"  data-id="Unfinished_detail">' +
