@@ -5,7 +5,7 @@
     $(function(){
         $.ajax({
             type: "POST",
-            url: "api/task.json",
+            url: "api/task/detail.json",
             data:{id:$('#taskId').val(),userid:$('#userid').val()},
             success: function (data) {
                 lists(data);
@@ -15,53 +15,46 @@
             }
         });
         function lists(data) {
-            for(var i = 0;i<data.length;i++){
                 $('.cells-ajax').append(
-                        '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
+                        '<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                             '<div class="weui-cell">'+
                                 '<div class="weui-cell__bd bd-center cell-unleft">'+
-                                    '<img src="'+data[i].photo+'" alt="" class="head-img">'+
+                                    '<img src="'+data.photo+'" alt="" class="head-img">'+
                                '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    data[i].card+
+                                    data.card+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    data[i].hotelName+
+                                    data.hotelName+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    getLocalTime(data[i].createTime)+
+                                    getLocalTime(data.createTime)+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    getLocalTime(data[i].doneTime)+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="weui-cell cell-border">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>'+
-                                '<div class="weui-cell__bd bd-right">'+
-                                    data[i].name+
+                                    getLocalTime(data.doneTime)+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    data[i].name+
+                                    data.name+
                                 '</div>'+
                             '</div>'+
                         '</div>'
                 )
-            }
         }
+
     })
 </script>
