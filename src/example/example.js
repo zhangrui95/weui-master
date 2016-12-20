@@ -300,3 +300,22 @@ $(function () {
     }
     init();
 });
+
+function getLocalTime(nS) {
+    if(nS==null){
+        return '';
+    }
+    var date = new Date(nS);
+    var month = date.getMonth()+1;
+    var day = date.getDate();
+    var hours = date.getHours();
+    var min = date.getMinutes();
+    var second = date.getSeconds();
+    var tag = hours>12?'pm':'am';
+    month = month<10?('0'+month):month;
+    day = day<10?('0'+day):day;
+    hours = hours<10?('0'+hours):hours;
+    min = min<10?('0'+min):min;
+    second = second<10?('0'+second):second;
+    return date.getFullYear()+'-'+month+'-'+day + ' '+hours+':'+min+':'+second+tag
+}

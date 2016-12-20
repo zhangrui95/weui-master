@@ -61,7 +61,7 @@
 //            $.ajax({
 //                type: "POST",
 //                url: "api/task.json",
-//                data: { pagesize: gPageSize, pagenumber: pagenumber },
+//                data: { max: gPageSize, offset: pagenumber },
 //                dataType: "json",
 //                success: function (data) {
 //                    $(".weui-loadmore").hide();
@@ -116,10 +116,7 @@
 //            $(window).scroll(scrollHandler);
 //        }
         function lists(data) {
-            for(var i=0;i<=data.length;i++) {
-                function getLocalTime(nS) {
-                    return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-                }
+            for(var i=0;i<data.length;i++) {
                 $('#tab1').append(
                         '<div class="weui-cell bg-cell"  data-id="Unfinished_detail" data-tid="'+data[i].id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
@@ -133,7 +130,7 @@
                         '</div>'
                 )
                 $('#tab2').append(
-                        '<div class="weui-cell bg-cell"  data-id="Finished_detail">' +
+                        '<div class="weui-cell bg-cell"  data-id="Finished_detail" data-tid="'+data[i].id+'">' +
                             '<div class="weui-cell__bd cell_bd_border">' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
@@ -146,7 +143,7 @@
                 )
                 $('.weui-cell').bind('click', function () {
                         var id = $(this).data('id');
-                    $('#container').data('task-id',$(this).data('tid'));
+                    $('#taskId').val($(this).data('tid'));
                         window.pageManager.go(id);
 //                        $(this).appendTo("#tab2")
                 });

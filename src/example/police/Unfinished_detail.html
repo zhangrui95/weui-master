@@ -11,7 +11,7 @@
             type: "POST",
             url: "api/task/detail.json",
             async: true,
-            data:{id:$('#container').data('task-id'),userid:$('#userid').val()},
+            data:{id:$('#taskId').val(),userid:$('#userid').val()},
             success: function (data) {
                 details(data);
             },
@@ -20,11 +20,6 @@
             }
         });
         function details(data) {
-                function getLocalTime(nS) {
-                    return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-                }
-//                var Times = new Date( data[i].createTime ) ;
-//                var commonTime = Times.toLocaleString();
                 $('.un-details').append(
                         '<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                             '<div class="weui-cell">'+
