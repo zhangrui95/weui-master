@@ -33,7 +33,7 @@
             <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>
                 <div class="weui-cell__bd bd-right">
-                    李四 张三
+                    李四
                 </div>
             </div>
             <div class="weui-cell cell-border">
@@ -51,7 +51,6 @@
             type: "POST",
             url: "api/task.json",
             async: true,
-            data:'',
             success: function (data) {
                 console.log("success");
                 lists();
@@ -61,9 +60,9 @@
             }
         });
         function lists() {
-            for(i = 0;i<=data.length;i++){
+            for(var i = 0;i<=data.length;i++){
                 $('.cells-ajax').append(
-                        '<div class="weui-cells weui-cells_form ">'
+                        '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
                             '<div class="weui-cell">'+
                                 '<div class="weui-cell__bd bd-center cell-unleft">'+
                                     '<img src="'+data[i].photo+'" alt="" class="head-img">'+
@@ -102,7 +101,7 @@
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                   '李四'+
+                                    data[i].doneUid+
                                 '</div>'+
                             '</div>'+
                         '</div>'

@@ -27,7 +27,7 @@
             <div class="weui-cell cell-border">
                 <div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>
                 <div class="weui-cell__bd bd-right">
-                    李四 张三
+                    张三
                 </div>
             </div>
         </div>
@@ -51,9 +51,11 @@
             }
         });
         function details() {
-            for(i=0;i<=data.length;i++) {
+            for(var i=0;i<=data.length;i++) {
+                var Times = new Date( data[i].createTime ) ;
+                var commonTime = Times.toLocaleString();
                 $('.un-details').append(
-                        '<div class="weui-cells weui-cells_form">' +
+                        '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
                             '<div class="weui-cell">' +
                                 '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>' +
                                 '<div class="weui-cell__bd">' +
@@ -75,7 +77,7 @@
                             '<div class="weui-cell">' +
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>' +
                                 '<div class="weui-cell__bd">' +
-                                    data[i].createTime +
+                                    commonTime +
                                 '</div>' +
                             '</div>' +
                             '<div class="weui-cell">' +
@@ -88,5 +90,21 @@
                 )
             }
         }
+
+        $('#showToast').click(function(){
+            history.back();
+            $.ajax({
+                type: "POST",
+                url: "",
+                async: true,
+                date:'',
+                success: function (data) {
+                    console.log("success");
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
+        })
     })
 </script>

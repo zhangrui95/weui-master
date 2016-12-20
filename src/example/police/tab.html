@@ -9,20 +9,20 @@
             <div class="weui-tab__panel">
                 <div class="weui-cells"  id="tab1">
                     <div class="weui-cell bg-cell">
-                    <div class="header-img">禧龙</div>
-                    <div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >
-                            <p class="left-cell">
-                                哈尔滨禧龙宾馆(先锋路店)
-                            </p>
-                            <div class="weui-cell__ft cell_fs left-cell">
-                                15:56:20 pm
-                            </div>
+                        <!--<div class="header-img">禧龙</div>-->
+                        <div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >
+                                <p class="left-cell">
+                                    哈尔滨禧龙宾馆(先锋路店)
+                                </p>
+                                <div class="weui-cell__ft cell_fs left-cell">
+                                    15:56:20 pm
+                                </div>
                         </div>
                     </div>
                 </div>
                 <div class="weui-cells active"  id="tab2">
                     <div class="weui-cell bg-cell">
-                    <div class="header-img">金芒果</div>
+                    <!--<div class="header-img">金芒果</div>-->
                     <div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">
                         <p class="left-cell">
                             哈尔滨市金芒果快捷宾馆
@@ -106,10 +106,9 @@
 //        getData(1);
 //        //生成数据append到div中
 //        function insertDiv(json) {
-//            for (i = 0; i <= json.length; i++) {
+//            for (var i = 0; i <= json.length; i++) {
 //                $('#tab1').append(
 //                        '<div class="weui-cell bg-cell">' +
-//                            '<div class="header-img">' + '禧龙' + '</div>' +
 //                            '<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >' +
 //                                '<p class="left-cell">' +
 //                                json[i].hotelName +
@@ -139,12 +138,11 @@
 //        }
 
         function lists() {
-            for(i=0;i<=data.length;i++) {
+            for(var i=0;i<=data.length;i++) {
                 var Times = new Date( data[i].createTime ) ;
-                commonTime = Times.toLocaleString();
+                var commonTime = Times.toLocaleString();
                 $('#tab1').append(
                         '<div class="weui-cell bg-cell">' +
-                            '<div class="header-img">' + '禧龙' + '</div>' +
                             '<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
@@ -157,13 +155,12 @@
                 )
                 $('#tab2').append(
                         '<div class="weui-cell bg-cell">' +
-                            '<div class="header-img">' + '金芒果' + '</div>' +
                             '<div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
                                 '</p>' +
                                 '<div class="weui-cell__ft cell_fs left-cell">' +
-                                    data[i].createTime +
+                                    commonTime +
                                 '</div>' +
                             '</div>' +
                         '</div>'
