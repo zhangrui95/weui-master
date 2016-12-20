@@ -194,6 +194,26 @@ gulp.task('watch', ['release'], function () {
     gulp.watch('src/example/example.less', ['build:example:style']);
     gulp.watch('src/example/**/*.?(png|jpg|gif|js)', ['build:example:assets']);
     gulp.watch('src/**/*.html', ['build:example:html']);
+    gulp.watch("test/mock.js",['mock-watch']);
+});
+
+gulp.task('mock-watch', function (done) {
+    browserSync.reset();
+    browserSync.init({
+        server: {
+            baseDir: "./dist"
+        },
+        ui: {
+            port: yargs.p + 1,
+            weinre: {
+                port: yargs.p + 2
+            }
+        },
+        port: yargs.p,
+        middleware: require('./test/mock'),
+        open:false
+    });
+    done();
 });
 
 gulp.task('server', function () {
@@ -209,6 +229,7 @@ gulp.task('server', function () {
             }
         },
         port: yargs.p,
+        middleware: require('./test/mock'),
         startPath: '/example/dev.html'
     });
 });
