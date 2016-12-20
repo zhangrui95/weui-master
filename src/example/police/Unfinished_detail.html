@@ -1,36 +1,5 @@
 <div class="page">
     <div class="page__bd un-details">
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__bd bd-center cell-unleft">
-                    <img src="images/header.jpg" alt="" class="head-img">
-                </div>
-            </div>
-            <div class="weui-cell cell-border">
-                <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
-                <div class="weui-cell__bd bd-right">
-                    230105199207152623
-                </div>
-            </div>
-            <div class="weui-cell cell-border cell-margin">
-                <div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>
-                <div class="weui-cell__bd bd-right" >
-                    哈尔滨市禧龙宾馆
-                </div>
-            </div>
-            <div class="weui-cell cell-border">
-                <div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>
-                <div class="weui-cell__bd bd-right">
-                    2016-11-30 18:23:22
-                </div>
-            </div>
-            <div class="weui-cell cell-border">
-                <div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>
-                <div class="weui-cell__bd bd-right">
-                    张三
-                </div>
-            </div>
-        </div>
     </div>
     <div class="weui-btn-area">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >已完成</a>
@@ -44,13 +13,13 @@
             async: true,
             data:{userid:$('#userid').val()},
             success: function (data) {
-                details();
+                details(data);
             },
             error: function (mes) {
                 console.log("error");
             }
         });
-        function details() {
+        function details(data) {
             for(var i=0;i<=data.length;i++) {
                 function getLocalTime(nS) {
                     return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
@@ -58,55 +27,42 @@
 //                var Times = new Date( data[i].createTime ) ;
 //                var commonTime = Times.toLocaleString();
                 $('.un-details').append(
-                        '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
-                            '<div class="weui-cell">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">旅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;店</label></div>' +
-                                '<div class="weui-cell__bd">' +
-                                    data[i].hotelName +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>' +
-                                '<div class="weui-cell__bd">' +
-                                    data[i].card +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">照&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片</label></div>' +
-                                '<div class="weui-cell__bd">' +
-                                '<img src="' + data[i].photo + '" alt="" style="width: 100%">' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>' +
-                                '<div class="weui-cell__bd">' +
-                                    getLocalTime(data[i].createTime) +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>' +
-                                '<div class="weui-cell__bd">' +
+                        '<div class="weui-cells weui-cells_form">'+
+                            '<div class="weui-cell">'+
+                                '<div class="weui-cell__bd bd-center cell-unleft">'+
+                                    '<img src="images/header.jpg" alt="" class="head-img">'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data[i].card+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data[i].hotelName+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    getLocalTime(data[i].createTime)+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
                                     data[i].name +
-                                '</div>' +
-                            '</div>' +
+                                '</div>'+
+                            '</div>'+
                         '</div>'
                 )
             }
         }
-
         $('#showToast').click(function(){
             history.back();
-            $.ajax({
-                type: "POST",
-                url: "",
-                async: true,
-                date:'',
-                success: function (data) {
-                },
-                error: function (mes) {
-                    console.log("error");
-                }
-            });
         })
     })
 </script>
