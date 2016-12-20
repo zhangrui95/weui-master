@@ -116,15 +116,12 @@
 //            $(window).scroll(scrollHandler);
 //        }
         function lists(data) {
-            console.log('data',data)
-            console.log('data.length',data.length)
-            console.log('typeof data',typeof data)
             for(var i=0;i<=data.length;i++) {
                 function getLocalTime(nS) {
                     return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
                 }
                 $('#tab1').append(
-                        '<div class="weui-cell bg-cell"  data-id="Unfinished_detail">' +
+                        '<div class="weui-cell bg-cell"  data-id="Unfinished_detail" data-tid="'+data[i].id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
@@ -149,6 +146,7 @@
                 )
                 $('.weui-cell').bind('click', function () {
                         var id = $(this).data('id');
+                    $('#container').data('task-id',$(this).data('tid'));
                         window.pageManager.go(id);
 //                        $(this).appendTo("#tab2")
                 });
