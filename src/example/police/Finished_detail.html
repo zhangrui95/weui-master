@@ -51,8 +51,8 @@
             type: "POST",
             url: "api/task.json",
             async: true,
+            data:{userid:$('#userid').val()},
             success: function (data) {
-                console.log("success");
                 lists();
             },
             error: function (mes) {
@@ -61,6 +61,9 @@
         });
         function lists() {
             for(var i = 0;i<=data.length;i++){
+                function getLocalTime(nS) {
+                    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                }
                 $('.cells-ajax').append(
                         '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
                             '<div class="weui-cell">'+
@@ -83,13 +86,13 @@
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    data[i].createTime+
+                                    getLocalTime(data[i].createTime)+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    data[i].doneTime+
+                                    getLocalTime(data[i].doneTime)+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+

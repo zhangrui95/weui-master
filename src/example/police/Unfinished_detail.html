@@ -42,8 +42,8 @@
             type: "POST",
             url: "api/task.json",
             async: true,
+            data:{userid:$('#userid').val()},
             success: function (data) {
-                console.log("success");
                 details();
             },
             error: function (mes) {
@@ -52,8 +52,11 @@
         });
         function details() {
             for(var i=0;i<=data.length;i++) {
-                var Times = new Date( data[i].createTime ) ;
-                var commonTime = Times.toLocaleString();
+                function getLocalTime(nS) {
+                    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                }
+//                var Times = new Date( data[i].createTime ) ;
+//                var commonTime = Times.toLocaleString();
                 $('.un-details').append(
                         '<div class="weui-cells weui-cells_form" id="'+data[i].id+'">' +
                             '<div class="weui-cell">' +
@@ -77,7 +80,7 @@
                             '<div class="weui-cell">' +
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>' +
                                 '<div class="weui-cell__bd">' +
-                                    commonTime +
+                                    getLocalTime(data[i].createTime) +
                                 '</div>' +
                             '</div>' +
                             '<div class="weui-cell">' +
@@ -99,7 +102,6 @@
                 async: true,
                 date:'',
                 success: function (data) {
-                    console.log("success");
                 },
                 error: function (mes) {
                     console.log("error");
