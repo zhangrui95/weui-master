@@ -8,9 +8,9 @@
             </div>
             <div class="weui-tab__panel">
                 <div class="weui-cells"  id="tab1">
-                    <div class="weui-cell bg-cell">
+                    <div class="weui-cell bg-cell" data-id="Unfinished_detail">
                         <!--<div class="header-img">禧龙</div>-->
-                        <div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >
+                        <div class="weui-cell__bd cell_bd_border" >
                                 <p class="left-cell">
                                     哈尔滨禧龙宾馆(先锋路店)
                                 </p>
@@ -21,9 +21,9 @@
                     </div>
                 </div>
                 <div class="weui-cells active"  id="tab2">
-                    <div class="weui-cell bg-cell">
+                    <div class="weui-cell bg-cell" data-id="Finished_detail">
                     <!--<div class="header-img">金芒果</div>-->
-                    <div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">
+                    <div class="weui-cell__bd cell_bd_border" >
                         <p class="left-cell">
                             哈尔滨市金芒果快捷宾馆
                         </p>
@@ -55,7 +55,7 @@
             $(activeTab).fadeIn();
             return false;
         });
-        $('.weui-cell__bd').on('click', function(){
+        $('.weui-cell').on('click', function(){
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
@@ -65,7 +65,7 @@
             async: true,
             data:{userid:$('#userid').val()},
             success: function (data) {
-                lists();
+                lists(data);
             },
             error: function (mes) {
                 console.log('error');
@@ -139,14 +139,17 @@
 //            //定义鼠标滚动事件
 //            $(window).scroll(scrollHandler);
 //        }
-        function lists() {
+        function lists(data) {
+            console.log('data',data)
+            console.log('data.length',data.length)
+            console.log('typeof data',typeof data)
             for(var i=0;i<=data.length;i++) {
                 function getLocalTime(nS) {
                     return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
                 }
                 $('#tab1').append(
-                        '<div class="weui-cell bg-cell">' +
-                            '<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >' +
+                        '<div class="weui-cell bg-cell"  data-id="Unfinished_detail">' +
+                            '<div class="weui-cell__bd cell_bd_border" >' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
                                 '</p>' +
@@ -157,8 +160,8 @@
                         '</div>'
                 )
                 $('#tab2').append(
-                        '<div class="weui-cell bg-cell">' +
-                            '<div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">' +
+                        '<div class="weui-cell bg-cell"  data-id="Finished_detail">' +
+                            '<div class="weui-cell__bd cell_bd_border">' +
                                 '<p class="left-cell">' +
                                     data[i].hotelName +
                                 '</p>' +
@@ -168,9 +171,10 @@
                             '</div>' +
                         '</div>'
                 )
-                $('.weui-cell__bd').bind('click', function () {
-                    var id = $(this).data('id');
-                    window.pageManager.go(id);
+                $('.weui-cell').bind('click', function () {
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+//                        $(this).appendTo("#tab2")
                 });
             }
         }
