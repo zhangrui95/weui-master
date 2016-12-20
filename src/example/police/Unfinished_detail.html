@@ -22,7 +22,7 @@
         function details(data) {
             for(var i=0;i<=data.length;i++) {
                 function getLocalTime(nS) {
-                    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                    return new Date(parseInt(nS)).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
                 }
 //                var Times = new Date( data[i].createTime ) ;
 //                var commonTime = Times.toLocaleString();
@@ -30,7 +30,7 @@
                         '<div class="weui-cells weui-cells_form">'+
                             '<div class="weui-cell">'+
                                 '<div class="weui-cell__bd bd-center cell-unleft">'+
-                                    '<img src="images/header.jpg" alt="" class="head-img">'+
+                                    '<img src="'+data[i].photo+'" alt="" class="head-img">'+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
