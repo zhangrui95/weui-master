@@ -169,6 +169,7 @@ gulp.task('build:example:gsp', function (){
                 var filename = path.join(dir, $1);
                 var id = path.basename(filename, '.html');
                 gulp.src(filename)
+                    .pipe(processhtml())
                     .pipe(replace('../images','assets'))
                     .pipe(rename({basename:'_'+id,extname:'.gsp'}))
                     .pipe(gulp.dest(gspDist+'/example/'+subDir));

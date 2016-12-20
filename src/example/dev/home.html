@@ -1,23 +1,23 @@
 <div style="width: 80%;margin: 0 auto;">
-    <button class="js_item1" style="width: 100%;height: 30px;margin-top: 20px;">旅店入口</button>
-    <button class="js_item2" style="width: 100%;height: 30px;margin-top: 20px;">民警入口</button>
-    <button class="js_item3" style="width: 100%;height: 30px;margin-top: 20px;">局长入口</button>
-    <button class="js_item4" style="width: 100%;height: 30px;margin-top: 20px;">Demo</button>
+    <!-- build:[data-href] hotel -->
+    <button class="js_item1" data-href="hotel.html" style="width: 100%;height: 30px;margin-top: 20px;">旅店入口</button>
+    <!-- /build -->
+    <!-- build:[data-href] police -->
+    <button class="js_item2" data-href="police.html" style="width: 100%;height: 30px;margin-top: 20px;">民警入口</button>
+    <!-- /build -->
+    <!-- build:[data-href] leader -->
+    <button class="js_item3" data-href="leader.html" style="width: 100%;height: 30px;margin-top: 20px;">局长入口</button>
+    <!-- /build -->
+    <!-- build:remove -->
+    <button class="js_item4" data-href="index.html" style="width: 100%;height: 30px;margin-top: 20px;">Demo</button>
+    <!-- /build -->
 </div>
 
 <script type="text/javascript">
     $(function () {
-        $('.js_item1').on('click', function() {
-            window.location.href = 'hotel.html';
-        });
-        $('.js_item2').on('click', function() {
-            window.location.href = 'police.html';
-        });
-        $('.js_item3').on('click', function() {
-            window.location.href = 'leader.html';
-        });
-        $('.js_item4').on('click', function() {
-            window.location.href = 'index.html';
+        $('[data-href]').on('click', function() {
+            var url = $(this).attr('data-href');
+            window.location.href = url+'?userid='+$('userid').val();
         });
     })
 </script>
