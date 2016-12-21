@@ -113,7 +113,6 @@
             var pageH = pagePanel.find('.page__bd').height();
             var scrollT = pagePanel.scrollTop();
             var aa = (pageH - winH - scrollT) / winH;
-            console.log('scrollHandler',aa)
             if (aa < 0.02) {
                 getData(currState);
             }
