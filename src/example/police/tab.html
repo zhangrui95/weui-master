@@ -92,23 +92,25 @@
                 window.pageManager.go(id);
             });
         }
-
         getData(currState);
-
         //到达底部加载
         var winH = $(window).height(); //页面可视区域高度
-        console.log($(window).height());
+        console.log(winH);
         var scrollHandler = function () {
             var pageH = $(document.body).height();
             var scrollT = $(window).scrollTop();
             var aa = (pageH - winH - scrollT) / winH;
             console.log(aa)
             if (aa < 0.02) {
-                getData();
-                if (i % 10 === 0) {
-                    $(window).scroll(scrollHandler);
+                if (i % 10 === 0) {//每10页做一次停顿！
+                    getData();
+                    $(".weui-loadmore").show();
+                } else {
+                    getData();
+                    $(".weui-loadmore").hide();
                 }
             }
+
         }
         //定义鼠标滚动事件
         $(window).scroll(scrollHandler);
