@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports = [
     {
         route: "/example/api/task.json",
@@ -43,6 +45,13 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({appid:'test_appid',timestamp:new Date().getTime(),nonceStr:'test_nonceStr',signature:'test_signature'}));
+        }
+    },
+    {
+        route: "/example/api/task/photo",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','image/png');
+            res.end(fs.readFileSync(__dirname+'/../dist/example/images/icon_tabbar.png'));
         }
     }
 ];
