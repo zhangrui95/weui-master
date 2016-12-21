@@ -23,7 +23,7 @@
 <script type="text/javascript">
     $(function(){
         var gPageSize = 10;
-        var pagenumber = 1;
+        var offset = 0;
         var currState = '0';
         var loading = false;
         $('.weui-navbar__item').on('click', function () {
@@ -51,7 +51,7 @@
             loading = true;
             if(state != currState){
                 currState = state;
-                pagenumber = 1;
+                offset = 0;
                 var tabPanel = state=='0'?'tab1':'tab2';
                 $('#'+tabPanel).html('');
             }
@@ -59,10 +59,10 @@
                 type: "POST",
                 url: "api/task.json",
                 async: true,
-                data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: (pagenumber-1)*gPageSize},
+                data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
                     lists(data,state);
-                    pagenumber++;
+                    $(".weui-loadmore").hide();
                     loading = false;
                 },
                 beforeSend: function () {
@@ -75,9 +75,13 @@
             });
         }
         function lists(data,state) {
+            if(data==null||data.length<1){
+                return
+            }
             var dataId = state=='0'?'Unfinished_detail':'Finished_detail';
             var tabPanel = state=='0'?'tab1':'tab2';
             tabPanel = $('#'+tabPanel);
+            offset += data.length;
             for(var i=0;i<data.length;i++) {
                 var items=data[i];
                 tabPanel.append(
@@ -109,6 +113,7 @@
             var pageH = pagePanel.find('.page__bd').height();
             var scrollT = pagePanel.scrollTop();
             var aa = (pageH - winH - scrollT) / winH;
+            console.log('scrollHandler',aa)
             if (aa < 0.02) {
                 getData(currState);
             }
