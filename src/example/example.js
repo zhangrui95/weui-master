@@ -317,5 +317,5 @@ function getLocalTime(nS) {
     hours = hours<10?('0'+hours):hours;
     min = min<10?('0'+min):min;
     second = second<10?('0'+second):second;
-    return date.getFullYear()+'-'+month+'-'+day + ' '+hours+':'+min+':'+second+tag
+    return date.getFullYear()+'-'+month+'-'+day + ' '+hours+':'+min+':'+second
 }

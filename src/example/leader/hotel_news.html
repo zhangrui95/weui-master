@@ -6,32 +6,31 @@
                 <div class="weui-navbar__item weui-bar__item_on" href="#tab1">未完成</div>
                 <div class="weui-navbar__item" href="#tab2">已完成</div>
             </div>
-
             <div class="weui-tab__panel">
                 <div class="weui-cells"  id="tab1">
-                    <div class="weui-cell bg-cell">
-                        <div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >
-                            <p class="left-cell">
-                                哈尔滨禧龙宾馆(先锋路店)
-                            </p>
-                            <div class="weui-cell__ft cell_fs left-cell">
-                                15:56:20 pm
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="weui-cell bg-cell">-->
+                        <!--<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >-->
+                            <!--<p class="left-cell">-->
+                                <!--哈尔滨禧龙宾馆(先锋路店)-->
+                            <!--</p>-->
+                            <!--<div class="weui-cell__ft cell_fs left-cell">-->
+                                <!--15:56:20 pm-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
                 <div class="weui-cells active"  id="tab2">
-                    <div class="weui-cell bg-cell">
-                        <div class="header-img">金芒果</div>
-                        <div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">
-                            <p class="left-cell">
-                                哈尔滨市金芒果快捷宾馆
-                            </p>
-                            <div class="weui-cell__ft cell_fs left-cell">
-                                15:56:20 pm
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="weui-cell bg-cell">-->
+                        <!--<div class="header-img">金芒果</div>-->
+                        <!--<div class="weui-cell__bd cell_bd_border" data-id="Finished_detail">-->
+                            <!--<p class="left-cell">-->
+                                <!--哈尔滨市金芒果快捷宾馆-->
+                            <!--</p>-->
+                            <!--<div class="weui-cell__ft cell_fs left-cell">-->
+                                <!--15:56:20 pm-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -60,5 +59,51 @@
         var id = $(this).data('id');
         window.pageManager.go(id);
     });
+    $.ajax({
+        type: "POST",
+        url: "api/task.json",
+        async: true,
+        data:{userid:$('#userid').val()},
+        success: function (data) {
+            lists(data);
+        },
+        error: function (mes) {
+            console.log('error');
+        }
+    });
+    function lists(data) {
+        for(var i=0;i<data.length;i++) {
+            var items=data[i];
+            $('#tab1').append(
+                    '<div class="weui-cell bg-cell"  data-id="Unfinished_detail" data-tid="'+items.id+'">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<p class="left-cell">' +
+                                items.hotelName +
+                            '</p>' +
+                            '<div class="weui-cell__ft cell_fs left-cell">' +
+                                getLocalTime(items.createTime) +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+            )
+            $('#tab2').append(
+                    '<div class="weui-cell bg-cell"  data-id="Finished_detail" data-tid="'+items.id+'">' +
+                        '<div class="weui-cell__bd cell_bd_border">' +
+                            '<p class="left-cell">' +
+                                items.hotelName +
+                            '</p>' +
+                            '<div class="weui-cell__ft cell_fs left-cell">' +
+                                getLocalTime(items.createTime) +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+            )
+            $('.weui-cell').bind('click', function () {
+                var id = $(this).data('id');
+                $('#taskId').val($(this).data('tid'));
+                window.pageManager.go(id);
+            });
+        }
+    }
 
 </script>

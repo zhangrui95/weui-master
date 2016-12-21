@@ -1,64 +1,10 @@
 <div class="page">
-    <div class="weui-cells  weui-cells_radio">
+    <div class="weui-cells  weui-cells_radio police_list">
         <div class="weui-cell">
             <div class="weui-cell__bd cell-center">
                 <p>今天是：<span class="weekday"></span></p>
             </div>
         </div>
-            <!--<label class="weui-cell weui-check__label cell-border" for="1">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>赵警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" class="weui-check" name="radio1" id="1">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
-            <!--<label class="weui-cell weui-check__label cell-border" for="2">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>钱警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" name="radio1" class="weui-check" id="2" checked="checked">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
-            <!--<label class="weui-cell weui-check__label cell-border" for="3">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>孙警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" name="radio1" class="weui-check" id="3" checked="checked">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
-            <!--<label class="weui-cell weui-check__label cell-border" for="4">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>李警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" name="radio1" class="weui-check" id="4" checked="checked">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
-            <!--<label class="weui-cell weui-check__label cell-border" for="5">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>周警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" name="radio1" class="weui-check" id="5" checked="checked">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
-            <!--<label class="weui-cell weui-check__label cell-border" for="6">-->
-                <!--<div class="weui-cell__bd">-->
-                    <!--<p>吴警官</p>-->
-                <!--</div>-->
-                <!--<div class="weui-cell__ft">-->
-                    <!--<input type="radio" name="radio1" class="weui-check" id="6" checked="checked">-->
-                    <!--<span class="weui-icon-checked"></span>-->
-                <!--</div>-->
-            <!--</label>-->
     </div>
     <div class="weui-btn-area" data-id="hotel_news">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
@@ -98,22 +44,22 @@
         });
         $.ajax({
             type: "POST",
-            url: "/api/Rota/index.json",
+            url: "api/rota/index.json",
             async: true,
             data:{userid:$('#userid').val()},
             success: function (data) {
-                lists();
+                lists(data);
             },
             error: function (mes) {
-                console.log("error")
+                console.log('error');
             }
         });
-        function lists() {
-            for(var i=0;i<=6;i++){
-                $('.weui-cells').append(
+        function lists(data) {
+            for(var i=0;i<data.length;i++){
+                $('.police_list').append(
                         '<label class="weui-cell weui-check__label cell-border" for='+i+'>'+
                             '<div class="weui-cell__bd">'+
-                                '<p>'+'张警官'+'</p>'+
+                                '<p>'+data[i].name+'</p>'+
                             '</div>'+
                             '<div class="weui-cell__ft">'+
                                 '<input type="radio" name="radio1" class="weui-check" id='+i+' checked="checked">'+

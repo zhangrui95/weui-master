@@ -2,18 +2,18 @@
 <div class="page">
     <div class="page__bd bg-page">
         <div class="weui-tab">
-            <div class="weui-navbar">
-                <div class="weui-navbar__item weui-bar__item_on" href="#tab1">未完成</div>
-                <div class="weui-navbar__item" href="#tab2">已完成</div>
+            <div class="weui-navbar fixed">
+                <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未完成</div>
+                <div class="weui-navbar__item" href="#tab2" data-state="1">已完成</div>
             </div>
             <div class="weui-tab__panel">
-                <div class="weui-cells"  id="tab1"></div>
+                <div class="weui-cells cell-overflow"  id="tab1"></div>
                 <div class="weui-cells active"  id="tab2"></div>
             </div>
-            <!--<div class="weui-loadmore">-->
-                <!--<i class="weui-loading"></i>-->
-                <!--<span class="weui-loadmore__tips">正在加载</span>-->
-            <!--</div>-->
+            <div class="weui-loadmore">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
             <!--<div class="weui-loadmore weui-loadmore_line">-->
                 <!--<span class="weui-loadmore__tips">暂无数据</span>-->
             <!--</div>-->
@@ -22,133 +22,96 @@
 </div>
 <script type="text/javascript">
     $(function(){
+        var gPageSize = 10;
+        var pagenumber = 1;
+        var currState = '0';
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
         $(".weui-navbar div").click(function() {
-            $(".weui-cells").hide();
-            var activeTab = $(this).attr("href");
-            $(activeTab).fadeIn();
+            var state = $(this).data('state');
+            if(state != currState){
+                var activeTab = $(this).attr("href");
+                $(".weui-cells").hide();
+                $(activeTab).fadeIn();
+                getData(state)
+            }
             return false;
         });
         $('.weui-cell').on('click', function(){
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
-        $.ajax({
-            type: "POST",
-            url: "api/task.json",
-            async: true,
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                lists(data);
-            },
-            error: function (mes) {
-                console.log('error');
+
+        function getData(state) {
+            if(state != currState){
+                currState = state;
+                pagenumber = 1;
+                var tabPanel = state=='0'?'tab1':'tab2';
+                $('#'+tabPanel).html('');
             }
-        });
-////页面自动加载列表
-//        var gPageSize = 10;
-//        var i = 1;
-//        function getData(pagenumber) {
-//            i++; //页码自动增加，保证下次调用时为新的一页。
-//            $.get("api/task.json", { pagesize: gPageSize, pagenumber: pagenumber }, function (data) {
-//                if (data.length > 0) {
-//                    var jsonObj = JSON.parse(data);
-//                    insertDiv(jsonObj);
-//                }
-//            });
-//            $.ajax({
-//                type: "POST",
-//                url: "api/task.json",
-//                data: { max: gPageSize, offset: pagenumber },
-//                dataType: "json",
-//                success: function (data) {
-//                    $(".weui-loadmore").hide();
-//                    if (data.length > 0) {
-//                        var jsonObj = JSON.parse(data);
-//                        insertDiv(jsonObj);
-//                    }
-//                },
-//                beforeSend: function () {
-//                    $(".weui-loadmore").show();
-//                },
-//                error: function () {
-//                    $(".weui-loadmore").hide();
-//                }
-//            });
-//        }
-//        //初始化加载第一页数据
-//        getData(1);
-//        //生成数据append到div中
-//        function insertDiv(json) {
-//            for (var i = 0; i <= json.length; i++) {
-//                function getLocalTime(nS) {
-//                    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-//                }
-//                $('#tab1').append(
-//                        '<div class="weui-cell bg-cell">' +
-//                            '<div class="weui-cell__bd cell_bd_border" data-id="Unfinished_detail" >' +
-//                                '<p class="left-cell">' +
-//                                    json[i].hotelName +
-//                                '</p>' +
-//                                '<div class="weui-cell__ft cell_fs left-cell">' +
-//                                    getLocalTime(json[i].createTime) +
-//                                '</div>' +
-//                            '</div>' +
-//                        '</div>'
-//                )
-//            }
-//            //到达底部加载
-//            var winH = $(window).height(); //页面可视区域高度
-//            var scrollHandler = function () {
-//                var pageH = $(document.body).height();
-//                var scrollT = $(window).scrollTop();
-//                var aa = (pageH - winH - scrollT) / winH;
-//                if (aa < 0.02) {
-//                    getData(i);
-//                    if (i % 10 === 0) {
-//                        $(window).scroll(scrollHandler);
-//                    }
-//                }
-//            }
-//            //定义鼠标滚动事件
-//            $(window).scroll(scrollHandler);
-//        }
-        function lists(data) {
+            $.ajax({
+                type: "POST",
+                url: "api/task.json",
+                async: true,
+                data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: (pagenumber-1)*gPageSize},
+                success: function (data) {
+                    lists(data,state);
+                    pagenumber++;
+                },
+                beforeSend: function () {
+                    $(".weui-loadmore").show();
+                },
+                error: function () {
+                    $(".weui-loadmore").hide();
+                }
+            });
+        }
+        function lists(data,state) {
+            var dataId = state=='0'?'Unfinished_detail':'Finished_detail';
+            var tabPanel = state=='0'?'tab1':'tab2';
+            tabPanel = $('#'+tabPanel);
             for(var i=0;i<data.length;i++) {
-                $('#tab1').append(
-                        '<div class="weui-cell bg-cell"  data-id="Unfinished_detail" data-tid="'+data[i].id+'">' +
+                var items=data[i];
+                tabPanel.append(
+                        '<div class="weui-cell bg-cell"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
                                 '<p class="left-cell">' +
-                                    data[i].hotelName +
+                                    items.hotelName +
                                 '</p>' +
                                 '<div class="weui-cell__ft cell_fs left-cell">' +
-                                    getLocalTime(data[i].createTime) +
+                                    getLocalTime(items.createTime) +
                                 '</div>' +
                             '</div>' +
                         '</div>'
-                )
-                $('#tab2').append(
-                        '<div class="weui-cell bg-cell"  data-id="Finished_detail" data-tid="'+data[i].id+'">' +
-                            '<div class="weui-cell__bd cell_bd_border">' +
-                                '<p class="left-cell">' +
-                                    data[i].hotelName +
-                                '</p>' +
-                                '<div class="weui-cell__ft cell_fs left-cell">' +
-                                    getLocalTime(data[i].createTime) +
-                                '</div>' +
-                            '</div>' +
-                        '</div>'
-                )
-                $('.weui-cell').bind('click', function () {
-                        var id = $(this).data('id');
-                    $('#taskId').val($(this).data('tid'));
-                        window.pageManager.go(id);
-//                        $(this).appendTo("#tab2")
-                });
+                );
+            }
+            $('.weui-cell').bind('click', function () {
+                var id = $(this).data('id');
+                $('#taskId').val($(this).data('tid'));
+                window.pageManager.go(id);
+            });
+        }
+
+        getData(currState);
+
+        //到达底部加载
+        var winH = $(window).height(); //页面可视区域高度
+        console.log($(window).height());
+        var scrollHandler = function () {
+            var pageH = $(document.body).height();
+            var scrollT = $(window).scrollTop();
+            var aa = (pageH - winH - scrollT) / winH;
+            console.log(aa)
+            if (aa < 0.02) {
+                getData();
+                if (i % 10 === 0) {
+                    $(window).scroll(scrollHandler);
+                }
             }
         }
+        //定义鼠标滚动事件
+        $(window).scroll(scrollHandler);
     });
 
 </script>
