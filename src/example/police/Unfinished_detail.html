@@ -50,7 +50,17 @@
 
         }
         $('#showToast').click(function(){
-            history.back();
+            $.ajax({
+                type: "POST",
+                url: "api/task/doneTask.json",
+                data:{id:$('#taskId').val(),userid:$('#userid').val()},
+                success: function () {
+                    wx.closeWindow();
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
         })
     })
 </script>
