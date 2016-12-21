@@ -1,3 +1,11 @@
 <script type="text/javascript">
-    window.location.href='#tab';
+    $(function(){
+        var tid = $('#taskId').val(),target;
+        if(tid==null||tid==''){
+            target = 'tab';
+        }else{
+            target = 'Unfinished_detail';
+        }
+        location.hash = target;
+    })
 </script>
