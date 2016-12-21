@@ -25,6 +25,7 @@
         var gPageSize = 10;
         var pagenumber = 1;
         var currState = '0';
+        var loading = false;
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
@@ -44,6 +45,10 @@
         });
 
         function getData(state) {
+            if(loading){
+                return;
+            }
+            loading = true;
             if(state != currState){
                 currState = state;
                 pagenumber = 1;
@@ -58,12 +63,14 @@
                 success: function (data) {
                     lists(data,state);
                     pagenumber++;
+                    loading = false;
                 },
                 beforeSend: function () {
                     $(".weui-loadmore").show();
                 },
                 error: function () {
                     $(".weui-loadmore").hide();
+                    loading = false;
                 }
             });
         }
