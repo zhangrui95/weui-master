@@ -92,28 +92,22 @@
                 window.pageManager.go(id);
             });
         }
-        getData(currState);
-        //到达底部加载
-        var winH = $(window).height(); //页面可视区域高度
-        console.log(winH);
-        var scrollHandler = function () {
-            var pageH = $(document.body).height();
-            var scrollT = $(window).scrollTop();
-            var aa = (pageH - winH - scrollT) / winH;
-            console.log(aa)
-            if (aa < 0.02) {
-                if (i % 10 === 0) {//每10页做一次停顿！
-                    getData();
-                    $(".weui-loadmore").show();
-                } else {
-                    getData();
-                    $(".weui-loadmore").hide();
-                }
-            }
 
-        }
+        getData(currState);
+
+        var pagePanel = $('#container .page');
+        //到达底部加载
+        var winH = $('#container').height(); //页面可视区域高度
+        var scrollHandler = function () {
+            var pageH = pagePanel.find('.page__bd').height();
+            var scrollT = pagePanel.scrollTop();
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {
+                getData(currState);
+            }
+        };
         //定义鼠标滚动事件
-        $(window).scroll(scrollHandler);
+        pagePanel.on('scroll',scrollHandler);
     });
 
 </script>
