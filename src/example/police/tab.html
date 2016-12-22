@@ -78,7 +78,7 @@
             if(data==null||data.length<1){
                 return
             }
-            var dataId = state=='0'?'Unfinished_detail':'Finished_detail';
+            var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
             tabPanel = $('#'+tabPanel);
             offset += data.length;
@@ -88,7 +88,7 @@
                         '<div class="weui-cell bg-cell"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
                                 '<p class="left-cell">' +
-                                    items.hotelName +
+                                    items.user.company +
                                 '</p>' +
                                 '<div class="weui-cell__ft cell_fs left-cell">' +
                                     getLocalTime(items.createTime) +
