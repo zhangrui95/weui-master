@@ -1,16 +1,16 @@
 <div class="page">
     <div class="header-bg">今日值班民警：<span>张国军</span></div>
     <div class="weui-grids">
-        <a href="javascript:;" class="weui-grid">
+        <a href="javascript:;" class="weui-grid" data-id="Set_up">
             <div class="weui-grid__icon">
                 <img src="images/icon1.jpg" alt="">
             </div>
             <p class="weui-grid__label">设置值班民警</p>
         </a>
-        <a href="javascript:;" class="weui-grid">
+        <a href="javascript:;" class="weui-grid" data-id="hotel_news">
             <div class="weui-grid__icon">
                 <img src="images/icon2.jpg" alt="">
-                <span class="weui-badge" style="position: absolute;top: 1.8em;right: 2.3em;">8</span>
+                <span class="weui-badge" style="position: absolute;top: -0.8em;right: -1.3em;"></span>
             </div>
             <p class="weui-grid__label">未带身份证入住</p>
         </a>
@@ -36,3 +36,21 @@
         </a>
     </div>
 </div>
+<script>
+    $('.weui-grid').on('click', function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    });
+    $.ajax({
+        type: "POST",
+        url: "",
+        data:{userid:$('#userid').val()},
+        success: function (data) {
+            $(".weui-badge").html(9);
+        },
+        error: function (mes) {
+            console.log('error');
+            $(".weui-badge").html(9);
+        }
+    });
+</script>
