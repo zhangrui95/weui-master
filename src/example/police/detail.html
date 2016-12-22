@@ -42,6 +42,12 @@
                                     data.user.address+
                                 '</div>'+
                             '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data.user.mobile+
+                                '</div>'+
+                            '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
@@ -50,19 +56,6 @@
                             '</div>';
             if(data.state==0){
                 $('#btnPanel').show();
-            }else if(data.state==1){
-                html += '<div class="weui-cell cell-border">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
-                            '<div class="weui-cell__bd bd-right">'+
-                                getLocalTime(data.doneTime)+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="weui-cell cell-border bottom-cell">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
-                            '<div class="weui-cell__bd bd-right">'+
-                                data.doneUser.name+
-                            '</div>'+
-                        '</div>';
             }
             html += '</div>';
             $('.cells-ajax').append(html);

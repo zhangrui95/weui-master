@@ -1,8 +1,5 @@
 <div class="page">
     <div class="page__bd details cells-ajax"></div>
-    <div class="weui-btn-area" id="btnPanel" style="display: none">
-        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >核实完毕</a>
-    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -43,15 +40,19 @@
                                     data.user.address+
                                 '</div>'+
                             '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data.user.mobile+
+                                '</div>'+
+                            '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
                                     getLocalTime(data.createTime)+
                                 '</div>'+
                             '</div>';
-            if(data.state==0){
-                $('#btnPanel').show();
-            }else if(data.state==1){
+            if(data.state==1){
                 html += '<div class="weui-cell cell-border">'+
                             '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                             '<div class="weui-cell__bd bd-right">'+
@@ -68,18 +69,5 @@
             html += '</div>';
             $('.cells-ajax').append(html);
         }
-        $('#showToast').click(function(){
-            $.ajax({
-                type: "POST",
-                url: "api/task/doneTask.json",
-                data:{id:$('#taskId').val(),userid:$('#userid').val()},
-                success: function () {
-                    wx.closeWindow();
-                },
-                error: function (mes) {
-                    console.log("error");
-                }
-            });
-        });
     })
 </script>
