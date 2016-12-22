@@ -57,6 +57,10 @@ $(function () {
         _go: function (config) {
             this._pageIndex ++;
 
+            var title = config.title;
+            if(title!=null&&title!=''){
+                document.title = title;
+            }
             history.replaceState && history.replaceState({_pageIndex: this._pageIndex}, '', location.href);
 
             var html = $(config.template).html();
@@ -82,7 +86,11 @@ $(function () {
         },
         _back: function (config) {
             this._pageIndex --;
-
+            
+            var title = config.title;
+            if(title!=null&&title!=''){
+                document.title = title;
+            }
             var stack = this._pageStack.pop();
             if (!stack) {
                 return;
@@ -263,7 +271,8 @@ $(function () {
             pages[name] = {
                 name: name,
                 url: '#' + name,
-                template: '#' + tpl.id
+                template: '#' + tpl.id,
+                title:tpl.title
             };
         }
         pages.home.url = '#';

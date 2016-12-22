@@ -141,6 +141,12 @@ gulp.task('build:example:html', function (){
         .pipe(tap(function (file){
             var dir = path.dirname(file.path);
             var contents = file.contents.toString();
+            contents = contents.replace(/<link\s+rel="import"\s+href="(.*)"\s+title="(.*)">/gi, function (match, $1,$2){
+                var filename = path.join(dir, $1);
+                var id = path.basename(filename, '.html');
+                var content = fs.readFileSync(filename, 'utf-8');
+                return '<script type="text/html" id="tpl_'+ id +'" title="'+$2+'">\n'+ content +'\n</script>';
+            });
             contents = contents.replace(/<link\s+rel="import"\s+href="(.*)">/gi, function (match, $1){
                 var filename = path.join(dir, $1);
                 var id = path.basename(filename, '.html');
@@ -161,9 +167,16 @@ gulp.task('build:example:gsp', function (){
             var dir = path.dirname(file.path);
             var subDir = path.basename(file.path, '.html');
             var contents = file.contents.toString();
-            contents = contents.replace(/<!\-\-<build:exclude>\-\->(.*)<!\-\-<\/build:exclude>\-\->/gi, function (match, $1){
-                console.log($1)
-                return $1;
+            contents = contents.replace(/<link\s+rel="import"\s+href="(.*)"\s+title="(.*)">/gi, function (match, $1,$2){
+                var filename = path.join(dir, $1);
+                var id = path.basename(filename, '.html');
+                gulp.src(filename)
+                    .pipe(processhtml())
+                    .pipe(replace('../images','assets'))
+                    .pipe(rename({basename:'_'+id,extname:'.gsp'}))
+                    .pipe(gulp.dest(gspDist+'/example/'+subDir));
+                var content = '<g:render template="'+subDir+'/'+id+'"/>';
+                return '<script type="text/html" id="tpl_'+ id +'" title="'+$2+'">'+ content +'</script>';
             });
             contents = contents.replace(/<link\s+rel="import"\s+href="(.*)">/gi, function (match, $1){
                 var filename = path.join(dir, $1);
