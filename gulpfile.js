@@ -163,6 +163,7 @@ gulp.task('build:example:gsp', function (){
     gulp.src('src/example/*.html', option)
         .pipe(processhtml())
         .pipe(replace('../images','assets'))
+        .pipe(replace('images/','assets/'))
         .pipe(tap(function (file){
             var dir = path.dirname(file.path);
             var subDir = path.basename(file.path, '.html');
@@ -173,6 +174,7 @@ gulp.task('build:example:gsp', function (){
                 gulp.src(filename)
                     .pipe(processhtml())
                     .pipe(replace('../images','assets'))
+                    .pipe(replace('images/','assets/'))
                     .pipe(rename({basename:'_'+id,extname:'.gsp'}))
                     .pipe(gulp.dest(gspDist+'/example/'+subDir));
                 var content = '<g:render template="'+subDir+'/'+id+'"/>';
@@ -184,6 +186,7 @@ gulp.task('build:example:gsp', function (){
                 gulp.src(filename)
                     .pipe(processhtml())
                     .pipe(replace('../images','assets'))
+                    .pipe(replace('images/','assets/'))
                     .pipe(rename({basename:'_'+id,extname:'.gsp'}))
                     .pipe(gulp.dest(gspDist+'/example/'+subDir));
                 var content = '<g:render template="'+subDir+'/'+id+'"/>';
