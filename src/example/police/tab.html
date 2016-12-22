@@ -27,6 +27,20 @@
         var offset = 0;
         var currState = '0';
         var loading = false;
+        function getLocalTimes(nS) {
+            if(nS==null){
+                return '';
+            }
+            var date = new Date(nS);
+            var hours = date.getHours();
+            var min = date.getMinutes();
+            var second = date.getSeconds();
+            var tag = hours>12?'pm':'am';
+            hours = hours<10?('0'+hours):hours;
+            min = min<10?('0'+min):min;
+            second = second<10?('0'+second):second;
+            return hours+':'+min+':'+second+' '+tag
+        }
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
@@ -88,11 +102,14 @@
                 tabPanel.append(
                         '<div class="weui-cell bg-cell"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
                                 '<p class="left-cell">' +
                                     items.user.company +
                                 '</p>' +
                                 '<div class="weui-cell__ft cell_fs left-cell">' +
-                                    getLocalTime(items.createTime) +
+                                '<img src="images/icon-time.jpg" class="position-time"/>'+
+                                    '<span>'+getLocalTimes(items.createTime)+'</span>'  +
+                                    '<b>&gt;</b>'+
                                 '</div>' +
                             '</div>' +
                         '</div>'
