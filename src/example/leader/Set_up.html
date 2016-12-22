@@ -34,18 +34,9 @@
         function padleft0(obj) {
             return obj.toString().replace(/^[0-9]{1}$/, "0" + obj);
         }
-        var $toast = $('#toast');
-        $('.weui-btn-area').on('click', function () {
-            if ($toast.css('display') != 'none') return;
-            $toast.fadeIn(100);
-            setTimeout(function () {
-                $toast.fadeOut(100);
-            }, 1200);
-        });
         $.ajax({
             type: "POST",
             url: "api/rota/index.json",
-            async: true,
             data:{userid:$('#userid').val()},
             success: function (data) {
                 lists(data);
@@ -69,5 +60,26 @@
                 )
             }
         }
+        $("#showToast").click(function(){
+            $.ajax({
+                type: "POST",
+                url: "",
+                data:{userid:$('#userid').val()},
+                success: function () {
+                    var $toast = $('#toast');
+                    $('.weui-btn-area').on('click', function () {
+                        if ($toast.css('display') != 'none') return;
+                        $toast.fadeIn(100);
+                        setTimeout(function () {
+                            $toast.fadeOut(100);
+                        }, 1200);
+                    });
+//                    wx.closeWindow();
+                      history.back();
+                },
+                error: function (mes) {
+                }
+            });
+        })
     })
 </script>
