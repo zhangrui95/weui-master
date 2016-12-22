@@ -1,86 +1,144 @@
 <!--旅店信息-->
 <div class="page">
-    <div class="page__bd">
+    <div class="page__bd bg-page">
         <div class="weui-tab">
             <div class="weui-navbar fixed">
-                <div class="weui-navbar__item weui-bar__item_on" href="#tab1">未完成</div>
-                <div class="weui-navbar__item" href="#tab2">已完成</div>
+                <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未完成</div>
+                <div class="weui-navbar__item" href="#tab2" data-state="1">已完成</div>
             </div>
             <div class="weui-tab__panel">
                 <div class="weui-cells"  id="tab1"></div>
                 <div class="weui-cells active"  id="tab2"></div>
             </div>
+            <div class="weui-loadmore">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <!--<div class="weui-loadmore weui-loadmore_line">-->
+            <!--<span class="weui-loadmore__tips">暂无数据</span>-->
+            <!--</div>-->
         </div>
-    </div>
-    <div class="weui-btn-area" data-id="Set_up">
-        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >设置今日值班民警</a>
     </div>
 </div>
 <script type="text/javascript">
     $(function(){
+        document.title = '列表';
+        var gPageSize = 10;
+        var offset = 0;
+        var currState = '0';
+        var loading = false;
+        function getLocalTimes(nS) {
+            if(nS==null){
+                return '';
+            }
+            var date = new Date(nS);
+            var hours = date.getHours();
+            var min = date.getMinutes();
+            var second = date.getSeconds();
+            var tag = hours>12?'pm':'am';
+            hours = hours<10?('0'+hours):hours;
+            min = min<10?('0'+min):min;
+            second = second<10?('0'+second):second;
+            return hours+':'+min+':'+second+' '+tag
+        }
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
-    });
-    $(".weui-navbar div").click(function() {
-        $(".weui-cells").hide();
-        var activeTab = $(this).attr("href");
-        $(activeTab).fadeIn();
-        return false;
-    });
-    $('.weui-cell__bd').on('click', function(){
-        var id = $(this).data('id');
-        window.pageManager.go(id);
-    });
-    $('.weui-btn-area').on('click', function(){
-        var id = $(this).data('id');
-        window.pageManager.go(id);
-    });
-    $.ajax({
-        type: "POST",
-        url: "api/task.json",
-        async: true,
-        data:{userid:$('#userid').val()},
-        success: function (data) {
-            lists(data);
-        },
-        error: function (mes) {
-            console.log('error');
+        $(".weui-navbar div").click(function() {
+            var state = $(this).data('state');
+            if(state != currState){
+                var activeTab = $(this).attr("href");
+                $(".weui-cells").hide();
+                $(activeTab).fadeIn();
+                getData(state)
+            }
+            return false;
+        });
+        $('.weui-cell').on('click', function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+
+        function getData(state) {
+            if(loading){
+                return;
+            }
+            loading = true;
+            if(state != currState){
+                currState = state;
+                offset = 0;
+                var tabPanel = state=='0'?'tab1':'tab2';
+                $('#'+tabPanel).html('');
+            }
+            $.ajax({
+                type: "POST",
+                url: "api/task.json",
+                async: true,
+                data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
+                success: function (data) {
+                    lists(data,state);
+                    $(".weui-loadmore").hide();
+                    loading = false;
+                },
+                beforeSend: function () {
+                    $(".weui-loadmore").show();
+                },
+                error: function () {
+                    $(".weui-loadmore").hide();
+                    loading = false;
+                }
+            });
         }
-    });
-    function lists(data) {
-        for(var i=0;i<data.length;i++) {
-            var items=data[i];
-            $('#tab1').append(
-                    '<div class="weui-cell bg-cell"  data-id="Unfinished_detail" data-tid="'+items.id+'">' +
+        function lists(data,state) {
+            if(data==null||data.length<1){
+                return
+            }
+            var dataId = 'detail';
+            var tabPanel = state=='0'?'tab1':'tab2';
+            tabPanel = $('#'+tabPanel);
+            offset += data.length;
+            for(var i=0;i<data.length;i++) {
+                var items=data[i];
+                tabPanel.append(
+                        '<div class="weui-cell bg-cell"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
-                            '<p class="left-cell">' +
-                                items.user.company +
-                            '</p>' +
-                            '<div class="weui-cell__ft cell_fs left-cell">' +
-                                getLocalTime(items.createTime) +
-                            '</div>' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
+                        '<p class="left-cell">' +
+                        items.user.company +
+                        '</p>' +
+                        '<div class="weui-cell__ft cell_fs left-cell">' +
+                        '<img src="images/icon-time.jpg" class="position-time"/>'+
+                        '<span>'+getLocalTimes(items.createTime)+'</span>'  +
+                        '<b>&gt;</b>'+
                         '</div>' +
-                    '</div>'
-            )
-            $('#tab2').append(
-                    '<div class="weui-cell bg-cell"  data-id="Finished_detail" data-tid="'+items.id+'">' +
-                        '<div class="weui-cell__bd cell_bd_border">' +
-                            '<p class="left-cell">' +
-                                items.user.company +
-                            '</p>' +
-                            '<div class="weui-cell__ft cell_fs left-cell">' +
-                                getLocalTime(items.createTime) +
-                            '</div>' +
                         '</div>' +
-                    '</div>'
-            )
+                        '</div>'
+                );
+            }
             $('.weui-cell').bind('click', function () {
                 var id = $(this).data('id');
                 $('#taskId').val($(this).data('tid'));
                 window.pageManager.go(id);
             });
         }
-    }
+
+        getData(currState);
+
+        var pagePanel = $('#container .page');
+        //到达底部加载
+        var winH = $('#container').height(); //页面可视区域高度
+        var scrollHandler = function () {
+            var pageH = pagePanel.find('.page__bd').height();
+            var scrollT = pagePanel.scrollTop();
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {
+                getData(currState);
+            }
+        };
+        //定义鼠标滚动事件
+        pagePanel.on('scroll',scrollHandler);
+    });
 
 </script>
+
+

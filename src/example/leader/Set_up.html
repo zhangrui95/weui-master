@@ -1,11 +1,5 @@
 <div class="page">
-    <div class="weui-cells  weui-cells_radio police_list">
-        <div class="weui-cell">
-            <div class="weui-cell__bd cell-center">
-                <p>今天是：<span class="weekday"></span></p>
-            </div>
-        </div>
-    </div>
+    <div class="weui-cells  weui-cells_radio police_list"></div>
     <div class="weui-btn-area" data-id="hotel_news">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
     </div>
@@ -48,13 +42,15 @@
         function lists(data) {
             for(var i=0;i<data.length;i++){
                 $('.police_list').append(
-                        '<label class="weui-cell weui-check__label cell-border" for='+i+'>'+
+                        '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
+                                '<div class="border-gray"></div>'+
+                        '<div class="weui-cell__ft ft_width">'+
+                            '<input type="radio" name="radio1" class="weui-check" id='+i+' checked="checked">'+
+                            '<span class="weui-icon-checked"></span>'+
+                        '</div>'+
+                                '<div><img src="images/header.jpg" class="header-img"/></div>'+
                             '<div class="weui-cell__bd">'+
                                 '<p>'+data[i].name+'</p>'+
-                            '</div>'+
-                            '<div class="weui-cell__ft">'+
-                                '<input type="radio" name="radio1" class="weui-check" id='+i+' checked="checked">'+
-                                '<span class="weui-icon-checked"></span>'+
                             '</div>'+
                         '</label>'
                 )
