@@ -319,3 +319,18 @@ function getLocalTime(nS) {
     second = second<10?('0'+second):second;
     return date.getFullYear()+'-'+month+'-'+day + ' '+hours+':'+min+':'+second
 }
+function getLocalTimes(nS) {
+    if(nS==null){
+        return '';
+    }
+    var date = new Date(nS);
+    var hours = date.getHours();
+    var min = date.getMinutes();
+    var second = date.getSeconds();
+    var tag = hours>12?'pm':'am';
+    hours = hours>12?(hours-12):hours;
+    hours = hours<10?('0'+hours):hours;
+    min = min<10?('0'+min):min;
+    second = second<10?('0'+second):second;
+    return hours+':'+min+':'+second+' '+tag
+}

@@ -1,0 +1,85 @@
+<div class="page">
+    <div class="page__bd details cells-ajax"></div>
+    <div class="weui-btn-area" id="btnPanel" style="display: none">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >核实完毕</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        document.title = '详情';
+        $.ajax({
+            type: "POST",
+            url: "api/task/detail.json",
+            data:{id:$('#taskId').val(),userid:$('#userid').val()},
+            success: function (data) {
+                lists(data);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function lists(data) {
+                var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
+                            '<div class="weui-cell cell-top">'+
+                                '<div class="weui-cell__bd bd-center cell-unleft">'+
+                                    '<img src="api/task/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
+                               '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    data.card+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data.user.company+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">宾馆地址</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                    data.user.address+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                    getLocalTime(data.createTime)+
+                                '</div>'+
+                            '</div>';
+            if(data.state==0){
+                $('#btnPanel').show();
+            }else if(data.state==1){
+                html += '<div class="weui-cell cell-border">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                getLocalTime(data.doneTime)+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border bottom-cell">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                data.doneUser.name+
+                            '</div>'+
+                        '</div>';
+            }
+            html += '</div>';
+            $('.cells-ajax').append(html);
+        }
+        $('#showToast').click(function(){
+            $.ajax({
+                type: "POST",
+                url: "api/task/doneTask.json",
+                data:{id:$('#taskId').val(),userid:$('#userid').val()},
+                success: function () {
+                    wx.closeWindow();
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
+        });
+    })
+</script>
