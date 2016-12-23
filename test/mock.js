@@ -101,7 +101,7 @@ module.exports = [
         route: "/example/api/task/photo",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','image/png');
-            res.end(fs.readFileSync(__dirname+'/../dist/example/images/icon_tabbar.png'));
+            res.end(fs.readFileSync(__dirname+'/../dist/example/images/header.jpg'));
         }
     },
     {

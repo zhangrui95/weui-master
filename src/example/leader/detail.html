@@ -1,8 +1,13 @@
 <div class="page">
     <div class="page__bd details cells-ajax"></div>
+    <div class="weui-gallery" id="gallery">
+        <img  class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
 </div>
 <script type="text/javascript">
     $(function(){
+        $gallery = $("#gallery"),
+        $galleryImg = $("#galleryImg")
         document.title = '详情';
         $.ajax({
             type: "POST",
@@ -68,6 +73,13 @@
             }
             html += '</div>';
             $('.cells-ajax').append(html);
+            $('.head-img').on("click", function(){
+                $galleryImg.attr("src", this.getAttribute("src"));
+                $gallery.fadeIn(100);
+            });
+            $gallery.on("click", function(){
+                $gallery.fadeOut(100);
+            });
         }
     })
 </script>
