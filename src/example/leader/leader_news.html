@@ -43,16 +43,13 @@
     });
     $.ajax({
         type: "POST",
-        url: "",
+        url: "api/user/info.json",
         data:{userid:$('#userid').val()},
         success: function (data) {
-            $(".weui-badge").html(9);
-            $(".header-bg span").html("李国军");
+            $(".weui-badge").html(data.count);
+            $(".header-bg span").html(data.rota[0].name);
         },
         error: function (mes) {
-            console.log('error');
-            $(".weui-badge").html(9);
-            $(".header-bg span").html("李国军")
         }
     });
 </script>

@@ -40,22 +40,22 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/rota/index.json",
+        route: "/example/api/user/role.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
-                {name:'张一一'},
-                {name:'王二二'},
-                {name:'赵三三'},
-                {name:'李四四'},
-                {name:'张一一'},
-                {name:'王二二'},
-                {name:'赵三三'},
-                {name:'李四四'},
-                {name:'张一一'},
-                {name:'王二二'},
-                {name:'赵三三'},
-                {name:'李四四'},
+                {name:'张一一',avatar:'images/header.jpg',id:'key1'},
+                {name:'王二二',avatar:'',id:'key2'},
+                {name:'赵三三',avatar:'images/header.jpg',id:'key3'},
+                {name:'李四四',avatar:'images/header.jpg',id:'key4'},
+                {name:'张一一',avatar:'images/header.jpg',id:'key5'},
+                {name:'王二二',avatar:'images/header.jpg',id:'key6'},
+                {name:'赵三三',avatar:'images/header.jpg',id:'key7'},
+                {name:'李四四',avatar:'images/header.jpg',id:'key8'},
+                {name:'张一一',avatar:'images/header.jpg',id:'key9'},
+                {name:'王二二',avatar:'images/header.jpg',id:'key10'},
+                {name:'赵三三',avatar:'images/header.jpg',id:'key11'},
+                {name:'李四四',avatar:'images/header.jpg',id:'key12'},
             ]));
         }
     },
@@ -71,6 +71,13 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','image/png');
             res.end(fs.readFileSync(__dirname+'/../dist/example/images/icon_tabbar.png'));
+        }
+    },
+    {
+        route: "/example/api/user/info.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({rota:[{name:"张志强"}],count:7}));
         }
     }
 ];
