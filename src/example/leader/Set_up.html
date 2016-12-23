@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="weui-btn-area" data-id="hotel_news">
-        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" data-id="leader_news">确定</a>
     </div>
 </div>
 <script type="text/javascript">
@@ -100,7 +100,8 @@
                 url: "api/rota/allot.json",
                 data:{userid:$('#userid').val(),uid:rota,id:$('#container').data('today-rota-id')},
                 success: function () {
-                    history.back();
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
                 },
                 error: function (mes) {
                 }
