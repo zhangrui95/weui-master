@@ -1,54 +1,58 @@
-<div class="page">
-    <div class="weui-cells  weui-cells_radio police_list"></div>
+<div class="page page-list">
+    <div class="page__bd">
+        <div class="weui-cells  weui-cells_radio police_list"></div>
+        <div class="weui-loadmore">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+    </div>
     <div class="weui-btn-area" data-id="hotel_news">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >确定</a>
-    </div>
-    <!--BEGIN toast-->
-    <div id="toast" style="display: none;">
-        <div class="weui-mask_transparent"></div>
-        <div class="weui-toast">
-            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
-            <p class="weui-toast__content">已确定</p>
-        </div>
     </div>
 </div>
 <script type="text/javascript">
     $(function(){
-        var week_day=new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        var nowtime = new Date();
-        var year = nowtime.getFullYear();
-        var month = padleft0(nowtime.getMonth() + 1);
-        var day = padleft0(nowtime.getDate());
-        var weekday =nowtime.getDay();
-//            var hour = padleft0(nowtime.getHours());
-//            var minute = padleft0(nowtime.getMinutes());
-//            var second = padleft0(nowtime.getSeconds());
-        $(".weekday").html(year + "-" + month + "-" + day +" "+week_day[weekday]);
-        //补齐两位数
-        function padleft0(obj) {
-            return obj.toString().replace(/^[0-9]{1}$/, "0" + obj);
-        }
-        $.ajax({
-            type: "POST",
-            url: "api/rota/index.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                lists(data);
-            },
-            error: function (mes) {
-                console.log('error');
+        var gPageSize = 10;
+        var offset = 0;
+        var currState = '0';
+        var loading = false;
+        function getData() {
+            if (loading) {
+                return;
             }
-        });
+            loading = true;
+            $.ajax({
+                type: "POST",
+                url: "api/rota/index.json",
+                data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
+                success: function (data) {
+                    lists(data);
+                    $(".weui-loadmore").hide();
+                    loading = false;
+                },
+                beforeSend: function () {
+                    $(".weui-loadmore").show();
+                },
+                error: function (mes) {
+                    $(".weui-loadmore").hide();
+                    loading = false;
+                }
+            });
+        }
         function lists(data) {
+            if(data==null||data.length<1){
+                return
+            }
+            offset += data.length;
             for(var i=0;i<data.length;i++){
                 $('.police_list').append(
                         '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
-                                '<div class="weui-cell__ft ft_width">'+
-                                    '<div class="border-gray"></div>'+
-                                    '<input type="radio" name="radio1" class="weui-check" id='+i+' checked="checked">'+
-                                    '<span class="weui-icon-checked"></span>'+
-                                '</div>'+
-                                '<div><img src="images/header.jpg" class="header-img"/></div>'+
+                            '<div class="weui-cell__ft ft_width">'+
+                                '<div class="border-gray"></div>'+
+                                '<input type="radio" name="radio1" class="weui-check" id='+i+' checked="checked">'+
+                                '<span class="weui-icon-checked"></span>'+
+                            '</div>'+
+                            '<div><img src="'+'images/header.jpg'+'" class="header-img"/></div>'+
                             '<div class="weui-cell__bd">'+
                                 '<p>'+data[i].name+'</p>'+
                             '</div>'+
@@ -56,20 +60,27 @@
                 )
             }
         }
+        getData(currState);
+
+        var pagePanel = $('#container .page-list');
+        //到达底部加载
+        var winH = $('#container').height(); //页面可视区域高度
+        var scrollHandler = function () {
+            var pageH = pagePanel.find('.page__bd').height();
+            var scrollT = pagePanel.scrollTop();
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {
+                getData(currState);
+            }
+        };
+        //定义鼠标滚动事件
+        pagePanel.on('scroll',scrollHandler);
         $("#showToast").click(function(){
             $.ajax({
                 type: "POST",
                 url: "",
                 data:{userid:$('#userid').val()},
                 success: function () {
-                    var $toast = $('#toast');
-                    $('.weui-btn-area').on('click', function () {
-                        if ($toast.css('display') != 'none') return;
-                        $toast.fadeIn(100);
-                        setTimeout(function () {
-                            $toast.fadeOut(100);
-                        }, 1200);
-                    });
 //                    wx.closeWindow();
                       history.back();
                 },

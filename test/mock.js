@@ -44,10 +44,18 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
-                {name:'张三1'},
-                {name:'张三2'},
-                {name:'张三3'},
-                {name:'张三4'}
+                {name:'张一一'},
+                {name:'王二二'},
+                {name:'赵三三'},
+                {name:'李四四'},
+                {name:'张一一'},
+                {name:'王二二'},
+                {name:'赵三三'},
+                {name:'李四四'},
+                {name:'张一一'},
+                {name:'王二二'},
+                {name:'赵三三'},
+                {name:'李四四'},
             ]));
         }
     },

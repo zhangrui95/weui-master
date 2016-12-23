@@ -1,5 +1,5 @@
 <div class="page">
-    <div class="header-bg">今日值班民警：<span>张国军</span></div>
+    <div class="header-bg">今日值班民警：<span></span></div>
     <div class="weui-grids">
         <a href="javascript:;" class="weui-grid" data-id="Set_up">
             <div class="weui-grid__icon">
@@ -10,7 +10,7 @@
         <a href="javascript:;" class="weui-grid" data-id="hotel_news">
             <div class="weui-grid__icon">
                 <img src="images/icon2.jpg" alt="">
-                <span class="weui-badge" style="position: absolute;top: -0.8em;right: -1.3em;"></span>
+                <span class="weui-badge" style="position: absolute;top: -0.8em;left: 1.6em;"></span>
             </div>
             <p class="weui-grid__label">未带身份证入住</p>
         </a>
@@ -47,10 +47,12 @@
         data:{userid:$('#userid').val()},
         success: function (data) {
             $(".weui-badge").html(9);
+            $(".header-bg span").html("李国军");
         },
         error: function (mes) {
             console.log('error');
             $(".weui-badge").html(9);
+            $(".header-bg span").html("李国军")
         }
     });
 </script>
