@@ -58,7 +58,7 @@
             }
             $.ajax({
                 type: "POST",
-                url: "api/task.json",
+                url: "api/task/leader.json",
                 async: true,
                 data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
