@@ -29,6 +29,8 @@
                     for(j=0;j<data.length;j++){
                         if(data[j].avatar==null||data[j].avatar==''){
                             data[j].avatar = 'images/head.jpg'
+                        }else{
+                            data[j].avatar += '64'
                         }
                     }
 
@@ -51,12 +53,11 @@
             }
             offset += data.length;
             for(var i=0;i<data.length;i++){
-                console.log(data[i].avatar)
                     $('.police_list').append(
-                            '<label class="weui-cell weui-check__label cells-border" for='+i+' data-rota="'+data[i].id+'">'+
+                            '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
                                 '<div class="weui-cell__ft ft_width">'+
                                     '<div class="border-gray"></div>'+
-                                    '<input type="radio" name="radio1" class="weui-check" id='+i+' >'+
+                                    '<input type="radio" name="radio1" class="weui-check" id='+i+' data-rota="'+data[i].id+'">'+
                                     '<span class="weui-icon-checked"></span>'+
                                 '</div>'+
                                 '<div><img src="'+data[i].avatar+'" class="header-img"/></div>'+
@@ -81,18 +82,30 @@
             }
         };
         //定义鼠标滚动事件
-        pagePanel.on('scroll',scrollHandler);
+//        pagePanel.on('scroll',scrollHandler);
         $("#showToast").click(function(){
+            var rota;
+            $('.weui-check').each(function(i,e){
+                var oThis = $(e);
+                if(oThis.prop('checked')){
+                    rota = oThis.data('rota')
+                }
+
+            })
+            if(rota==null||rota==''){
+                return;
+            }
             $.ajax({
                 type: "POST",
                 url: "api/rota/allot.json",
-                data:{uid:$('#userid').val(),id:$('label').data('rota')},
+                data:{userid:$('#userid').val(),uid:rota,id:$('#container').data('today-rota-id')},
                 success: function () {
-                      history.back();
+                    history.back();
                 },
                 error: function (mes) {
                 }
             });
+
         })
     })
 </script>

@@ -47,7 +47,13 @@
         data:{userid:$('#userid').val()},
         success: function (data) {
             $(".weui-badge").html(data.count);
-            $(".header-bg span").html(data.rota[0].name);
+            var rota = data.rota;
+            if(rota ==　null ||　rota.length < 1){
+                return
+            }
+            var first = rota[0];
+            $('#container').data('today-rota-id',first.id);
+            $(".header-bg span").html(first.user.name);
         },
         error: function (mes) {
         }
