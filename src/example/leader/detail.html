@@ -21,56 +21,69 @@
             }
         });
         function lists(data) {
-                var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
-                            '<div class="weui-cell cell-top">'+
-                                '<div class="weui-cell__bd bd-center cell-unleft">'+
-                                    '<img src="api/task/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
-                               '</div>'+
+            var task = data.task;
+            var rota = data.rota;
+            if(rota != null && rota.length > 0){
+                rota = rota[0].user.name;
+            }
+            var html ='<div class="weui-cells weui-cells_form" id="'+task.id+'">' +
+                        '<div class="weui-cell cell-top">'+
+                            '<div class="weui-cell__bd bd-center cell-unleft">'+
+                                '<img src="api/task/photo?id='+task.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
+                           '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                task.card+
                             '</div>'+
-                            '<div class="weui-cell cell-border">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
-                                '<div class="weui-cell__bd bd-right">'+
-                                    data.card+
-                                '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                                task.user.company+
                             '</div>'+
-                            '<div class="weui-cell cell-border cell-margin">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.company+
-                                '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">宾馆地址</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                                task.user.address+
                             '</div>'+
-                            '<div class="weui-cell cell-border cell-margin">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">宾馆地址</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.address+
-                                '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                                task.user.mobile+
                             '</div>'+
-                            '<div class="weui-cell cell-border cell-margin">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.mobile+
-                                '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">上报时间</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                getLocalTime(task.createTime)+
                             '</div>'+
-                            '<div class="weui-cell cell-border">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
-                                '<div class="weui-cell__bd bd-right">'+
-                                    getLocalTime(data.createTime)+
-                                '</div>'+
-                            '</div>';
-            if(data.state==1){
+                        '</div>';
+            if(task.state==1){
                 html += '<div class="weui-cell cell-border">'+
                             '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                             '<div class="weui-cell__bd bd-right">'+
-                                getLocalTime(data.doneTime)+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="weui-cell cell-border bottom-cell">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
-                            '<div class="weui-cell__bd bd-right">'+
-                                data.doneUser.name+
+                                getLocalTime(task.doneTime)+
                             '</div>'+
                         '</div>';
             }
+            html +='<div class="weui-cell cell-border">'+
+                        '<div class="weui-cell__hd"><label class="weui-label">值班人员</label></div>'+
+                        '<div class="weui-cell__bd bd-right">'+
+                            rota+
+                        '</div>'+
+                    '</div>';
+//            if(task.state==1){
+//                html += '<div class="weui-cell cell-border bottom-cell">'+
+//                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+//                            '<div class="weui-cell__bd bd-right">'+
+//                                task.doneUser.name+
+//                            '</div>'+
+//                        '</div>';
+//            }
             html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
