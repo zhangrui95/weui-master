@@ -75,7 +75,8 @@ gulp.task('gsp:build:style', function (){
         ' * Licensed under the <%= pkg.license %> license',
         ' */',
         ''].join('\n');
-    gulp.src('src/style/weui.less', option)
+    var styleDist = gspDist+'/assets/stylesheets';
+    gulp.src('src/style/weui.less', {base: 'src/style'})
         .pipe(sourcemaps.init())
         .pipe(less().on('error', function (e) {
             console.error(e.message);
@@ -84,7 +85,7 @@ gulp.task('gsp:build:style', function (){
         .pipe(postcss([autoprefixer(['iOS >= 7', 'Android >= 4.1'])]))
         .pipe(header(banner, { pkg : pkg } ))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(gspDist))
+        .pipe(gulp.dest(styleDist))
         .pipe(nano({
             zindex: false,
             autoprefixer: false
@@ -92,12 +93,16 @@ gulp.task('gsp:build:style', function (){
         .pipe(rename(function (path) {
             path.basename += '.min';
         }))
-        .pipe(gulp.dest(gspDist));
+        .pipe(gulp.dest(styleDist));
 });
 
 gulp.task('build:gsp:assets', function (){
-    gulp.src('src/example/**/*.?(png|jpg|gif|js)', option)
-        .pipe(gulp.dest(gspDist));
+    var jsDist = gspDist+'/assets/javascripts';
+    gulp.src('src/example/**/*.js', {base: 'src/example'})
+        .pipe(gulp.dest(jsDist));
+    var imgDist = gspDist+'/assets/images';
+    gulp.src('src/example/images/**/*.?(png|jpg|gif)', {base: 'src/example/images'})
+        .pipe(gulp.dest(imgDist));
 });
 
 gulp.task('build:example:assets', function (){
@@ -107,7 +112,8 @@ gulp.task('build:example:assets', function (){
 });
 
 gulp.task('build:gsp:style', function (){
-    gulp.src('src/example/example.less', option)
+    var styleDist = gspDist+'/assets/stylesheets';
+    gulp.src('src/example/example.less', {base: 'src/example'})
         .pipe(less().on('error', function (e){
             console.error(e.message);
             this.emit('end');
@@ -118,7 +124,7 @@ gulp.task('build:gsp:style', function (){
             zindex: false,
             autoprefixer: false
         }))
-        .pipe(gulp.dest(gspDist));
+        .pipe(gulp.dest(styleDist));
 });
 
 gulp.task('build:example:style', function (){
@@ -160,7 +166,8 @@ gulp.task('build:example:html', function (){
 });
 
 gulp.task('build:example:gsp', function (){
-    gulp.src('src/example/*.html', option)
+    var viewDist = gspDist+'/views';
+    gulp.src('src/example/*.html', {base: 'src/example'})
         .pipe(processhtml())
         .pipe(replace('../images','assets'))
         .pipe(replace('images/','assets/'))
@@ -176,7 +183,7 @@ gulp.task('build:example:gsp', function (){
                     .pipe(replace('../images','assets'))
                     .pipe(replace('images/','assets/'))
                     .pipe(rename({basename:'_'+id,extname:'.gsp'}))
-                    .pipe(gulp.dest(gspDist+'/example/'+subDir));
+                    .pipe(gulp.dest(viewDist+'/'+subDir));
                 var content = '<g:render template="'+subDir+'/'+id+'"/>';
                 return '<script type="text/html" id="tpl_'+ id +'" title="'+$2+'">'+ content +'</script>';
             });
@@ -188,14 +195,14 @@ gulp.task('build:example:gsp', function (){
                     .pipe(replace('../images','assets'))
                     .pipe(replace('images/','assets/'))
                     .pipe(rename({basename:'_'+id,extname:'.gsp'}))
-                    .pipe(gulp.dest(gspDist+'/example/'+subDir));
+                    .pipe(gulp.dest(viewDist+'/'+subDir));
                 var content = '<g:render template="'+subDir+'/'+id+'"/>';
                 return '<script type="text/html" id="tpl_'+ id +'">'+ content +'</script>';
             });
             file.contents = new Buffer(contents);
         }))
         .pipe(rename({extname:'.gsp'}))
-        .pipe(gulp.dest(gspDist));
+        .pipe(gulp.dest(viewDist));
 });
 
 gulp.task('build:example', ['build:example:assets', 'build:example:style', 'build:example:html']);
