@@ -79,11 +79,24 @@
                 $('.no-data').css('display','none');
                 var tabPanel = state=='0'?'tab1':'tab2';
                 tabPanel = $('#'+tabPanel);
-                tabPanel.append(
-                        '<div>'+
-                            '<img src="images/icon-ok.jpg"/>'+
-                        '</div>'
-                );
+                if(state=='0'){
+                    tabPanel.append(
+                            '<div class="empty-box">'+
+                                '<img src="images/icon-ok.jpg" class="empty-img"/>'+
+                                '<p class="null-word">好厉害！</p>'+
+                                '<p class="null-word2">已经没有未核查的信息了</p>'+
+                            '</div>'
+                    );
+                }else{
+                    tabPanel.append(
+                            '<div class="empty-box">'+
+                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                                '<p class="null-word">哎呦喂！</p>'+
+                                '<p class="null-word2">快去看看是否有未核查的信息</p>'+
+                            '</div>'
+                    );
+                }
+
             }
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
