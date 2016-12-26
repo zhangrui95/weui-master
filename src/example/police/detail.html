@@ -62,7 +62,7 @@
                                 '</div>'+
                             '</div>'
                         ;
-            if(data.state==0){
+            if(data.state=='0'){
                 $('#btnPanel').show();
             }else{
                 $('.page_y').css('height','95%');
@@ -89,7 +89,12 @@
                 url: "api/task/doneTask.json",
                 data:{id:$('#taskId').val(),userid:$('#userid').val()},
                 success: function () {
-                    wx.closeWindow();
+                    var source = $('#container').data('detail-source');
+                    if(source == null|| source == ''){
+                        wx.closeWindow();
+                    }else{
+                        window.pageManager.go(source);
+                    }
                 },
                 error: function (mes) {
                     console.log("error");

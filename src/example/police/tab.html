@@ -99,6 +99,7 @@
             }
             $('.weui-cell').bind('click', function () {
                 var id = $(this).data('id');
+                $('#container').data('detail-source','tab');
                 $('#taskId').val($(this).data('tid'));
                 window.pageManager.go(id);
             });
