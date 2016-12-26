@@ -54,7 +54,7 @@
             if(data==null||data.length<1){
                 return
             }
-            console.log(data.length)
+
             offset += data.length;
             var html = '',item,curr = $('#container').data('today-rota-id');
             for(var i=0;i<data.length;i++){
@@ -95,8 +95,9 @@
                     rota = oThis.data('rota')
                 }
 
-            })
-            if(rota==null||rota==''){
+            });
+            var curr = $('#container').data('today-rota-id');
+            if(rota==null||rota==''|| rota==curr){
                 return;
             }
             $.ajax({
@@ -104,7 +105,7 @@
                 url: "api/rota/allot.json",
                 data:{userid:$('#userid').val(),uid:rota},
                 success: function () {
-                        var id = $("#showToast").data('id');
+                    var id = $("#showToast").data('id');
                         window.pageManager.go(id);
                 },
                 error: function (mes) {
