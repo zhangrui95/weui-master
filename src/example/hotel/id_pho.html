@@ -114,6 +114,9 @@
             $('#idCard').html("");
         });
         $('#card').keyup(function(){
+            if(cardValid(($('#card').val()))){
+                $('#idCard').html("");
+            }
             if(($('#card').val()+"").length>=1){
                 $('#empty').css('display', 'block');
                 $('#empty').click(function () {
