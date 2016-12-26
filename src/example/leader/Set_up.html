@@ -26,7 +26,7 @@
                 url: "api/user/role.json",
                 data: {userid: $('#userid').val(), max: gPageSize, offset: offset,role:'4'},
                 success: function (data) {
-                    for(j=0;j<data.length;j++){
+                    for(var j=0;j<data.length;j++){
                         if(data[j].avatar==null||data[j].avatar==''){
                             data[j].avatar = 'images/head.jpg'
                         }else{
@@ -52,21 +52,22 @@
                 return
             }
             offset += data.length;
+            var html = '',item,curr = $('#container').data('today-rota-id');
             for(var i=0;i<data.length;i++){
-                    $('.police_list').append(
-                            '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
+                item = data[i];
+                html += '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
                                 '<div class="weui-cell__ft ft_width">'+
                                     '<div class="border-gray"></div>'+
-                                    '<input type="radio" name="radio1" class="weui-check" id='+i+' data-rota="'+data[i].id+'">'+
+                                    '<input type="radio" name="radio1" class="weui-check" '+(curr==item.id?'checked="checked"':'')+' id='+i+' data-rota="'+item.id+'">'+
                                     '<span class="weui-icon-checked"></span>'+
                                 '</div>'+
-                                '<div><img src="'+data[i].avatar+'" class="header-img"/></div>'+
+                                '<div><img src="'+item.avatar+'" class="header-img"/></div>'+
                                 '<div class="weui-cell__bd">'+
-                                    '<p>'+data[i].name+'</p>'+
+                                    '<p>'+item.name+'</p>'+
                                 '</div>'+
-                            '</label>'
-                    )
+                            '</label>';
             }
+            $('.police_list').append(html);
         }
         getData(currState);
 
@@ -97,7 +98,7 @@
             $.ajax({
                 type: "POST",
                 url: "api/rota/allot.json",
-                data:{userid:$('#userid').val(),uid:rota,id:$('#container').data('today-rota-id')},
+                data:{userid:$('#userid').val(),uid:rota},
                 success: function () {
                         var id = $("#showToast").data('id');
                         window.pageManager.go(id);

@@ -52,7 +52,7 @@
                 return
             }
             var first = rota[0];
-            $('#container').data('today-rota-id',first.id);
+            $('#container').data('today-rota-id',first.user.id);
             $(".header-bg span").html(first.user.name);
         },
         error: function (mes) {

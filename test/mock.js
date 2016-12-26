@@ -77,7 +77,7 @@ module.exports = [
             res.end(JSON.stringify([
                 {name:'张一一',avatar:'images/header.jpg?',id:'key1'},
                 {name:'王二二',avatar:'',id:'key2'},
-                {name:'赵三三',avatar:'images/header.jpg?',id:'key3'},
+                {name:'张志强',avatar:'images/header.jpg?',id:'key3'},
                 {name:'李四四',avatar:'images/header.jpg?',id:'key4'},
                 {name:'张一一',avatar:'images/header.jpg?',id:'key5'},
                 {name:'王二二',avatar:'images/header.jpg?',id:'key6'},
@@ -108,7 +108,7 @@ module.exports = [
         route: "/example/api/user/info.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({rota:[{id:'r1',user:{name:"张志强"}}],count:7}));
+            res.end(JSON.stringify({rota:[{id:'r1',user:{id:'key3',name:"张志强"}}],count:7}));
         }
     }
 ];
