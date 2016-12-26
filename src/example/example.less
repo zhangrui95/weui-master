@@ -626,9 +626,8 @@ body, .page {
     span{
         margin-left: 18px;
     }
-    b{
-        font:18px/18px "宋体";
-        font-weight: 900;
+    .icon-go{
+        width: 16px;
         float: right;
         margin-right: 5px;
     }
@@ -642,15 +641,38 @@ body, .page {
     -moz-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-.btn-fixed{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background: #FFFFFF;
-    box-shadow: #ccc 0px 0px 20px;
-}
 .height-position{
     height:85px;
     width: 100%;
+}
+.page_y{
+    overflow-y: scroll;
+    height: 85%;
+}
+.page-list{
+    overflow-y: hidden;
+}
+.btn{
+    width: 90%;
+    background: #55a3e7;
+    border-radius: 5px;
+    display:block ;
+    height: 46px;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-family: "微软雅黑";
+    text-align: center;
+    line-height: 46px;
+    margin:auto;
+}
+.btn-box{
+    width: 100%;
+    height: 12%;
+    padding-top:6%;
+    box-shadow: #ccc 0px -5px 20px;
+    position: relative;
+    z-index: 2000;
+}
+.weui-gallery{
+    z-index: 3000;
 }
