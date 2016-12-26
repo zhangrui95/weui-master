@@ -1,6 +1,10 @@
 <!--基本信息-->
 <div class="page">
     <div class="page__bd">
+        <div id="error" class="error" style="display: none;">
+            <img src="images/error.png"/>
+            <span>当前网络不可用，请检查你的网络设置</span>
+        </div>
         <div class="weui-cells weui-cells_form" style="margin-top: 0;">
             <div class="weui-cell">
                 <div class="weui-cell__bd cell-unleft">
@@ -162,6 +166,7 @@
                     wx.closeWindow();
                 },
                 error: function () {
+                    $('#error').css("display","block");
                 }
             });
         }
