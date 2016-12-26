@@ -96,8 +96,10 @@
                 }
 
             });
+            var id = $("#showToast").data('id');
             var curr = $('#container').data('today-rota-id');
             if(rota==null||rota==''|| rota==curr){
+                window.pageManager.go(id);
                 return;
             }
             $.ajax({
@@ -105,8 +107,7 @@
                 url: "api/rota/allot.json",
                 data:{userid:$('#userid').val(),uid:rota},
                 success: function () {
-                    var id = $("#showToast").data('id');
-                        window.pageManager.go(id);
+                    window.pageManager.go(id);
                 },
                 error: function (mes) {
                 }
