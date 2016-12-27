@@ -66,6 +66,12 @@
                     lists(data,state);
                     $(".weui-loadmore").hide();
                     loading = false;
+                    if(offset==data.length){
+                        $('.weui-loadmore_line').show();
+                    }
+                    if(data==null||data.length<1){
+                        $('.weui-loadmore').css('display','none');
+                    }
                 },
                 beforeSend: function () {
                     $(".weui-loadmore").show();

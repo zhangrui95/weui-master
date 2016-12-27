@@ -69,6 +69,9 @@
                     if(offset==data.length){
                         $('.weui-loadmore_line').show();
                     }
+                    if(data==null||data.length<1){
+                        $('.weui-loadmore').css('display','none');
+                    }
                 },
                 beforeSend: function () {
                     $(".weui-loadmore").show();
@@ -81,7 +84,6 @@
         }
         function lists(data,state) {
             if(data==null||data.length<1){
-                $('.weui-loadmore').css('display','none');
                 var tabPanel = state=='0'?'tab1':'tab2';
                 tabPanel = $('#'+tabPanel);
                 if(state=='0'){
