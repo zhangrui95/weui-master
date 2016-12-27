@@ -167,7 +167,7 @@ gulp.task('build:example:html', function (){
 
 gulp.task('build:example:gsp', function (){
     var viewDist = gspDist+'/views';
-    gulp.src('src/example/*.html', {base: 'src/example'})
+    gulp.src(['src/example/*.html','!src/example/index.html'], {base: 'src/example'})
         .pipe(processhtml())
         .pipe(replace('../images','assets'))
         .pipe(replace('images/','assets/'))
