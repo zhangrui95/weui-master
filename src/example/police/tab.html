@@ -1,23 +1,25 @@
 <!--旅店信息-->
 <div class="page">
-    <div class="page__bd bg-page bottom-cell">
+    <div class="page__bd bg-page bottom-cell page-list">
         <div class="weui-tab">
             <div class="weui-navbar fixed">
                 <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查</div>
                 <div class="weui-navbar__item" href="#tab2" data-state="1">已核查</div>
             </div>
-            <div class="weui-tab__panel">
-                <div class="weui-cells"  id="tab1"></div>
-                <div class="weui-cells active"  id="tab2"></div>
+        </div>
+            <div class="height-fixed"></div>
+            <div class="weui-tab__panel panel_none">
+                <div class="weui-cells cell-y"  id="tab1" ></div>
+                <div class="weui-cells active cell-y"  id="tab2"></div>
             </div>
             <div class="weui-loadmore">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
-            <div class="weui-loadmore_line no-data">
-                <span class="no-data-news">暂无更多信息</span>
+            <div class="weui-loadmore weui-loadmore_line">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
             </div>
-        </div>
+
     </div>
 </div>
 <script type="text/javascript">
@@ -64,6 +66,9 @@
                     lists(data,state);
                     $(".weui-loadmore").hide();
                     loading = false;
+                    if(offset==data.length){
+                        $('.weui-loadmore_line').show();
+                    }
                 },
                 beforeSend: function () {
                     $(".weui-loadmore").show();
@@ -76,7 +81,7 @@
         }
         function lists(data,state) {
             if(data==null||data.length<1){
-                $('.no-data').css('display','none');
+                $('.weui-loadmore').css('display','none');
                 var tabPanel = state=='0'?'tab1':'tab2';
                 tabPanel = $('#'+tabPanel);
                 if(state=='0'){

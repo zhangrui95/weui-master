@@ -1,22 +1,23 @@
 <!--旅店信息-->
 <div class="page page_box">
-    <div class="page__bd bg-page bottom-cell">
+    <div class="page__bd bg-page bottom-cell page-list">
         <div class="weui-tab">
             <div class="weui-navbar fixed">
                 <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查</div>
                 <div class="weui-navbar__item" href="#tab2" data-state="1">已核查</div>
             </div>
-            <div class="weui-tab__panel">
-                <div class="weui-cells"  id="tab1"></div>
-                <div class="weui-cells active"  id="tab2"></div>
+        </div>
+        <div class="height-fixed"></div>
+            <div class="weui-tab__panel panel_none">
+                <div class="weui-cells cell-y"  id="tab1"></div>
+                <div class="weui-cells active cell-y"  id="tab2"></div>
             </div>
             <div class="weui-loadmore">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
-            <div class="weui-loadmore_line no-data">
-                <span class="no-data-news">暂无更多信息</span>
-            </div>
+        <div class="weui-loadmore weui-loadmore_line" id="new-none">
+            <span class="weui-loadmore__tips">暂无更多数据</span>
         </div>
     </div>
 </div>
@@ -77,7 +78,26 @@
         }
         function lists(data,state) {
             if(data==null||data.length<1){
-                return
+                $('#new-none').hide();
+                var tabPanel = state=='0'?'tab1':'tab2';
+                tabPanel = $('#'+tabPanel);
+                if(state=='0'){
+                    tabPanel.append(
+                            '<div class="empty-box">'+
+                            '<img src="images/icon-ok.jpg" class="empty-img"/>'+
+                            '<p class="null-word">好厉害！</p>'+
+                            '<p class="null-word2">已经没有未核查的信息了</p>'+
+                            '</div>'
+                    );
+                }else{
+                    tabPanel.append(
+                            '<div class="empty-box">'+
+                            '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                            '<p class="null-word">哎呦喂！</p>'+
+                            '<p class="null-word2">快去看看是否有未核查的信息</p>'+
+                            '</div>'
+                    );
+                }
             }
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
