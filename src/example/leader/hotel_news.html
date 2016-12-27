@@ -12,11 +12,11 @@
                 <div class="weui-cells cell-y"  id="tab1"></div>
                 <div class="weui-cells active cell-y"  id="tab2"></div>
             </div>
-            <div class="weui-loadmore">
+            <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
-        <div class="weui-loadmore weui-loadmore_line" id="new-none">
+        <div class="weui-loadmore weui-loadmore_line active" id="new-none">
             <span class="weui-loadmore__tips">暂无更多数据</span>
         </div>
     </div>
@@ -64,27 +64,23 @@
                 data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
                     lists(data,state);
-                    $(".weui-loadmore").hide();
+                    $("#load").hide();
                     loading = false;
-                    if(offset==data.length){
-                        $('.weui-loadmore_line').show();
-                    }
                     if(data==null||data.length<1){
                         $('.weui-loadmore').css('display','none');
                     }
                 },
                 beforeSend: function () {
-                    $(".weui-loadmore").show();
+                    $("#load").show();
                 },
                 error: function () {
-                    $(".weui-loadmore").hide();
+                    $("#load").hide();
                     loading = false;
                 }
             });
         }
         function lists(data,state) {
             if(data==null||data.length<1){
-                $('#new-none').hide();
                 var tabPanel = state=='0'?'tab1':'tab2';
                 tabPanel = $('#'+tabPanel);
                 if(state=='0'){
@@ -145,6 +141,8 @@
             var aa = (pageH - winH - scrollT) / winH;
             if (aa < 0.02) {
                 getData(currState);
+            }else if(aa==0){
+                $('.weui-loadmore_line').show();
             }
         };
         //定义鼠标滚动事件
