@@ -69,6 +69,7 @@
                     var tabPanel = state=='0'?'tab1':'tab2';
                     tabPanel = $('#'+tabPanel);
                     if(offset=='0'){
+                        $('.weui-loadmore_line').hide();
                         if(state=='0'){
                             tabPanel.append(
                                     '<div class="empty-box">'+
