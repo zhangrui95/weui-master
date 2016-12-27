@@ -110,5 +110,12 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({rota:[{id:'r1',user:{id:'key3',name:"张志强"}}],count:7}));
         }
+    },
+    {
+        route: "/example/api/rota/allot.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:'1'}));
+        }
     }
 ];

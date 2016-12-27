@@ -68,6 +68,7 @@ $(function () {
             $html.on('animationend webkitAnimationEnd', function(){
                 $html.removeClass('slideIn').addClass('js_show');
             });
+            this.$container.html('');
             this.$container.append($html);
             this._pageAppend.call(this, $html);
             this._pageStack.push({
@@ -96,12 +97,14 @@ $(function () {
                 return;
             }
 
-            var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
-            var found = this._findInStack(url);
-            if (!found) {
+            // var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
+            // var found = this._findInStack(url);
+            // if (!found) {
                 var html = $(config.template).html();
                 var $html = $(html).addClass('js_show').addClass(config.name);
-                $html.insertBefore(stack.dom);
+                // $html.insertBefore(stack.dom);
+                this.$container.html('');
+                this.$container.append($html);
 
                 if (!config.isBind) {
                     this._bind(config);
@@ -111,7 +114,7 @@ $(function () {
                     config: config,
                     dom: $html
                 });
-            }
+            // }
 
             stack.dom.addClass('slideOut').on('animationend webkitAnimationEnd', function () {
                 stack.dom.remove();
