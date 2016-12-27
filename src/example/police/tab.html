@@ -66,9 +66,28 @@
                     lists(data,state);
                     $("#load").hide();
                     loading = false;
-                    if(data==null||data.length<1){
-                        $('.weui-loadmore').css('display','none');
+                    var tabPanel = state=='0'?'tab1':'tab2';
+                    tabPanel = $('#'+tabPanel);
+                    if(offset=='0'){
+                        if(state=='0'){
+                            tabPanel.append(
+                                    '<div class="empty-box">'+
+                                        '<img src="images/icon-ok.jpg" class="empty-img"/>'+
+                                        '<p class="null-word">好厉害！</p>'+
+                                        '<p class="null-word2">已经没有未核查的信息了</p>'+
+                                    '</div>'
+                            );
+                        }else{
+                            tabPanel.append(
+                                    '<div class="empty-box">'+
+                                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                                        '<p class="null-word">哎呦喂！</p>'+
+                                        '<p class="null-word2">快去看看是否有未核查的信息</p>'+
+                                    '</div>'
+                            );
+                        }
                     }
+
                 },
                 beforeSend: function () {
                     $("#load").show();
@@ -81,26 +100,7 @@
         }
         function lists(data,state) {
             if(data==null||data.length<1){
-                var tabPanel = state=='0'?'tab1':'tab2';
-                tabPanel = $('#'+tabPanel);
-                if(state=='0'){
-                    tabPanel.append(
-                            '<div class="empty-box">'+
-                                '<img src="images/icon-ok.jpg" class="empty-img"/>'+
-                                '<p class="null-word">好厉害！</p>'+
-                                '<p class="null-word2">已经没有未核查的信息了</p>'+
-                            '</div>'
-                    );
-                }else{
-                    tabPanel.append(
-                            '<div class="empty-box">'+
-                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
-                                '<p class="null-word">哎呦喂！</p>'+
-                                '<p class="null-word2">快去看看是否有未核查的信息</p>'+
-                            '</div>'
-                    );
-                }
-
+                $('.weui-loadmore_line').show();
             }
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
@@ -143,8 +143,6 @@
             var aa = (pageH - winH - scrollT) / winH;
             if (aa < 0.02) {
                 getData(currState);
-            }else if(aa==0){
-                $('.weui-loadmore_line').show();
             }
         };
         //定义鼠标滚动事件
