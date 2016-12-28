@@ -34,6 +34,7 @@
         $(".weui-navbar div").click(function() {
             var state = $(this).data('state');
             if(state != currState){
+                $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
                 $(".weui-cells").hide();
                 $(activeTab).fadeIn();
@@ -45,6 +46,14 @@
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
+
+        var detailSourceState = $('#container').data('detail-source-state');
+        if(detailSourceState && detailSourceState != currState){
+            currState = detailSourceState;
+            var target = $('.weui-navbar [data-state="1"]');
+            target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            $(target.attr("href")).fadeIn();
+        }
 
         function getData(state) {
             if(loading){
