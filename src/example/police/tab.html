@@ -111,6 +111,7 @@
         function lists(data,state) {
             if(data==null||data.length<1){
                 $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
             }
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
