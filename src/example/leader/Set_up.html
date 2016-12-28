@@ -1,5 +1,9 @@
 <div class="page page-list">
     <div class="page__bd page_y">
+        <div id="error" class="error" style="display: none;">
+            <img src="images/error.png"/>
+            <span>当前网络不可用，请检查你的网络设置</span>
+        </div>
         <div class="initials">
             <ul></ul>
         </div>
@@ -48,6 +52,7 @@
                 error: function (mes) {
                     $(".weui-loadmore").hide();
                     loading = false;
+                    $('#error').css("display","block");
                 }
             });
         }
@@ -113,6 +118,7 @@
                         window.pageManager.go(id);
                 },
                 error: function (mes) {
+                    $('#error').css("display","block");
                 }
             });
 
