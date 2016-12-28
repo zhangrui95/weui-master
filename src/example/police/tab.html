@@ -77,10 +77,10 @@
                     loading = false;
                     var tabPanel = state=='0'?'tab1':'tab2';
                     tabPanel = $('#'+tabPanel);
-                    if(offset=='0'){
+                    if(offset==0){
                         $('.weui-loadmore_line').hide();
                         if(state=='0'){
-                            tabPanel.append(
+                            tabPanel.html(
                                     '<div class="empty-box">'+
                                         '<img src="images/icon-ok.jpg" class="empty-img"/>'+
                                         '<p class="null-word">好厉害！</p>'+
@@ -88,13 +88,18 @@
                                     '</div>'
                             );
                         }else{
-                            tabPanel.append(
+                            tabPanel.html(
                                     '<div class="empty-box">'+
                                         '<img src="images/icon-over.jpg" class="empty-img"/>'+
                                         '<p class="null-word">哎呦喂！</p>'+
                                         '<p class="null-word2">快去看看是否有未核查的信息</p>'+
                                     '</div>'
                             );
+                        }
+                    }else{
+                        if(data==null||data.length<1){
+                            $('.weui-loadmore_line').show();
+                            $('.empty-box').hide();
                         }
                     }
 
@@ -110,10 +115,6 @@
             });
         }
         function lists(data,state) {
-            if(data==null||data.length<1){
-                $('.weui-loadmore_line').show();
-                $('.empty-box').hide();
-            }
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
             tabPanel = $('#'+tabPanel);
