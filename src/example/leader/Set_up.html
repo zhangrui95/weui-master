@@ -74,7 +74,6 @@
             }
             $('.police_list').append(html);
             phonetic=$('.weui-cell__bd p').data('phonetic');
-            console.log("PinYin:"+(phonetic.charAt(0))[0].toUpperCase())
             initials(phonetic);
         }
         getData(currState);
@@ -128,8 +127,13 @@
             var _index = _this.index();
             var href=$(this).attr("href");
             if(_index>=0&&_index<=25){
-                   var LetterTop = $(href).position().top;
+                var letter = _this.text();
+                if($('#'+letter).length>0){
+                    var LetterTop = $('#'+letter).position().top;
                     $('.page_y').scrollTop(LetterTop);
+                }else{
+                    $(_this).css('display','none');
+                }
             }
         })
         var windowHeight=$(window).height();
@@ -246,11 +250,14 @@
                         $('#default').after(SortList.eq(i));
                         break;
                 }
+                $("ul li").each(function (i,e){
+                    var _e = $(e).text();
+                    if($("#"+_e).length<=0){
+                        $(e).css('display','none');
+                    }
+                })
             };
         }
-//        function idindex(phonetic){
-//            console.log(phonetic)
-//        }
 
     })
 </script>

@@ -75,7 +75,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
-                {name:'艾一一',avatar:'images/header.jpg?',id:'key1',phonetic:'A'},
+                {name:'艾一一',avatar:'images/header.jpg?',id:'key1',phonetic:'AiYiYi'},
                 {name:'陈二二',avatar:'',id:'key2',phonetic:'C'},
                 {name:'傅志强',avatar:'images/header.jpg?',id:'key3',phonetic:'F'},
                 {name:'关四四',avatar:'images/header.jpg?',id:'key4',phonetic:'G'},
@@ -86,7 +86,8 @@ module.exports = [
                 {name:'王一一',avatar:'images/header.jpg?',id:'key9',phonetic:'W'},
                 {name:'赵二二',avatar:'images/header.jpg?',id:'key10',phonetic:'Z'},
                 {name:'张三三',avatar:'images/header.jpg?',id:'key11',phonetic:'Z'},
-                {name:'张四四',avatar:'images/header.jpg?',id:'key12',phonetic:'Z'},
+                {name:'张四四',avatar:'images/header.jpg?',id:'key12',phonetic:'ZhangSiSi'},
+                {name:'钱鑫鑫',avatar:'images/header.jpg?',id:'key12',phonetic:'QianXinXin'},
             ]));
         }
     },
