@@ -142,6 +142,7 @@
                 $('#empty').css('display', 'block');
                 return ;
             }
+            $('#card').blur();
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
