@@ -3,6 +3,7 @@
         <div class="initials">
             <ul></ul>
         </div>
+        <div id="letter" ></div>
         <div class="weui-cells  weui-cells_radio police_list"></div>
         <div class="weui-loadmore">
             <i class="weui-loading"></i>
@@ -50,6 +51,7 @@
                 }
             });
         }
+        var phonetic;
         function lists(data) {
             if(data==null||data.length<1){
                 return
@@ -58,7 +60,7 @@
             var html = '',item,curr = $('#container').data('today-rota-id');
             for(var i=0;i<data.length;i++){
                 item = data[i];
-                html += '<label class="weui-cell weui-check__label cells-border" for='+i+'>'+
+                html += '<label class="weui-cell weui-check__label check-border" for='+i+'>'+
                                 '<div class="weui-cell__ft ft_width">'+
                                     '<div class="border-gray"></div>'+
                                     '<input type="radio" name="radio1" class="weui-check" '+(curr==item.id?'checked="checked"':'')+' id='+i+' data-rota="'+item.id+'">'+
@@ -66,11 +68,14 @@
                                 '</div>'+
                                 '<div><img src="'+item.avatar+'" class="header-img"/></div>'+
                                 '<div class="weui-cell__bd">'+
-                                    '<p>'+item.name+'</p>'+
+                                    '<p data-phonetic="'+item.phonetic+'">'+item.name+'</p>'+
                                 '</div>'+
                             '</label>';
             }
             $('.police_list').append(html);
+            phonetic=$('.weui-cell__bd p').data('phonetic');
+            console.log("PinYin:"+(phonetic.charAt(0))[0].toUpperCase())
+            initials(phonetic);
         }
         getData(currState);
 
@@ -115,16 +120,16 @@
         })
         var Initials=$('.initials');
         var LetterBox=$('#letter');
-        Initials.find('ul').append('<li>A</li><li>B</li><li>C</li><li>D</li><li>E</li><li>F</li><li>G</li><li>H</li><li>I</li><li>J</li><li>K</li><li>L</li><li>M</li><li>N</li><li>O</li><li>P</li><li>Q</li><li>R</li><li>S</li><li>T</li><li>U</li><li>V</li><li>W</li><li>X</li><li>Y</li><li>Z</li>');
-//        initials();
-        $("  ul li").click(function() {
+        Initials.find('ul').append('<li href="#A">A</li><li href="#B">B</li><li href="#C">C</li><li href="#D">D</li><li href="#E">E</li><li href="#F">F</li><li href="#G">G</li><li href="#H">H</li><li href="#I">I</li><li href="#J">J</li><li href="#K">K</li><li href="#L">L</li><li href="#M">M</li><li href="#N">N</li><li href="#O">O</li><li href="#P">P</li><li href="#Q">Q</li><li href="#R">R</li><li href="#S">S</li><li href="#T">T</li><li href="#U">U</li><li href="#V">V</li><li href="#W">W</li><li href="#X">X</li><li href="#Y">Y</li><li href="#Z">Z</li>');
+        initials(phonetic);
+
+        $(" ul li").click(function() {
             var _this = $(this);
             var _index = _this.index();
+            var href=$(this).attr("href");
             if(_index>=0&&_index<=25){
-                if($('#'+_this.text()).length>0){
-                    var LetterTop = $('#'+letter).position().top;
-                    $('html,body').animate({scrollTop: LetterTop-45+'px'}, 300);
-                }
+                   var LetterTop = $(href).position().top;
+                    $('.page_y').scrollTop(LetterTop);
             }
         })
         var windowHeight=$(window).height();
@@ -132,6 +137,120 @@
         Initials.height(InitHeight);
         var LiHeight=InitHeight/32;
         Initials.find('li').height(LiHeight);
+        function initials(phonetic) {//排序
+            var SortList = $(".weui-cell");
+            var SortBox = $(".police_list");
+            SortList.sort(asc_sort).appendTo('.police_list');//按首字母排序
+            function asc_sort(a, b) {
+                return ($(b).find('.weui-cell__bd p').data('phonetic').charAt(0))[0].toUpperCase() < ($(a).find('.weui-cell__bd p').data('phonetic').charAt(0))[0].toUpperCase() ? 1 : -1;
+            }
+
+            var initials = [];
+            var num = 0;
+            SortList.each(function (i) {
+                var initial = ($(this).find('.weui-cell__bd p').data('phonetic').charAt(0))[0].toUpperCase();
+                if (initial >= 'A' && initial <= 'Z') {
+                    if (initials.indexOf(initial) === -1)
+                        initials.push(initial);
+                } else {
+                    num++;
+                }
+
+            });
+            $.each(initials, function(index, value) {//添加首字母标签
+                SortBox.append('<div class="sort_letter" id="'+ value +'">' + value + '</div>');
+            });
+            if(num!=0){SortBox.append('<div class="sort_letter" id="default">#</div>');}
+            for (var i =0;i<SortList.length;i++) {//插入到对应的首字母后面
+                var letter=(SortList.eq(i).find('.weui-cell__bd p').data('phonetic').charAt(0))[0].toUpperCase();
+                switch(letter){
+                    case "A":
+                        $('#A').after(SortList.eq(i));
+                        break;
+                    case "B":
+                        $('#B').after(SortList.eq(i));
+                        break;
+                    case "C":
+                        $('#C').after(SortList.eq(i));
+                        break;
+                    case "D":
+                        $('#D').after(SortList.eq(i));
+                        break;
+                    case "E":
+                        $('#E').after(SortList.eq(i));
+                        break;
+                    case "F":
+                        $('#F').after(SortList.eq(i));
+                        break;
+                    case "G":
+                        $('#G').after(SortList.eq(i));
+                        break;
+                    case "H":
+                        $('#H').after(SortList.eq(i));
+                        break;
+                    case "I":
+                        $('#I').after(SortList.eq(i));
+                        break;
+                    case "J":
+                        $('#J').after(SortList.eq(i));
+                        break;
+                    case "K":
+                        $('#K').after(SortList.eq(i));
+                        break;
+                    case "L":
+                        $('#L').after(SortList.eq(i));
+                        break;
+                    case "M":
+                        $('#M').after(SortList.eq(i));
+                        break;
+                    case "N":
+                        $('#N').after(SortList.eq(i));
+                        break;
+                    case "O":
+                        $('#O').after(SortList.eq(i));
+                        break;
+                    case "P":
+                        $('#P').after(SortList.eq(i));
+                        break;
+                    case "Q":
+                        $('#Q').after(SortList.eq(i));
+                        break;
+                    case "R":
+                        $('#R').after(SortList.eq(i));
+                        break;
+                    case "S":
+                        $('#S').after(SortList.eq(i));
+                        break;
+                    case "T":
+                        $('#T').after(SortList.eq(i));
+                        break;
+                    case "U":
+                        $('#U').after(SortList.eq(i));
+                        break;
+                    case "V":
+                        $('#V').after(SortList.eq(i));
+                        break;
+                    case "W":
+                        $('#W').after(SortList.eq(i));
+                        break;
+                    case "X":
+                        $('#X').after(SortList.eq(i));
+                        break;
+                    case "Y":
+                        $('#Y').after(SortList.eq(i));
+                        break;
+                    case "Z":
+                        $('#Z').after(SortList.eq(i));
+                        break;
+                    default:
+                        $('#default').after(SortList.eq(i));
+                        break;
+                }
+            };
+        }
+//        function idindex(phonetic){
+//            console.log(phonetic)
+//        }
 
     })
 </script>

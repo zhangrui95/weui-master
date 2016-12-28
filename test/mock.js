@@ -75,18 +75,18 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
-                {name:'张一一',avatar:'images/header.jpg?',id:'key1'},
-                {name:'王二二',avatar:'',id:'key2'},
-                {name:'张志强',avatar:'images/header.jpg?',id:'key3'},
-                {name:'李四四',avatar:'images/header.jpg?',id:'key4'},
-                {name:'张一一',avatar:'images/header.jpg?',id:'key5'},
-                {name:'王二二',avatar:'images/header.jpg?',id:'key6'},
-                {name:'赵三三',avatar:'images/header.jpg?',id:'key7'},
-                {name:'李四四',avatar:'images/header.jpg?',id:'key8'},
-                {name:'张一一',avatar:'images/header.jpg?',id:'key9'},
-                {name:'王二二',avatar:'images/header.jpg?',id:'key10'},
-                {name:'赵三三',avatar:'images/header.jpg?',id:'key11'},
-                {name:'李四四',avatar:'images/header.jpg?',id:'key12'},
+                {name:'艾一一',avatar:'images/header.jpg?',id:'key1',phonetic:'A'},
+                {name:'陈二二',avatar:'',id:'key2',phonetic:'C'},
+                {name:'傅志强',avatar:'images/header.jpg?',id:'key3',phonetic:'F'},
+                {name:'关四四',avatar:'images/header.jpg?',id:'key4',phonetic:'G'},
+                {name:'李一一',avatar:'images/header.jpg?',id:'key5',phonetic:'L'},
+                {name:'李二二',avatar:'images/header.jpg?',id:'key6',phonetic:'L'},
+                {name:'谭三三',avatar:'images/header.jpg?',id:'key7',phonetic:'T'},
+                {name:'王四四',avatar:'images/header.jpg?',id:'key8',phonetic:'W'},
+                {name:'王一一',avatar:'images/header.jpg?',id:'key9',phonetic:'W'},
+                {name:'赵二二',avatar:'images/header.jpg?',id:'key10',phonetic:'Z'},
+                {name:'张三三',avatar:'images/header.jpg?',id:'key11',phonetic:'Z'},
+                {name:'张四四',avatar:'images/header.jpg?',id:'key12',phonetic:'Z'},
             ]));
         }
     },
@@ -108,7 +108,7 @@ module.exports = [
         route: "/example/api/user/info.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({rota:[{id:'r1',user:{id:'key3',name:"张志强"}}],count:7}));
+            res.end(JSON.stringify({rota:[{id:'r1',user:{id:'key3',name:"傅志强"}}],count:7}));
         }
     },
     {
