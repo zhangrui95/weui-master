@@ -1,16 +1,15 @@
 <!--旅店信息-->
-<div class="page">
+<div class="page page-list">
     <div class="weui-tab">
         <div class="weui-navbar">
             <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查</div>
             <div class="weui-navbar__item" href="#tab2" data-state="1">已核查</div>
         </div>
     </div>
-    <div class="height-fixed"></div>
-    <div class="page__bd bg-page bottom-cell">
+    <div class="page__bd cell-y bg-page bottom-cell">
             <div class="weui-tab__panel panel_none">
-                <div class="weui-cells cell-y"  id="tab1" ></div>
-                <div class="weui-cells active cell-y"  id="tab2"></div>
+                <div class="weui-cells"  id="tab1" ></div>
+                <div class="weui-cells active"  id="tab2"></div>
             </div>
             <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
@@ -166,18 +165,18 @@
 
         getData(currState);
 
-        var pagePanel = $('#container .page');
+        var pagePanel = $('#container .page .page__bd');
         //到达底部加载
         var winH = $('#container').height(); //页面可视区域高度
         var scrollHandler = function () {
-            var pageH = pagePanel.find('.page__bd').height();
+            var pageH = pagePanel.find('.weui-cells').height();
             var scrollT = pagePanel.scrollTop();
             var aa = (pageH - winH - scrollT) / winH;
             if (aa < 0.02) {
                 getData(currState);
             }
         };
-        //定义鼠标滚动事件
+//        定义鼠标滚动事件
         pagePanel.on('scroll',scrollHandler);
 
     });
