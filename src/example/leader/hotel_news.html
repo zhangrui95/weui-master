@@ -7,6 +7,7 @@
         </div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none">
                 <div class="weui-cells"  id="tab1"></div>
                 <div class="weui-cells active"  id="tab2"></div>
@@ -15,8 +16,9 @@
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
-        <div class="weui-loadmore weui-loadmore_line active" id="new-none">
-            <span class="weui-loadmore__tips">暂无更多数据</span>
+            <div class="weui-loadmore weui-loadmore_line active" id="new-none">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
         </div>
     </div>
 </div>
@@ -189,9 +191,9 @@
 
         var pagePanel = $('#container .page_box .page__bd');
         //到达底部加载
-        var winH = $('#container').height(); //页面可视区域高度
+        var winH = $('#container .page_box').height(); //页面可视区域高度
         var scrollHandler = function () {
-            var pageH = pagePanel.find('.weui-cells').height();
+            var pageH = pagePanel.find('#box').height();
             var scrollT = pagePanel.scrollTop();
             var aa = (pageH - winH - scrollT) / winH;
             if (aa < 0.02) {
