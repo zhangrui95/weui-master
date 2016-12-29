@@ -45,7 +45,6 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        var value=$('#card').val();
         var tmpl = '<li class="weui-uploader__file head-image" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
@@ -106,6 +105,7 @@
         };
         $('#card').blur(function () {
             $('#empty').css('display', 'none');
+            var value=$('#card').val();
             if (value == '') {
                 $('#idCard').html("*身份证号码不能为空");
             } else if(!cardValid(value)){
@@ -137,6 +137,7 @@
                 $('#idCard').html("*照片不能为空");
                 return;
             }
+            var value=$('#card').val();
             if (value == '') {
                 $('#idCard').html("*身份证号码不能为空");
             } else if(!cardValid(value)){
