@@ -17,9 +17,9 @@
                 <ul class="area" id="area"></ul>
         </div>
     </div>
-    <div class="btn-box" data-id="hotel_news">
-        <a class="btn" href="javascript:" id="showToast" data-id="leader_news">查询</a>
-    </div>
+    <!--<div class="btn-box" data-id="hotel_news">-->
+        <!--<a class="btn" href="javascript:" id="showToast" data-id="leader_news">查询</a>-->
+    <!--</div>-->
 </div>
 <script>
     $(function(){
@@ -31,26 +31,32 @@
                 $('.all-num').html('('+data.num+')');
                 types(data);
                 persons(data);
-                $("ul li").on('click',function (){
-                    $(this).addClass('choice-after');
-                })
+//                $("ul li").on('click',function (){
+//                    $(this).addClass('choice-after');
+//                })
             },
             error: function (mes) {
                 console.log("error")
             }
         });
         function types(data){
+            if(data.types.length>12){
+                $('#all-cover').css('display','block');
+            }
             for(var i=0;i<data.types.length;i++){
                 var items=data.types[i];
                 $('#classification').append('<li class="white-border">'+items.name+'<span>('+items.num+')</span></li>');
-                $('#classification li').eq(0).css('color','#55a3e7');
+//                $('#classification li').eq(0).css('color','#55a3e7');
             }
         }
         function persons(data){
+            if(data.persons.length>12){
+                $('#area-all-cover').css('display','block');
+            }
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
                 $('#area').append('<li class="white-border">'+items.name+'<span>('+items.num+')</span></li>');
-                $('#area li').eq(0).css('color','#55a3e7');
+//                $('#area li').eq(0).css('color','#55a3e7');
             }
         }
         $('#all-cover').click(function() {
@@ -58,7 +64,7 @@
                 $('#classification').css('height', '100%');
                 $(this).html('收起');
             } else {
-                $('#classification').css('height', '156px');
+                $('#classification').css('height', '148px');
                 $(this).html('展开全部');
             }
         })
@@ -67,7 +73,7 @@
                 $('#area').css('height', '100%');
                 $(this).html('收起');
             } else {
-                $('#area').css('height', '156px');
+                $('#area').css('height', '148px');
                 $(this).html('展开全部');
             }
         })
