@@ -140,6 +140,7 @@
             var value=$('#card').val();
             if (value == '') {
                 $('#idCard').html("*身份证号码不能为空");
+                return ;
             } else if(!cardValid(value)){
                 $('#idCard').html("*无效的身份证号码");
                 $('#empty').css('display', 'block');
