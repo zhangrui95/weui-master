@@ -118,5 +118,54 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:'1'}));
         }
-    }
+    },
+    {
+        route: "/example/api/company/info.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                num:1350,
+                types:[
+                    {name:'全部',num:396},
+                    {name:'餐饮',num:12},
+                    {name:'旅店',num:21},
+                    {name:'汽配',num:7},
+                    {name:'服务',num:81},
+                    {name:'KTV',num:90},
+                    {name:'维修',num:3},
+                    {name:'家政',num:12},
+                    {name:'教育',num:34},
+                    {name:'餐饮',num:12},
+                    {name:'旅店',num:21},
+                    {name:'汽配',num:7},
+                    {name:'服务',num:81},
+                    {name:'KTV',num:90},
+                    {name:'维修',num:3},
+                    {name:'家政',num:12},
+                    {name:'教育',num:34}
+                ],
+                persons:[
+                    {name:'全部',num:126},
+                    {name:'A区',num:99},
+                    {name:'B区',num:34},
+                    {name:'C区',num:109},
+                    {name:'D区',num:71},
+                    {name:'E区',num:34},
+                    {name:'F区',num:71},
+                    {name:'G区',num:91},
+                    {name:'H区',num:50},
+                    {name:'I区',num:84},
+                    {name:'A区',num:99},
+                    {name:'B区',num:34},
+                    {name:'C区',num:109},
+                    {name:'D区',num:71},
+                    {name:'E区',num:34},
+                    {name:'F区',num:71},
+                    {name:'G区',num:91},
+                    {name:'H区',num:50},
+                    {name:'I区',num:84}
+                ]
+            }));
+        }
+    },
 ];

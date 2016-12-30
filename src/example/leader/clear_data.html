@@ -1,0 +1,75 @@
+<div class="page clear-data-box">
+    <div class="page_y all-box">
+        <div class="all-num-box">
+            <div class="all-number">全部企业</div>
+            <div class="all-num"></div>
+        </div>
+        <div class="classification-box">
+                <div class="choice-title">选择分类
+                    <span class="cover-blue" id="all-cover">展开全部</span>
+                </div>
+                <ul class="classification" id="classification"></ul>
+        </div>
+        <div class="area-box">
+                <div class="choice-title">选择辖区
+                    <span class="cover-blue" id="area-all-cover">展开全部</span>
+                </div>
+                <ul class="area" id="area"></ul>
+        </div>
+    </div>
+    <div class="btn-box" data-id="hotel_news">
+        <a class="btn" href="javascript:" id="showToast" data-id="leader_news">查询</a>
+    </div>
+</div>
+<script>
+    $(function(){
+        $.ajax({
+            type: "POST",
+            url: "api/company/info.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                $('.all-num').html('('+data.num+')');
+                types(data);
+                persons(data);
+                $("ul li").on('click',function (){
+                    $(this).addClass('choice-after');
+                })
+            },
+            error: function (mes) {
+                console.log("error")
+            }
+        });
+        function types(data){
+            for(var i=0;i<data.types.length;i++){
+                var items=data.types[i];
+                $('#classification').append('<li class="white-border">'+items.name+'<span>('+items.num+')</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+        }
+        function persons(data){
+            for(var i=0;i<data.persons.length;i++){
+                var items=data.persons[i];
+                $('#area').append('<li class="white-border">'+items.name+'<span>('+items.num+')</span></li>');
+                $('#area li').eq(0).css('color','#55a3e7');
+            }
+        }
+        $('#all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#classification').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#classification').css('height', '156px');
+                $(this).html('展开全部');
+            }
+        })
+        $('#area-all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#area').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#area').css('height', '156px');
+                $(this).html('展开全部');
+            }
+        })
+    })
+</script>
