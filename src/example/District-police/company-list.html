@@ -62,7 +62,7 @@
             }
             $.ajax({
                 type: "POST",
-                url: "api/company.json",
+                url: "api/employee.json",
                 async: true,
                 data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
@@ -173,7 +173,7 @@
                         '<div class="weui-cell__bd cell_bd_border" >' +
                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
                         '<p class="left-cell">' +
-                        items.CompanyName +
+                        items.user.company +
                         '</p>' +
                         '<div class="weui-cell__ft cell_fs left-cell">' +
                         '<img src="images/icon-time.jpg" class="position-time"/>'+

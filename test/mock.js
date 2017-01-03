@@ -169,7 +169,7 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/company.json",
+        route: "/example/api/employee.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
@@ -179,6 +179,17 @@ module.exports = [
                 {id:'key4', card:'230105199603022204', CompanyName:'动岚健身', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'动岚健身', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
                 {id:'key1', card:'230105199603022201', CompanyName:'七星手机卖场', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'七星手机卖场', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
             ]));
+        }
+    },
+    {
+        route: "/example/api/employee/detail.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100',company:'九转小磨',address:'xx路yy号', name:'李四', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
+            // ret.state = '1';
+            // ret.doneUser = {uid:'2301', name:'民警1'};
+            // ret.doneTime = 1482214046832;
+            res.end(JSON.stringify(ret));
         }
     },
 ];
