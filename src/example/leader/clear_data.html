@@ -31,16 +31,41 @@
                 $('.all-num').html('('+data.num+')');
                 types(data);
                 persons(data);
-//                $("ul li").on('click',function (){
-//                    $(this).addClass('choice-after');
+//                var TorF = true;
+//                $('ul li').on('click',function(){
+//                    if(TorF == true){
+//                        $(this).addClass('choice-after');
+//                        TorF = false;
+//                    }
+//                    else{
+//                        if($(this).addClass('choice-after')){
+//                            $(this).on('click',function(){
+//                                $(this).removeClass('choice-after');
+//                                TorF = true;
+//                            })
+//
+//                        }
+//                    }
+//
+//
 //                })
+                var TorF = true;
+                $("ul li").on('click',function (){
+                    if(TorF == true){
+                        $(this).addClass('choice-after');
+                        TorF = false;
+                    }else{
+                        $(this).removeClass('choice-after');
+                        TorF = true;
+                    }
+                })
             },
             error: function (mes) {
                 console.log("error")
             }
         });
         function types(data){
-            if(data.types.length>12){
+            if(data.types.length>16){
                 $('#all-cover').css('display','block');
             }
             for(var i=0;i<data.types.length;i++){
@@ -50,7 +75,7 @@
             }
         }
         function persons(data){
-            if(data.persons.length>12){
+            if(data.persons.length>16){
                 $('#area-all-cover').css('display','block');
             }
             for(var i=0;i<data.persons.length;i++){
