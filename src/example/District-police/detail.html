@@ -58,7 +58,7 @@
                             data.user.mobile+
                             '</div>'+
                             '</div>'+
-                            '<div class="weui-cell cell-border border-margin">'+
+                            '<div class="weui-cell cell-border" id="times">'+
                             '<div class="weui-cell__hd"><label class="weui-label">上报时间</label></div>'+
                             '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(data.createTime)+
@@ -69,7 +69,7 @@
                 $('#btnPanel').show();
             }else{
                 $('.page_y').css('height','95%');
-                html+='<div class="weui-cell cell-border">'+
+                html+='<div class="weui-cell cell-border border-margin" id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                         '<div class="weui-cell__bd bd-right">'+
                         getLocalTime(data.doneTime)+

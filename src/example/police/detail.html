@@ -65,7 +65,7 @@
                                     task.user.mobile+
                                 '</div>'+
                             '</div>'+
-                            '<div class="weui-cell cell-border border-margin">'+
+                            '<div class="weui-cell cell-border" id="times">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上报时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
                                     getLocalTime(task.createTime)+
@@ -79,7 +79,7 @@
                 }
             }else{
                 $('.page_y').css('height','95%');
-                html+='<div class="weui-cell cell-border">'+
+                html+='<div class="weui-cell cell-border cell-margin border-margin"  id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                          '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(task.doneTime)+
