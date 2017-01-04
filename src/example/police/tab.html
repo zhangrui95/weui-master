@@ -2,8 +2,8 @@
 <div class="page page-list">
     <div class="weui-tab">
         <div class="weui-navbar">
-            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span class="number-left">(9)</span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span class="number-right">(26)</span></div>
+            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span id="num-left">(9)</span></div>
+            <div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right">(26)</span></div>
         </div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
@@ -67,7 +67,8 @@
                 data: {state:state,userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
                     lists(data,state);
-
+                    $('#num-left').html('('+data.undo+')');
+                    $('#number-right').html('('+data.done+')');
                     var supportTouch = function(){
                         try {
                             document.createEvent("TouchEvent");
@@ -165,9 +166,9 @@
             var dataId = 'detail';
             var tabPanel = state=='0'?'tab1':'tab2';
             tabPanel = $('#'+tabPanel);
-            offset += data.length;
-            for(var i=0;i<data.length;i++) {
-                var items=data[i];
+            offset += data.list.length;
+            for(var i=0;i<data.list.length;i++) {
+                var items=data.list[i];
                 tabPanel.append(
                         '<div class="weui-cell bg-cell"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +

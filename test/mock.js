@@ -5,27 +5,32 @@ module.exports = [
         route: "/example/api/task.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify([
-                {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
-                {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
-                {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
-                {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
-                {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
-                {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
-                {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
-                {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
-                {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
-                {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
-                {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
-                {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832}
-            ]));
+            res.end(JSON.stringify(
+                {list:[
+                    {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
+                    {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
+                    {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
+                    {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
+                    {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
+                    {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
+                    {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
+                    {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
+                    {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
+                    {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
+                    {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
+                    {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832}
+                ],
+                    undo:19,
+                    done:37
+                }
+            ));
         }
     },
     {
         route: "/example/api/task/leader.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify([
+            res.end(JSON.stringify({list:[
                 {id:'key1', card:'230105199603022201', hotelName:'禧龙宾馆1', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'禧龙宾馆1', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
                 {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
                 {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
@@ -38,7 +43,10 @@ module.exports = [
                 {id:'key2', card:'230105199603022202', hotelName:'禧龙宾馆2', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'旅店2', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
                 {id:'key3', card:'230105199603022203', hotelName:'禧龙宾馆3', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'旅店3', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
                 {id:'key4', card:'230105199603022204', hotelName:'禧龙宾馆4', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'旅店4', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832}
-            ]));
+            ],
+                undo:10,
+                done:55
+            }));
         }
     },
     {
@@ -172,13 +180,16 @@ module.exports = [
         route: "/example/api/employee.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify([
-                {id:'key1', card:'230105199603022201', CompanyName:'九转小磨', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'九转小磨', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
+            res.end(JSON.stringify({
+                list:[{id:'key1', card:'230105199603022201', CompanyName:'九转小磨', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'九转小磨', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
                 {id:'key2', card:'230105199603022202', CompanyName:'七天宾馆', photo:'images/header.jpg', state:'主键2', user:{uid:'200',company:'七天宾馆', name:'张三2', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2302', name:'民警2'}, doneTime:1482214046832},
                 {id:'key3', card:'230105199603022203', CompanyName:'奔马汽配', photo:'images/header.jpg', state:'主键', user:{uid:'300',company:'奔马汽配', name:'张三3', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2303', name:'民警3'}, doneTime:1482214046832},
                 {id:'key4', card:'230105199603022204', CompanyName:'动岚健身', photo:'images/header.jpg', state:'主键2', user:{uid:'400',company:'动岚健身', name:'张三4', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2304', name:'民警4'}, doneTime:1482214046832},
                 {id:'key1', card:'230105199603022201', CompanyName:'七星手机卖场', photo:'images/header.jpg', state:'主键', user:{uid:'100',company:'七星手机卖场', name:'张三', mobile:'13012345678'}, createTime:1482214046832, doneUser:{uid:'2301', name:'民警1'}, doneTime:1482214046832},
-            ]));
+            ],
+                undo:9,
+                done:58
+            }));
         }
     },
     {
