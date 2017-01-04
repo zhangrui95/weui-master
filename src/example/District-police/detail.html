@@ -91,7 +91,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/employee/doneTask.json",
-                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
+                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:1},
                     success: function () {
                         var source = $('#container').data('detail-source');
                         if(source == null|| source == ''){
@@ -108,7 +108,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/employee/doneTask.json",
-                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:1},
+                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
                     success: function () {
                         var source = $('#container').data('detail-source');
                         if(source == null|| source == ''){
