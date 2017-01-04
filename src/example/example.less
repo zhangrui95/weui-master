@@ -508,8 +508,8 @@ body, .page {
 }
 .cell-border{
     border-bottom: 1px solid #ccc;
-    height: 50px;
-    line-height: 50px;
+    height: 45px;
+    line-height: 45px;
     margin: 0 30px;
     padding: 8px 5px;
 }
@@ -521,7 +521,7 @@ body, .page {
 .check-border{
     height: 40px;
     line-height: 60px;
-    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
 }
 .bd-margin{
     margin-top: 13px;
@@ -653,6 +653,7 @@ body, .page {
 }
 .btn{
     width: 90%;
+    margin: 0 auto;
     background: #55a3e7;
     border-radius: 5px;
     display:block ;
@@ -663,14 +664,18 @@ body, .page {
     text-align: center;
     line-height: 46px;
     margin:auto;
+    &:active{
+        background: #4493d5;
+    }
 }
 .btn-box{
     width: 100%;
     height:20%;
     padding-top:15px;
-    box-shadow: #ccc 0px -5px 20px;
+    box-shadow:  0 -20px 40px #fff;
     position: relative;
     z-index: 2000;
+
     .two-box-btn{
         width: 90%;
         height: 46px;
@@ -762,8 +767,8 @@ body, .page {
     color: #999;
 }
 .sort_letter{
-    height: 30px;
-    line-height: 30px;
+    height: 25px;
+    line-height: 25px;
     padding-left: 25px;
     color:#787878;
     background: #f0f0f6;
@@ -872,9 +877,9 @@ body, .page {
     height: 100%;
 }
 .btn-bg{
-    width: 40%;
-    margin: 0 5%;
-    float: left;
+    width: 50%;
+    margin: 0 30px 0 0;
+    float: right;
     text-align: center;
     height: 46px;
     line-height: 46px;
@@ -883,9 +888,21 @@ body, .page {
     font-size: 18px;
     font-family: "微软雅黑";
     color: #FFFFFF;
+    &:active{
+        background: #4493d5;
+    }
 }
-.btn-red{
-    background: #f12636;
+.imported-left{
+    float: left;
+    height: 46px;
+    line-height: 46px;
+    width: 30%;
+    margin: 0 0 0 30px;
 }
-
+.imported-person{
+    margin-top: 12px;
+    width: 20px;
+    height: 20px;
+    margin-right: 5%;
+}
 

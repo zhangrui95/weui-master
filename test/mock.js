@@ -192,4 +192,18 @@ module.exports = [
             res.end(JSON.stringify(ret));
         }
     },
+    {
+        route: "/example/api/employee/photo",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','image/png');
+            res.end(fs.readFileSync(__dirname+'/../dist/example/images/header.jpg'));
+        }
+    },
+    {
+        route: "/example/api/employee/doneTask.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:'1'}));
+        }
+    },
 ];

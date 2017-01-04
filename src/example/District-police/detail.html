@@ -5,8 +5,8 @@
     </div>
     <div class="page__bd details cells-ajax page_y"></div>
     <div class="btn-box" id="btnPanel" style="display: none">
-            <a class="btn-bg btn-red" href="javascript:" id="importantBtn" >重点人员</a>
-            <a class="btn-bg" href="javascript:" id="showToast" >非重点人员</a>
+            <label class="imported-left"><input type="checkbox" class="imported-person"  style="float: left" id="importantCheck"/>重点人员</label>
+            <a class="btn-bg" href="javascript:" id="showToast" >确认并核查</a>
     </div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -87,40 +87,41 @@
             });
         }
         $('#showToast').click(function(){
-            $.ajax({
-                type: "POST",
-                url: "api/employee/doneTask.json",
-                data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:1},
-                success: function () {
-                    var source = $('#container').data('detail-source');
-                    if(source == null|| source == ''){
-                        wx.closeWindow();
-                    }else{
-                        window.pageManager.go(source);
+            if($('#importantCheck').prop('checked')){
+                $.ajax({
+                    type: "POST",
+                    url: "api/employee/doneTask.json",
+                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
+                    success: function () {
+                        var source = $('#container').data('detail-source');
+                        if(source == null|| source == ''){
+                            wx.closeWindow();
+                        }else{
+                            window.pageManager.go(source);
+                        }
+                    },
+                    error: function (mes) {
+                        $('#error').css("display","block");
                     }
-                },
-                error: function (mes) {
-                    $('#error').css("display","block");
-                }
-            });
-        });
-        $('#importantBtn').click(function(){
-            $.ajax({
-                type: "POST",
-                url: "api/employee/doneTask.json",
-                data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
-                success: function () {
-                    var source = $('#container').data('detail-source');
-                    if(source == null|| source == ''){
-                        wx.closeWindow();
-                    }else{
-                        window.pageManager.go(source);
+                });
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "api/employee/doneTask.json",
+                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:1},
+                    success: function () {
+                        var source = $('#container').data('detail-source');
+                        if(source == null|| source == ''){
+                            wx.closeWindow();
+                        }else{
+                            window.pageManager.go(source);
+                        }
+                    },
+                    error: function (mes) {
+                        $('#error').css("display","block");
                     }
-                },
-                error: function (mes) {
-                    $('#error').css("display","block");
-                }
-            });
+                });
+            }
         });
     })
 </script>
