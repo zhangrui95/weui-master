@@ -17,7 +17,7 @@
         $galleryImg = $("#galleryImg")
         $.ajax({
             type: "POST",
-            url: "api/task/detail.json",
+            url: "api/task/leaderDetail.json",
             data:{id:$('#taskId').val(),userid:$('#userid').val()},
             success: function (data) {
                 lists(data);
@@ -27,51 +27,58 @@
             }
         });
         function lists(data) {
-                var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
+            var task = data.task;
+            var rota = data.rota;
+            if(rota != null && rota.length > 0){
+                rota = rota[0].user.uid;
+            }
+                var html ='<div class="weui-cells weui-cells_form" id="'+task.id+'">' +
                            '<div class="weui-cell cell-top">'+
                                 '<div class="weui-cell__bd bd-center cell-unleft">'+
-                                    '<img src="api/task/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
+                                    '<img src="api/task/photo?id='+task.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
                                '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    data.card+
+                                    task.card+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.company+
+                                    task.user.company+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">宾馆地址</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.address+
+                                    task.user.address+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    data.user.mobile+
+                                    task.user.mobile+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">上报时间</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                    getLocalTime(data.createTime)+
+                                    getLocalTime(task.createTime)+
                                 '</div>'+
                             '</div>'
                         ;
-            if(data.state=='0'){
-                $('#btnPanel').show();
+            if(task.state=='0'){
+                if(rota == $('#userid').val()){
+                    $('#btnPanel').show();
+                }
             }else{
                 $('.page_y').css('height','95%');
                 html+='<div class="weui-cell cell-border">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                          '<div class="weui-cell__bd bd-right">'+
-                            getLocalTime(data.doneTime)+
+                            getLocalTime(task.doneTime)+
                         '</div>'+
                     '</div>'
             }
