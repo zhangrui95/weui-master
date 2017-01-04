@@ -21,6 +21,9 @@
             data:{id:$('#taskId').val(),userid:$('#userid').val()},
             success: function (data) {
                 lists(data);
+                if($('#btnPanel').css('display','none')){
+                    $('.page_y').css('height','100%');
+                }
             },
             error: function (mes) {
                 $('#error').css("display","block");
@@ -72,6 +75,7 @@
             if(task.state=='0'){
                 if(rota == $('#userid').val()){
                     $('#btnPanel').show();
+                    $('.page_y').css('height','88%');
                 }
             }else{
                 $('.page_y').css('height','95%');
