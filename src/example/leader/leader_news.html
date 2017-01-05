@@ -53,6 +53,14 @@
     </div>
 </div>
 <script>
+    if($('#userPost').val() == '值班管理员'){
+        $('.weui-grid').each(function(){
+            var id = $(this).data('id');
+            if(id != 'Set_up'){
+                $(this).html('');
+            }
+        });
+    }
     $('.weui-grid').on('click', function(){
         var id = $(this).data('id');
         window.pageManager.go(id);
