@@ -53,7 +53,7 @@ module.exports = [
         route: "/example/api/task/detail.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100',company:'禧龙宾馆1',address:'xx路yy号', name:'张三', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
+            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100',company:'',address:'', name:'张三', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
             // ret.state = '1';
             // ret.doneUser = {uid:'2301', name:'民警1'};
             // ret.doneTime = 1482214046832;
@@ -64,10 +64,10 @@ module.exports = [
         route: "/example/api/task/leaderDetail.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100',company:'禧龙宾馆1',address:'xx路yy号', name:'张三', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
-            ret.state = '1';
-            ret.doneUser = {uid:'2301', name:'民警1'};
-            ret.doneTime = 1482214046832;
+            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100', name:'张三', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
+            // ret.state = '1';
+            // ret.doneUser = {uid:'2301', name:'民警1'};
+            // ret.doneTime = 1482214046832;
             res.end(JSON.stringify({task:ret,rota:[{id:'r1',user:{name:'民警2'}}]}));
         }
     },

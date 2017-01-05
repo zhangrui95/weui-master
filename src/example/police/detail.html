@@ -32,6 +32,10 @@
             if(rota != null && rota.length > 0){
                 rota = rota[0].user.uid;
             }
+            var address = task.user.address;
+            address = address==null?'':address;
+            var company = task.user.company;
+            company = company==null?'':company;
                 var html ='<div class="weui-cells weui-cells_form" id="'+task.id+'">' +
                            '<div class="weui-cell cell-top">'+
                                 '<div class="weui-cell__bd bd-center cell-unleft">'+
@@ -47,13 +51,13 @@
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">入住宾馆</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    task.user.company+
+                                    company+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">宾馆地址</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
-                                    task.user.address+
+                                    address+
                                 '</div>'+
                             '</div>'+
                             '<div class="weui-cell cell-border cell-margin">'+
