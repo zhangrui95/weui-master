@@ -13,17 +13,14 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        $gallery = $("#gallery"),
-        $galleryImg = $("#galleryImg")
+        var $gallery = $("#gallery"),
+                $galleryImg = $("#galleryImg");
         $.ajax({
             type: "POST",
             url: "api/task/leaderDetail.json",
             data:{id:$('#taskId').val(),userid:$('#userid').val()},
             success: function (data) {
                 lists(data);
-                if($('#btnPanel').css('display','none')){
-                    $('.page_y').css('height','100%');
-                }
             },
             error: function (mes) {
                 $('#error').css("display","block");
@@ -72,13 +69,14 @@
                                 '</div>'+
                             '</div>'
                         ;
+            var height = '100%';
             if(task.state=='0'){
                 if(rota == $('#userid').val()){
                     $('#btnPanel').show();
-                    $('.page_y').css('height','88%');
+                    height = '88%';
                 }
             }else{
-                $('.page_y').css('height','95%');
+                height = '95%';
                 html+='<div class="weui-cell cell-border cell-margin border-margin"  id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                          '<div class="weui-cell__bd bd-right">'+
@@ -87,6 +85,7 @@
                     '</div>'
             }
             html += '</div>';
+            $('.page_y').css('height',height);
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
             $galleryImg.attr("src", this.getAttribute("src"));
