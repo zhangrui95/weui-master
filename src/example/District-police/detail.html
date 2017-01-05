@@ -28,9 +28,9 @@
             }
         });
         function lists(data) {
-            var address = task.user.address;
+            var address = data.user.address;
             address = address==null?'':address;
-            var company = task.user.company;
+            var company = data.user.company;
             company = company==null?'':company;
             var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                             '<div class="weui-cell cell-top">'+
