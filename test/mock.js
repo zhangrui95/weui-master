@@ -146,7 +146,7 @@ module.exports = [
                     {name:'餐饮',num:12},
                     {name:'旅店',num:21},
                     {name:'汽配',num:7},
-                    {name:'服务',num:81},
+                    {name:'律师事务所',num:81},
                     {name:'KTV',num:90},
                     {name:'维修',num:3},
                     {name:'家政',num:12},
