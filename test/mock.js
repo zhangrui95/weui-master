@@ -243,8 +243,8 @@ module.exports = [
                 nums:{num:2800,done:109},
                 types:[
                     {name:'幼儿园',nums:{num:10}},
-                    {name:'餐饮',nums:{num:180,done:95}},
-                    {name:'旅店',nums:{num:23,done:9}},
+                    {name:'餐饮'},
+                    {name:'旅店',nums:{}},
                     {name:'汽配',nums:{num:89,done:2}},
                     {name:'服务',nums:{num:18,done:9}},
                     {name:'KTV',nums:{num:89,done:2}},
@@ -265,10 +265,10 @@ module.exports = [
                     {name:'律师事务所',nums:{num:37,done:5}}
                 ],
                 persons:[
-                    {name:'Z区',nums:{num:10,done:9}},
+                    {name:'Z区'},
                     {name:'A区',nums:{num:10,done:9}},
-                    {name:'B区',nums:{num:10,done:9}},
-                    {name:'C区',nums:{num:10,done:9}},
+                    {name:'B区',nums:{num:10}},
+                    {name:'C区',nums:{done:9}},
                     {name:'D区',nums:{num:10,done:9}},
                     {name:'E区',nums:{num:10,done:9}},
                     {name:'F区',nums:{num:10,done:9}},
