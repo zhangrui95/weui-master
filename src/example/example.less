@@ -673,7 +673,7 @@ body, .page {
     width: 100%;
     padding-top:15px;
     //box-shadow:  0 -20px 40px #fff;
-   border-top:1px solid #ddd;
+   border-top:1px solid #eee;
     position: relative;
     z-index: 2000;
 
@@ -788,7 +788,7 @@ body, .page {
 .all-num-box{
     border-top:10px solid #EEEEEE;
     width: 100%;
-    height: 40px;
+    height:40px;
     line-height: 50px;
     background:#FFFFFF;
     font-size: 16px;
@@ -880,6 +880,7 @@ body, .page {
 }
 .page_choice{
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 100%;
 }
 .btn-bg{
@@ -921,4 +922,62 @@ body, .page {
     margin:0 10px;
     width: 90%;
 }
-
+.all-nums-box{
+    border-top:10px solid #EEEEEE;
+    width: 100%;
+    height:130px;
+    line-height: 50px;
+    background:#FFFFFF;
+    font-size: 16px;
+    .all-number{
+        width: 94%;
+        margin:0 auto;
+    }
+    .all-num{
+        width: 49%;
+        float: left;
+        text-align: center;
+        border-right: 1px solid #cdcdcd;
+        .all-num-child{
+            color: #55a4e7;
+            font-size: 42px;
+            font-family: '黑体';
+        }
+        .child-name{
+            font-size: 16px;
+            color: #999;
+            line-height: 20px;
+        }
+    }
+    .all-done-num{
+        width: 50%;
+        float: left;
+        text-align: center;
+        .done-num-child{
+            color: #f46c6c;
+            font-size: 42px;
+            font-family: '黑体';
+        }
+        .child-name{
+            font-size: 16px;
+            color: #999;
+            line-height: 20px;
+        }
+    }
+}
+.type-blue{
+    color:#55a4e7;
+}
+.type-red{
+    color:#f46c6c;
+}
+.page-box{
+    width: 100%;
+    font-family: "微软雅黑";
+}
+.search-results{
+    height: 40px;
+    line-height: 41px;
+    padding: 0 10px;
+    border-bottom:1px solid #EEEEEE ;
+}

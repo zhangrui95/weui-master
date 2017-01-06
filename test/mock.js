@@ -235,4 +235,62 @@ module.exports = [
             res.end(JSON.stringify({state:'1'}));
         }
     },
+    {
+        route: "/example/api/employee/info.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                nums:{num:2800,done:109},
+                types:[
+                    {name:'幼儿园',nums:{num:10}},
+                    {name:'餐饮',nums:{num:180,done:95}},
+                    {name:'旅店',nums:{num:23,done:9}},
+                    {name:'汽配',nums:{num:89,done:2}},
+                    {name:'服务',nums:{num:18,done:9}},
+                    {name:'KTV',nums:{num:89,done:2}},
+                    {name:'律师事务所',nums:{num:37,done:5}},
+                    {name:'幼儿园',nums:{num:10,done:9}},
+                    {name:'餐饮',nums:{num:10,done:3}},
+                    {name:'旅店',nums:{num:23,done:9}},
+                    {name:'汽配',nums:{num:89,done:2}},
+                    {name:'服务',nums:{num:180,done:95}},
+                    {name:'KTV',nums:{num:89,done:2}},
+                    {name:'律师事务所',nums:{num:37,done:5}},
+                    {name:'幼儿园',nums:{num:10,done:9}},
+                    {name:'餐饮',nums:{num:18,done:4}},
+                    {name:'旅店',nums:{num:23,done:9}},
+                    {name:'汽配',nums:{num:89}},
+                    {name:'服务',nums:{num:90,done:55}},
+                    {name:'KTV',nums:{num:89,done:2}},
+                    {name:'律师事务所',nums:{num:37,done:5}}
+                ],
+                persons:[
+                    {name:'Z区',nums:{num:10,done:9}},
+                    {name:'A区',nums:{num:10,done:9}},
+                    {name:'B区',nums:{num:10,done:9}},
+                    {name:'C区',nums:{num:10,done:9}},
+                    {name:'D区',nums:{num:10,done:9}},
+                    {name:'E区',nums:{num:10,done:9}},
+                    {name:'F区',nums:{num:10,done:9}},
+                    {name:'G区',nums:{num:10,done:9}},
+                    {name:'H区',nums:{num:10,done:9}},
+                    {name:'I区',nums:{num:10,done:9}},
+                    {name:'Z区',nums:{num:10,done:9}},
+                    {name:'A区',nums:{num:10,done:9}},
+                    {name:'B区',nums:{num:10,done:9}},
+                    {name:'C区',nums:{num:10,done:9}},
+                    {name:'D区',nums:{num:10,done:9}},
+                    {name:'E区',nums:{num:10,done:9}},
+                    {name:'F区',nums:{num:10,done:9}},
+                    {name:'G区',nums:{num:10,done:9}},
+                    {name:'H区',nums:{num:10,done:9}},
+                    {name:'I区',nums:{num:10,done:9}},
+                    {name:'Z区',nums:{num:10,done:9}},
+                    {name:'A区',nums:{num:10,done:9}},
+                    {name:'B区',nums:{num:10,done:9}},
+                    {name:'C区',nums:{num:10,done:9}},
+                ]
+            }));
+        }
+    },
 ];

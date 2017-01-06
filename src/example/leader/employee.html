@@ -1,0 +1,215 @@
+<div class="page clear-data-box">
+    <div class="page_choice all-box">
+        <div class="all-nums-box"  id="all-nums-box"></div>
+        <div class="classification-box">
+            <div class="choice-title">分类
+                <span class="cover-blue" id="all-cover">展开全部</span>
+            </div>
+            <ul class="classification" id="classification"></ul>
+        </div>
+        <div class="area-box">
+            <div class="choice-title">辖区
+                <span class="cover-blue" id="area-all-cover">展开全部</span>
+            </div>
+            <ul class="area" id="area"></ul>
+        </div>
+    </div>
+    <!--<div class="btn-box" data-id="hotel_news">-->
+    <!--<a class="btn" href="javascript:" id="showToast" data-id="company_list">查询</a>-->
+    <!--</div>-->
+</div>
+<script>
+    $(function(){
+        $.ajax({
+            type: "POST",
+            url: "api/employee/info.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                animate(data);
+                types(data);
+                persons(data);
+//                click();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function animate(data){
+            var num =data.nums.num;
+            var done = data.nums.done;
+            var undone = num-done;
+            if(num==null){
+                num=0;
+                undone=0;
+            }
+            if(done==null){
+                undone=0;
+            }
+            $('#all-nums-box').html(
+                    '<div class="all-number">企业从业人员数量</div>'+
+                    '<div class="all-num"><p class="all-num-child timer"  data-to="'+num+'" data-speed="1500">'+num+'</p><p class="child-name">全部</p></div>'+
+                    '<div class="all-done-num"><p class="done-num-child timer"  data-to="'+undone+'" data-speed="1500">'+undone+'</p><p class="child-name">未核查</p></div>'
+            )
+            $.fn.countTo = function (options) {
+                options = options || {};
+
+                return $(this).each(function () {
+                    // set options for current element
+                    var settings = $.extend({}, $.fn.countTo.defaults, {
+                        from:            $(this).data('from'),
+                        to:              $(this).data('to'),
+                        speed:           $(this).data('speed'),
+                        refreshInterval: $(this).data('refresh-interval'),
+                        decimals:        $(this).data('decimals')
+                    }, options);
+                    // how many times to update the value, and how much to increment the value on each update
+                    var loops = Math.ceil(settings.speed / settings.refreshInterval),
+                            increment = (settings.to - settings.from) / loops;
+
+                    // references & variables that will change with each update
+                    var self = this,
+                            $self = $(this),
+                            loopCount = 0,
+                            value = settings.from,
+                            data = $self.data('countTo') || {};
+                    $self.data('countTo', data);
+
+                    // if an existing interval can be found, clear it first
+                    if (data.interval) {
+                        clearInterval(data.interval);
+                    }
+                    data.interval = setInterval(updateTimer, settings.refreshInterval);
+
+                    // initialize the element with the starting value
+                    render(value);
+
+                    function updateTimer() {
+                        value += increment;
+                        loopCount++;
+
+                        render(value);
+
+                        if (typeof(settings.onUpdate) == 'function') {
+                            settings.onUpdate.call(self, value);
+                        }
+
+                        if (loopCount >= loops) {
+                            // remove the interval
+                            $self.removeAttr('countTo');
+                            clearInterval(data.interval);
+                            value = settings.to;
+
+                            if (typeof(settings.onComplete) == 'function') {
+                                settings.onComplete.call(self, value);
+                            }
+                        }
+                    }
+
+                    function render(value) {
+                        var formattedValue = settings.formatter.call(self, value, settings);
+                        $self.html(formattedValue);
+                    }
+                });
+            };
+
+            $.fn.countTo.defaults = {
+                from: 0,               // the number the element should start at
+                to: 0,                 // the number the element should end at
+                speed: 1000,           // how long it should take to count between the target numbers
+                refreshInterval: 100,  // how often the element should be updated
+                decimals: 0,           // the number of decimal places to show
+                formatter: formatter,  // handler for formatting the value before rendering
+                onUpdate: null,        // callback method for every time the element is updated
+                onComplete: null       // callback method for when the element finishes updating
+            };
+
+            function formatter(value, settings) {
+                return value.toFixed(settings.decimals);
+            }
+            // start all the timers
+            $('.timer').each(count);
+
+            function count(options) {
+                var $this = $(this);
+                options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+                $this.countTo(options);
+            }
+
+        }
+
+        var width = document.body.clientWidth;
+        function types(data){
+            if(width>999){
+                $('#all-cover').hide();
+            }else{
+                if (data.types.length > 16) {
+                    $('#all-cover').css('display', 'block');
+                }
+            }
+            for (var i = 0; i < data.types.length; i++) {
+                var items = data.types[i];
+                var nums = items.nums.num;
+                nums = nums==null?'0':nums;
+                var done = items.nums.done;
+                var undone = nums-done;
+                if(done==null){
+                    undone=0;
+                }
+                $('#classification').append('<li class="white-border"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+nums+'</span>)</span></li>');
+                //                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+
+        }
+        function persons(data){
+            if(width>999){
+                $('#all-cover').hide();
+            }else{
+                if(data.persons.length>16){
+                    $('#area-all-cover').css('display','block');
+                }
+            }
+            for(var i=0;i<data.persons.length;i++){
+                var items=data.persons[i];
+                var nums = items.nums.num;
+                nums = nums==null?'0':nums;
+                var done = items.nums.done;
+                var undone = nums-done;
+                if(done==null){
+                    undone=0;
+                }
+                var undone = items.nums.num-items.nums.done;
+                $('#area').append('<li class="white-border"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+nums+'</span>)</span></li>');
+//                $('#area li').eq(0).css('color','#55a3e7');
+            }
+        }
+        $('#all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#classification').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#classification').css('height', '100px');
+                $(this).html('展开全部');
+            }
+        })
+        $('#area-all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#area').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#area').css('height', '100px');
+                $(this).html('展开全部');
+            }
+        })
+        function click() {
+            $("ul li").bind('click',function (){
+                $(this).toggleClass('choice-after');
+                var text = $('.choice-after .item-name').text();
+                console.log(text);
+            })
+        }
+        $('#showToast').on('click',function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        })
+    })
+</script>
