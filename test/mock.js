@@ -240,7 +240,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({
-                nums:{num:2800,done:109},
+                nums:{num:37,done:17},
                 types:[
                     {name:'幼儿园',nums:{num:10}},
                     {name:'餐饮'},
