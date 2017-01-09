@@ -112,11 +112,14 @@
             var dataId = '';
             for(var i=0;i<data.list.length;i++) {
                 var items=data.list[i];
-                if(items.state==0){}
+                console.log(items.state)
+                if(items.state!=0){
+                    $('#circle').removeClass('red-circle')
+                }
                 $('#employee-list').append(
                         '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
-                        '<span class=""></span>'+
+                        '<span class="red-circle" id="circle"></span>'+
                         '<p class="left-cell">' +
                         items.card +
                         '</p>' +

@@ -70,6 +70,10 @@
             cancelSearch();
             $searchInput.blur();
         });
+
+        var typeIds = $('#container').data('data-choice-type-ids').split(',');
+        var policeIds = $('#container').data('data-choice-police-ids').split(',');
+
             var gPageSize = 10;
             var offset = 0;
             var currState = '0';
@@ -82,7 +86,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/employee/companies.json",
-                    data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
+                    data: {userid: $('#userid').val(),typeIds:typeIds,policeIds:policeIds, max: gPageSize, offset: offset},
                     success: function (data) {
                         lists(data);
                         result(data);

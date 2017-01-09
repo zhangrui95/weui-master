@@ -136,19 +136,23 @@
                 texts.push($(this).text())
             });
             $('#container').data('data-choice',texts.join(','));
-            $.ajax({
-                type: "POST",
-                url: "api/employee/companies.json",
-                data:{userid:$('#userid').val(),typeIds:typeIds,policeIds:policeIds,},
-                success: function (data) {
-                    var id = $('#showToast').data('id');
-                    window.pageManager.go(id);
-                    var choice
-                },
-                error: function (mes) {
-                    console.log("error");
-                }
-            });
+            $('#container').data('data-choice-type-ids',typeIds.join(','));
+            $('#container').data('data-choice-police-ids',policeIds.join(','));
+            var id = $('#showToast').data('id');
+            window.pageManager.go(id);
+//            $.ajax({
+//                type: "POST",
+//                url: "api/employee/companies.json",
+//                data:{userid:$('#userid').val(),typeIds:typeIds,policeIds:policeIds,},
+//                success: function (data) {
+//                    var id = $('#showToast').data('id');
+//                    window.pageManager.go(id);
+//                    var choice
+//                },
+//                error: function (mes) {
+//                    console.log("error");
+//                }
+//            });
         })
     })
 </script>
