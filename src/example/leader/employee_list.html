@@ -1,9 +1,6 @@
 <!--旅店信息-->
 <div class="page page-list">
-    <div class="search-results" id="name">
-            <span class="result-name">南京灌汤包</span>
-            <span class="result-num">(<span class="type-red">11</span>/<span class="type-blue">56</span>)</span>
-    </div>
+    <div class="search-results" id="name"></div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="employee-list"></div>
@@ -35,6 +32,10 @@
                 data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
                     lists(data,state);
+                    $('#name').html(
+                            '<span class="result-name">'+data.company.name+'</span>'+
+                            '<span class="result-num">(<span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+data.done+'</span>)</span>'
+                    )
                     var supportTouch = function(){
                         try {
                             document.createEvent("TouchEvent");

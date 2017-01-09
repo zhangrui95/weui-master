@@ -1,18 +1,18 @@
 <div class="page page-list">
-    <div class="weui-search-bar" id="searchBar">
-        <form class="weui-search-bar__form">
-            <div class="weui-search-bar__box">
-                <i class="weui-icon-search"></i>
-                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
-                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-            </div>
-            <label class="weui-search-bar__label" id="searchText">
-                <i class="weui-icon-search"></i>
-                <span>搜索</span>
-            </label>
-        </form>
-        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
-    </div>
+    <!--<div class="weui-search-bar" id="searchBar">-->
+        <!--<form class="weui-search-bar__form">-->
+            <!--<div class="weui-search-bar__box">-->
+                <!--<i class="weui-icon-search"></i>-->
+                <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>-->
+                <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
+            <!--</div>-->
+            <!--<label class="weui-search-bar__label" id="searchText">-->
+                <!--<i class="weui-icon-search"></i>-->
+                <!--<span>搜索</span>-->
+            <!--</label>-->
+        <!--</form>-->
+        <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+    <!--</div>-->
     <div class="search-results" id="search-results"></div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box-bottom">
@@ -174,7 +174,7 @@
                         num = 0;
                         undone=0;
                     }
-                    html += '<label class="weui-cell weui-check__label check-border" data-id="employee_list" data-tid="'+items.id+'">'+
+                    html += '<label class="weui-cell weui-check__label check-border" data-id="employee_list" id="'+items.id+'">'+
                             '<div class="weui-cell__bd">'+
                                 '<p data-phonetic="'+items.phonetic+'">'+items.name+'<span class="num-right">(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></p>'+
                             '</div>'+
