@@ -651,6 +651,7 @@ body, .page {
 }
 .page-list{
     overflow: hidden;
+    font-family: "微软雅黑";
 }
 .btn{
     width: 90%;
@@ -767,6 +768,9 @@ body, .page {
     text-align: center;
     color: #333;
 }
+.initials-top{
+    top: 85px;
+}
 .sort_letter{
     height: 20px;
     line-height: 20px;
@@ -777,6 +781,9 @@ body, .page {
 }
 .bg-box{
     margin-bottom: 70px;
+}
+.bg-box-bottom{
+    margin-bottom: 100px;
 }
 .clear-data-box{
     font-family: "微软雅黑";
@@ -881,7 +888,7 @@ body, .page {
 .page_choice{
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 100%;
+    height: 88%;
 }
 .btn-bg{
     width: 50%;
@@ -937,7 +944,6 @@ body, .page {
         width: 49%;
         float: left;
         text-align: center;
-        border-right: 1px solid #cdcdcd;
         .all-num-child{
             color: #55a4e7;
             font-size: 42px;
@@ -953,6 +959,7 @@ body, .page {
         width: 50%;
         float: left;
         text-align: center;
+        border-right: 1px solid #cdcdcd;
         .done-num-child{
             color: #f46c6c;
             font-size: 42px;
@@ -971,13 +978,48 @@ body, .page {
 .type-red{
     color:#f46c6c;
 }
-.page-box{
-    width: 100%;
-    font-family: "微软雅黑";
-}
 .search-results{
-    height: 40px;
+    overflow: hidden;
+    height: auto;
+    min-height: 40px;
     line-height: 41px;
     padding: 0 10px;
     border-bottom:1px solid #EEEEEE ;
+}
+.search-results{
+    .result-name{
+        float: left;
+    }
+    .result-news{
+        float: left;
+        width: 50%;
+    }
+    .result-num{
+        float: right;
+    }
+}
+.num-right{
+    float: right;
+    font-size: 16px;
+}
+.title-list{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    border-bottom: 1px solid #DDDDDD;
+}
+.no-margin{
+    margin:0;
+}
+.red-circle{
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: #f46c6c;
+    border-radius: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }

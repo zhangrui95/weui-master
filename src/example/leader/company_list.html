@@ -1,4 +1,4 @@
-<div class="page-box">
+<div class="page page-list">
     <div class="weui-search-bar" id="searchBar">
         <form class="weui-search-bar__form">
             <div class="weui-search-bar__box">
@@ -13,7 +13,20 @@
         </form>
         <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
     </div>
-    <div class="search-results">查询结果：</div>
+    <div class="search-results" id="search-results"></div>
+    <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box-bottom">
+            <div class="weui-tab__panel panel_none" id="list">
+            </div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -23,7 +36,6 @@
                 $searchInput = $('#searchInput'),
                 $searchClear = $('#searchClear'),
                 $searchCancel = $('#searchCancel');
-
         function hideSearchResult(){
             $searchResult.hide();
             $searchInput.val('');
@@ -58,5 +70,132 @@
             cancelSearch();
             $searchInput.blur();
         });
+            var gPageSize = 10;
+            var offset = 0;
+            var currState = '0';
+            var loading = false;
+            function getData() {
+                if (loading) {
+                    return;
+                }
+                loading = true;
+                $.ajax({
+                    type: "POST",
+                    url: "api/employee/companies.json",
+                    data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
+                    success: function (data) {
+                        lists(data);
+                        result(data);
+                        var supportTouch = function(){
+                            try {
+                                document.createEvent("TouchEvent");
+                                return true;
+                            } catch (e) {
+                                return false;
+                            }
+                        }();
+
+                        if(supportTouch) {
+                            var startPosition, endPosition, deltaY, moveLength;
+                            $(".weui-cell").bind('touchstart', function (e) {
+                                moveLength = 0;
+                                var touch = e.touches[0];
+                                startPosition = {
+                                    x: touch.clientX,
+                                    y: touch.clientY
+                                }
+                                $('.weui-cell').unbind("click");
+                            }).bind('touchmove', function (e) {
+                                var touch = e.touches[0];
+                                if (touch == null) {
+                                    return;
+                                }
+                                endPosition = {
+                                    x: touch.clientX,
+                                    y: touch.clientY
+                                };
+                                if (startPosition == null) {
+                                    return;
+                                }
+                                deltaY = endPosition.y - startPosition.y;
+                                moveLength = Math.abs(deltaY);
+
+                            }).bind('touchend', function (e) {
+                                if (moveLength == 0) {
+                                    var id = $(this).data('id');
+                                    $('#container').data('detail-source', 'tab');
+                                    $('#taskId').val($(this).data('tid'));
+                                    window.pageManager.go(id);
+                                }
+                            });
+                        }else{
+                            $(".weui-cell").on('click',function () {
+                                var id = $(this).data('id');
+                                $('#container').data('detail-source','tab');
+                                $('#taskId').val($(this).data('tid'));
+                                window.pageManager.go(id);
+                            });
+                        }
+                        $("#load").hide();
+                        loading = false;
+                        if(offset==0){
+                            if(data==null||data.list.length<1){
+                                $('.weui-loadmore_line').show();
+                            }
+                        }
+                    },
+                    beforeSend: function () {
+                        $("#load").show();
+                    },
+                    error: function (mes) {
+                        $("#load").hide();
+                        loading = false;
+                    }
+                });
+            }
+            function result(data){
+                var text = $('#container').data('data-choice');
+                $('#search-results').html('<span class="result-name">查询结果：</span><span class="result-news">'+text+'</span><span class="result-num">(<span class="type-red">'+data.num.undo+'</span>/<span  class="type-blue">'+data.num.num+'</span>)</span>');
+            }
+            function lists(data) {
+                if(data==null||data.list.length<1){
+                    $('.weui-loadmore_line').show();
+                }
+                offset += data.list.length;
+                var html = '',item,curr = $('#container').data('today-rota-id');
+                for(var i=0;i<data.list.length;i++){
+                    items = data.list[i];
+                    var nums = items.nums;
+                    nums = nums==null?{num:0,done:0}:nums;
+                    var num = nums.num;
+                    var done = nums.done;
+                    var undone = nums.num-done;
+                    if(num==null || done==null){
+                        num = 0;
+                        undone=0;
+                    }
+                    html += '<label class="weui-cell weui-check__label check-border" data-id="employee_list" data-tid="'+items.id+'">'+
+                            '<div class="weui-cell__bd">'+
+                                '<p data-phonetic="'+items.phonetic+'">'+items.name+'<span class="num-right">(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></p>'+
+                            '</div>'+
+                            '</label>';
+                }
+                $('#list').append(html);
+            }
+            getData(currState);
+
+        var pagePanel = $('.page__bd');
+        //到达底部加载
+        var winH = $('#container').height(); //页面可视区域高度
+        var scrollHandler = function () {
+            var pageH = pagePanel.find('#box').height();
+            var scrollT = pagePanel.scrollTop();
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {
+                getData(currState);
+            }
+        };
+        //定义鼠标滚动事件
+        pagePanel.on('scroll',scrollHandler);
     });
 </script>
