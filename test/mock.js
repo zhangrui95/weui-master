@@ -298,7 +298,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({
-                    num:{num:31,done:7,undo:24},
+                    nums:{num:31,done:7,undo:24},
                     list:[
                         {id:'key1',name:'南京灌汤包',nums:{num:34,done:21}},
                         {id:'key2',name:'南京灌汤包',nums:{num:34,done:21}},
@@ -321,12 +321,12 @@ module.exports = [
             {
                 company:{name:'九转小磨'},
                 list:[
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    {card:'230105199503232226',createTime:1482214046832,state:'0'}
+                    {card:'230105199503232226',createTime:1482214046832,state:0},
+                    {card:'230105199503232226',createTime:1482214046832,state:1},
+                    {card:'230105199503232226',createTime:1482214046832,state:0},
+                    {card:'230105199503232226',createTime:1482214046832,state:1},
+                    {card:'230105199503232226',createTime:1482214046832,state:1},
+                    {card:'230105199503232226',createTime:1482214046832,state:0}
                 ],
                     done:21,
                     undo:11,

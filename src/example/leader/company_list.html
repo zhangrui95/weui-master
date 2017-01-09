@@ -169,7 +169,7 @@
             }
             function result(data){
                 var text = $('#container').data('data-choice');
-                $('#search-results').html('<span class="result-name">查询结果：</span><span class="result-news">'+text+'</span><span class="result-num">(<span class="type-red">'+data.num.undo+'</span>/<span  class="type-blue">'+data.num.num+'</span>)</span>');
+                $('#search-results').html('<span class="result-name">查询结果：</span><span class="result-news">'+text+'</span><span class="result-num">(<span class="type-red">'+data.nums.undo+'</span>/<span  class="type-blue">'+data.nums.num+'</span>)</span>');
             }
             function lists(data) {
                 if(data==null||data.list.length<1){
