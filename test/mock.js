@@ -340,7 +340,7 @@ module.exports = [
                     {card:'230105199503232226',createTime:1482214046832,state:0},
                     {card:'230105199503232226',createTime:1482214046832,state:1},
                     {card:'230105199503232226',createTime:1482214046832,state:0},
-                    {card:'230105199503232226',createTime:1482214046832,state:1},
+                    {card:'230105199503232226',createTime:1482214046832,state:0},
                     {card:'230105199503232226',createTime:1482214046832,state:1},
                     {card:'230105199503232226',createTime:1482214046832,state:0}
                 ],

@@ -112,25 +112,40 @@
             var dataId = '';
             for(var i=0;i<data.list.length;i++) {
                 var items=data.list[i];
-                console.log(items.state)
-                if(items.state!=0){
-                    $('#circle').removeClass('red-circle')
+                if(items.state==0) {
+                    $('#employee-list').append(
+                            '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
+                            '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<span  class="red-circle"></span>'+
+                            '<p class="left-cell">' +
+                            items.card +
+                            '</p>' +
+                            '<div class="weui-cell__ft cell_fs left-cell">' +
+                            '<img src="images/icon-time.jpg" class="position-time"/>'+
+                            '<span>'+getLocalTime(items.createTime)+'</span>'  +
+                            '<img class="icon-go" src="images/icon-go.jpg"/>'+
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                    );
+                }else{
+                    $('#employee-list').append(
+                            '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
+                            '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<span></span>'+
+                            '<p class="left-cell">' +
+                            items.card +
+                            '</p>' +
+                            '<div class="weui-cell__ft cell_fs left-cell">' +
+                            '<img src="images/icon-time.jpg" class="position-time"/>'+
+                            '<span>'+getLocalTime(items.createTime)+'</span>'  +
+                            '<img class="icon-go" src="images/icon-go.jpg"/>'+
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                    );
                 }
-                $('#employee-list').append(
-                        '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
-                        '<div class="weui-cell__bd cell_bd_border" >' +
-                        '<span class="red-circle" id="circle"></span>'+
-                        '<p class="left-cell">' +
-                        items.card +
-                        '</p>' +
-                        '<div class="weui-cell__ft cell_fs left-cell">' +
-                        '<img src="images/icon-time.jpg" class="position-time"/>'+
-                        '<span>'+getLocalTime(items.createTime)+'</span>'  +
-                        '<img class="icon-go" src="images/icon-go.jpg"/>'+
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
-                );
+
             }
         }
 
