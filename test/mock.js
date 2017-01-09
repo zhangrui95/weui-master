@@ -314,31 +314,25 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/employee-list.json",
+        route: "/example/api/employee/listByCompany.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({
+            res.end(JSON.stringify(
+            {
+                company:{name:'九转小磨'},
                 list:[
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key2', card:'230105199603022202',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key3', card:'230105199603022203',state:'主键', createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key4', card:'230105199603022204',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key2', card:'230105199603022202',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key3', card:'230105199603022203',state:'主键', createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key4', card:'230105199603022204',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key2', card:'230105199603022202',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key3', card:'230105199603022203',state:'主键', createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key4', card:'230105199603022204',state:'主键2',createTime:1482214046832, doneTime:1482214046832},
-                    {id:'key1', card:'230105199603022201',state:'主键',createTime:1482214046832, doneTime:1482214046832}
-
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'}
                 ],
-                undo:9,
-                done:58
-            }));
+                    done:21,
+                    undo:11,
+
+            }
+            ));
         }
     },
 ];

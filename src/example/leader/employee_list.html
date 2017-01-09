@@ -1,7 +1,8 @@
 <!--旅店信息-->
 <div class="page page-list">
-    <div class="title-list">
-            南京灌汤包
+    <div class="search-results" id="name">
+            <span class="result-name">南京灌汤包</span>
+            <span class="result-num">(<span class="type-red">11</span>/<span class="type-blue">56</span>)</span>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
@@ -29,7 +30,7 @@
             loading = true;
             $.ajax({
                 type: "POST",
-                url: "api/employee-list.json",
+                url: "api/employee/listByCompany.json",
                 async: true,
                 data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
                 success: function (data) {
@@ -108,9 +109,8 @@
         }
         function lists(data,state) {
             var dataId = '';
-            for(var i=0;i<data.length;i++) {
-                console.log(data);
-                var items=data[i];
+            for(var i=0;i<data.list.length;i++) {
+                var items=data.list[i];
                 $('#employee-list').append(
                         '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
