@@ -122,18 +122,32 @@
 
                             }).bind('touchend', function (e) {
                                 if (moveLength == 0) {
-                                    var id = $(this).data('id');
-                                    $('#container').data('detail-source', 'tab');
-                                    $('#taskId').val($(this).data('tid'));
-                                    window.pageManager.go(id);
+                                    var cid = $(this).attr('id');
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "api/employee/listByCompany.json",
+                                        data: {userid: $('#userid').val(),cid:cid},
+                                        success: function (data) {
+                                            var id = $('.weui-cell').data('id');
+                                            $('#taskId').val($(this).data('tid'));
+                                            window.pageManager.go(id);
+                                        }
+                                    })
                                 }
                             });
                         }else{
                             $(".weui-cell").on('click',function () {
-                                var id = $(this).data('id');
-                                $('#container').data('detail-source','tab');
-                                $('#taskId').val($(this).data('tid'));
-                                window.pageManager.go(id);
+                                var cid = $(this).attr('id');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "api/employee/listByCompany.json",
+                                    data: {userid: $('#userid').val(),cid:cid},
+                                    success: function (data) {
+                                        var id = $('.weui-cell').data('id');
+                                        $('#taskId').val($(this).data('tid'));
+                                        window.pageManager.go(id);
+                                    }
+                                })
                             });
                         }
                         $("#load").hide();
