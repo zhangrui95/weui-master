@@ -69,56 +69,12 @@
                     lists(data,state);
                     $('#number-left').html('('+data.undo+')');
                     $('#number-right').html('('+data.done+')');
-                    var supportTouch = function(){
-                        try {
-                            document.createEvent("TouchEvent");
-                            return true;
-                        } catch (e) {
-                            return false;
-                        }
-                    }();
-
-                    if(supportTouch) {
-                        var startPosition, endPosition, deltaY, moveLength;
-                        $(".weui-cell").bind('touchstart', function (e) {
-                            moveLength = 0;
-                            var touch = e.touches[0];
-                            startPosition = {
-                                x: touch.clientX,
-                                y: touch.clientY
-                            }
-                            $('.weui-cell').unbind("click");
-                        }).bind('touchmove', function (e) {
-                            var touch = e.touches[0];
-                            if (touch == null) {
-                                return;
-                            }
-                            endPosition = {
-                                x: touch.clientX,
-                                y: touch.clientY
-                            };
-                            if (startPosition == null) {
-                                return;
-                            }
-                            deltaY = endPosition.y - startPosition.y;
-                            moveLength = Math.abs(deltaY);
-
-                        }).bind('touchend', function (e) {
-                            if (moveLength == 0) {
-                                var id = $(this).data('id');
-                                $('#container').data('detail-source', 'company-list');
-                                $('#taskId').val($(this).data('tid'));
-                                window.pageManager.go(id);
-                            }
-                        });
-                    }else{
-                        $(".weui-cell").on('click',function () {
-                            var id = $(this).data('id');
-                            $('#container').data('detail-source','company-list');
-                            $('#taskId').val($(this).data('tid'));
-                            window.pageManager.go(id);
-                        });
-                    }
+                    $(".weui-cell").on('click',function () {
+                        var id = $(this).data('id');
+                        $('#container').data('detail-source','company-list');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    });
 
 
                     $("#load").hide();
