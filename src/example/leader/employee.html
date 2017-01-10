@@ -13,7 +13,8 @@
             </div>
             <ul class="area" id="area"></ul>
         </div>
-        <p class="hint" id="hint">*请选择分类及辖区</p>
+
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类及辖区</p></div>
     </div>
     <div class="btn-box" data-id="hotel_news">
     <a class="btn" href="javascript:" id="showToast" data-id="company_list">查询</a>
@@ -160,7 +161,10 @@
             var typedis=$('#container').data('data-choice-type-ids');
             var policeids=$('#container').data('data-choice-police-ids');
             if(typedis == ''&& policeids == ''){
-                $('#hint').show();
+                $('#hint').fadeIn(100);
+                setTimeout(function () {
+                    $('#hint').fadeOut(100);
+                }, 2000);
             }else{
                 window.pageManager.go(id);
             }
