@@ -3,6 +3,7 @@
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
+    <img src="images/zhang.png" class="zhang" id="zhang"/>
     <div class="page__bd details cells-ajax bd-y"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -28,7 +29,7 @@
             address = address==null?'':address;
             var company = data.user.company;
             company = company==null?'':company;
-            var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
+            var html ='<div class="weui-cells weui-cells_form cells-margin" id="'+data.id+'">' +
                             '<div class="weui-cell cell-top">'+
                             '<div class="weui-cell__bd bd-center cell-unleft">'+
                             '<img src="api/employee/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
@@ -63,8 +64,18 @@
                             '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(data.createTime)+
                             '</div>'+
+                            '</div>'+
+                            '<div class="weui-cell cell-border" id="times">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                            data.doneUser.name+
+                            '</div>'+
                             '</div>'
                     ;
+            console.log(data.personState)
+            if(data.personState==1){
+                $('#zhang').show();
+            }
             if(data.state=='0'){
                 $('#btnPanel').show();
             }else{
@@ -86,43 +97,6 @@
                 $gallery.fadeOut(100);
             });
         }
-        $('#showToast').click(function(){
-            if($('#importantCheck').prop('checked')){
-                $.ajax({
-                    type: "POST",
-                    url: "api/employee/doneTask.json",
-                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:1},
-                    success: function () {
-                        var source = $('#container').data('detail-source');
-                        if(source == null|| source == ''){
-                            wx.closeWindow();
-                        }else{
-                            window.pageManager.go(source);
-                        }
-                    },
-                    error: function (mes) {
-                        $('#error').css("display","block");
-                    }
-                });
-            }else{
-                $.ajax({
-                    type: "POST",
-                    url: "api/employee/doneTask.json",
-                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
-                    success: function () {
-                        var source = $('#container').data('detail-source');
-                        if(source == null|| source == ''){
-                            wx.closeWindow();
-                        }else{
-                            window.pageManager.go(source);
-                        }
-                    },
-                    error: function (mes) {
-                        $('#error').css("display","block");
-                    }
-                });
-            }
-        });
     })
 </script>
 

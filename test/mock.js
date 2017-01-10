@@ -214,7 +214,7 @@ module.exports = [
         route: "/example/api/employee/detail.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            var ret = {id:'key1', card:'230105199603022201', user:{uid:'100',company:'九转小磨',address:'xx路yy号', name:'李四', mobile:'13012345678'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneUser:null, doneTime:null};
+            var ret = {id:'key1',personState:1, card:'230105199603022201', user:{uid:'100',company:'九转小磨',address:'xx路yy号', name:'李四', mobile:'13012345678'},doneUser:{name:'王曦'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneTime:null};
             // ret.state = '1';
             // ret.doneUser = {uid:'2301', name:'民警1'};
             // ret.doneTime = 1482214046832;

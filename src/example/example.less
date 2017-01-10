@@ -1039,10 +1039,25 @@ body, .page {
     text-align: center;
     border-radius: 5px;
     color: #fff;
-    display: none;
+    //display: none;
     img{
         margin-top: 20px;
     }
+}
+.alert{
+    position: fixed;
+    z-index: 5000;
+    width: 9.6em;
+    min-height:5.6em;
+    top: 180px;
+    left: 50%;
+    margin-left: -4.8em;
+    background: rgba(40,40,40,.75);
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 5.6em;
+    display: none;
 }
 .result-name-size{
     font-size: 16px;
@@ -1059,6 +1074,7 @@ body, .page {
 .bd-y{
     height: 100%;
     overflow-y: scroll;
+    margin-bottom: 30px;
 }
 .employee_lis{
     padding: 10px 0 10px 26px;
@@ -1078,4 +1094,12 @@ body, .page {
 }
 .gray-color{
     color: #ccc;
+}
+.zhang{
+    position: absolute;
+    z-index: 10000;
+    width: 44%;
+    top: 145px;
+    left: 145px;
+    display: none;
 }
