@@ -172,8 +172,7 @@ $(function () {
                     touchStartY = e.changedTouches[0].clientY;
                 }]);
                 _old$On.apply(this, ['touchend', function(e){
-                    if (Math.abs(e.changedTouches[0].clientY - touchStartY) > 10) return;
-
+                    if (touchStartY == null || Math.abs(e.changedTouches[0].clientY - touchStartY) > 10) return;
                     e.preventDefault();
                     callback.apply(this, [e]);
                 }]);
