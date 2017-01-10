@@ -321,7 +321,7 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
             {
-                company:{name:'九转小磨'},
+                company:{name:'九转小磨九转小磨九转小磨九转小磨九转小磨'},
                 list:[
                     {card:'230105199503232226',createTime:1482214046832,state:'0'},
                     {card:'230105199503232226',createTime:1482214046832,state:'1'},
