@@ -6,7 +6,7 @@
                 <span class="cover-blue" id="all-cover">展开全部</span>
             </div>
             <ul class="classification" id="classification">
-                <li class="all-news white-border">全部</li>
+                <li class="all-news white-border" id="all-types">全部</li>
             </ul>
         </div>
         <div class="area-box">
@@ -14,7 +14,7 @@
                 <span class="cover-blue" id="area-all-cover">展开全部</span>
             </div>
             <ul class="area" id="area">
-                <li class="all-news  white-border">全部</li>
+                <li class="all-news  white-border" id="all-polices">全部</li>
             </ul>
         </div>
 
@@ -164,11 +164,17 @@
             var id = $('#showToast').data('id');
             var typedis=$('#container').data('data-choice-type-ids');
             var policeids=$('#container').data('data-choice-police-ids');
+            var alltypes = $('#all-types').hasClass('choice-after');
+            var policetypes = $('#all-polices').hasClass('choice-after');
             if(typedis == ''&& policeids == ''){
-                $('#hint').fadeIn(100);
-                setTimeout(function () {
-                    $('#hint').fadeOut(100);
-                }, 2000);
+                if(alltypes||policetypes){
+                    window.pageManager.go(id);
+                }else{
+                    $('#hint').fadeIn(100);
+                    setTimeout(function () {
+                        $('#hint').fadeOut(100);
+                    }, 2000);
+                }
             }else{
                 window.pageManager.go(id);
             }
