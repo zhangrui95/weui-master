@@ -13,6 +13,7 @@
             </div>
             <ul class="area" id="area"></ul>
         </div>
+        <p class="hint" id="hint">*请选择分类及辖区</p>
     </div>
     <div class="btn-box" data-id="hotel_news">
     <a class="btn" href="javascript:" id="showToast" data-id="company_list">查询</a>
@@ -120,8 +121,12 @@
         function click() {
             $("ul li").bind('click',function (){
                 $(this).toggleClass('choice-after');
+                if($('.choice-after .item-name').text()!=''){
+                    $('#hint').hide();
+                }
             })
         }
+
         $('#showToast').on('click',function(){
             var policeIds = [];
             var texts = [];
@@ -139,7 +144,13 @@
             $('#container').data('data-choice-type-ids',typeIds.join(','));
             $('#container').data('data-choice-police-ids',policeIds.join(','));
             var id = $('#showToast').data('id');
-            window.pageManager.go(id);
+            var typedis=$('#container').data('data-choice-type-ids');
+            var policeids=$('#container').data('data-choice-police-ids');
+            if(typedis == ''&& policeids == ''){
+                $('#hint').show();
+            }else{
+                window.pageManager.go(id);
+            }
 //            $.ajax({
 //                type: "POST",
 //                url: "api/employee/companies.json",
