@@ -64,13 +64,8 @@
                             '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(data.createTime)+
                             '</div>'+
-                            '</div>'+
-                            '<div class="weui-cell cell-border" id="times">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
-                            '<div class="weui-cell__bd bd-right">'+
-                            data.doneUser.name+
-                            '</div>'+
                             '</div>'
+
                     ;
             if(data.personState==1){
                 $('#zhang').show();
@@ -83,6 +78,12 @@
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                         '<div class="weui-cell__bd bd-right">'+
                         getLocalTime(data.doneTime)+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="weui-cell cell-border" id="times">'+
+                        '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                        '<div class="weui-cell__bd bd-right">'+
+                        data.doneUser.name+
                         '</div>'+
                         '</div>'
             }
