@@ -300,12 +300,12 @@ module.exports = [
             res.end(JSON.stringify({
                     nums:{num:31,done:7,undo:24},
                     list:[
-                        {item:{id:'key1',name:'南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包',type:{name:'饭店'},police:{name:'李迪迪'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三一'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包',type:{name:'饭店'},police:{name:'李迪迪'}},nums:{num:98,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三一'}},nums:{num:0,done:0}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:90,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:87,done:0}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
                         {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
                         {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
                         {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},

@@ -91,7 +91,7 @@
                     num = 0;
                     undone=0;
                 }
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span class="gray-color">（<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>）</span></li>');
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
                 $('#classification li').eq(0).css('color','#55a3e7');
             }
         }
@@ -114,7 +114,7 @@
                     num = 0;
                     undone=0;
                 }
-                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span  class="gray-color">（<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>）</span></li>');
+                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
                 $('#area li').eq(0).css('color','#55a3e7');
             }
         }
