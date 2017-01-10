@@ -1,6 +1,6 @@
 <!--旅店信息-->
 <div class="page page-list">
-    <div class="search-results" id="name"></div>
+    <div class="search-results result-name-size" id="name"></div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="employee-list"></div>
@@ -109,10 +109,10 @@
             });
         }
         function lists(data,state) {
-            var dataId = '';
+            var dataId = 'employee_detail';
             for(var i=0;i<data.list.length;i++) {
                 var items=data.list[i];
-                if(items.state==0) {
+                if(items.state == '0') {
                     $('#employee-list').append(
                             '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
                             '<div class="weui-cell__bd cell_bd_border" >' +
