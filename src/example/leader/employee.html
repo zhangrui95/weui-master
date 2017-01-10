@@ -5,13 +5,17 @@
             <div class="choice-title">分类
                 <span class="cover-blue" id="all-cover">展开全部</span>
             </div>
-            <ul class="classification" id="classification"></ul>
+            <ul class="classification" id="classification">
+                <li class="all-news white-border">全部</li>
+            </ul>
         </div>
         <div class="area-box">
             <div class="choice-title">辖区
                 <span class="cover-blue" id="area-all-cover">展开全部</span>
             </div>
-            <ul class="area" id="area"></ul>
+            <ul class="area" id="area">
+                <li class="all-news  white-border">全部</li>
+            </ul>
         </div>
 
         <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类及辖区</p></div>
@@ -87,8 +91,8 @@
                     num = 0;
                     undone=0;
                 }
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
-                //                $('#classification li').eq(0).css('color','#55a3e7');
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span class="gray-color">（<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>）</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
             }
         }
         function persons(data){
@@ -110,8 +114,8 @@
                     num = 0;
                     undone=0;
                 }
-                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
-//                $('#area li').eq(0).css('color','#55a3e7');
+                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span  class="gray-color">（<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>）</span></li>');
+                $('#area li').eq(0).css('color','#55a3e7');
             }
         }
         $('#all-cover').click(function() {

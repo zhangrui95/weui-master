@@ -300,30 +300,16 @@ module.exports = [
             res.end(JSON.stringify({
                     nums:{num:31,done:7,undo:24},
                     list:[
-                        {id:'key1',name:'南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key2',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key3',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key4',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key5',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key6',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key7',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key8',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key1',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key2',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key3',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key4',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key5',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key6',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key7',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key8',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key1',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key2',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key3',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key4',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key5',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key6',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key7',name:'南京灌汤包',nums:{num:34,done:21}},
-                        {id:'key8',name:'南京灌汤包',nums:{num:34,done:21}}
+                        {item:{id:'key1',name:'南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包南京灌汤包',type:{name:'饭店'},police:{name:'李迪迪'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三一'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}}
                     ]
                 }
             ));

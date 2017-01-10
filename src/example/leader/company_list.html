@@ -117,7 +117,7 @@
             }
             function result(data){
                 var text = $('#container').data('data-choice');
-                $('#search-results').html('<span class="result-name">查询结果：</span><span class="result-news">'+text+'</span><span class="result-num"><span class="type-red">'+data.nums.undo+'</span>/<span  class="type-blue">'+data.nums.num+'</span></span>');
+                $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">'+'</span><span class="result-num"><span class="type-red">'+data.nums.undo+'</span> / <span  class="type-blue">'+data.nums.num+'</span></span>');
             }
             function lists(data) {
                 if(data==null||data.list.length<1){
@@ -136,10 +136,14 @@
                         num = 0;
                         undone=0;
                     }
-                    html += '<label class="weui-cell weui-check__label check-border" data-id="employee_list" id="'+items.id+'">'+
+                    html +=
+                            '<label class="weui-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.id+'">'+
+                            '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                             '<div class="weui-cell__bd">'+
-                                '<p data-phonetic="'+items.phonetic+'"><span class="item-width">'+items.name+'</span><span class="num-right"><span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span></span></p>'+
+                                '<p><span class="item-width">'+items.item.name+'</span></p>'+
+                                '<p class="size-new">'+items.item.type.name+'、'+items.item.police.name+'</p>'+
                             '</div>'+
+                            '<span class="num-right"><span class="type-red">'+undone+'</span> / <span class="type-blue">'+num+'</span></span>'+
                             '</label>';
                 }
                 $('#list').append(html);
