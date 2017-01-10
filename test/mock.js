@@ -265,7 +265,7 @@ module.exports = [
                     {name:'律师事务所',nums:{num:37,done:5},id:'k21'}
                 ],
                 persons:[
-                    {name:'Z区'},
+                    {name:'Z区',id:'X0'},
                     {name:'A区',nums:{num:10,done:9},id:'X1'},
                     {name:'B区',nums:{num:10},id:'X2'},
                     {name:'C区',nums:{done:9},id:'X3'},

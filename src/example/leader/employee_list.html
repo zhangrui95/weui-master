@@ -25,11 +25,12 @@
                 return;
             }
             loading = true;
+            var cid =  $('#container').data('data-company-name-cid')
             $.ajax({
                 type: "POST",
                 url: "api/employee/listByCompany.json",
                 async: true,
-                data: {userid: $('#userid').val(), max: gPageSize, offset: offset},
+                data: {userid: $('#userid').val(), max: gPageSize, offset: offset,cid:cid},
                 success: function (data) {
                     lists(data,state);
                     $('#name').html(
