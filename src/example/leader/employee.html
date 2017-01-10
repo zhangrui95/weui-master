@@ -157,6 +157,8 @@
             $('#container').data('data-choice-type-ids',typeIds.join(','));
             $('#container').data('data-choice-police-ids',policeIds.join(','));
             var id = $('#showToast').data('id');
+            var typedis=$('#container').data('data-choice-type-ids');
+            var policeids=$('#container').data('data-choice-police-ids');
             if(typedis == ''&& policeids == ''){
                 $('#hint').show();
             }else{

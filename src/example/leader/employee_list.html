@@ -33,9 +33,10 @@
                 data: {userid: $('#userid').val(), max: gPageSize, offset: offset,cid:cid},
                 success: function (data) {
                     lists(data,state);
+                    var nums = data.undo+data.done;
                     $('#name').html(
                             '<span class="result-name">'+data.company.name+'</span>'+
-                            '<span class="result-num">(<span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+data.done+'</span>)</span>'
+                            '<span class="result-num">(<span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span>)</span>'
                     )
                     $(".weui-cell").on('click',function () {
                         var id = $(this).data('id');
@@ -65,8 +66,9 @@
                 }
             });
         }
-        function lists(data,state) {
+        function lists(data) {
             var dataId = 'employee_detail';
+            offset += data.list.length;
             for(var i=0;i<data.list.length;i++) {
                 var items=data.list[i];
                 if(items.state == '0') {
