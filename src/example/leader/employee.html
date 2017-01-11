@@ -137,7 +137,7 @@
             }
         })
         function click() {
-            $('#all-types').on('click',function () {
+            $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
@@ -147,10 +147,6 @@
                 }else{
                     $(this).toggleClass('choice-after');
                 }
-            })
-            $('#all-polices').on('click',function () {
-                $(this).siblings().removeClass('choice-after');
-                $(this).toggleClass('choice-after');
             })
             $('.polices').on('click',function () {
                 if($('#all-polices').hasClass('choice-after')){
