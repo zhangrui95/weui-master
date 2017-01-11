@@ -92,13 +92,13 @@
                             '</div>'+
                             '</div>'
                 }
-                html+= '<div class="weui-cell cell-border cells-margin" id="times">'+
-                        '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
-                        '<div class="weui-cell__bd bd-right">'+
-                        data.doneUser.name+
-                        '</div>'+
-                        '</div>'
             }
+            html+= '<div class="weui-cell cell-border cells-margin" id="times">'+
+                    '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
+                    '<div class="weui-cell__bd bd-right">'+
+                    data.doneUser.name+
+                    '</div>'+
+                    '</div>'
             html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
