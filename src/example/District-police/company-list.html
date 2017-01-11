@@ -30,7 +30,7 @@
         var pagePanel = container.find('.page .page__bd');
         var currDataListCfg = {
             url:'api/task.json',
-            pagePanel,
+            pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
             xhrExternalProcess : function (params,xhr) {
