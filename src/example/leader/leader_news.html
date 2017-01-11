@@ -14,7 +14,7 @@
             </div>
             <p class="weui-grid__label">未带身份证入住</p>
         </a>
-        <a href="javascript:;" class="weui-grid" data-id="employee">
+        <a href="javascript:;" class="weui-grid" data-id="employee" id="employ">
             <div class="weui-grid__icon">
                 <img src="images/icon3.png" alt="">
             </div>
@@ -69,6 +69,10 @@
         var id = $(this).data('id');
         window.pageManager.go(id);
     });
+    $('#employ').on('click',function(){
+        $('#container').data('data-choice-type-ids','');
+        $('#container').data('data-choice-police-ids','');
+    })
     $.ajax({
         type: "POST",
         url: "api/user/info.json",
