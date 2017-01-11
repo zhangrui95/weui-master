@@ -25,9 +25,10 @@
             }
         });
         function lists(data) {
-            var address = data.user.address;
+            var address = data.company.address;
             address = address==null?'':address;
-            var company = data.user.company;
+            var company = data.company.name;
+            var police = data.company.police.name;
             company = company==null?'':company;
             var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                             '<div class="weui-cell cell-top">'+
@@ -96,7 +97,7 @@
             html+= '<div class="weui-cell cell-border cells-margin" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    data.doneUser.name+
+                        police+
                     '</div>'+
                     '</div>'
             html += '</div>';
