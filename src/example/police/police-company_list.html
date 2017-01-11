@@ -136,9 +136,9 @@
         };
 
         var typeIds = container.data('data-choice-type-ids');
-        var policeIds = container.data('data-choice-police-ids');
+        var policeId = container.date('self-policeId',data.policeId);
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typeIds,policeIds:policeIds});
+        currDataList.first({typeIds:typeIds,policeId:policeId});
 
     });
 </script>

@@ -46,10 +46,6 @@
     </div>
 </div>
 <script>
-    $('.weui-grid').on('click', function(){
-        var id = $(this).data('id');
-        window.pageManager.go(id);
-    });
     $.ajax({
         type: "POST",
         url: "api/user/policeInfo.json",
@@ -63,6 +59,11 @@
                 data.avatar += '64'
             }
             $('#imgandname').html('<img src="'+data.avatar+'" class="police-header-img" /><span class="head-name">'+data.name+'</span>');
+            $('#container').date('self-policeId',data.policeId);
+            $('.weui-grid').on('click', function(){
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
         },
         error: function (mes) {
         }
