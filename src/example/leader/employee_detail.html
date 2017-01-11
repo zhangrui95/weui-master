@@ -3,7 +3,7 @@
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
-    <img src="images/zhang.png" class="zhang" id="zhang"/>
+    <!--<img src="images/zhang.png" class="zhang" id="zhang"/>-->
     <div class="page__bd details cells-ajax bd-y"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -29,7 +29,7 @@
             address = address==null?'':address;
             var company = data.user.company;
             company = company==null?'':company;
-            var html ='<div class="weui-cells weui-cells_form cells-margin" id="'+data.id+'">' +
+            var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                             '<div class="weui-cell cell-top">'+
                             '<div class="weui-cell__bd bd-center cell-unleft">'+
                             '<img src="api/employee/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
@@ -67,25 +67,35 @@
                             '</div>'
 
                     ;
-            if(data.personState==1){
-                $('#zhang').show();
-            }
             if(data.state=='0'){
                 $('#btnPanel').show();
             }else{
                 $('.page_y').css('height','95%');
-                html+='<div class="weui-cell cell-border border-margin" id="fin-time">'+
+                html+='<div class="weui-cell cell-border" id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                         '<div class="weui-cell__bd bd-right">'+
                         getLocalTime(data.doneTime)+
                         '</div>'+
                         '</div>'+
                         '<div class="weui-cell cell-border" id="times">'+
-                        '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                        '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
                         '<div class="weui-cell__bd bd-right">'+
                         data.doneUser.name+
                         '</div>'+
                         '</div>'
+                if(data.personState==1){
+                    html+='<div class="weui-cell cell-border cells-margin" id="fin-time">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                '重点人员'+
+                            '</div>'
+                }else{
+                    html+='<div class="weui-cell cell-border cells-margin" id="fin-time">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                '非重点人员'+
+                            '</div>'
+                }
             }
             html += '</div>';
             $('.cells-ajax').append(html);
