@@ -1,0 +1,77 @@
+<!--旅店信息-->
+<div class="page page-list">
+    <div class="search-results result-name-size" id="name"></div>
+    <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="employee-list"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var container = $('#container');
+        var pagePanel = container.find('.page .page__bd');
+
+        var currDataListCfg = {
+            url:'api/employee/listByCompany.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#employee-list'),
+            xhrExternalProcess : function (params,xhr) {
+                var data=xhr,nums = data.undo+data.done;
+                $('#name').html(
+                        '<span class="result-name overflow-name">'+data.company.name+'</span>'+
+                        '<span class="result-num"><span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span></span>'
+                );
+                $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    container.data('detail-source','company-list');
+                    $('#taskId').val($(this).data('tid'));
+                    window.pageManager.go(id);
+                });
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+            },
+            templateProcess : function (items) {
+                var red = items.state == '0' ? 'class="red-circle"':'';
+                return '<div class="weui-cell bg-cell no-margin"  data-id="police-employee_detail" data-tid="'+items.id+'">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                        '<span  '+red+'></span>'+
+                        '<p class="left-cell">' +
+                        items.card +
+                        '</p>' +
+                        '<div class="weui-cell__ft cell_fs left-cell">' +
+                        '<img src="images/icon-time.jpg" class="position-time"/>'+
+                        '<span>'+getLocalTime(items.createTime)+'</span>'  +
+                        '<img class="icon-go" src="images/icon-go.jpg"/>'+
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+
+        var cid =  container.data('data-company-name-cid');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({cid:cid});
+
+    });
+
+</script>
+
+

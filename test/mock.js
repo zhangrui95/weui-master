@@ -121,6 +121,13 @@ module.exports = [
         }
     },
     {
+        route: "/example/api/user/policeInfo.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({count:10,employes:31,policeId:'xx',name:'苏素素',avatar:'images/head.jpg?'}));
+        }
+    },
+    {
         route: "/example/api/rota/allot.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
@@ -347,6 +354,38 @@ module.exports = [
 
             }
             ));
+        }
+    },
+    {
+        route: "/example/api/employee/policeInfo.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                nums:{num:37,done:17},
+                types:[
+                    {name:'幼儿园',nums:{num:10},id:'k1'},
+                    {name:'餐饮',id:'k2'},
+                    {name:'旅店',nums:{},id:'k3'},
+                    {name:'汽配',nums:{num:89,done:2},id:'k4'},
+                    {name:'服务',nums:{num:18,done:9},id:'k5'},
+                    {name:'KTV',nums:{num:89,done:2},id:'k6'},
+                    {name:'律师事务所',nums:{num:37,done:5},id:'k7'},
+                    {name:'幼儿园',nums:{num:10,done:9},id:'k8'},
+                    {name:'餐饮',nums:{num:10,done:3},id:'k9'},
+                    {name:'旅店',nums:{num:23,done:9},id:'k10'},
+                    {name:'汽配',nums:{num:89,done:2},id:'k11'},
+                    {name:'服务',nums:{num:180,done:95},id:'k12'},
+                    {name:'KTV',nums:{num:89,done:2},id:'k13'},
+                    {name:'律师事务所',nums:{num:37,done:5},id:'k14'},
+                    {name:'幼儿园',nums:{num:10,done:9},id:'k15'},
+                    {name:'餐饮',nums:{num:18,done:4},id:'k16'},
+                    {name:'旅店',nums:{num:23,done:9},id:'k17'},
+                    {name:'汽配',nums:{num:89},id:'k18'},
+                    {name:'服务',nums:{num:90,done:55},id:'k19'},
+                    {name:'KTV',nums:{num:89,done:2},id:'k20'},
+                    {name:'律师事务所',nums:{num:37,done:5},id:'k21'}
+                ],
+            }));
         }
     },
 ];

@@ -1,0 +1,127 @@
+<div class="page clear-data-box">
+    <div class="page_choice all-box">
+        <div class="all-nums-box"  id="all-nums-box"></div>
+        <div class="classification-box">
+            <div class="choice-title">分类</div>
+            <ul class="classification  box-height" id="classification">
+                <li class="all-news white-border choice-after" id="all-types">全部</li>
+            </ul>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类及辖区</p></div>
+    </div>
+    <div class="btn-box" data-id="hotel_news">
+        <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查询</a>
+    </div>
+</div>
+<script>
+    $(function(){
+        var width = document.body.clientWidth;
+        var typedis=$('#container').data('data-choice-type-ids');
+        $.ajax({
+            type: "POST",
+            url: "api/employee/info.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                animate(data);
+                types(data);
+                click();
+                recover(typedis);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+        }
+        function animate(data){
+            var num =data.nums.num;
+            var done = data.nums.done;
+            var undone = num-done;
+            if(num==null){
+                num=0;
+                undone=0;
+            }
+            if(done==null){
+                undone=0;
+            }
+            $('#all-nums-box').html(
+                    '<div class="all-number">企业从业人员统计</div>'+
+                    '<div class="all-done-num"><p class="done-num-child timer"  data-to="'+undone+'" data-speed="700">'+undone+'</p><p class="child-name">未核查</p></div>'+
+                    '<div class="all-num"><p class="all-num-child timer"  data-to="'+num+'" data-speed="700">'+num+'</p><p class="child-name">全部</p></div>'
+            )
+            animates();
+        }
+        function types(data){
+            if(width>999){
+                $('#all-cover').hide();
+            }else{
+                if (data.types.length > 16) {
+                    $('#all-cover').css('display', 'block');
+                }
+            }
+            for (var i = 0; i < data.types.length; i++) {
+                var items = data.types[i];
+                var nums = items.nums;
+                nums = nums==null?{num:0,done:0}:nums;
+                var num = nums.num;
+                var done = nums.done;
+                var undone = nums.num-done;
+                if(num==null || done==null){
+                    num = 0;
+                    undone=0;
+                }
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+        }
+        function click() {
+            $('#all-types').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
+                $(this).toggleClass('choice-after');
+            })
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+        }
+        $('#showToast').on('click',function(){
+            var texts = [];
+            var typeIds = [];
+            $('.types.choice-after').each (function(){
+                typeIds.push($(this).attr('id'));
+            })
+            $('.choice-after .item-name').each(function(){
+                texts.push($(this).text())
+            });
+            $('#container').data('data-choice',texts.join(','));
+            $('#container').data('data-choice-type-ids',typeIds.join(','));
+            var id = $('#showToast').data('id');
+            var typedis=$('#container').data('data-choice-type-ids');
+            var alltypes = $('#all-types').hasClass('choice-after');
+            if(typedis == ''){
+                if(alltypes){
+                    window.pageManager.go(id);
+                }else{
+                    $('#hint').fadeIn(100);
+                    setTimeout(function () {
+                        $('#hint').fadeOut(100);
+                    }, 2000);
+                }
+            }else{
+                window.pageManager.go(id);
+            }
+        })
+    })
+</script>
