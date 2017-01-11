@@ -16,113 +16,59 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        var gPageSize = 10;
-        var offset = 0;
-        var currState = '0';
-        var loading = false;
-        function getData(state) {
-            if(loading){
-                return;
-            }
-            loading = true;
-            var cid =  $('#container').data('data-company-name-cid')
-            $.ajax({
-                type: "POST",
-                url: "api/employee/listByCompany.json",
-                async: true,
-                data: {userid: $('#userid').val(), max: gPageSize, offset: offset,cid:cid},
-                success: function (data) {
-                    lists(data,state);
-                    var nums = data.undo+data.done;
-                    $('#name').html(
-                            '<span class="result-name overflow-name">'+data.company.name+'</span>'+
-                            '<span class="result-num"><span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span></span>'
-                    )
-                    $(".weui-cell").on('click',function () {
-                        var id = $(this).data('id');
-                        $('#container').data('detail-source','company-list');
-                        $('#taskId').val($(this).data('tid'));
-                        window.pageManager.go(id);
-                    });
-                    $("#load").hide();
-                    loading = false;
-                    if(offset==0){
-                        $('.weui-loadmore_line').hide();
-                    }else{
-                        if(data==null||data.length<1){
-                            $('.weui-loadmore_line').show();
-                            $('.empty-box').hide();
-                        }
-                    }
+        var container = $('#container');
+        var pagePanel = container.find('.page .page__bd');
 
-                },
-                beforeSend: function () {
-                    $("#load").show();
-                    $(".weui-loadmore_line").hide();
-                },
-                error: function () {
-                    $("#load").hide();
-                    loading = false;
-                }
-            });
-        }
-        function lists(data) {
-            var dataId = 'employee_detail';
-            offset += data.list.length;
-            for(var i=0;i<data.list.length;i++) {
-                var items=data.list[i];
-                if(items.state == '0') {
-                    $('#employee-list').append(
-                            '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
-                            '<div class="weui-cell__bd cell_bd_border" >' +
-                            '<span  class="red-circle"></span>'+
-                            '<p class="left-cell">' +
-                            items.card +
-                            '</p>' +
-                            '<div class="weui-cell__ft cell_fs left-cell">' +
-                            '<img src="images/icon-time.jpg" class="position-time"/>'+
-                            '<span>'+getLocalTime(items.createTime)+'</span>'  +
-                            '<img class="icon-go" src="images/icon-go.jpg"/>'+
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                    );
-                }else{
-                    $('#employee-list').append(
-                            '<div class="weui-cell bg-cell no-margin"  data-id="'+dataId+'" data-tid="'+items.id+'">' +
-                            '<div class="weui-cell__bd cell_bd_border" >' +
-                            '<span></span>'+
-                            '<p class="left-cell">' +
-                            items.card +
-                            '</p>' +
-                            '<div class="weui-cell__ft cell_fs left-cell">' +
-                            '<img src="images/icon-time.jpg" class="position-time"/>'+
-                            '<span>'+getLocalTime(items.createTime)+'</span>'  +
-                            '<img class="icon-go" src="images/icon-go.jpg"/>'+
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                    );
-                }
-
-            }
-        }
-
-        getData(currState);
-
-        var pagePanel = $('#container .page .page__bd');
-        //到达底部加载
-        var winH = $('#container').height(); //页面可视区域高度
-        var scrollHandler = function () {
-            var pageH = pagePanel.find('#box').height();
-            var scrollT = pagePanel.scrollTop();
-            var aa = (pageH - winH - scrollT) / winH;
-            if (aa < 0.02) {
-                getData(currState);
+        var currDataListCfg = {
+            url:'api/employee/listByCompany.json',
+            pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#employee-list'),
+            xhrExternalProcess : function (params,xhr) {
+                var data=xhr,nums = data.undo+data.done;
+                $('#name').html(
+                        '<span class="result-name overflow-name">'+data.company.name+'</span>'+
+                        '<span class="result-num"><span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span></span>'
+                );
+                $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    container.data('detail-source','company-list');
+                    $('#taskId').val($(this).data('tid'));
+                    window.pageManager.go(id);
+                });
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+            },
+            templateProcess : function (items) {
+                var red = items.state == '0' ? 'class="red-circle"':'';
+                return '<div class="weui-cell bg-cell no-margin"  data-id="employee_detail" data-tid="'+items.id+'">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                        '<span  '+red+'></span>'+
+                        '<p class="left-cell">' +
+                        items.card +
+                        '</p>' +
+                        '<div class="weui-cell__ft cell_fs left-cell">' +
+                        '<img src="images/icon-time.jpg" class="position-time"/>'+
+                        '<span>'+getLocalTime(items.createTime)+'</span>'  +
+                        '<img class="icon-go" src="images/icon-go.jpg"/>'+
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
             }
         };
-//        定义鼠标滚动事件
-        pagePanel.on('scroll',scrollHandler);
+
+        var cid =  container.data('data-company-name-cid');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({cid});
 
     });
 
