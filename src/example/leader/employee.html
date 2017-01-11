@@ -53,8 +53,16 @@
             for(var i in id){
                 $('#'+id[i]).addClass('choice-after');
             }
-            $('#all-types').removeClass('choice-after');
-            $('#all-polices').removeClass('choice-after');
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+            if(policeids==''){
+                $('#all-polices').addClass('choice-after');
+            }else{
+                $('#all-polices').removeClass('choice-after');
+            }
         }
         function animate(data){
             var num =data.nums.num;

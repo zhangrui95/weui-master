@@ -1,0 +1,80 @@
+<div class="page">
+    <div>
+        <a href="javascript:;" class="weui-grid" data-id="Set_up">
+            <div class="weui-grid__icon">
+                <img src="images/icon1.png" alt="">
+            </div>
+            <p class="weui-grid__label">设置值班民警</p>
+        </a>
+        <a href="javascript:;" class="weui-grid" data-id="hotel_news">
+            <div class="weui-grid__icon">
+                <img src="images/icon2.png" alt="">
+                <span class="weui-badge" style="position: absolute;top: -0.8em;left: 1.6em;"></span>
+            </div>
+            <p class="weui-grid__label">未带身份证入住</p>
+        </a>
+        <a href="javascript:;" class="weui-grid" data-id="employee" id="employ">
+            <div class="weui-grid__icon">
+                <img src="images/icon3.png" alt="">
+            </div>
+            <p class="weui-grid__label">从业人员上报</p>
+        </a>
+        <a href="javascript:;" class="weui-grid">
+            <div class="weui-grid__icon">
+                <img src="images/icon4.png" alt="">
+            </div>
+            <p class="weui-grid__label">静态车辆采集</p>
+        </a>
+        <a href="javascript:;" class="weui-grid">
+            <div class="weui-grid__icon">
+                <img src="images/icon5.png" alt="">
+            </div>
+            <p class="weui-grid__label">群防群治</p>
+        </a>
+        <a href="javascript:;" class="weui-grid" data-id="clear_data">
+            <div class="weui-grid__icon">
+                <img src="images/icon6.png" alt="">
+            </div>
+            <p class="weui-grid__label">企业底数清</p>
+        </a>
+        <a href="javascript:;" class="weui-grid">
+            <div class="weui-grid__icon">
+                <img src="images/icon7.png" alt="">
+            </div>
+            <p class="weui-grid__label">出租房管理</p>
+        </a>
+        <a href="javascript:;" class="weui-grid">
+        </a>
+        <a href="javascript:;" class="weui-grid">
+        </a>
+        <a href="javascript:;" class="weui-grid">
+        </a>
+        <a href="javascript:;" class="weui-grid">
+        </a>
+        <a href="javascript:;" class="weui-grid">
+        </a>
+    </div>
+</div>
+<script>
+    $('.weui-grid').on('click', function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    });
+    $.ajax({
+        type: "POST",
+        url: "api/user/info.json",
+        data:{userid:$('#userid').val()},
+        success: function (data) {
+            $(".weui-badge").html(data.count);
+            var rota = data.rota;
+            if(rota ==　null ||　rota.length < 1){
+                return
+            }
+            var first = rota[0];
+            $('#container').data('today-rota-id',first.user.id);
+            $(".header-bg span").html(first.user.name);
+        },
+        error: function (mes) {
+        }
+    });
+</script>
