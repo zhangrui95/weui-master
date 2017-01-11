@@ -82,7 +82,7 @@
 
         var currDataListCfg = {
             url:'api/employee/companies.json',
-            pagePanel,
+            pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
             itemsPanel:$('#list'),
@@ -138,7 +138,7 @@
         var typeIds = container.data('data-choice-type-ids');
         var policeIds = container.data('data-choice-police-ids');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds,policeIds});
+        currDataList.first({typeIds:typeIds,policeIds:policeIds});
 
     });
 </script>

@@ -21,7 +21,7 @@
 
         var currDataListCfg = {
             url:'api/employee/listByCompany.json',
-            pagePanel,
+            pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
             itemsPanel:$('#employee-list'),
@@ -68,7 +68,7 @@
 
         var cid =  container.data('data-company-name-cid');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({cid});
+        currDataList.first({cid:cid});
 
     });
 
