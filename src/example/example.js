@@ -154,6 +154,121 @@ $(function () {
         }
     };
 
+    var dataListOpt = {
+        pageSize:10,
+        offset:0,
+        loading:false,
+        data:undefined,
+        xhrListKey:'list',
+        url:undefined,
+        pagePanel:undefined,
+        itemsPanel:undefined,
+        winPanel:undefined,
+        winHeight:undefined,
+        scrollPanel:undefined,
+        scrollLoad:0.02,
+        init : function(){
+            this.winHeight = this.winPanel.height();
+            this.pagePanel.on('scroll',this.scrollHandler.bind(this));
+        },
+        first : function(data){
+            this.setData(data);
+            this.next();
+        },
+        next : function(){
+            this.remote();
+        },
+        before:function(){},
+        after:function(){},
+        xhrAfter:function(){
+            this.after();
+            this.loading = false;
+        },
+        setData:function(data){
+            this.data = data;
+            this.offset = 0;
+        },
+        makeParamData : function(){
+            var data = this.data || {};
+            data.max = this.pageSize;
+            data.offset = this.offset;
+            data.userid = $('#userid').val();
+            return data;
+        },
+        remote : function(){
+            if(this.loading){
+                return;
+            }
+            this.loading = true;
+            this.before();
+            var oThis = this;
+            var params = this.makeParamData();
+
+            $.ajax({
+                type: "POST",
+                url: this.url,
+                async: true,
+                data: params,
+                success: function (xhr) {
+                    oThis.xhrProcess(params,xhr);
+                    oThis.xhrAfter();
+                },
+                error: function (err) {
+                    oThis.xhrAfter();
+                }
+            });
+        },
+        templateProcess : function (item) {
+            return '<div>' + JSON.stringify(item)+'</div>'
+        },
+        getItemsPanel : function () {
+            return this.itemsPanel
+        },
+        itemProcess : function (item) {
+            this.getItemsPanel().append(this.templateProcess(item));
+        },
+        listProcess : function (list) {
+            for(var i in list) {
+                this.itemProcess(list[i])
+            }
+        },
+        emptyCb : function () {},
+        noMoreCb : function () {},
+        xhrExternalProcess : function (params,xhr) {},
+        xhrProcess : function (params,xhr) {
+            var list = xhr[this.xhrListKey];
+            if(list!=null && list.length != 0){
+                this.offset += list.length;
+                this.listProcess(list);
+            }
+            if(this.offset==0){
+                this.emptyCb()
+            }else{
+                if(list||list.length<1){
+                    this.noMoreCb()
+                }
+            }
+            this.xhrExternalProcess(params,xhr);
+        },
+        scrollHandler : function(){
+            var pageH = this.scrollPanel.height();
+            var scrollT = this.pagePanel.scrollTop();
+            var winH = this.winHeight;
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < this.scrollLoad) {
+                this.next();
+            }
+        }
+    };
+
+    var dataList = {
+        newList : function(opt){
+            var newDataList = $.extend({},dataListOpt,opt);
+            newDataList.init();
+            return newDataList;
+        }
+    };
+
     function fastClick(){
         var supportTouch = function(){
             try {
@@ -302,6 +417,8 @@ $(function () {
         fastClick();
         androidInputBugFix();
         setJSAPI();
+        window.dataList = dataList;
+
         setPageManager();
 
         window.pageManager = pageManager;
