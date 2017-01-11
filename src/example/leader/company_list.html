@@ -72,106 +72,73 @@
             $searchInput.blur();
         });
 
-        var typeIds = $('#container').data('data-choice-type-ids');
-        var policeIds = $('#container').data('data-choice-police-ids');
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
 
-            var gPageSize = 10;
-            var offset = 0;
-            var currState = '0';
-            var loading = false;
-            function getData() {
-                if (loading) {
-                    return;
-                }
-                loading = true;
-                $.ajax({
-                    type: "POST",
-                    url: "api/employee/companies.json",
-                    data: {userid: $('#userid').val(),typeIds:typeIds,policeIds:policeIds, max: gPageSize, offset: offset},
-                    success: function (data) {
-                        lists(data);
-                        result(data);
-                        $(".weui-cell").on('click',function () {
-                            var allnum=$(this).find('.num-right .type-blue').text()
-                            if(allnum==0){
-                                $('#alert').fadeIn(100);
-                                setTimeout(function () {
-                                    $('#alert').fadeOut(100);
-                                }, 2000);
-                            }else{
-                                var cid = $(this).attr('id');
-                                $('#container').data('data-company-name-cid',cid);
-                                var id = $('.weui-cell').data('id');
-                                $('#taskId').val($(this).data('tid'));
-                                window.pageManager.go(id);
-                            }
-                        });
-                        $("#load").hide();
-                        loading = false;
-                        if(offset==0){
-                            if(data==null||data.list.length<1){
-                                $("#load").hide();
-                                $('.weui-loadmore_line').show();
-                            }
-                        }
-                    },
-                    beforeSend: function () {
-                        $("#load").show();
-                        $('.weui-loadmore_line').hide();
-                    },
-                    error: function (mes) {
-                        $("#load").hide();
-                        loading = false;
+        function result(data){
+            var text = container.data('data-choice');
+            $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">'+'</span><span class="result-num"><span class="type-red">'+data.nums.undo+'</span> / <span  class="type-blue">'+data.nums.num+'</span></span>');
+        }
+
+        var currDataListCfg = {
+            url:'api/employee/companies.json',
+            pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params,xhr) {
+                result(xhr);
+                $(".weui-cell").on('click',function () {
+                    var allnum=$(this).find('.num-right .type-blue').text()
+                    if(allnum==0){
+                        $('#alert').fadeIn(100);
+                        setTimeout(function () {
+                            $('#alert').fadeOut(100);
+                        }, 2000);
+                    }else{
+                        var cid = $(this).attr('id');
+                        container.data('data-company-name-cid',cid);
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
                     }
                 });
-            }
-            function result(data){
-                var text = $('#container').data('data-choice');
-                $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">'+'</span><span class="result-num"><span class="type-red">'+data.nums.undo+'</span> / <span  class="type-blue">'+data.nums.num+'</span></span>');
-            }
-            function lists(data) {
-                if(data==null||data.list.length<1){
-                    $('.weui-loadmore_line').show();
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+            },
+            templateProcess : function (items) {
+                var nums = items.nums;
+                nums = nums==null?{num:0,done:0}:nums;
+                var num = nums.num;
+                var done = nums.done;
+                var undone = nums.num-done;
+                if(num==null || done==null){
+                    num = 0;
+                    undone=0;
                 }
-                offset += data.list.length;
-                var html = '',item,curr = $('#container').data('today-rota-id');
-                for(var i=0;i<data.list.length;i++){
-                    items = data.list[i];
-                    var nums = items.nums;
-                    nums = nums==null?{num:0,done:0}:nums;
-                    var num = nums.num;
-                    var done = nums.done;
-                    var undone = nums.num-done;
-                    if(num==null || done==null){
-                        num = 0;
-                        undone=0;
-                    }
-                    html +=
-                            '<label class="weui-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
-                            '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
-                            '<div class="weui-cell__bd size-width">'+
-                                '<div><span class="item-width">'+items.item.name+'</span></div>'+
-                                '<div class="size-new">'+items.item.type.name+'、'+items.item.police.name+'</div>'+
-                            '</div>'+
-                            '<span class="num-right"><span class="type-red">'+undone+'</span> / <span class="type-blue">'+num+'</span></span>'+
-                            '</label>';
-                }
-                $('#list').append(html);
-            }
-            getData(currState);
-
-        var pagePanel = $('.page__bd');
-        //到达底部加载
-        var winH = $('#container').height(); //页面可视区域高度
-        var scrollHandler = function () {
-            var pageH = pagePanel.find('#box').height();
-            var scrollT = pagePanel.scrollTop();
-            var aa = (pageH - winH - scrollT) / winH;
-            if (aa < 0.02) {
-                getData(currState);
+                return'<label class="weui-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width">'+items.item.name+'</span></div>'+
+                        '<div class="size-new">'+items.item.type.name+'、'+items.item.police.name+'</div>'+
+                        '</div>'+
+                        '<span class="num-right"><span class="type-red">'+undone+'</span> / <span class="type-blue">'+num+'</span></span>'+
+                        '</label>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
             }
         };
-        //定义鼠标滚动事件
-        pagePanel.on('scroll',scrollHandler);
+
+        var typeIds = container.data('data-choice-type-ids');
+        var policeIds = container.data('data-choice-police-ids');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({typeIds,policeIds});
+
     });
 </script>

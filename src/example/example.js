@@ -244,7 +244,7 @@ $(function () {
             if(this.offset==0){
                 this.emptyCb()
             }else{
-                if(list||list.length<1){
+                if(list && list.length<1){
                     this.noMoreCb()
                 }
             }
