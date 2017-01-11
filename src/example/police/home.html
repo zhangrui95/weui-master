@@ -1,5 +1,11 @@
 <script type="text/javascript">
     $(function(){
-        window.location.href='#police_news';
+        var tid = $('#taskId').val(),target = $('#targetId').val();
+        if(tid==null||tid==''){
+            target = 'police_news';
+        }else{
+            target = target==null||target==''?'detail':target;
+        }
+        location.hash = target;
     })
 </script>
