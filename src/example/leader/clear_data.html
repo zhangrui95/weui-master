@@ -72,7 +72,7 @@
             }
         }
         function animate(data){
-            var num =data.nums.num;
+            var num =data.num;
             if(num==null){
                 num=0;
             }
@@ -103,15 +103,6 @@
             }
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
-                var nums = items.nums;
-                nums = nums==null?{num:0,done:0}:nums;
-                var num = nums.num;
-                var done = nums.done;
-                var undone = nums.num-done;
-                if(num==null || done==null){
-                    num = 0;
-                    undone=0;
-                }
                 $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>('+items.num+')</span></li>');
                 $('#area li').eq(0).css('color','#55a3e7');
             }
