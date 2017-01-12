@@ -1,43 +1,84 @@
 <div class="page clear-data-box">
     <div class="page_choice all-box">
-        <div class="all-num-box">
-            <div class="all-number">全部企业</div>
-            <div class="all-num"></div>
-        </div>
+        <div class="all-num-box"></div>
         <div class="classification-box">
-                <div class="choice-title">分类
-                    <span class="cover-blue" id="all-cover">展开全部</span>
-                </div>
-                <ul class="classification" id="classification"></ul>
+            <div class="choice-title">分类
+                <span class="cover-blue" id="all-cover">展开全部</span>
+            </div>
+            <ul class="classification" id="classification">
+                <li class="all-news white-border choice-after" id="all-types">全部</li>
+            </ul>
         </div>
         <div class="area-box">
-                <div class="choice-title">辖区
-                    <span class="cover-blue" id="area-all-cover">展开全部</span>
-                </div>
-                <ul class="area" id="area"></ul>
+            <div class="choice-title">辖区
+                <span class="cover-blue" id="area-all-cover">展开全部</span>
+            </div>
+            <ul class="area" id="area">
+                <li class="all-news  white-border choice-after" id="all-polices">全部</li>
+            </ul>
         </div>
+        <div class="area-box sort-box">
+            <div class="choice-title">类别
+            </div>
+            <ul class="area sort">
+                <li class="all-news"><span class="item-name">普通</span><span>(<span class="type-red">0</span>/<span class="type-blue">0</span>)</span></li>
+                <li class="all-news"><span class="item-name">其他</span><span>(<span class="type-red">0</span>/<span class="type-blue">0</span>)</span></li>
+            </ul>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类及辖区</p></div>
     </div>
-    <!--<div class="btn-box" data-id="hotel_news">-->
-        <!--<a class="btn" href="javascript:" id="showToast" data-id="leader_news">查询</a>-->
-    <!--</div>-->
+    <div class="btn-box" data-id="hotel_news">
+        <a class="btn" href="javascript:" id="showToast" data-id="company">查询</a>
+    </div>
 </div>
 <script>
     $(function(){
+        var width = document.body.clientWidth;
+        var typedis=$('#container').data('data-choice-type-ids');
+        var policeids=$('#container').data('data-choice-police-ids');
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
             data:{userid:$('#userid').val()},
             success: function (data) {
-                $('.all-num').html('('+data.num+')');
+                animate(data);
                 types(data);
                 persons(data);
-//                click();
+                click();
+                recover(typedis);
+                recover(policeids);
             },
             error: function (mes) {
-                console.log("error")
+                console.log("error");
             }
         });
-        var width = document.body.clientWidth;
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+            if(policeids==''){
+                $('#all-polices').addClass('choice-after');
+            }else{
+                $('#all-polices').removeClass('choice-after');
+            }
+        }
+        function animate(data){
+            var num =data.nums.num;
+            if(num==null){
+                num=0;
+            }
+            $('.all-num-box').html('<div class="all-number">全部企业</div>'+'<div class="all-num timer" data-to="'+num+'" data-speed="700">'+num+'</div>');
+            animates();
+        }
         function types(data){
             if(width>999){
                 $('#all-cover').hide();
@@ -46,12 +87,20 @@
                     $('#all-cover').css('display', 'block');
                 }
             }
-                for (var i = 0; i < data.types.length; i++) {
-                    var items = data.types[i];
-                    $('#classification').append('<li class="white-border">' + items.name + '<span>(' + items.num + ')</span></li>');
-                    //                $('#classification li').eq(0).css('color','#55a3e7');
+            for (var i = 0; i < data.types.length; i++) {
+                var items = data.types[i];
+                var nums = items.nums;
+                nums = nums==null?{num:0,done:0}:nums;
+                var num = nums.num;
+                var done = nums.done;
+                var undone = nums.num-done;
+                if(num==null || done==null){
+                    num = 0;
+                    undone=0;
                 }
-
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
         }
         function persons(data){
             if(width>999){
@@ -63,8 +112,17 @@
             }
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
-                $('#area').append('<li class="white-border">'+items.name+'<span>('+items.num+')</span></li>');
-//                $('#area li').eq(0).css('color','#55a3e7');
+                var nums = items.nums;
+                nums = nums==null?{num:0,done:0}:nums;
+                var num = nums.num;
+                var done = nums.done;
+                var undone = nums.num-done;
+                if(num==null || done==null){
+                    num = 0;
+                    undone=0;
+                }
+                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
+                $('#area li').eq(0).css('color','#55a3e7');
             }
         }
         $('#all-cover').click(function() {
@@ -86,9 +144,52 @@
             }
         })
         function click() {
-            $("ul li").bind('click',function (){
+            $('#all-types,#all-polices').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+            $('.polices').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-polices').removeClass('choice-after');
+            })
         }
+        $('#showToast').on('click',function(){
+            var policeIds = [];
+            var texts = [];
+            var typeIds = [];
+            $('.types.choice-after').each (function(){
+                typeIds.push($(this).attr('id'));
+            })
+            $('.polices.choice-after').each(function(){
+                policeIds.push($(this).attr('id'));
+            })
+            $('.choice-after .item-name').each(function(){
+                texts.push($(this).text())
+            });
+            $('#container').data('data-choice',texts.join(','));
+            $('#container').data('data-choice-type-ids',typeIds.join(','));
+            $('#container').data('data-choice-police-ids',policeIds.join(','));
+            var id = $('#showToast').data('id');
+            var typedis=$('#container').data('data-choice-type-ids');
+            var policeids=$('#container').data('data-choice-police-ids');
+            var alltypes = $('#all-types').hasClass('choice-after');
+            var policetypes = $('#all-polices').hasClass('choice-after');
+            if(typedis == ''&& policeids == ''){
+                if(alltypes||policetypes){
+                    window.pageManager.go(id);
+                }else{
+                    $('#hint').fadeIn(100);
+                    setTimeout(function () {
+                        $('#hint').fadeOut(100);
+                    }, 2000);
+                }
+            }else{
+                window.pageManager.go(id);
+            }
+        })
     })
 </script>

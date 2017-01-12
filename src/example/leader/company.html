@@ -1,0 +1,135 @@
+<div class="page page-list">
+    <!--<div class="weui-search-bar" id="searchBar">-->
+    <!--<form class="weui-search-bar__form">-->
+    <!--<div class="weui-search-bar__box">-->
+    <!--<i class="weui-icon-search"></i>-->
+    <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>-->
+    <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
+    <!--</div>-->
+    <!--<label class="weui-search-bar__label" id="searchText">-->
+    <!--<i class="weui-icon-search"></i>-->
+    <!--<span>搜索</span>-->
+    <!--</label>-->
+    <!--</form>-->
+    <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+    <!--</div>-->
+    <div class="alert" id="alert"><p>暂无数据</p></div>
+    <div class="search-results" id="search-results"></div>
+    <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="list">
+            </div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var $searchBar = $('#searchBar'),
+                $searchResult = $('#searchResult'),
+                $searchText = $('#searchText'),
+                $searchInput = $('#searchInput'),
+                $searchClear = $('#searchClear'),
+                $searchCancel = $('#searchCancel');
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchInput
+                .on('blur', function () {
+                    if(!this.value.length) cancelSearch();
+                })
+                .on('input', function(){
+                    if(this.value.length) {
+                        $searchResult.show();
+                    } else {
+                        $searchResult.hide();
+                    }
+                })
+        ;
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        });
+
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+
+        function result(data){
+            var text = container.data('data-choice');
+            $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">'+'</span><span class="result-num"><span class="type-blue">'+data.count+'</span></span>');
+        }
+
+        var currDataListCfg = {
+            url:'api/company.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params,xhr) {
+                result(xhr);
+                $(".weui-cell").on('click',function () {
+                    var allnum=$(this).find('.num-right .type-blue').text()
+                    if(allnum==0){
+                        $('#alert').fadeIn(100);
+                        setTimeout(function () {
+                            $('#alert').fadeOut(100);
+                        }, 2000);
+                    }else{
+                        var cid = $(this).attr('id');
+                        container.data('data-company-name-cid',cid);
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    }
+                });
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+            },
+            templateProcess : function (items) {
+                return'<label class="weui-cell weui-check__label check-border employee_lis" data-id="company-detail" id="'+items.id+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width">'+items.name+'</span></div>'+
+                        '<div class="size-new">'+items.type.name+'、'+items.police.name+'</div>'+
+                        '</div>'+
+                        '<span class="num-right"><img class="icon-go" src="images/icon-go.jpg"></span>'+
+                        '</label>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+
+        var typeIds = container.data('data-choice-type-ids');
+        var policeIds = container.data('data-choice-police-ids');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({typeIds:typeIds,policeIds:policeIds});
+
+    });
+</script>

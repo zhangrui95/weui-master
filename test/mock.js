@@ -139,7 +139,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({
-                num:1350,
+                nums:{num:1350,done:931},
                 types:[
                     {name:'全部',num:396},
                     {name:'餐饮',num:12},
@@ -388,4 +388,44 @@ module.exports = [
             }));
         }
     },
+    {
+        route: "/example/api/company.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+            {
+                list:[
+                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张二二'}},
+                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key4',name:'九转小磨',type:{name:'幼儿园'},police:{name:'张一一'}},
+                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'}},
+                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key2',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'}},
+                    {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'}},
+                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}}
+                ],
+                    count:21
+            }
+
+            ));
+        }
+    },
+    {
+        route: "/example/api/company/detail.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    company:{name:'瓦力科技',address:'嵩山路19号',type:{name:"软件"},police:{name:'林琳'}},
+                    users:[{name:'苏三',mobile:'13936003636'},{name:'苏三',mobile:'13936003636'}]
+                }
+
+            ));
+        }
+    },
+
 ];
