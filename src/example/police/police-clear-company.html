@@ -24,11 +24,13 @@
 <script>
     $(function(){
         var width = document.body.clientWidth;
-        var typedis=$('#container').data('data-choice-type-ids');
+        var container= $('#container');
+        var typedis=container.data('data-choice-type-ids');
+        var policeId = container.data('self-policeId');
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
-            data:{userid:$('#userid').val()},
+            data:{userid:$('#userid').val(),policeId:policeId},
             success: function (data) {
                 animate(data);
                 types(data);
