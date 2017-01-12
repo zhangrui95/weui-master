@@ -21,7 +21,7 @@
             </div>
             <p class="weui-grid__label">从业人员统计</p>
         </a>
-        <a href="javascript:;" class="weui-grid" data-id="police-clear-company">
+        <a href="javascript:;" class="weui-grid" data-id="police-clear-company" id="police-clear">
             <div class="weui-grid__icon">
                 <img src="images/icon9.png" alt="" class="radius">
             </div>
@@ -46,7 +46,7 @@
     </div>
 </div>
 <script>
-    $('#clear').on('click',function(){
+    $('#clear,#police-clear').on('click',function(){
         $('#container').data('data-choice-type-ids','');
         $('#container').data('data-choice-police-ids','');
     });
