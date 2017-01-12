@@ -1,0 +1,79 @@
+<div class="page page-list">
+    <div id="error" class="error" style="display: none;">
+        <img src="images/error.png"/>
+        <span>当前网络不可用，请检查你的网络设置</span>
+    </div>
+    <div class="page__bd details cells-ajax bd-y"></div>
+    <div class="weui-gallery" id="gallery">
+        <img  class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $gallery = $("#gallery"),
+                $galleryImg = $("#galleryImg")
+        $.ajax({
+            type: "POST",
+            url: "api/company/detail.json",
+            data:{id:$('#taskId').val(),userid:$('#userid').val()},
+            success: function (data) {
+                lists(data);
+            },
+            error: function (mes) {
+                $('#error').css("display","block");
+            }
+        });
+        function lists(data) {
+            var address = data.company.address;
+            address = address==null?'':address;
+            var company = data.company.name;
+            var police = data.company.police.name;
+            company = company==null?'':company;
+                console.log(data.users[0].name)
+            for(var i=0;i<5;i++){
+
+            }
+                var html =
+                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                company+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                address+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="weui-cell cell-border cell-margin">' +
+                                '<div class="weui-cell__hd"><label class="weui-label">企业法人</label></div>' +
+                                '<div class="weui-cell__bd bd-right" >' +
+                                data.users.name +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="weui-cell cell-border cell-margin">' +
+                                '<div class="weui-cell__hd"><label class="weui-label">联系电话</label></div>' +
+                                '<div class="weui-cell__bd bd-right" >' +
+                                data.users.mobile +
+                                '</div>' +
+                                '</div>'
+
+                ;
+
+                html += '</div>';
+//            }
+            $('.cells-ajax').append(html);
+            $('.head-img').on("click", function(){
+                $galleryImg.attr("src", this.getAttribute("src"));
+                $gallery.fadeIn(100);
+            });
+            $gallery.on("click", function(){
+                $gallery.fadeOut(100);
+            });
+        }
+    })
+</script>
+
+</body>
+</html>
