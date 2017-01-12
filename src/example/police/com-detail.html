@@ -74,7 +74,7 @@
             if(data.state=='0'){
                     $('#btnPanel').show();
             }else{
-                $('.page_y').css('height','95%');
+                $('.page_y').css('height','100%');
                 html+='<div class="weui-cell cell-border" id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                         '<div class="weui-cell__bd bd-right">'+
@@ -82,12 +82,14 @@
                         '</div>'+
                         '</div>'
                 var word="非重点人员";
+                var red='';
                 if(data.personState==1){
-                  word="重点人员"
+                    word="重点人员"
+                    var red='type-red';
                 }
-                html+='<div class="weui-cell cell-border" id="fin-time">'+
+                html+='<div class="weui-cell cell-border cells-margin" id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
-                        '<div class="weui-cell__bd bd-right">'+
+                        '<div class="weui-cell__bd bd-right '+red+'" id="import-employee">'+
                             word+
                         '</div>'+
                         '</div>'
