@@ -65,7 +65,7 @@
             var html = '',item,curr = $('#container').data('today-rota-id');
             for(var i=0;i<data.length;i++){
                 item = data[i];
-                html += '<label class="weui-cell weui-check__label check-border" for='+i+'>'+
+                html += '<label class="weui-cell weui-check__label check-border-list" for='+i+'>'+
                                 '<div class="weui-cell__ft ft_width">'+
                                     '<div class="border-gray"></div>'+
                                     '<input type="radio" name="radio1" class="weui-check" '+(curr==item.id?'checked="checked"':'')+' id='+i+' data-rota="'+item.id+'">'+
