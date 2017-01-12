@@ -32,7 +32,7 @@
             </div>
             <p class="weui-grid__label">群防群治</p>
         </a>
-        <a href="javascript:;" class="weui-grid" data-id="clear_data">
+        <a href="javascript:;" class="weui-grid" data-id="clear_data" id="company-clear">
             <div class="weui-grid__icon">
                 <img src="images/icon6.png" alt=""  class="radius">
             </div>
@@ -73,7 +73,7 @@
         var id = $(this).data('id');
         window.pageManager.go(id);
     });
-    $('#employ').on('click',function(){
+    $('#employ,#company-clear').on('click',function(){
         $('#container').data('data-choice-type-ids','');
         $('#container').data('data-choice-police-ids','');
     });
