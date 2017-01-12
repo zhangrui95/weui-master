@@ -29,10 +29,6 @@
             var company = data.company.name;
             var police = data.company.police.name;
             company = company==null?'':company;
-                console.log(data.users[0].name)
-            for(var i=0;i<5;i++){
-
-            }
                 var html =
                                 '<div class="weui-cell cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
@@ -46,18 +42,29 @@
                                 address+
                                 '</div>'+
                                 '</div>'+
-                                '<div class="weui-cell cell-border cell-margin">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">企业法人</label></div>' +
-                                '<div class="weui-cell__bd bd-right" >' +
-                                data.users.name +
-                                '</div>' +
-                                '</div>' +
-                                '<div class="weui-cell cell-border cell-margin">' +
-                                '<div class="weui-cell__hd"><label class="weui-label">联系电话</label></div>' +
-                                '<div class="weui-cell__bd bd-right" >' +
-                                data.users.mobile +
-                                '</div>' +
+                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">企业法人</label></div>'+
+                                '<div class="weui-cell__bd bd-right" >'+
+                                ''+
+                                '</div>'+
                                 '</div>'
+                for(var i=0;i<data.users.length;i++){
+                    var index = i+1;
+                    html +=
+                            '<div class="weui-cell cell-border cell-margin">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">企业联系人'+index+'</label></div>' +
+                            '<div class="weui-cell__bd bd-right" >' +
+                            data.users[i].name +
+                            '</div>' +
+                            '</div>'+
+                            '<div class="weui-cell cell-border cell-margin">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">联系电话'+index+'</label></div>' +
+                            '<div class="weui-cell__bd bd-right" >' +
+                            data.users[i].mobile +
+                            '</div>' +
+                            '</div>'
+                }
+
 
                 ;
 
