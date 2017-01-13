@@ -38,8 +38,15 @@
                     window.pageManager.go(id);
                 });
             },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
             noMoreCb : function () {
                 $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
             },
             templateProcess : function (items) {
                 var red = items.state == '0' ? 'class="red-circle"':'';

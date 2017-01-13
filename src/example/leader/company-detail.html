@@ -34,32 +34,32 @@
             var police = data.company.police.name;
             company = company==null?'':company;
                 var html =      '<div class="head-title">基本信息</div>'+
-                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
                                 company+
                                 '</div>'+
                                 '</div>'+
-                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
+                                '<div class="weui-cell__bd bd-right place-top" >'+
                                 address+
                                 '</div>'+
                                 '</div>'+
-                                '<div class="weui-cell cell-border cell-margin">'+
+                                '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
                                 ''+
                                 '</div>'+
                                 '</div>'+
-                                '<div class="weui-cell cell-border cell-margin head-title-border">'+
+                                '<div class="none-flex cell-border cell-margin head-title-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
                                 ''+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
-                                '<div class="weui-cell cell-border cell-margin head-title-border">'+
+                                '<div class="none-flex cell-border cell-margin head-title-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">法人</label></div>'+
                                 '<div class="weui-cell__bd bd-right" >'+
                                 '<span>手机号</span>/<span>电话号</span>'+
@@ -69,7 +69,7 @@
                 for(var i=0;i<data.users.length;i++){
                     var index = i+1;
                     html +=
-                            '<div class="weui-cell cell-border cell-margin">' +
+                            '<div class="none-flex cell-border cell-margin">' +
                             '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
                             '<div class="weui-cell__bd bd-right" >' +
                             data.users[i].mobile +
