@@ -104,8 +104,15 @@
                     }
                 });
             },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
             noMoreCb : function () {
                 $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
             },
             templateProcess : function (items) {
                 return'<label class="weui-cell weui-check__label check-border employee_lis" data-id="company-detail" id="'+items.id+'">'+
