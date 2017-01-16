@@ -396,16 +396,16 @@ module.exports = [
             {
                 list:[
                     {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张二二'}},
+                    {id:'key2',name:'律师事务所',type:{name:'饭店'},police:{name:'张二二'}},
                     {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key4',name:'九转小磨',type:{name:'幼儿园'},police:{name:'张一一'}},
+                    {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'}},
                     {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'}},
-                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key2',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
                     {id:'key2',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'}},
                     {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
                     {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'}},
                     {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key2',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
                     {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}}
                 ],
                     count:21

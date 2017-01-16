@@ -109,6 +109,7 @@
                     container.data('data-list-val',val);
                     if(val!=""){
                         if(items.card.indexOf(val)!=-1) {
+                            $('#employee-list').html('');
                             var label ='<div class="weui-cell bg-cell no-margin"  data-id="com-detail" data-tid="'+items.id+'">' +
                                     '<div class="weui-cell__bd cell_bd_border" >' +
                                     '<span  '+red+'></span>'+
@@ -127,8 +128,6 @@
                                 var id = $(this).data('id');
                                 window.pageManager.go(id);
                             });
-                        }else{
-                            $('#employee-list').html('');
                         }
                     }
                 })

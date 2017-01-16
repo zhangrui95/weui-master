@@ -129,6 +129,7 @@
                     container.data('data-list-val',val);
                     if(val!=""){
                         if(items.item.name.indexOf(val)!=-1) {
+                            $('#list').html('');
                             var label ='<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
                                     '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                                     '<div class="weui-cell__bd size-width">'+
@@ -142,8 +143,6 @@
                                 var id = $(this).data('id');
                                 window.pageManager.go(id);
                             });
-                        }else{
-                            $('#list').html('');
                         }
                     }
                 })
