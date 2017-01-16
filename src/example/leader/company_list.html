@@ -129,8 +129,10 @@
                     var val=$searchInput.val();
                     container.data('data-list-val',val);
                     if(val!=""){
+                        var label='';
                         if(items.item.name.indexOf(val)!=-1) {
-                            var label ='<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
+                            $('#list').html('');
+                            label ='<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
                                     '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                                     '<div class="weui-cell__bd size-width">'+
                                     '<div><span class="item-width" id="company-names">'+items.item.name+'</span></div>'+
@@ -144,10 +146,9 @@
                                 var id = $(this).data('id');
                                 window.pageManager.go(id);
                             });
-                        }else{
-                            $('#list').html('');
                         }
                     }
+
                 })
                 return'<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+

@@ -316,7 +316,7 @@ module.exports = [
                         {item:{id:'key1',name:'杨国福麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
                         {item:{id:'key1',name:'兰州拉面',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
                         {item:{id:'key1',name:'七七麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'八八麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                        {item:{id:'key1',name:'八八麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}}
                     ]
                 }
             ));
@@ -330,24 +330,24 @@ module.exports = [
             {
                 company:{name:'九转小磨九转小磨九转小磨九转小磨九转小磨'},
                 list:[
-                    // {card:'231105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'232105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'233105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'234105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'235105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'236105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'238105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'1'},
-                    // {card:'230105199503232226',createTime:1482214046832,state:'0'}
+                    {card:'231105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'232105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'233105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'234105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'235105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'236105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'238105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'1'},
+                    {card:'230105199503232226',createTime:1482214046832,state:'0'}
                 ],
                     done:21,
                     undo:11,
