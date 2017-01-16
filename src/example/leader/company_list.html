@@ -1,18 +1,19 @@
 <div class="page page-list">
-    <!--<div class="weui-search-bar" id="searchBar">-->
-        <!--<form class="weui-search-bar__form">-->
-            <!--<div class="weui-search-bar__box">-->
-                <!--<i class="weui-icon-search"></i>-->
-                <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>-->
-                <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
-            <!--</div>-->
-            <!--<label class="weui-search-bar__label" id="searchText">-->
-                <!--<i class="weui-icon-search"></i>-->
-                <!--<span>搜索</span>-->
-            <!--</label>-->
-        <!--</form>-->
-        <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
-    <!--</div>-->
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
+    <div class="search-box" id="searchResult"></div>
     <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="search-results" id="search-results"></div>
     <div class="page__bd cell-y bg-page bottom-cell">
@@ -124,10 +125,34 @@
                     num = 0;
                     undone=0;
                 }
+                $searchInput.on('keyup',function(){
+                    var val=$searchInput.val();
+                    container.data('data-list-val',val);
+                    if(val!=""){
+                        if(items.item.name.indexOf(val)!=-1) {
+                            var label ='<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
+                                    '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                                    '<div class="weui-cell__bd size-width">'+
+                                    '<div><span class="item-width" id="company-names">'+items.item.name+'</span></div>'+
+                                    '<div class="size-new">'+items.item.type.name+'、'+items.item.police.name+'</div>'+
+                                    '</div>'+
+                                    '<span class="num-right"><span class="type-red">'+undone+'</span> / <span class="type-blue">'+num+'</span></span>'+
+                                    '</label>';
+                            console.log(label);
+                            $('#list').append(label);
+                            $('.weui-cell').on('click', function(){
+                                var id = $(this).data('id');
+                                window.pageManager.go(id);
+                            });
+                        }else{
+                            $('#list').html('');
+                        }
+                    }
+                })
                 return'<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="employee_list" id="'+items.item.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
-                        '<div><span class="item-width">'+items.item.name+'</span></div>'+
+                        '<div><span class="item-width" id="company-names">'+items.item.name+'</span></div>'+
                         '<div class="size-new">'+items.item.type.name+'、'+items.item.police.name+'</div>'+
                         '</div>'+
                         '<span class="num-right"><span class="type-red">'+undone+'</span> / <span class="type-blue">'+num+'</span></span>'+
@@ -144,8 +169,9 @@
 
         var typeIds = container.data('data-choice-type-ids');
         var policeIds = container.data('data-choice-police-ids');
+        var val = container.data('data-list-val');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typeIds,policeIds:policeIds});
+        currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
 
     });
 </script>

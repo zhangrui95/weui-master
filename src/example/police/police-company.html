@@ -1,18 +1,18 @@
 <div class="page page-list">
-    <!--<div class="weui-search-bar" id="searchBar">-->
-    <!--<form class="weui-search-bar__form">-->
-    <!--<div class="weui-search-bar__box">-->
-    <!--<i class="weui-icon-search"></i>-->
-    <!--<input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>-->
-    <!--<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>-->
-    <!--</div>-->
-    <!--<label class="weui-search-bar__label" id="searchText">-->
-    <!--<i class="weui-icon-search"></i>-->
-    <!--<span>搜索</span>-->
-    <!--</label>-->
-    <!--</form>-->
-    <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
-    <!--</div>-->
+    <div class="weui-search-bar" id="searchBar">
+    <form class="weui-search-bar__form">
+    <div class="weui-search-bar__box">
+    <i class="weui-icon-search"></i>
+    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+    </div>
+    <label class="weui-search-bar__label" id="searchText">
+    <i class="weui-icon-search"></i>
+    <span>搜索</span>
+    </label>
+    </form>
+    <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
     <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="search-results" id="search-results"></div>
     <div class="page__bd cell-y bg-page bottom-cell">
@@ -115,6 +115,29 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
+                $searchInput.on('keyup',function(){
+                    var val=$searchInput.val();
+                    container.data('data-list-val',val);
+                    if(val!=""){
+                        if(items.name.indexOf(val)!=-1) {
+                            var label ='<label class="weui-cell weui-check__label check-border employee_lis" data-id="police-company-detail" id="'+items.id+'">'+
+                                    '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                                    '<div class="weui-cell__bd size-width">'+
+                                    '<div><span class="item-width">'+items.name+'</span></div>'+
+                                    '<div class="size-new">'+items.type.name+'、'+items.police.name+'</div>'+
+                                    '</div>'+
+                                    '<span class="num-right"><img class="icon-go" src="images/icon-go.jpg"></span>'+
+                                    '</label>';
+                            $('#list').append(label);
+                            $('.weui-cell').on('click', function(){
+                                var id = $(this).data('id');
+                                window.pageManager.go(id);
+                            });
+                        }else{
+                            $('#list').html('');
+                        }
+                    }
+                })
                 return'<label class="weui-cell weui-check__label check-border employee_lis" data-id="police-company-detail" id="'+items.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
@@ -135,8 +158,9 @@
 
         var typeIds = container.data('data-choice-type-ids');
         var policeId = container.data('self-policeId');
+        var val =container.data('data-list-val');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typeIds,policeId:policeId});
+        currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
 
     });
 </script>
