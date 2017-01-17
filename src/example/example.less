@@ -606,6 +606,9 @@ body, .page {
 .bottom-cell{
     margin-bottom: 30px;
 }
+.bottom-cell-pad{
+    margin-bottom: 75px;
+}
 .border-right-img{
     height: 82px;
     position: absolute;
@@ -671,6 +674,7 @@ body, .page {
 .btn-box{
     width: 100%;
     padding-top:15px;
+    background: #FFFFFF;
     //box-shadow:  0 -20px 40px #fff;
    border-top:1px solid #eee;
     position: relative;
@@ -759,9 +763,10 @@ body, .page {
     width:26px;
     font-size: 14px;
     line-height: 24px;
+    padding-top: 2%;
     position: absolute;
-    top:50px;
-    right: 2px;
+    top:0;
+    right:0;
     z-index: 999;
     text-align: center;
     color: #333;
@@ -1191,4 +1196,35 @@ body, .page {
         background: #EEEEEE;
     }
 }
-
+.letter{
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    font-size: 50px;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 80px;
+    background: rgba(100,100,100,0.8);
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    margin:-40px 0px 0px -40px;
+    z-index: 99;
+    display: none;
+}
+.weui-search-bar{
+    font-family: '微软雅黑';
+    .weui-search-bar__input{
+        font-family: '微软雅黑';
+    }
+    .weui-search-bar__label{
+        font-family: '微软雅黑';
+        height: 26px;
+        line-height: 26px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}

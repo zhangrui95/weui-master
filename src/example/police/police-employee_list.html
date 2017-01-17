@@ -15,7 +15,7 @@
         <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
     </div>
     <div class="search-results result-name-size" id="name"></div>
-    <div class="page__bd cell-y bg-page bottom-cell">
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="employee-list"></div>
             <div class="weui-loadmore" id="load">
@@ -143,7 +143,7 @@
         });
         var reset = function () {
             val='';
-            container.data('data-list-val',val);
+            container.data('data-list-employee-val',val);
             currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
         };
         $searchCancel.on('click',function(){

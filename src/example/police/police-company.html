@@ -15,7 +15,7 @@
     </div>
     <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="search-results" id="search-results"></div>
-    <div class="page__bd cell-y bg-page bottom-cell">
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="list">
             </div>
@@ -84,6 +84,7 @@
                 $(".weui-cell").on('click',function () {
                     var allnum=$(this).find('.num-right .type-blue').text()
                     if(allnum==0){
+                        $searchInput.blur();
                         $('#alert').fadeIn(100);
                         setTimeout(function () {
                             $('#alert').fadeOut(100);

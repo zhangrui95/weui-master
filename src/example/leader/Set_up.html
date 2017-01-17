@@ -7,7 +7,7 @@
         <ul></ul>
     </div>
     <div class="page__bd page_y">
-        <div id="letter" ></div>
+        <div id="letter" class="letter"></div>
         <div class="weui-cells  weui-cells_radio police_list"></div>
         <div class="weui-loadmore">
             <i class="weui-loading"></i>
@@ -129,7 +129,14 @@
         initials(phonetic);
 
         $(" ul li").click(function() {
-            var _this = $(this);
+            var _this=$(this);
+            var LetterHtml=_this.html();
+            LetterBox.html(LetterHtml).fadeIn();
+            Initials.css('background','rgba(145,145,145,0.4)');
+            setTimeout(function(){
+                Initials.css('background','rgba(145,145,145,0)');
+                LetterBox.fadeOut();
+            },1000);
             var _index = _this.index();
             var href=$(this).attr("href");
             if(_index>=0&&_index<=25){
@@ -137,8 +144,6 @@
                 if($('#'+letter).length>0){
                     var LetterTop = $('#'+letter).position().top;
                     $('.page_y').scrollTop(LetterTop);
-                }else{
-//                    $(_this).css('display','none');
                 }
             }
         })
