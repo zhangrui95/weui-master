@@ -270,6 +270,18 @@ $(function () {
         }
     };
 
+    var startProxyTime;
+    var lazyRateProxy = function (target,time) {
+        startProxyTime = new Date().getTime();
+        setTimeout(function () {
+            var currTime = new Date().getTime();
+            if(currTime - startProxyTime >= time){
+                startProxyTime = null;
+                target();
+            }
+        },time);
+    };
+
     function fastClick(){
         var supportTouch = function(){
             try {
@@ -419,6 +431,7 @@ $(function () {
         androidInputBugFix();
         setJSAPI();
         window.dataList = dataList;
+        window.lazyRateProxy = lazyRateProxy;
 
         setPageManager();
 
