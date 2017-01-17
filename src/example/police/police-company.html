@@ -51,18 +51,7 @@
             $searchBar.addClass('weui-search-bar_focusing');
             $searchInput.focus();
         });
-        $searchInput
-                .on('blur', function () {
-                    if(!this.value.length) cancelSearch();
-                })
-                .on('input', function(){
-                    if(this.value.length) {
-                        $searchResult.show();
-                    } else {
-                        $searchResult.hide();
-                    }
-                })
-        ;
+
         $searchClear.on('click', function(){
             hideSearchResult();
             $searchInput.focus();
@@ -152,11 +141,27 @@
         $searchInput.on('keyup',function(){
             window.lazyRateProxy(search,500);
         });
-        $searchCancel.on('click',function(){
+        var reset = function () {
             val='';
             container.data('data-list-val',val);
             currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+        };
+        $searchCancel.on('click',function(){
+            reset();
         })
+        $searchInput
+                .on('blur', function () {
+                    if(!this.value.length) cancelSearch();
+                    reset();
+                })
+                .on('input', function(){
+                    if(this.value.length) {
+                        $searchResult.show();
+                    } else {
+                        $searchResult.hide();
+                    }
+                })
+        ;
 
     });
 </script>

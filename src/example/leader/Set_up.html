@@ -138,14 +138,14 @@
                     var LetterTop = $('#'+letter).position().top;
                     $('.page_y').scrollTop(LetterTop);
                 }else{
-                    $(_this).css('display','none');
+//                    $(_this).css('display','none');
                 }
             }
         })
         var windowHeight=$(window).height();
         var InitHeight=windowHeight-45;
         Initials.height(InitHeight);
-        var LiHeight=InitHeight/25;
+        var LiHeight=InitHeight/29;
         Initials.find('li').height(LiHeight);
         function initials(phonetic) {//排序
             var SortList = $(".weui-cell");
@@ -178,12 +178,12 @@
                 }else{
                     $('#default').after(SortList.eq(i));
                 }
-                $("ul li").each(function (i,e){
-                    var _e = $(e).text();
-                    if($("#"+_e).length<=0){
-                        $(e).css('display','none');
-                    }
-                })
+//                $("ul li").each(function (i,e){
+//                    var _e = $(e).text();
+//                    if($("#"+_e).length<=0){
+//                        $(e).css('display','none');
+//                    }
+//                })
             };
         }
 
