@@ -18,7 +18,6 @@
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="list"></div>
-            <div id="search-list"></div>
             <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
@@ -67,16 +66,11 @@
             hideSearchResult();
             $searchInput.focus();
             $('#list').show();
-            $('#search-list').html('');
         });
         $searchCancel.on('click', function(){
             cancelSearch();
             $searchInput.blur();
         });
-        $searchInput.on('keydown',function(){
-            $('#search-list').html('');
-        });
-
         var container = $('#container');
         var pagePanel = $('.page__bd');
 
@@ -143,7 +137,6 @@
         var currDataList = window.dataList.newList(currDataListCfg);
         var val = container.data('data-list-val');
         currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
-
         $searchInput.on('keyup',function(){
             var val=$searchInput.val();
             container.data('data-list-val',val);
