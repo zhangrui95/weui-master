@@ -131,12 +131,15 @@
         var val = container.data('data-list-employee-val');
         var currDataList = window.dataList.newList(currDataListCfg);
         currDataList.first({cid:cid,card:val});
-        $searchInput.on('keyup',function(){
+        var search = function(){
             var val=$searchInput.val();
             container.data('data-list-employee-val',val);
             if(val != ""){
                 currDataList.first({cid:cid,card:val});
             }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
         });
     });
 
