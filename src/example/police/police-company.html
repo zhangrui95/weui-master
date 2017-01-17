@@ -152,6 +152,10 @@
         $searchInput.on('keyup',function(){
             window.lazyRateProxy(search,500);
         });
+        $searchCancel.on('click',function(){
+            val='';
+            currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
+        })
 
     });
 </script>
