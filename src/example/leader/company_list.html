@@ -67,12 +67,16 @@
         $searchClear.on('click', function(){
             hideSearchResult();
             $searchInput.focus();
+            $('#list').show();
+            $('#search-list').html('');
         });
         $searchCancel.on('click', function(){
             cancelSearch();
             $searchInput.blur();
         });
-
+        $searchInput.on('keydown',function(){
+            $('#search-list').html('');
+        });
         var container = $('#container');
         var pagePanel = $('.page__bd');
 
@@ -169,6 +173,5 @@
         var val = container.data('data-list-val');
         var currDataList = window.dataList.newList(currDataListCfg);
         currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
-
     });
 </script>
