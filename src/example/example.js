@@ -185,6 +185,7 @@ $(function () {
             this.loading = false;
         },
         setData:function(data){
+            this.getItemsPanel().html('');
             this.data = data;
             this.offset = 0;
         },
