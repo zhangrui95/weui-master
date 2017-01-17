@@ -167,6 +167,8 @@ $(function () {
         winHeight:undefined,
         scrollPanel:undefined,
         scrollLoad:0.02,
+        lazyTime:500,
+        requestTime:0,
         init : function(){
             this.winHeight = this.winPanel.height();
             this.pagePanel.on('scroll',this.scrollHandler.bind(this));
@@ -196,8 +198,16 @@ $(function () {
             data.userid = $('#userid').val();
             return data;
         },
+        checkLazy : function () {
+            var requestTime = new Date().getTime();
+            var ret = this.offset == 0 || (requestTime - this.requestTime) > this.lazyTime;
+            if(ret){
+                this.requestTime = requestTime;
+            }
+            return ret;
+        },
         remote : function(){
-            if(this.loading){
+            if(this.loading && this.checkLazy()){
                 return;
             }
             this.loading = true;
