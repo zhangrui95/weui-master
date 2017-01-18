@@ -101,6 +101,7 @@
         $('#showToast').on('click',function(){
             var texts = [];
             var typeIds = [];
+            $('#container').data('data-list-val',null);
             $('.types.choice-after').each (function(){
                 typeIds.push($(this).attr('id'));
             })

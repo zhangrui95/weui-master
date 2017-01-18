@@ -88,6 +88,7 @@
             });
         }
         $('.btn-box').on('click',function(){
+            $('#container').data('data-list-employee-val',null);
             $('#container').data('data-company-name-cid',cid);
             var id = $('.btn-box').data('id');
             $('#taskId').val($(this).data('tid'));

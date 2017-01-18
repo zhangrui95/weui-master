@@ -82,6 +82,7 @@
             xhrExternalProcess : function (params,xhr) {
                 result(xhr);
                 $(".weui-cell").on('click',function () {
+                    $('#container').data('data-list-employee-val',null);
                     var allnum=$(this).find('.num-right .type-blue').text()
                     if(allnum==0){
                         $searchInput.blur();
@@ -165,6 +166,10 @@
                     }
                 })
         ;
+        if(val!=null){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.val(val);
+        }
 
     });
 </script>
