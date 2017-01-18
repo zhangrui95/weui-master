@@ -220,7 +220,8 @@ $(function () {
             return ret;
         },
         remote : function(){
-            if(this.loading || !this.checkLazy()){
+            // if(this.loading || !this.checkLazy()){
+            if(this.loading){
                 return;
             }
             this.loading = true;
