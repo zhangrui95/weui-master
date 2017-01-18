@@ -154,6 +154,19 @@ $(function () {
         }
     };
 
+    var startProxyTime = {};
+    var lazyRateProxy = function (target,time,key) {
+        var akey = key==null||key==''?'defaultProxyKey':key;
+        startProxyTime[akey] = new Date().getTime();
+        setTimeout(function () {
+            var currTime = new Date().getTime();
+            if(currTime - startProxyTime[akey] >= time){
+                startProxyTime[akey] = null;
+                target();
+            }
+        },time);
+    };
+
     var dataListOpt = {
         pageSize:10,
         offset:0,
@@ -167,7 +180,7 @@ $(function () {
         winHeight:undefined,
         scrollPanel:undefined,
         scrollLoad:0.02,
-        lazyTime:500,
+        lazyTime:2000,
         requestTime:0,
         init : function(){
             this.winHeight = this.winPanel.height();
@@ -207,7 +220,7 @@ $(function () {
             return ret;
         },
         remote : function(){
-            if(this.loading && this.checkLazy()){
+            if(this.loading || !this.checkLazy()){
                 return;
             }
             this.loading = true;
@@ -267,6 +280,7 @@ $(function () {
             var winH = this.winHeight;
             var aa = (pageH - winH - scrollT) / winH;
             if (aa < this.scrollLoad) {
+                // lazyRateProxy(this.next.bind(this),1000,'dataList');
                 this.next();
             }
         }
@@ -278,18 +292,6 @@ $(function () {
             newDataList.init();
             return newDataList;
         }
-    };
-
-    var startProxyTime;
-    var lazyRateProxy = function (target,time) {
-        startProxyTime = new Date().getTime();
-        setTimeout(function () {
-            var currTime = new Date().getTime();
-            if(currTime - startProxyTime >= time){
-                startProxyTime = null;
-                target();
-            }
-        },time);
     };
 
     function fastClick(){
