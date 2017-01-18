@@ -77,7 +77,7 @@
             xhrExternalProcess : function (params,xhr) {
                 result(xhr);
                 $(".weui-cell").on('click',function () {
-                    var allnum=$(this).find('.num-right .type-blue').text()
+                    var allnum=$(this).find('.num-right .type-blue').text();
                     if(allnum==0){
                         $searchInput.blur();
                         $('#alert').fadeIn(100);
@@ -157,7 +157,9 @@
         $searchInput
                 .on('blur', function () {
                     if(!this.value.length) cancelSearch();
-                    reset();
+                    if(this.value.length==0){
+                        reset();
+                    }
                 })
                 .on('input', function(){
                     if(this.value.length) {

@@ -150,6 +150,8 @@
                 .on('blur', function () {
                     if(!this.value.length) {
                         cancelSearch();
+                    }
+                    if(this.value.length==0){
                         reset();
                     }
                 })

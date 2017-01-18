@@ -141,7 +141,9 @@
         $searchInput
                 .on('blur', function () {
                     if(!this.value.length) cancelSearch();
-                    reset();
+                    if(this.value.length==0){
+                        reset();
+                    }
                 })
                 .on('input', function(){
                     if(this.value.length) {
