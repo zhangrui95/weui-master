@@ -1,0 +1,75 @@
+<div class="fire-nochecked">
+    <div class="nochecked-header">八府香鸭</div>
+</div>
+<div class="nochecked-y">
+    <div class="none-flex cell-border cell-margin">
+        <div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>
+        <div class="weui-cell__bd bd-right" >
+            <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files" id="uploaderFiles"></ul>
+                <div class="weui-uploader__input-box">
+                    <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                    <img src="images/photo.png" class="photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="none-flex cell-border cell-margin">
+        <div class="weui-cell__hd"><label class="weui-label">法律文书</label></div>
+        <div class="weui-cell__bd bd-right" >
+            <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files" id="uploaderBooks"></ul>
+                <div class="weui-uploader__input-box">
+                    <input id="inputBooks" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                    <img src="images/photo.png" class="photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="none-flex cell-border cell-margin">
+        <div class="weui-cell__hd"><label class="weui-label">消防负责人</label></div>
+        <div class="weui-cell__bd bd-right" >
+            <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files" id="uploaderPerson"></ul>
+                <div class="weui-uploader__input-box">
+                    <input id="inputPerson" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                    <img src="images/photo.png" class="photo" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btn-box" id="btnPanel">
+    <a class="btn box-orange" href="javascript:" id="showToast" >提交</a>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+                $uploaderInput = $("#uploaderInput"),
+                $uploaderFiles = $("#uploaderFiles")
+                ;
+
+        $uploaderInput.on("change", function(e){
+            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+            for (var i = 0, len = files.length; i < len; ++i) {
+                var file = files[i];
+
+                if (url) {
+                    src = url.createObjectURL(file);
+                } else {
+                    src = e.target.result;
+                }
+
+                $uploaderFiles.append($(tmpl.replace('#url#', src)));
+            }
+        });
+        $uploaderFiles.on("click", "li", function(){
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+    });
+</script>
