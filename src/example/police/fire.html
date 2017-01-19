@@ -6,7 +6,7 @@
         </div>
 
         <div class="fire-header-right">
-            <div class="fire-header-left">筛选</div>
+            <div class="fire-header-left" id="choice-alert">筛选</div>
             <img src="images/choice.png" class="choice-img fire-header-left"/>
         </div>
     </div>
@@ -30,29 +30,6 @@
             </dl>
         </div>
     </div>
-    <!--<div class="fire-list">-->
-        <!--<div class="weui-tab">-->
-            <!--<div class="weui-navbar">-->
-                <!--<div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>-->
-                <!--<div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right"></span></div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="page__bd cell-y bg-page bottom-cell">-->
-            <!--<div id="box" class="bg-box">-->
-                <!--<div class="weui-tab__panel panel_none">-->
-                    <!--<div class="weui-cells"  id="tab1"></div>-->
-                    <!--<div class="weui-cells active"  id="tab2"></div>-->
-                <!--</div>-->
-                <!--<div class="weui-loadmore" id="load">-->
-                    <!--<i class="weui-loading"></i>-->
-                    <!--<span class="weui-loadmore__tips">正在加载</span>-->
-                <!--</div>-->
-                <!--<div class="weui-loadmore weui-loadmore_line active" id="new-none">-->
-                    <!--<span class="weui-loadmore__tips">暂无更多数据</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
 <div class="page page_box page-list page-top">
     <div class="weui-tab">
@@ -75,6 +52,49 @@
                 <span class="weui-loadmore__tips">暂无更多数据</span>
             </div>
         </div>
+    </div>
+</div>
+<div class="filtrate" id="filtrate">
+    <div class="filtrate-header">
+        <div class="fire-header-left-top">筛选条件</div>
+        <div class="fire-header-right" id="clear">取消</div>
+        <div class="input-border">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+        </div>
+    </div>
+    <div class="filtrate-y">
+        <div class="classification-box">
+            <div class="choice-title">分类
+                <span class="cover-blue" id="all-cover">展开全部</span>
+            </div>
+            <ul class="classification" id="classification">
+                <li class="all-news white-border choice-after" id="all-types">全部</li>
+            </ul>
+        </div>
+        <div class="area-box">
+            <div class="choice-title">年份
+                <span class="cover-blue" id="area-all-cover">展开全部</span>
+            </div>
+            <ul class="area" id="area">
+                <li class="all-news  white-border choice-after" id="all-years">全部</li>
+            </ul>
+        </div>
+        <div class="area-box">
+            <div class="choice-title">周期
+                <span class="cover-blue" id="area-all-period">展开全部</span>
+            </div>
+            <ul class="area" id="period">
+                <li class="all-news  white-border choice-after" id="all-period">全年</li>
+            </ul>
+        </div>
+    </div>
+    <div class="btn-box" id="btnPanel" >
+        <div class="imported-left">重置</div>
+        <a class="btn-bg" href="javascript:" id="showToast" >确定</a>
     </div>
 </div>
 <script type="text/javascript">
@@ -205,6 +225,139 @@
             $(target.attr("href")).fadeIn();
         }
         currDataList.first({state:currState});
+
+        var width = document.body.clientWidth;
+        var typedis=$('#container').data('data-choice-type-ids');
+        var year=$('#container').data('data-choice-year-ids');
+        var period=$('#container').data('data-choice-police-ids');
+        $.ajax({
+            type: "POST",
+            url: "api/fire/info.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                types(data);
+                years(data);
+                periods(data);
+                click();
+                recover(typedis);
+                recover(year);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+            if(year==''){
+                $('#all-years').addClass('choice-after');
+            }else{
+                $('#all-years').removeClass('choice-after');
+            }
+            if(year==''){
+                $('#all-period').addClass('choice-after');
+            }else{
+                $('#all-period').removeClass('choice-after');
+            }
+        }
+        function types(data){
+            if(width>999){
+                $('#all-cover').hide();
+            }else{
+                if (data.types.length > 16) {
+                    $('#all-cover').css('display', 'block');
+                }
+            }
+            for (var i = 0; i < data.types.length; i++) {
+                var items = data.types[i];
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#ff5a54');
+            }
+        }
+        function years(data){
+            if(width>999){
+                $('#area-all-cover').hide();
+            }else{
+                if(data.years.length>16){
+                    $('#area-all-cover').show();
+                }else{
+                    $('#area-all-cover').hide();
+                }
+            }
+            for(var i=0;i<data.years.length;i++){
+                var items=data.years[i];
+                $('#area').append('<li class="white-border years" id="'+items.id+'"><span class="item-name">'+items.year+'</span></li>');
+                $('#area li').eq(0).css('color','#ff5a54');
+            }
+        }
+        function periods(data){
+            if(width>999){
+                $('#area-all-period').hide();
+            }else{
+                if(data.period.length>16){
+                    $('#area-all-period').show();
+                }else{
+                    $('#area-all-period').hide();
+                }
+            }
+            for(var i=0;i<data.period.length;i++){
+                var items=data.period[i];
+                $('#period').append('<li class="white-border period" id="'+items.id+'"><span class="item-name">'+items.period+'</span></li>');
+                $('#period li').eq(0).css('color','#ff5a54');
+            }
+        }
+        $('#all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#classification').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#classification').css('height', '100px');
+                $(this).html('展开全部');
+            }
+        })
+        $('#area-all-cover').click(function() {
+            if ($(this).html() == '展开全部') {
+                $('#area').css('height', '100%');
+                $(this).html('收起');
+            } else {
+                $('#area').css('height', '100px');
+                $(this).html('展开全部');
+            }
+        })
+        function click() {
+            $('#all-types,#all-years,#all-period').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
+                $(this).toggleClass('choice-after');
+            })
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+            $('.years').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-years').removeClass('choice-after');
+            })
+            $('.period').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-period').removeClass('choice-after');
+            })
+        }
+        $('#choice-alert').on('click',function(){
+            $('#filtrate').show();
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').hide();
+        })
     });
 
 </script>
