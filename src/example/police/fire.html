@@ -102,6 +102,11 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page_box .page__bd');
+        $searchClear = $('#searchClear');
+        $searchInput = $('#searchInput');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        })
         $('.cell-y').scroll(function ()
         {
             var st = $(this).scrollTop();

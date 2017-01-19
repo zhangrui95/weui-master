@@ -677,9 +677,10 @@ body, .page {
     background: #FFFFFF;
     //box-shadow:  0 -20px 40px #fff;
    border-top:1px solid #eee;
-    position: relative;
+    position: absolute;
     z-index: 2000;
-
+    height: 60px;
+    bottom: 0;
     .two-box-btn{
         width: 90%;
         height: 46px;
@@ -1374,12 +1375,15 @@ body, .page {
     .imported-left{
         color: #ff5a54;
         width: 15%;
+        text-align: center;
+        margin: 0 0 0 20px;
     }
     .btn-bg{
         background: #ff5a54;
         width: 65%;
-        height: 40px;
-        line-height: 40px;
+        height: 46px;
+        line-height: 46px;
+        margin: 0 20px 0 0;
         &:active{
             background: #e7514b;
         }
@@ -1417,36 +1421,37 @@ body, .page {
     color:#FFFFFF;
     font-size: 18px;
 }
-.cell-border{
-    margin: 0 20px;
-    border-bottom: 1px solid #eee;
-}
 .weui-uploader__input-box {
     position: relative;
     margin: auto;
     width: 50px;
     height: 50px;
+    border:none;
 }
 .weui-uploader__file{
    float: left;
     width: 50px;
     height: 50px;
 }
-.weui-label{
-    line-height: 54px;
-}
-.weui-uploader__input-box{
-    float: left;
-    background: #efefef;
-    .photo{
-        width: 30px;
-        height: 30px;
-        margin: 20%;
-    }
-}
 .nochecked-y{
     overflow-y: scroll;
     height: 78%;
+    .weui-label{
+        line-height: 50px;
+    }
+    .cell-border{
+        margin: 0 20px;
+        border-bottom: 1px solid #eee;
+    }
+    .weui-uploader__input-box{
+        float: left;
+        background: #efefef;
+        .photo{
+            width: 30px;
+            height: 30px;
+            margin: 20%;
+        }
+    }
 }
 .box-orange{
     background: #ff5a54;
