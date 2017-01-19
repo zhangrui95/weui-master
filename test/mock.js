@@ -474,5 +474,25 @@ module.exports = [
             }));
         }
     },
+    {
+        route: "/example/api/task/fire.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({list:[
+                {id:'key1',name:'八府香鸭',type:'饭店'},
+                {id:'key2',name:'九转小磨',type:'饭店'},
+                {id:'key3',name:'达达律师事务所',type:'律师事务所'},
+                {id:'key4',name:'谭阁美酒店',type:'旅店'},
+                {id:'key5',name:'喜家德饺子',type:'饭店'},
+                {id:'key6',name:'九转小磨',type:'饭店'},
+                {id:'key7',name:'花园幼儿园',type:'幼儿园'},
+                {id:'key8',name:'八府宴',type:'饭店'},
+                {id:'key9',name:'佳佳旅店',type:'旅店'}
+            ],
+                undo:10,
+                done:55
+            }));
+        }
+    },
 
 ];
