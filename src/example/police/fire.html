@@ -52,11 +52,11 @@
             </ul>
         </div>
         <div class="area-box">
-            <div class="choice-title">周期
-                <span class="cover-blue" id="area-all-period">展开全部</span>
-            </div>
+            <div class="choice-title">周期</div>
             <ul class="area" id="period">
-                <li class="all-news  white-border choice-after" id="all-period">全年</li>
+                <li class="all-news  white-border choice-after period" id="all-period">全年</li>
+                <li class="white-border period"><span class="item-name">上半年</span></li>
+                <li class="white-border period"><span class="item-name">下半年</span></li>
             </ul>
         </div>
     </div>
@@ -268,7 +268,6 @@
             success: function (data) {
                 types(data);
                 years(data);
-                periods(data);
                 click();
                 recover(typedis);
                 recover(year);
@@ -294,11 +293,6 @@
                 $('#all-years').addClass('choice-after');
             }else{
                 $('#all-years').removeClass('choice-after');
-            }
-            if(year==''){
-                $('#all-period').addClass('choice-after');
-            }else{
-                $('#all-period').removeClass('choice-after');
             }
         }
         function types(data){
@@ -331,22 +325,6 @@
                 $('#area li').eq(0).css('color','#ff5a54');
             }
         }
-        function periods(data){
-            if(width>999){
-                $('#area-all-period').hide();
-            }else{
-                if(data.period.length>16){
-                    $('#area-all-period').show();
-                }else{
-                    $('#area-all-period').hide();
-                }
-            }
-            for(var i=0;i<data.period.length;i++){
-                var items=data.period[i];
-                $('#period').append('<li class="white-border period" id="'+items.id+'"><span class="item-name">'+items.period+'</span></li>');
-                $('#period li').eq(0).css('color','#ff5a54');
-            }
-        }
         $('#all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#classification').css('height', '100%');
@@ -366,7 +344,7 @@
             }
         })
         function click() {
-            $('#all-types,#all-years,#all-period').on('click',function () {
+            $('#all-types,#all-years').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
@@ -378,17 +356,17 @@
                 $(this).toggleClass('choice-after');
                 $('#all-years').removeClass('choice-after');
             })
-            $('.period').on('click',function () {
-                $(this).toggleClass('choice-after');
-                $('#all-period').removeClass('choice-after');
-            })
         }
     });
+    $('.period').on('click',function () {
+        $(this).toggleClass('choice-after');
+        $(this).siblings().removeClass('choice-after');
+    })
     $('#showToast').on('click',function(){
         var id = $(this).data('id');
         window.pageManager.go(id);
     })
-    $('#reset').on('click',function () {
+    $('#reset,#clear').on('click',function () {
         $searchInput.val('');
         $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
     })
