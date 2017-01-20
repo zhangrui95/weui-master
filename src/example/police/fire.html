@@ -1,36 +1,4 @@
-<div>
-    <div class="fire-header">
-        <div class="fire-header-left">
-            <img src="images/head.jpg" class="police-header-img"/>
-            <span class="fire-head-name">于新刚</span>
-        </div>
-
-        <div class="fire-header-right">
-            <div class="fire-header-left" id="choice-alert">筛选</div>
-            <img src="images/choice.png" class="choice-img fire-header-left"/>
-        </div>
-    </div>
-    <div class="white-position">
-        <div class="fire-num-box">
-            <dl class="num-center">
-                <dt>45</dt>
-                <dd>非重点企业</dd>
-            </dl>
-        </div>
-        <div class="fire-num-box">
-            <dl class="num-center">
-                <dt>23</dt>
-                <dd>重点企业</dd>
-            </dl>
-        </div>
-        <div class="fire-num-box fire-num-box-border">
-            <dl class="num-center">
-                <dt>4</dt>
-                <dd>总次数</dd>
-            </dl>
-        </div>
-    </div>
-</div>
+<div id="fire-head"></div>
 <div class="page page_box page-list page-top">
     <div class="weui-tab">
         <div class="weui-navbar">
@@ -145,6 +113,63 @@
             }
 
         });
+        $.ajax({
+            type: "POST",
+            url: "api/firePlan/info.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                if(data.avatar==null||data.avatar==''){
+                    data.avatar = 'images/head.jpg'
+                }else{
+                    data.avatar += '64'
+                }
+                choice(data);
+            },
+            error: function (mes) {
+                console.log("error");
+            },
+        })
+        function choice(data){
+            var number = data.checkNums.plan+data.checkNums.extra;
+            $('#fire-head').html(
+                    '<div class="fire-header">'+
+                    '<div class="fire-header-left">'+
+                    '<img src="'+data.avatar+'" class="police-header-img"/>'+
+                    '<span class="fire-head-name">'+data.name+'</span>'+
+                    '</div>'+
+                    '<div class="fire-header-right">'+
+                    '<div class="fire-header-left" id="choice-alert">筛选</div>'+
+                    '<img src="images/choice.png" class="choice-img fire-header-left"/>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="white-position">'+
+                    '<div class="fire-num-box">'+
+                    '<dl class="num-center">'+
+                    '<dt>'+data.companyNums.unpoint+'</dt>'+
+                    '<dd>非重点企业</dd>'+
+                    '</dl>'+
+                    '</div>'+
+                    '<div class="fire-num-box">'+
+                    '<dl class="num-center">'+
+                    '<dt>'+data.companyNums.point+'</dt>'+
+                    '<dd>重点企业</dd>'+
+                    '</dl>'+
+                    '</div>'+
+                    '<div class="fire-num-box fire-num-box-border">'+
+                    '<dl class="num-center">'+
+                    '<dt>'+number+'</dt>'+
+                    '<dd>总次数</dd>'+
+                    '</dl>'+
+                    '</div>'+
+                    '</div>'
+            )
+            $('#choice-alert').on('click',function(){
+                $('#filtrate').fadeIn(100);
+            });
+            $('#clear').on('click',function () {
+                $('#filtrate').fadeOut(100);
+            })
+        }
         var currDataListCfg = {
             url:'api/task/fire.json',
             pagePanel:pagePanel,
@@ -358,12 +383,6 @@
                 $('#all-period').removeClass('choice-after');
             })
         }
-        $('#choice-alert').on('click',function(){
-            $('#filtrate').show();
-        });
-        $('#clear').on('click',function () {
-            $('#filtrate').hide();
-        })
     });
 
 </script>
