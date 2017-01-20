@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="btn-box" id="btnPanel" >
-        <div class="imported-left">重置</div>
+        <div class="imported-left" id="reset">重置</div>
         <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
     </div>
 </div>
@@ -388,5 +388,8 @@
         var id = $(this).data('id');
         window.pageManager.go(id);
     })
-
+    $('#reset').on('click',function () {
+        $searchInput.val('');
+        $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+    })
 </script>
