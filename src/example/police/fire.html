@@ -48,7 +48,7 @@
                 <span class="cover-blue" id="area-all-cover">展开全部</span>
             </div>
             <ul class="area" id="area">
-                <li class="all-news  white-border choice-after" id="all-years">全部</li>
+                <li class="all-news  white-border years choice-after" id="all-years">全部</li>
             </ul>
         </div>
         <div class="area-box">
@@ -324,6 +324,10 @@
                 $('#area').append('<li class="white-border years" id="'+items.id+'"><span class="item-name">'+items.year+'</span></li>');
                 $('#area li').eq(0).css('color','#ff5a54');
             }
+            $('.years').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $(this).siblings().removeClass('choice-after');
+            })
         }
         $('#all-cover').click(function() {
             if ($(this).html() == '展开全部') {
@@ -344,17 +348,13 @@
             }
         })
         function click() {
-            $('#all-types,#all-years').on('click',function () {
+            $('#all-types').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
-            })
-            $('.years').on('click',function () {
-                $(this).toggleClass('choice-after');
-                $('#all-years').removeClass('choice-after');
             })
         }
     });
