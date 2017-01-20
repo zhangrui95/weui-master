@@ -62,7 +62,7 @@
     </div>
     <div class="btn-box" id="btnPanel" >
         <div class="imported-left">重置</div>
-        <a class="btn-bg" href="javascript:" id="showToast" >确定</a>
+        <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
     </div>
 </div>
 <script type="text/javascript">
@@ -216,7 +216,7 @@
                         item.name +
                         '</p>' +
                         '<div class="weui-cell__ft cell_fs">' +
-                        '<span>'+'饭店'+'</span>'  +
+                        '<span>'+item.type+'</span>'  +
                         '</div>' +
                         '</div>' +
                         '</div>'
@@ -384,5 +384,9 @@
             })
         }
     });
+    $('#showToast').on('click',function(){
+        var id = $(this).data('id');
+        window.pageManager.go(id);
+    })
 
 </script>

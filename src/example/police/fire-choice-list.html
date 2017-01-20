@@ -1,0 +1,79 @@
+
+<div class="page page-list">
+    <div class="fire-list-head">
+        <div class="fire-header">
+            <div class="fire-header-left">
+                <img src="images/head.jpg" class="police-header-img"/>
+                <span class="fire-head-name">于新刚</span>
+            </div>
+            <div class="fire-header-right">
+                <div class="fire-header-left" id="choice-alert">筛选</div>
+                <img src="images/choice.png" class="choice-img fire-header-left"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="list">
+            </div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var container = $('#container');
+    var pagePanel = $('.page__bd');
+    var currDataListCfg = {
+        url:'api/employee/companies.json',
+        pagePanel:pagePanel,
+        scrollPanel:pagePanel.find('#box'),
+        winPanel:container,
+        itemsPanel:$('#list'),
+        xhrExternalProcess : function (params,xhr) {
+            $(".weui-cell").on('click',function () {
+            });
+        },
+        noMoreCb : function () {
+            $('.weui-loadmore_line').show();
+            $('.empty-box').hide();
+        },
+        templateProcess : function (items) {
+            var nums = items.nums;
+            nums = nums==null?{num:0,done:0}:nums;
+            var num = nums.num;
+            var done = nums.done;
+            var undone = nums.num-done;
+            if(num==null || done==null){
+                num = 0;
+                undone=0;
+            }
+            return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="police-employee_list" id="'+items.item.id+'">'+
+                    '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                    '<div class="weui-cell__bd size-width">'+
+                    '<div><span class="item-width">'+items.item.name+'</span></div>'+
+                    '<div class="size-new">'+items.item.type.name+'</div>'+
+                    '</div>'+
+                    '<span class="num-right"><img class="icon-go" src="images/icon-go.jpg"></span>'+
+                    '</label>';
+        },
+        before:function(){
+            $("#load").show();
+            $(".weui-loadmore_line").hide();
+        },
+        after:function(){
+            $("#load").hide();
+        }
+    };
+    var typeIds = container.data('data-choice-type-ids');
+    var policeId = container.data('self-policeId');
+    var val = container.data('data-list-val')
+    var currDataList = window.dataList.newList(currDataListCfg);
+    currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+</script>

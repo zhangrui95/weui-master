@@ -1421,18 +1421,6 @@ body, .page {
     color:#FFFFFF;
     font-size: 18px;
 }
-.weui-uploader__input-box {
-    position: relative;
-    margin: auto;
-    width: 50px;
-    height: 50px;
-    border:none;
-}
-.weui-uploader__file{
-   float: left;
-    width: 50px;
-    height: 50px;
-}
 .nochecked-y{
     overflow-y: scroll;
     height: 78%;
@@ -1444,14 +1432,29 @@ body, .page {
         border-bottom: 1px solid #eee;
     }
     .weui-uploader__input-box{
-        float: left;
+        float: right;
         background: #efefef;
         .photo{
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             margin: 20%;
         }
     }
+    .weui-uploader__input-box {
+        position: relative;
+        margin: auto;
+        width: 40px;
+        height: 40px;
+        border:none;
+    }
+    .weui-uploader__file{
+        float:right;
+        width: 40px;
+        height: 40px;
+        //margin-left: 9px;
+        //margin-right: 0;
+    }
+
 }
 .box-orange{
     background: #ff5a54;
@@ -1536,4 +1539,9 @@ body, .page {
     left: 15px;
     top: 18px;
     z-index: 10;
+}
+.fire-list-head{
+    .fire-header{
+        height: 60px;
+    }
 }

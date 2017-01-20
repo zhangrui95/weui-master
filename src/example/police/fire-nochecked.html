@@ -6,11 +6,11 @@
         <div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>
         <div class="weui-cell__bd bd-right" >
             <div class="weui-uploader__bd">
-                <ul class="weui-uploader__files" id="uploaderFiles"></ul>
                 <div class="weui-uploader__input-box">
                     <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
                     <img src="images/photo.png" class="photo" />
                 </div>
+                <ul class="weui-uploader__files" id="uploaderFiles"></ul>
             </div>
         </div>
     </div>
@@ -38,6 +38,14 @@
             </div>
         </div>
     </div>
+    <div class="weui-gallery" id="gallery">
+        <span class="weui-gallery__img" id="galleryImg"></span>
+        <div class="weui-gallery__opr">
+            <a href="javascript:" class="weui-gallery__del">
+                <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            </a>
+        </div>
+    </div>
 </div>
 <div class="btn-box" id="btnPanel">
     <a class="btn box-orange" href="javascript:" id="showToast" >提交</a>
@@ -47,9 +55,9 @@
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
-                $uploaderFiles = $("#uploaderFiles")
+                $uploaderFiles = $("#uploaderFiles"),
+                localId
                 ;
-
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
@@ -60,9 +68,22 @@
                 } else {
                     src = e.target.result;
                 }
-
                 $uploaderFiles.append($(tmpl.replace('#url#', src)));
             }
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    localId = localIds[0];
+                    $('#idCard').html("");
+                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
+                },
+                fail:function(err){
+                    $('#idCard').html("选择照片失败！");
+                }
+            });
         });
         $uploaderFiles.on("click", "li", function(){
             $galleryImg.attr("style", this.getAttribute("style"));
