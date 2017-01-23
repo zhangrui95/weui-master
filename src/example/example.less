@@ -752,7 +752,10 @@ body, .page {
     margin-bottom:10%;
 }
 .height-fixed{
-    height: 55px;
+    height: 30px;
+}
+.height-fixed-fire{
+    height: 60px;
 }
 .cells-margin{
     margin-bottom: 30px;
@@ -870,6 +873,11 @@ body, .page {
             cursor: pointer;
         }
     }
+}
+.fire-y {
+    overflow-y: scroll;
+    height: 80%;
+    margin-bottom: 10%;
 }
 .choice-title{
     width: 94%;
@@ -1421,9 +1429,14 @@ body, .page {
     color:#FFFFFF;
     font-size: 18px;
 }
-.nochecked-y{
+
+.nochecked-y,.detail-y{
+    font-family: '微软雅黑';
     overflow-y: scroll;
     height: 78%;
+    .cell-border{
+        padding: 14px 0;
+    }
     .weui-label{
         line-height: 50px;
     }
@@ -1432,7 +1445,7 @@ body, .page {
         border-bottom: 1px solid #eee;
     }
     .weui-uploader__input-box{
-        float: right;
+        float: left;
         background: #efefef;
         .photo{
             width: 25px;
@@ -1448,7 +1461,7 @@ body, .page {
         border:none;
     }
     .weui-uploader__file{
-        float:right;
+        float:left;
         width: 40px;
         height: 40px;
         //margin-left: 9px;
@@ -1544,4 +1557,34 @@ body, .page {
     .fire-header{
         height: 60px;
     }
+}
+.fire-img-list{
+    width: 40px;
+    height: 40px;
+    margin-right: 9px;
+}
+.img-detail{
+    float:left;
+    li{
+        float: left;
+    }
+}
+.fire-nocheck-title{
+    padding: 0 20px;
+    height: 40px;
+    line-height: 60px;
+    font-family: '微软雅黑';
+}
+.detail-y{
+    height: 90%;
+}
+.more-img{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    margin: 0 9px 9px 0;
 }

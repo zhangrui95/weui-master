@@ -1,68 +1,68 @@
-<div id="fire-head"></div>
-<div class="page page_box page-list page-top">
-    <div class="weui-tab">
-        <div class="weui-navbar">
-            <div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1" id="tab">已核查<span id="number-right"></span></div>
-        </div>
-    </div>
-    <div class="page__bd cell-y bg-page bottom-cell">
-        <div id="box" class="bg-box">
-            <div class="weui-tab__panel panel_none">
-                <div class="weui-cells"  id="tab1"></div>
-                <div class="weui-cells active"  id="tab2"></div>
-            </div>
-            <div class="weui-loadmore" id="load">
-                <i class="weui-loading"></i>
-                <span class="weui-loadmore__tips">正在加载</span>
-            </div>
-            <div class="weui-loadmore weui-loadmore_line active" id="new-none">
-                <span class="weui-loadmore__tips">暂无更多数据</span>
+<div class="page page_box page-list">
+        <div id="fire-head"></div>
+    <div class="height-fixed-fire"></div>
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>
+                <div class="weui-navbar__item" href="#tab2" data-state="1" id="tab">已核查<span id="number-right"></span></div>
             </div>
         </div>
-    </div>
-</div>
-<div class="filtrate" id="filtrate">
-    <div class="filtrate-header">
-        <div class="fire-header-left-top">筛选条件</div>
-        <div class="fire-header-right" id="clear">取消</div>
-        <div class="input-border">
-            <div class="weui-search-bar__box">
-                <i class="weui-icon-search"></i>
-                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
-                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+        <div class="page__bd fire-y bg-page bottom-cell">
+            <div id="box" class="bg-box">
+                <div class="weui-tab__panel panel_none">
+                    <div class="weui-cells"  id="tab1"></div>
+                    <div class="weui-cells active"  id="tab2"></div>
+                </div>
+                <div class="weui-loadmore" id="load">
+                    <i class="weui-loading"></i>
+                    <span class="weui-loadmore__tips">正在加载</span>
+                </div>
+                <div class="weui-loadmore weui-loadmore_line active" id="new-none">
+                    <span class="weui-loadmore__tips">暂无更多数据</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="filtrate-y">
-        <div class="classification-box">
-            <div class="choice-title">分类
-                <span class="cover-blue" id="all-cover">展开全部</span>
+    <div class="filtrate" id="filtrate">
+        <div class="filtrate-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
             </div>
-            <ul class="classification" id="classification">
-                <li class="all-news white-border choice-after" id="all-types">全部</li>
-            </ul>
         </div>
-        <div class="area-box">
-            <div class="choice-title">年份
-                <span class="cover-blue" id="area-all-cover">展开全部</span>
+        <div class="filtrate-y">
+            <div class="classification-box">
+                <div class="choice-title">分类
+                    <span class="cover-blue" id="all-cover">展开全部</span>
+                </div>
+                <ul class="classification" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
             </div>
-            <ul class="area" id="area">
-                <li class="all-news  white-border years choice-after" id="all-years">全部</li>
-            </ul>
+            <div class="area-box">
+                <div class="choice-title">年份</div>
+                <ul class="area" id="area">
+                    <li class="all-news  white-border years choice-after" id="all-years">全部</li>
+                </ul>
+            </div>
+            <div class="area-box">
+                <div class="choice-title">周期</div>
+                <ul class="area" id="period">
+                    <li class="all-news  white-border choice-after period" id="all-period" data-period="0">全年</li>
+                    <li class="white-border period" data-period="1"><span class="item-name">上半年</span></li>
+                    <li class="white-border period" data-period="2"><span class="item-name">下半年</span></li>
+                </ul>
+            </div>
         </div>
-        <div class="area-box">
-            <div class="choice-title">周期</div>
-            <ul class="area" id="period">
-                <li class="all-news  white-border choice-after period" id="all-period">全年</li>
-                <li class="white-border period"><span class="item-name">上半年</span></li>
-                <li class="white-border period"><span class="item-name">下半年</span></li>
-            </ul>
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类、年份及周期</p></div>
+        <div class="btn-box" id="btnPanel" >
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
         </div>
-    </div>
-    <div class="btn-box" id="btnPanel" >
-        <div class="imported-left" id="reset">重置</div>
-        <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
     </div>
 </div>
 <script type="text/javascript">
@@ -75,44 +75,44 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
         })
-        $('.cell-y').scroll(function ()
-        {
-            var st = $(this).scrollTop();
-            if(st==0){
-                $(".page-top").animate(
-                        {
-                            marginTop:'140px',
-                            translate3d:'0,10px,0'
-                        },
-                        1500,
-                        'ease-out'
-                )
-                $('.white-position').animate(
-                        {
-                            opacity:1
-                        },
-                        1500,
-                        'ease-out'
-                )
-            }else{
-                $(".page-top").animate(
-                        {
-                            marginTop:'50px',
-                            translate3d:'0,10px,0'
-                        },
-                        1000,
-                        'ease-out'
-                )
-                $('.white-position').animate(
-                        {
-                            opacity:0.25
-                        },
-                        1000,
-                        'ease-out'
-                )
-            }
-
-        });
+//        $('.cell-y').scroll(function ()
+//        {
+//            var st = $(this).scrollTop();
+//            if(st==0){
+//                $(".page-top").animate(
+//                        {
+//                            marginTop:'140px',
+//                            translate3d:'0,10px,0'
+//                        },
+//                        1500,
+//                        'ease-out'
+//                )
+//                $('.white-position').animate(
+//                        {
+//                            opacity:1
+//                        },
+//                        1500,
+//                        'ease-out'
+//                )
+//            }else{
+//                $(".page-top").animate(
+//                        {
+//                            marginTop:'50px',
+//                            translate3d:'0,10px,0'
+//                        },
+//                        1000,
+//                        'ease-out'
+//                )
+//                $('.white-position').animate(
+//                        {
+//                            opacity:0.25
+//                        },
+//                        1000,
+//                        'ease-out'
+//                )
+//            }
+//
+//        });
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
@@ -171,7 +171,7 @@
             })
         }
         var currDataListCfg = {
-            url:'api/task/fire.json',
+            url:'api/firePlanItem.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container.find('.page_box'),
@@ -213,10 +213,10 @@
                         '<div class="weui-cell__bd cell_bd_border" >' +
                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
                         '<p class="left-cell '+listcolor+'">' +
-                        item.name +
+                        item.company.name +
                         '</p>' +
                         '<div class="weui-cell__ft cell_fs">' +
-                        '<span>'+item.type+'</span>'  +
+                        '<span>'+item.company.type.name+'</span>'  +
                         '</div>' +
                         '</div>' +
                         '</div>'
@@ -263,14 +263,13 @@
         var period=$('#container').data('data-choice-police-ids');
         $.ajax({
             type: "POST",
-            url: "api/fire/info.json",
+            url: "api/firePlanItem/info.json",
             data:{userid:$('#userid').val()},
             success: function (data) {
                 types(data);
-                years(data);
                 click();
                 recover(typedis);
-                recover(year);
+                years();
             },
             error: function (mes) {
                 console.log("error");
@@ -289,11 +288,6 @@
             }else{
                 $('#all-types').removeClass('choice-after');
             }
-            if(year==''){
-                $('#all-years').addClass('choice-after');
-            }else{
-                $('#all-years').removeClass('choice-after');
-            }
         }
         function types(data){
             if(width>999){
@@ -309,20 +303,14 @@
                 $('#classification li').eq(0).css('color','#ff5a54');
             }
         }
-        function years(data){
-            if(width>999){
-                $('#area-all-cover').hide();
-            }else{
-                if(data.years.length>16){
-                    $('#area-all-cover').show();
-                }else{
-                    $('#area-all-cover').hide();
-                }
-            }
-            for(var i=0;i<data.years.length;i++){
-                var items=data.years[i];
-                $('#area').append('<li class="white-border years" id="'+items.id+'"><span class="item-name">'+items.year+'</span></li>');
-                $('#area li').eq(0).css('color','#ff5a54');
+        function years(){
+            var data = new Date();
+            var year = data.getFullYear(data);
+            var j=0;
+            for(var i = 2016 ;i<=year;i++){
+                    j++;
+                    $('#area').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
+                    $('#area li').eq(0).css('color','#ff5a54');
             }
             $('.years').on('click',function () {
                 $(this).toggleClass('choice-after');
@@ -363,11 +351,50 @@
         $(this).siblings().removeClass('choice-after');
     })
     $('#showToast').on('click',function(){
-        var id = $(this).data('id');
-        window.pageManager.go(id);
+            var years = [];
+            var texts = [];
+            var typeIds = [];
+            var prd = '';
+            var val = $searchInput.val();
+            $('#container').data('data-list-val',null);
+            $('.types.choice-after').each (function(){
+                typeIds.push($(this).attr('id'));
+            })
+            $('.years.choice-after').each(function(){
+                years.push($(this).attr('id'));
+            })
+            $('.choice-after .item-name').each(function(){
+                texts.push($(this).text())
+            });
+            $('.period.choice-after').each (function(){
+                 prd = $(this).data('period');
+            });
+            $('#container').data('data-choice',texts.join(','));
+            $('#container').data('data-choice-type-ids',typeIds.join(','));
+            $('#container').data('data-choice-years-ids',years.join(','));
+            $('#container').data('data-choice-period-ids',prd);
+            $('#container').data('data-choice-val-ids',val);
+            var id = $('#showToast').data('id');
+            var typedis=$('#container').data('data-choice-type-ids');
+            var years=$('#container').data('data-choice-police-ids');
+            var alltypes = $('#all-types').hasClass('choice-after');
+            var yeartypes = $('#all-years').hasClass('choice-after');
+            if(typedis == ''&& yeartypes == ''&& prd==''){
+                if(alltypes||yeartypes||prd){
+                    window.pageManager.go(id);
+                }else{
+                    $('#hint').fadeIn(100);
+                    setTimeout(function () {
+                        $('#hint').fadeOut(100);
+                    }, 2000);
+                }
+            }else{
+                window.pageManager.go(id);
+            }
     })
     $('#reset,#clear').on('click',function () {
         $searchInput.val('');
         $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
     })
+
 </script>

@@ -429,7 +429,7 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/fire/info.json",
+        route: "/example/api/firePlanItem/info.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({
@@ -462,36 +462,28 @@ module.exports = [
                     {name:'维修',num:3,id:'25'},
                     {name:'家政',num:12,id:'26'},
                     {name:'其他',num:34,id:'27'}
-                ],
-                years:[
-                    {year:'2016',id:'y1'},
-                    {year:'2017',id:'y2'}
-                ],
-                period:[
-                    {period:'上半年',id:'p1'},
-                    {period:'下半年',id:'p2'}
                 ]
             }));
         }
     },
     {
-        route: "/example/api/task/fire.json",
+        route: "/example/api/firePlanItem.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({list:[
-                {id:'key1',name:'八府香鸭',type:'饭店'},
-                {id:'key2',name:'九转小磨',type:'饭店'},
-                {id:'key3',name:'达达律师事务所',type:'律师事务所'},
-                {id:'key4',name:'谭阁美酒店',type:'旅店'},
-                {id:'key5',name:'喜家德饺子',type:'饭店'},
-                {id:'key6',name:'九转小磨',type:'饭店'},
-                {id:'key7',name:'花园幼儿园',type:'幼儿园'},
-                {id:'key8',name:'八府宴',type:'饭店'},
-                {id:'key9',name:'佳佳旅店',type:'旅店'}
-            ],
-                undo:10,
-                done:55
-            }));
+            res.end(JSON.stringify({
+                    undo:34,
+                    done:71,
+                    list:[
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                        {company:{name:'九转小磨',type:{name:'饭店'},police:{name:'于谦'}}, startTime:'1482214046832', endTime:'1482214046832', createTime:'1482214046832', fcid:'', uid:'', id:'p1'},
+                    ]
+                }
+            ));
         }
     },
     {

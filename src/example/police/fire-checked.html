@@ -5,22 +5,22 @@
     <div class="position-list">
         <div class="pink pink-first">2017年</div>
         <ul>
-            <li class="time-list">
+            <li class="time-list" data-id="fire-detail">
                 <img src="images/list-left.jpg" class="img-list"/>
                 <span>2017-01-05 13:07:26</span>
             </li>
         </ul>
         <div class="pink">2016年</div>
         <ul>
-            <li class="time-list">
+            <li class="time-list" data-id="fire-detail">
                 <img src="images/list-left.jpg" class="img-list"/>
                 <span>2016-12-07 15:09:48</span>
             </li>
-            <li class="time-list">
+            <li class="time-list" data-id="fire-detail">
                 <img src="images/list-left.jpg" class="img-list"/>
                 <span>2016-07-25 09:32:16</span>
             </li>
-            <li class="time-list">
+            <li class="time-list" data-id="fire-detail">
                 <img src="images/list-left.jpg" class="img-list"/>
                 <span>2016-06-07 12:09:48</span>
             </li>
@@ -30,9 +30,9 @@
 <button class="orange-button" data-id="fire-nochecked" id="new-btn">新建检查</button>
 <script>
     $(function(){
-        $('#new-btn').on('click',function(){
+        $('#new-btn,.time-list').on('click',function(){
             var id = $(this).data('id');
             window.pageManager.go(id);
-        })
+        });
     })
 </script>

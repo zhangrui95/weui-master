@@ -1,0 +1,63 @@
+<div class="page">
+    <div class="fire-nochecked">
+        <div class="nochecked-header">八府香鸭</div>
+    </div>
+    <div class="detail-y">
+        <div class="fire-nocheck-title">检查现场</div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__bd bd-right" >
+                <ul class="img-detail" id="site-img">
+                    <li><img src="images/icon1.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon2.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon4.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon5.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon6.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon9.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon8.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon6.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon9.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon8.png" class="fire-img-list"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="fire-nocheck-title">法律文书</div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__bd bd-right">
+                <ul class="img-detail">
+                    <li><img src="images/icon3.png" class="fire-img-list"/></li>
+                    <li><img src="images/icon4.png" class="fire-img-list"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="fire-nocheck-title">消防负责人</div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__bd bd-right">
+                <ul class="img-detail">
+                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="fire-nocheck-title">企业地址</div>
+        <div class="none-flex cell-border cell-margin">
+            南岗区嵩山路19号
+        </div>
+        <div class="fire-nocheck-title">核查时间</div>
+        <div class="none-flex cell-border cell-margin bottom-cell">
+            2016-07-15 14:32:51
+        </div>
+        <div class="height-fixed"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var width = $('.img-detail').width();
+        var nums = Math.floor(width/49)*2;
+        var length = $('#site-img li').length;
+        var more = length-nums+1;
+        console.log(nums);
+        console.log(more);
+        $('#site-img li').eq(nums-2).after('<li class="more-img">+'+more+'</li>');
+    })
+</script>
