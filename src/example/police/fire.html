@@ -70,6 +70,11 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page_box .page__bd');
+        var width = document.body.clientWidth;
+        var typedis=$('#container').data('data-choice-type-ids');
+        var year=$('#container').data('data-choice-year-ids');
+        var period=$('#container').data('data-choice-period-ids');
+        var val = $('#container').data('data-choice-val-ids');
         $searchClear = $('#searchClear');
         $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
@@ -116,7 +121,7 @@
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
-            data:{userid:$('#userid').val()},
+            data:{userid:$('#userid').val(),typeIds:typedis,years:year,period:period,name:val},
             success: function (data) {
                 if(data.avatar==null||data.avatar==''){
                     data.avatar = 'images/head.jpg'
@@ -243,7 +248,7 @@
                 $(".weui-cells").hide();
                 $(activeTab).html('').fadeIn();
                 currState = state;
-                currDataList.first({state:state});
+                currDataList.first({state:state,typeIds:typedis,years:year,period:period,name:val});
             }
             return false;
         });
@@ -255,17 +260,11 @@
             target.addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
             $(target.attr("href")).fadeIn();
         }
-        currDataList.first({state:currState});
-
-        var width = document.body.clientWidth;
-        var typedis=$('#container').data('data-choice-type-ids');
-        var year=$('#container').data('data-choice-year-ids');
-        var period=$('#container').data('data-choice-period-ids');
-        var val = $('#container').data('data-choice-val-ids');
+        currDataList.first({state:currState,typeIds:typedis,years:year,period:period,name:val});
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
-            data:{userid:$('#userid').val(),typeIds:typedis,years:year,period:period,name:val},
+            data:{userid:$('#userid').val(),policeId:policeId},
             success: function (data) {
                 types(data);
                 click();
