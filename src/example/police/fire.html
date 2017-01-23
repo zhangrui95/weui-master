@@ -260,11 +260,12 @@
         var width = document.body.clientWidth;
         var typedis=$('#container').data('data-choice-type-ids');
         var year=$('#container').data('data-choice-year-ids');
-        var period=$('#container').data('data-choice-police-ids');
+        var period=$('#container').data('data-choice-period-ids');
+        var val = $('#container').data('data-choice-val-ids');
         $.ajax({
             type: "POST",
             url: "api/firePlanItem/info.json",
-            data:{userid:$('#userid').val()},
+            data:{userid:$('#userid').val(),typeIds:typedis,years:year,period:period,name:val},
             success: function (data) {
                 types(data);
                 click();
@@ -391,7 +392,6 @@
             }else{
                 window.pageManager.go(id);
             }
-        currDataList.first({typeIds:typeIds,policeId:policeId,years:yeartypes,period:prd,name:val});
     })
     $('#reset,#clear').on('click',function () {
         $searchInput.val('');
