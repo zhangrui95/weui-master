@@ -429,44 +429,6 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/firePlanItem/info.json",
-        handle: function (req, res, next) {
-            res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({
-                num:1350,
-                types:[
-                    {name:'餐饮',num:12,id:'1'},
-                    {name:'旅店',num:21,id:'2'},
-                    {name:'汽配',num:7,id:'3'},
-                    {name:'服务',num:81,id:'4'},
-                    {name:'KTV',num:90,id:'5'},
-                    {name:'维修',num:3,id:'6'},
-                    {name:'家政',num:12,id:'7'},
-                    {name:'教育',num:34,id:'8'},
-                    {name:'餐饮',num:12,id:'9'},
-                    {name:'旅店',num:21,id:'10'},
-                    {name:'汽配',num:7,id:'11'},
-                    {name:'律师事务所',num:81,id:'12'},
-                    {name:'KTV',num:90,id:'13'},
-                    {name:'维修',num:3,id:'14'},
-                    {name:'家政',num:12,id:'15'},
-                    {name:'教育',num:34,id:'16'},
-                    {name:'维修',num:3,id:'17'},
-                    {name:'家政',num:12,id:'18'},
-                    {name:'教育',num:34,id:'19'},
-                    {name:'餐饮',num:12,id:'20'},
-                    {name:'旅店',num:21,id:'21'},
-                    {name:'汽配',num:7,id:'22'},
-                    {name:'律师事务所',num:81,id:'23'},
-                    {name:'KTV',num:90,id:'24'},
-                    {name:'维修',num:3,id:'25'},
-                    {name:'家政',num:12,id:'26'},
-                    {name:'其他',num:34,id:'27'}
-                ]
-            }));
-        }
-    },
-    {
         route: "/example/api/firePlanItem.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
@@ -498,6 +460,27 @@ module.exports = [
                     name:'于新刚',
                     avatar:'images/head.jpg?'
                 }
+            ));
+        }
+    },
+    {
+        route: "/example/api/fireCheck/listByCompany.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    company:{name:'九转小磨'},
+                    list:[
+                        {createTime:1485137757000},
+                        {createTime:1484137757070},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832},
+                        {createTime:1483214046832},
+                        {createTime:1485137757000},
+                    ]
+                }
+
             ));
         }
     },

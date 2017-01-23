@@ -1,38 +1,58 @@
 <div class="fire-checked">
     <div class="fire-header">
-        <div  class="fire-company-name">八府香鸭</div>
+        <div  class="fire-company-name" id="head-name"></div>
     </div>
-    <div class="position-list">
-        <div class="pink pink-first">2017年</div>
-        <ul>
-            <li class="time-list" data-id="fire-detail">
-                <img src="images/list-left.jpg" class="img-list"/>
-                <span>2017-01-05 13:07:26</span>
-            </li>
-        </ul>
-        <div class="pink">2016年</div>
-        <ul>
-            <li class="time-list" data-id="fire-detail">
-                <img src="images/list-left.jpg" class="img-list"/>
-                <span>2016-12-07 15:09:48</span>
-            </li>
-            <li class="time-list" data-id="fire-detail">
-                <img src="images/list-left.jpg" class="img-list"/>
-                <span>2016-07-25 09:32:16</span>
-            </li>
-            <li class="time-list" data-id="fire-detail">
-                <img src="images/list-left.jpg" class="img-list"/>
-                <span>2016-06-07 12:09:48</span>
-            </li>
-        </ul>
+    <div class="position-list" id="time-list">
+        <!--<div class="pink pink-first" id="2017">2017年</div>-->
     </div>
 </div>
 <button class="orange-button" data-id="fire-nochecked" id="new-btn">新建检查</button>
 <script>
     $(function(){
-        $('#new-btn,.time-list').on('click',function(){
-            var id = $(this).data('id');
-            window.pageManager.go(id);
+        var cid =  $('#container').data('data-company-name-cid');
+        $.ajax({
+            type: "POST",
+            url: "api/fireCheck/listByCompany.json",
+            data:{userid:$('#userid').val(),cid:cid},
+            success: function (data) {
+                $('#head-name').html(data.company.name);
+                var newdate = new Date();
+                var year = newdate.getFullYear();
+                for(var k = year;k>=2016;k--){
+                    $('#time-list').append(
+                            '<div class="pink" id="'+k+'">'+k+'年</div>'
+                    )
+                }
+                $('.pink').eq(0).addClass('pink-first')
+                var years;
+                var datelist;
+                var letter = $
+                for(var i = 0;i<data.list.length;i++) {
+                    datelist = data.list[i].createTime;
+                    var date = new Date(datelist);
+                    years = date.getFullYear();
+                    str =years+"";
+                    if (str.indexOf(years) !== -1){
+                        $('#'+years).after(
+                            '<ul>' +
+                            '<li class="time-list" data-id="fire-detail">' +
+                            '<img src="images/list-left.jpg" class="img-list"/>' +
+                            '<span>' + getLocalTime(data.list[i].createTime) + '</span>' +
+                            '</li>' +
+                            '</ul>'
+                        )
+                    }
+                };
+                $('#new-btn,.time-list').on('click',function(){
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
+                });
+
+            },
+            error: function (mes) {
+                console.log("error");
+            }
         });
+
     })
 </script>
