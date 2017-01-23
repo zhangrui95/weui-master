@@ -264,7 +264,7 @@
         var val = $('#container').data('data-choice-val-ids');
         $.ajax({
             type: "POST",
-            url: "api/firePlanItem/info.json",
+            url: "api/company/info.json",
             data:{userid:$('#userid').val(),typeIds:typedis,years:year,period:period,name:val},
             success: function (data) {
                 types(data);
