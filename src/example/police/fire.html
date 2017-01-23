@@ -170,6 +170,8 @@
                     '</div>'
             )
             $('#choice-alert').on('click',function(){
+                $searchInput.val('');
+                $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
                 $('#filtrate').fadeIn(100);
             });
             $('#clear').on('click',function () {
@@ -189,7 +191,6 @@
                     var cid = $(this).attr('id');
                     container.data('data-company-name-cid',cid);
                     var id = $(this).data('id');
-                    $('#container').data('detail-source','hotel_news');
                     $('#taskId').val($(this).data('tid'));
                     window.pageManager.go(id);
                 });
