@@ -4,7 +4,7 @@
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
     <div class="fire-nochecked">
-        <div class="nochecked-header">八府香鸭</div>
+        <div class="nochecked-header" id="head-name"></div>
     </div>
     <div class="nochecked-y">
         <div class="fire-nocheck-title">检查现场</div>
@@ -70,6 +70,18 @@
                 $uploaderPerson = $("#uploaderPerson")
                 ;
 
+        $.ajax({
+            type: "POST",
+            url: "api/company/detail.json",
+            data:{userid:$('#userid').val(),cid:cid},
+            success: function (data) {
+                $('#head-name').html(data.name);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+
         var choose = function (localCb) {
             wx.chooseImage({
                 count: 1, // 默认9
@@ -129,7 +141,9 @@
         });
         $('.weui-gallery__opr').click(function () {
             var curr = $(this).data('curr-media-id');
-            imgList.find('[data-media-id="'+curr+'"]').remove();
+            $uploaderFiles.find('[data-media-id="'+curr+'"]').remove();
+            $uploaderBooks.find('[data-media-id="'+curr+'"]').remove();
+            $uploaderPerson.find('[data-media-id="'+curr+'"]').remove();
         });
         function addImg(checkIds,legalIds,fireIds){
             $('#img-null').html("");
