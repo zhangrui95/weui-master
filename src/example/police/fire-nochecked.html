@@ -78,7 +78,7 @@
             url: "api/company/detail.json",
             data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
-                $('#head-name').html(data.name);
+                $('#head-name').html(data.company.name);
             },
             error: function (mes) {
                 console.log("error");
