@@ -67,7 +67,7 @@
         })
         $.ajax({
             type: "POST",
-            url: "api/fireCheck/detail.json",
+            url: "api/company/detail.json",
             data:{userid:$('#userid').val()},
             success: function (data) {
                 $('#name').html(data.company.name);
