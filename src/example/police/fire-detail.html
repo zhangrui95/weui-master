@@ -33,17 +33,19 @@
 </div>
 <script>
     $(function () {
-        $gallery = $("#gallery"),
-        $galleryImg = $("#galleryImg")
+        var container = $('#container');
+        var id = container.data('fire-check-id');
+        var cid =  container.data('data-company-name-cid');
+        var $gallery = $("#gallery"),
+             $galleryImg = $("#galleryImg");
         $.ajax({
             type: "POST",
             url: "api/company/detail.json",
-            data:{userid:$('#userid').val()},
+            data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
                 $('#name').html(data.company.name);
             }
         });
-        var id = $('#container').data('fire-check-id');
         $.ajax({
             type: "POST",
             url: "api/fireCheck/detail.json",

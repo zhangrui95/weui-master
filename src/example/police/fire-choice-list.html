@@ -245,7 +245,7 @@
             $(this).siblings().removeClass('choice-after');
         })
         $('#showToast').on('click',function(){
-            var years = [];
+            var yearsArr = [];
             var texts = [];
             var typeIds = [];
             var prd = '';
@@ -254,7 +254,7 @@
                 typeIds.push($(this).attr('id'));
             });
             $('.years.choice-after').each(function(){
-                years.push($(this).data('year'));
+                yearsArr.push($(this).data('year'));
             });
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text())
@@ -263,9 +263,10 @@
                 prd = $(this).data('period');
             });
             var typedis=typeIds.join(',');
+            year=yearsArr.join(',');
             container.data('data-choice',texts.join(','));
             container.data('data-choice-type-ids',typedis);
-            container.data('data-choice-years-ids',years.join(','));
+            container.data('data-choice-years-ids',year);
             container.data('data-choice-period-ids',prd);
             container.data('data-choice-val-ids',val);
             var alltypes = $('#all-types').hasClass('choice-after');
@@ -282,7 +283,7 @@
                     }, 2000);
                 }
             }else{
-                currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
+                currDataList.first({typeIds:typedis,policeId:policeId,years:years,period:period,name:val});
                 $('#filtrate').hide();
             }
         });

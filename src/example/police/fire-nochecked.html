@@ -76,7 +76,7 @@
         $.ajax({
             type: "POST",
             url: "api/company/detail.json",
-            data:{userid:$('#userid').val(),cid:cid},
+            data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
                 $('#head-name').html(data.name);
             },
