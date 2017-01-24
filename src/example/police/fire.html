@@ -122,7 +122,7 @@
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
-            data:{userid:$('#userid').val(),policeId:policeId,typeIds:typedis,years:year,period:period,name:val},
+            data:{userid:$('#userid').val(),policeId:policeId},
             success: function (data) {
                 if(data.avatar==null||data.avatar==''){
                     data.avatar = 'images/head.jpg'
@@ -143,8 +143,8 @@
                     '<img src="'+data.avatar+'" class="police-header-img"/>'+
                     '<span class="fire-head-name">'+data.name+'</span>'+
                     '</div>'+
-                    '<div class="fire-header-right">'+
-                    '<div class="fire-header-left" id="choice-alert">筛选</div>'+
+                    '<div class="fire-header-right" id="choice-alert">'+
+                    '<div class="fire-header-left">筛选</div>'+
                     '<img src="images/choice.png" class="choice-img fire-header-left"/>'+
                     '</div>'+
                     '</div>'+
@@ -252,7 +252,7 @@
                 $(".weui-cells").hide();
                 $(activeTab).html('').fadeIn();
                 currState = state;
-                currDataList.first({state:state,policeId:policeId,typeIds:typedis,years:year,period:period,name:val});
+                currDataList.first({state:state,policeId:policeId});
             }
             return false;
         });
@@ -264,7 +264,7 @@
             target.addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
             $(target.attr("href")).fadeIn();
         }
-        currDataList.first({state:currState,policeId:policeId,typeIds:typedis,years:year,period:period,name:val});
+        currDataList.first({state:currState,policeId:policeId});
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
