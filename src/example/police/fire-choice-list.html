@@ -200,9 +200,9 @@
             var data = new Date();
             var year = data.getFullYear(data);
             var j=0;
-            for(var i = 2016 ;i<=year;i++){
+            for(var i = 2017 ;i<=year;i++){
                 j++;
-                $('#area').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
+                $('#area').append('<li class="white-border years" id="year'+j+'" data-year="'+i+'"><span class="item-name">'+i+'</span></li>');
                 $('#area li').eq(0).css('color','#ff5a54');
             }
             $('.years').on('click',function () {
@@ -254,7 +254,7 @@
                 typeIds.push($(this).attr('id'));
             });
             $('.years.choice-after').each(function(){
-                years.push($(this).attr('id'));
+                years.push($(this).data('year'));
             });
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text())
