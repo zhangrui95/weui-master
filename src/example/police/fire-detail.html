@@ -1,53 +1,34 @@
 <div class="page">
     <div class="fire-nochecked">
-        <div class="nochecked-header">八府香鸭</div>
+        <div class="nochecked-header" id="name"></div>
     </div>
     <div class="detail-y">
         <div class="fire-nocheck-title">检查现场</div>
-        <div class="none-flex cell-border cell-margin">
+        <div class="none-flex cell-border cell-margin" id="site">
             <div class="weui-cell__bd bd-right" >
-                <ul class="img-detail" id="site-img">
-                    <li><img src="images/icon1.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon2.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon4.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon5.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon6.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon9.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon8.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon6.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon9.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon8.png" class="fire-img-list"/></li>
-                </ul>
+                <ul class="img-detail" id="site-img"></ul>
             </div>
         </div>
         <div class="fire-nocheck-title">法律文书</div>
-        <div class="none-flex cell-border cell-margin">
+        <div class="none-flex cell-border cell-margin" id="book">
             <div class="weui-cell__bd bd-right">
-                <ul class="img-detail">
-                    <li><img src="images/icon3.png" class="fire-img-list"/></li>
-                    <li><img src="images/icon4.png" class="fire-img-list"/></li>
-                </ul>
+                <ul class="img-detail" id="all-img"></ul>
             </div>
         </div>
         <div class="fire-nocheck-title">消防负责人</div>
         <div class="none-flex cell-border cell-margin">
             <div class="weui-cell__bd bd-right">
-                <ul class="img-detail">
-                    <li><img src="images/icon7.png" class="fire-img-list"/></li>
-                </ul>
+                <ul class="img-detail" id="person-img"></ul>
             </div>
         </div>
         <div class="fire-nocheck-title">企业地址</div>
-        <div class="none-flex cell-border cell-margin">
-            南岗区嵩山路19号
-        </div>
+        <div class="none-flex cell-border cell-margin" id="place"></div>
         <div class="fire-nocheck-title">核查时间</div>
-        <div class="none-flex cell-border cell-margin bottom-cell">
-            2016-07-15 14:32:51
-        </div>
+        <div class="none-flex cell-border cell-margin bottom-cell" id="time"></div>
         <div class="height-fixed"></div>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <img class="weui-gallery__img center-img" id="galleryImg"/>
     </div>
 </div>
 <script>
@@ -56,8 +37,72 @@
         var nums = Math.floor(width/49)*2;
         var length = $('#site-img li').length;
         var more = length-nums+1;
-        console.log(nums);
-        console.log(more);
-        $('#site-img li').eq(nums-2).after('<li class="more-img">+'+more+'</li>');
+        var bookLength = $('#all-img li').length;
+        var moreBook = bookLength-nums+1;
+        var height = $('#site').height();
+        var bookHeight = $('#book').height();
+        $gallery = $("#gallery"),
+        $galleryImg = $("#galleryImg")
+        if(height>78){
+            $('#site').addClass('img-box-height');
+        }
+        if(bookHeight>78){
+            $('#book').addClass('img-book-height');
+        }
+        $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
+        if(more==0){
+            $('#more-num').hide();
+        }
+        $('#more-num').on('click',function(){
+            $('.img-box-height').css('height','auto');
+            $(this).hide();
+        })
+        $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
+        if(moreBook==0){
+            $('#more-nums').hide();
+        }
+        $('#more-nums').on('click',function(){
+            $('.img-book-height').css('height','auto');
+            $(this).hide();
+        })
+        $.ajax({
+            type: "POST",
+            url: "api/fireCheck/detail.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                $('#name').html(data.company.name);
+            }
+        })
+        var id = $('#container').data('data-company-name-cid');
+        $.ajax({
+            type: "POST",
+            url: "api/fireCheck/detail.json",
+            data:{userid:$('#userid').val(),id:id},
+            success: function (data) {
+                for(var i = 0;i<data.items.length;i++){
+                    if(data.items[i].type=='check'){
+                        $('#site-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                    }else if(data.items[i].type=='legal'){
+                        $('#all-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                    }else{
+                        $('#person-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                    }
+                    $('#place').html(data.company.address);
+                    $('#time').html(getLocalTime(data.company.createTime));
+                }
+                $('.fire-img-list').on("click", function(){
+                    $galleryImg.attr("src", this.getAttribute("src"));
+                    $gallery.fadeIn(100);
+                });
+                $gallery.on("click", function(){
+                    $gallery.fadeOut(100);
+                });
+
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        })
+
     })
 </script>
