@@ -117,7 +117,7 @@
 
         var addItem = function(imgList) {
             choose(function(localId){
-                upload(localId,function(serverId){
+                upload(localId,function(localId,serverId){
                     $('#img-null').html("");
                     imgList.append($(tmpl.replace('#url#', localId).replace('#mid#',serverId)));
                 });
