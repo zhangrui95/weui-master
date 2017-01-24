@@ -19,7 +19,8 @@
                 var year = newdate.getFullYear();
                 for(var k = year;k>=2016;k--){
                     $('#time-list').append(
-                            '<div class="pink" id="'+k+'">'+k+'年</div>'
+                            '<div class="pink">'+k+'年</div>'+
+                            '<div id="'+k+'"></div>'
                     )
                 }
                 $('.pink').eq(0).addClass('pink-first')
