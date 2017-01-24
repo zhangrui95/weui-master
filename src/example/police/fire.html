@@ -71,13 +71,13 @@
         var container = $('#container');
         var pagePanel = container.find('.page_box .page__bd');
         var width = document.body.clientWidth;
-        var typedis=$('#container').data('data-choice-type-ids');
-        var year=$('#container').data('data-choice-year-ids');
-        var period=$('#container').data('data-choice-period-ids');
-        var val = $('#container').data('data-choice-val-ids');
+        var typedis=container.data('data-choice-type-ids');
+        var year=container.data('data-choice-year-ids');
+        var period=container.data('data-choice-period-ids');
+        var val = container.data('data-choice-val-ids');
         var policeId = container.data('self-policeId');
-        $searchClear = $('#searchClear');
-        $searchInput = $('#searchInput');
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
             $searchInput.val('');
         })
@@ -192,7 +192,6 @@
                     container.data('data-company-name-cid',cid);
                     container.data('fire-check-source','fire');
                     var id = $(this).data('id');
-                    $('#taskId').val($(this).data('tid'));
                     window.pageManager.go(id);
                 });
             },
@@ -312,7 +311,7 @@
             var data = new Date();
             var year = data.getFullYear(data);
             var j=0;
-            for(var i = 2016 ;i<=year;i++){
+            for(var i = 2017 ;i<=year;i++){
                     j++;
                     $('#area').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
                     $('#area li').eq(0).css('color','#ff5a54');
@@ -330,7 +329,7 @@
                 $('#classification').css('height', '100px');
                 $(this).html('展开全部');
             }
-        })
+        });
         $('#area-all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#area').css('height', '100%');
@@ -339,51 +338,49 @@
                 $('#area').css('height', '100px');
                 $(this).html('展开全部');
             }
-        })
+        });
         function click() {
             $('#all-types').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
-            })
+            });
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
             })
         }
-    });
-    $('.period').on('click',function () {
-        $(this).toggleClass('choice-after');
-        $(this).siblings().removeClass('choice-after');
-    })
-    $('#showToast').on('click',function(){
+
+        $('.period').on('click',function () {
+            $(this).toggleClass('choice-after');
+            $(this).siblings().removeClass('choice-after');
+        });
+        $('#showToast').on('click',function(){
             var years = [];
             var texts = [];
             var typeIds = [];
             var prd = '';
             var val = $searchInput.val();
-            $('#container').data('data-list-val',null);
             $('.types.choice-after').each (function(){
                 typeIds.push($(this).attr('id'));
-            })
+            });
             $('.years.choice-after').each(function(){
                 years.push($(this).attr('id'));
-            })
+            });
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text())
             });
             $('.period.choice-after').each (function(){
-                 prd = $(this).data('period');
+                prd = $(this).data('period');
             });
-            $('#container').data('data-choice',texts.join(','));
-            $('#container').data('data-choice-type-ids',typeIds.join(','));
-            $('#container').data('data-choice-years-ids',years.join(','));
-            $('#container').data('data-choice-period-ids',prd);
-            $('#container').data('data-choice-val-ids',val);
-            var id = $('#showToast').data('id');
-            var typedis=$('#container').data('data-choice-type-ids');
-            var years=$('#container').data('data-choice-police-ids');
+            var typedis=typeIds.join(',');
+            container.data('data-choice',texts.join(','));
+            container.data('data-choice-type-ids',typedis);
+            container.data('data-choice-years-ids',years.join(','));
+            container.data('data-choice-period-ids',prd);
+            container.data('data-choice-val-ids',val);
             var alltypes = $('#all-types').hasClass('choice-after');
             var yeartypes = $('#all-years').hasClass('choice-after');
+            var id = $('#showToast').data('id');
             if(typedis == ''&& yeartypes == ''&& prd==''){
                 if(alltypes||yeartypes||prd){
                     window.pageManager.go(id);
@@ -396,10 +393,12 @@
             }else{
                 window.pageManager.go(id);
             }
-    })
-    $('#reset,#clear').on('click',function () {
-        $searchInput.val('');
-        $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
-    })
+        });
+        $('#reset,#clear').on('click',function () {
+            $searchInput.val('');
+            $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+        })
+
+    });
 
 </script>

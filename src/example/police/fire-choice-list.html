@@ -61,19 +61,17 @@
 <script type="text/javascript">
     $(function(){
         var container = $('#container');
-        var pagePanel = container.find('.page_box .page__bd');
         var width = document.body.clientWidth;
-        var typedis=$('#container').data('data-choice-type-ids');
-        var year=$('#container').data('data-choice-year-ids');
-        var period=$('#container').data('data-choice-period-ids');
-        var val = $('#container').data('data-choice-val-ids');
+        var typedis=container.data('data-choice-type-ids');
+        var year=container.data('data-choice-year-ids');
+        var period=container.data('data-choice-period-ids');
+        var val = container.data('data-choice-val-ids');
         var policeId = container.data('self-policeId');
-        var currState = '0';
-        $searchClear = $('#searchClear');
-        $searchInput = $('#searchInput');
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
             $searchInput.val('');
-        })
+        });
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
@@ -88,8 +86,8 @@
             },
             error: function (mes) {
                 console.log("error");
-            },
-        })
+            }
+        });
         function choice(data){
             $('#fire-choice-header').html(
                     '<div class="fire-header-left">'+
@@ -100,7 +98,7 @@
                     '<div class="fire-header-left">筛选</div>'+
                     '<img src="images/choice.png" class="choice-img fire-header-left"/>'+
                     '</div>'
-            )
+            );
             $('#choice-alert').on('click',function(){
                 $searchInput.val('');
                 $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
@@ -110,7 +108,6 @@
                 $('#filtrate').fadeOut(100);
             })
         }
-        var container = $('#container');
         var pagePanel = $('.page__bd');
         var currDataListCfg = {
             url:'api/firePlanItem.json',
@@ -124,7 +121,6 @@
                     container.data('data-company-name-cid',cid);
                     container.data('fire-check-source','fire-choice-list');
                     var id = $(this).data('id');
-                    $('#taskId').val($(this).data('tid'));
                     window.pageManager.go(id);
                 });
             },
@@ -133,16 +129,7 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                var nums = items.nums;
-                nums = nums==null?{num:0,done:0}:nums;
-                var num = nums.num;
-                var done = nums.done;
-                var undone = nums.num-done;
-                if(num==null || done==null){
-                    num = 0;
-                    undone=0;
-                }
-                var tag = currState=='0';
+                var tag = items.fcid == null || items.fcid =='';
                 var listcolor = tag?'list-color':'';
                 var checked = tag?'fire-nochecked':'fire-checked';
                 return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="'+checked+'" id="'+items.id+'">'+
@@ -162,11 +149,9 @@
                 $("#load").hide();
             }
         };
-        var typeIds = container.data('data-choice-type-ids');
-        var policeId = container.data('self-policeId');
-        var val = container.data('data-list-val')
+
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+        currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
 
         $.ajax({
             type: "POST",
@@ -252,55 +237,56 @@
                 $('#all-types').removeClass('choice-after');
             })
         }
-    });
-    $('.period').on('click',function () {
-        $(this).toggleClass('choice-after');
-        $(this).siblings().removeClass('choice-after');
-    })
-    $('#showToast').on('click',function(){
-        var years = [];
-        var texts = [];
-        var typeIds = [];
-        var prd = '';
-        var val = $searchInput.val();
-        $('#container').data('data-list-val',null);
-        $('.types.choice-after').each (function(){
-            typeIds.push($(this).attr('id'));
+
+
+        $('.period').on('click',function () {
+            $(this).toggleClass('choice-after');
+            $(this).siblings().removeClass('choice-after');
         })
-        $('.years.choice-after').each(function(){
-            years.push($(this).attr('id'));
-        })
-        $('.choice-after .item-name').each(function(){
-            texts.push($(this).text())
-        });
-        $('.period.choice-after').each (function(){
-            prd = $(this).data('period');
-        });
-        $('#container').data('data-choice',texts.join(','));
-        $('#container').data('data-choice-type-ids',typeIds.join(','));
-        $('#container').data('data-choice-years-ids',years.join(','));
-        $('#container').data('data-choice-period-ids',prd);
-        $('#container').data('data-choice-val-ids',val);
-        var id = $('#showToast').data('id');
-        var typedis=$('#container').data('data-choice-type-ids');
-        var years=$('#container').data('data-choice-police-ids');
-        var alltypes = $('#all-types').hasClass('choice-after');
-        var yeartypes = $('#all-years').hasClass('choice-after');
-        if(typedis == ''&& yeartypes == ''&& prd==''){
-            if(alltypes||yeartypes||prd){
-                window.pageManager.go(id);
+        $('#showToast').on('click',function(){
+            var years = [];
+            var texts = [];
+            var typeIds = [];
+            var prd = '';
+            var val = $searchInput.val();
+            $('.types.choice-after').each (function(){
+                typeIds.push($(this).attr('id'));
+            });
+            $('.years.choice-after').each(function(){
+                years.push($(this).attr('id'));
+            });
+            $('.choice-after .item-name').each(function(){
+                texts.push($(this).text())
+            });
+            $('.period.choice-after').each (function(){
+                prd = $(this).data('period');
+            });
+            var typedis=typeIds.join(',');
+            container.data('data-choice',texts.join(','));
+            container.data('data-choice-type-ids',typedis);
+            container.data('data-choice-years-ids',years.join(','));
+            container.data('data-choice-period-ids',prd);
+            container.data('data-choice-val-ids',val);
+            var alltypes = $('#all-types').hasClass('choice-after');
+            var yeartypes = $('#all-years').hasClass('choice-after');
+            var id = $('#showToast').data('id');
+            if(typedis == ''&& yeartypes == ''&& prd==''){
+                if(alltypes||yeartypes||prd){
+                    currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
+                }else{
+                    $('#hint').fadeIn(100);
+                    setTimeout(function () {
+                        $('#hint').fadeOut(100);
+                    }, 2000);
+                }
             }else{
-                $('#hint').fadeIn(100);
-                setTimeout(function () {
-                    $('#hint').fadeOut(100);
-                }, 2000);
+                $('#filtrate').hide();
             }
-        }else{
-            $('#filtrate').hide();
-        }
-    })
-    $('#reset,#clear').on('click',function () {
-        $searchInput.val('');
-        $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
-    })
+        });
+        $('#reset,#clear').on('click',function () {
+            $searchInput.val('');
+            $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+        })
+    });
+
 </script>
