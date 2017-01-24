@@ -69,6 +69,7 @@
         var policeId = container.data('self-policeId');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
+        $searchInput.val(val);
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
@@ -273,6 +274,7 @@
             if(typedis == ''&& yeartypes == ''&& prd==''){
                 if(alltypes||yeartypes||prd){
                     currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
+                    $('#filtrate').hide();
                 }else{
                     $('#hint').fadeIn(100);
                     setTimeout(function () {
@@ -280,6 +282,7 @@
                     }, 2000);
                 }
             }else{
+                currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
                 $('#filtrate').hide();
             }
         });
