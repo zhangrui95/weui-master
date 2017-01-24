@@ -178,7 +178,7 @@
                 type: "POST",
                 url: " api/fireCheck/save.json",
                 async: true,
-                data:{userid:$('#userid').val(),checkIds:checkIds,legalIds:legalIds,fireIds:fireIds},
+                data:{userid:$('#userid').val(),checkIds:checkIds,legalIds:legalIds,fireIds:fireIds,cid:cid},
                 success: function (card) {
                     if(source){
                         window.pageManager.go(source);
