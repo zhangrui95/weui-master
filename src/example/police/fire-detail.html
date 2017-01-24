@@ -42,8 +42,8 @@
             success: function (data) {
                 $('#name').html(data.company.name);
             }
-        })
-        var id = $('#container').data('data-company-name-cid');
+        });
+        var id = $('#container').data('fire-check-id');
         $.ajax({
             type: "POST",
             url: "api/fireCheck/detail.json",
