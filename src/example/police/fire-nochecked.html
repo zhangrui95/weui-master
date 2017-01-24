@@ -130,20 +130,43 @@
         $inputPerson.on("click", function(e){
             addItem($uploaderPerson);
         });
-        $uploaderFiles.on("click", "li", function(){
-            $galleryImg.attr("style", this.getAttribute("style"));
-            $('.weui-gallery__opr').data('curr-media-id',$(this).data('media-id'));
+        var preview = function (target,type) {
+            $galleryImg.attr("style", target.getAttribute("style"));
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',$(target).data('media-id'));
+            trash.data('curr-media-type',type);
             $gallery.fadeIn(100);
+        };
+        $uploaderFiles.on("click", "li", function(){
+            preview(this,'check');
+        });
+        $uploaderBooks.on("click", "li", function(){
+            preview(this,'legal');
+        });
+        $uploaderPerson.on("click", "li", function(){
+            preview(this,'fire');
         });
         $gallery.on("click", function(){
-            $('.weui-gallery__opr').data('curr-media-id',null);
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',null);
+            trash.data('curr-media-type',null);
             $gallery.fadeOut(100);
         });
         $('.weui-gallery__opr').click(function () {
-            var curr = $(this).data('curr-media-id');
-            $uploaderFiles.find('[data-media-id="'+curr+'"]').remove();
-            $uploaderBooks.find('[data-media-id="'+curr+'"]').remove();
-            $uploaderPerson.find('[data-media-id="'+curr+'"]').remove();
+            var oThis = $(this);
+            var curr = oThis.data('curr-media-id');
+            var type = oThis.data('curr-media-type');
+            var imgList;
+            if(type == 'check'){
+                imgList = $uploaderFiles;
+            }else if(type == 'legal'){
+                imgList = $uploaderBooks;
+            }else if(type == 'fire'){
+                imgList = $uploaderPerson;
+            }
+            if(imgList){
+                imgList.find('[data-media-id="'+curr+'"]').remove();
+            }
         });
         function addImg(checkIds,legalIds,fireIds){
             $('#img-null').html("");
