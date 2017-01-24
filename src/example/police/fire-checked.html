@@ -32,7 +32,7 @@
                     years = date.getFullYear();
                     var str =years+"";
                     if (str.indexOf(years) !== -1){
-                        $('#'+years).after(
+                        $('#'+years).append(
                             '<ul>' +
                             '<li class="time-list" data-id="fire-detail" data-fire-check-id="'+item.id+'">' +
                             '<img src="images/list-left.jpg" class="img-list"/>' +
@@ -46,6 +46,8 @@
                 $('.time-list').on('click',function(){
                     var cid = $(this).data('fire-check-id');
                     $('#container').data('fire-check-id',cid);
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
                 })
 
             },
