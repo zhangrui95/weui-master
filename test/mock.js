@@ -508,9 +508,14 @@ module.exports = [
                         {type:'legal',photo:'images/icon5.png'},
                         {type:'legal',photo:'images/icon7.png'},
                         {type:'legal',photo:'images/icon3.png'},
+                        {type:'legal',photo:'images/icon3.png'},
                         {type:'legal',photo:'images/icon4.png'},
                         {type:'legal',photo:'images/icon5.png'},
-                        {type:'legal',photo:'images/icon7.png'}
+                        {type:'legal',photo:'images/icon7.png'},
+                        {type:'check',photo:'images/icon1.png'},
+                        {type:'check',photo:'images/icon2.png'},
+                        {type:'check',photo:'images/icon8.png'},
+                        {type:'check',photo:'images/icon1.png'},
                     ]
                 }
 

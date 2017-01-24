@@ -33,38 +33,8 @@
 </div>
 <script>
     $(function () {
-        var width = $('.img-detail').width();
-        var nums = Math.floor(width/49)*2;
-        var length = $('#site-img li').length;
-        var more = length-nums+1;
-        var bookLength = $('#all-img li').length;
-        var moreBook = bookLength-nums+1;
-        var height = $('#site').height();
-        var bookHeight = $('#book').height();
         $gallery = $("#gallery"),
         $galleryImg = $("#galleryImg")
-        if(height>78){
-            $('#site').addClass('img-box-height');
-        }
-        if(bookHeight>78){
-            $('#book').addClass('img-book-height');
-        }
-        $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
-        if(more==0){
-            $('#more-num').hide();
-        }
-        $('#more-num').on('click',function(){
-            $('.img-box-height').css('height','auto');
-            $(this).hide();
-        })
-        $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
-        if(moreBook==0){
-            $('#more-nums').hide();
-        }
-        $('#more-nums').on('click',function(){
-            $('.img-book-height').css('height','auto');
-            $(this).hide();
-        })
         $.ajax({
             type: "POST",
             url: "api/company/detail.json",
@@ -97,6 +67,36 @@
                 $gallery.on("click", function(){
                     $gallery.fadeOut(100);
                 });
+                var width = $('.img-detail').width();
+                var nums = Math.floor(width/49)*2;
+                var length = $('#site-img li').length;
+                var more = length-nums+1;
+                var bookLength = $('#all-img li').length;
+                var moreBook = bookLength-nums+1;
+                var height = $('#site').height();
+                var bookHeight = $('#book').height();
+                if(height>76){
+                    $('#site').addClass('img-box-height');
+                }
+                if(bookHeight>76){
+                    $('#book').addClass('img-book-height');
+                }
+                $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
+                if(more==0){
+                    $('#more-num').hide();
+                }
+                $('#more-num').on('click',function(){
+                    $('.img-box-height').css('height','auto');
+                    $(this).hide();
+                })
+                $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
+                if(moreBook==0){
+                    $('#more-nums').hide();
+                }
+                $('#more-nums').on('click',function(){
+                    $('.img-book-height').css('height','auto');
+                    $(this).hide();
+                })
 
             },
             error: function (mes) {
