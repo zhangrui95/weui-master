@@ -13,7 +13,7 @@
                 <div class="weui-uploader__bd">
                     <ul class="weui-uploader__files" id="uploaderFiles"></ul>
                     <div class="weui-uploader__input-box">
-                        <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                        <input id="uploaderInput" class="weui-uploader__input" type="button"/>
                         <img src="images/photo.png" class="photo" />
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                 <div class="weui-uploader__bd">
                     <ul class="weui-uploader__files" id="uploaderBooks"></ul>
                     <div class="weui-uploader__input-box">
-                        <input id="inputBooks" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                        <input id="inputBooks" class="weui-uploader__input" type="button" />
                         <img src="images/photo.png" class="photo" />
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="weui-uploader__bd">
                     <ul class="weui-uploader__files" id="uploaderPerson"></ul>
                     <div class="weui-uploader__input-box">
-                        <input id="inputPerson" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                        <input id="inputPerson" class="weui-uploader__input" type="button" />
                         <img src="images/photo.png" class="photo" />
                     </div>
                 </div>
@@ -60,150 +60,111 @@
 <script type="text/javascript">
     $(function(){
         var cid =  $('#container').data('data-company-name-cid');
-        var tmpl = '<li class="weui-uploader__file check-img" style="background-image:url(#url#)"></li>',
+        var tmpl = '<li class="weui-uploader__file check-img" style="background-image:url(#url#)" data-media-id="#mid#"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
                 $inputBooks = $('#inputBooks'),
-                $uploaderBooks = $('#uploaderBooks'),
-                $uploaderFiles = $("#uploaderFiles"),
-                $uploaderPerson = $("#uploaderPerson"),
                 $inputPerson = $("#inputPerson"),
-                checkIds
+                $uploaderFiles = $("#uploaderFiles"),
+                $uploaderBooks = $('#uploaderBooks'),
+                $uploaderPerson = $("#uploaderPerson")
                 ;
-        $uploaderInput.on("change", function(e){
-            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-            for (var i = 0, len = files.length; i < len; ++i) {
-                var file = files[i];
 
-                if (url) {
-                    src = url.createObjectURL(file);
-                } else {
-                    src = e.target.result;
-                }
-                $uploaderFiles.append($(tmpl.replace('#url#', src)));
-            }
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
-                    var checkIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    checkIds = checkIds[0];
-                    $('#img-null').html("");
-                    $uploaderFiles.append($(tmpl.replace('#url#', checkIds)));
-                    $('.weui-gallery__opr').click(function () {
-                        $uploaderFiles.html('');
-                        checkIds = '';
-                    })
-                },
-                fail:function(err){
-                    $('#img-null').html("选择照片失败！");
-                }
-            });
-        });
-        $inputBooks.on("change", function(e){
-            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-            for (var i = 0, len = files.length; i < len; ++i) {
-                var file = files[i];
-
-                if (url) {
-                    src = url.createObjectURL(file);
-                } else {
-                    src = e.target.result;
-                }
-                $uploaderBooks.append($(tmpl.replace('#url#', src)));
-            }
+        var choose = function (localCb) {
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    localId = localIds[0];
-                    $('#img-null').html("");
-                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
-                    $('.weui-gallery__opr').click(function () {
-                        $uploaderFiles.html('');
-                        localId = '';
-                    })
+                    var localId = localIds[0];
+                    localCb(localId);
                 },
                 fail:function(err){
                     $('#img-null').html("选择照片失败！");
                 }
             });
-        });
-        $inputPerson.on("change", function(e){
-            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-            for (var i = 0, len = files.length; i < len; ++i) {
-                var file = files[i];
+        };
 
-                if (url) {
-                    src = url.createObjectURL(file);
-                } else {
-                    src = e.target.result;
-                }
-                $uploaderPerson.append($(tmpl.replace('#url#', src)));
-            }
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    localId = localIds[0];
-                    $('#img-null').html("");
-                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
-                    $(".weui-uploader__input-box").css("display","none");
-                    $('.weui-gallery__opr').click(function () {
-                        $uploaderFiles.html('');
-                        localId = '';
-                        $(".weui-uploader__input-box").css("display","block");
-                    })
-                },
-                fail:function(err){
-                    $('#img-null').html("选择照片失败！");
-                }
-            });
-        });
-        $uploaderFiles.on("click", "li", function(){
-            $galleryImg.attr("style", this.getAttribute("style"));
-            $gallery.fadeIn(100);
-        });
-        $gallery.on("click", function(){
-            $gallery.fadeOut(100);
-        });
-        $('#showToast').on('click',function(){
+        var upload = function (localId,serverCb) {
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
-                    var checkIds = [];//res.localId;  返回图片的服务器端ID
-                    $('.check-img').each (function(){
-                        checkIds.push(localId);
-                    });
-                    $('#container').data('data-check-img',checkIds.join(','));
-                    addImg(checkIds);
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    serverCb(localId,serverId);
                 },
                 fail:function(err){
                     $('#error').css("display","block");
                 }
             });
-            function addImg(checkIds,legalIds,fireIds){
-                $('#img-null').html("");
-                $('#empty').css('display','none');
-                $.ajax({
-                    type: "POST",
-                    url: " api/fireCheck/save.json",
-                    async: true,
-                    data:{userid:$('#userid').val(),checkIds:checkIds,legalIds:legalIds,fireIds:fireIds},
-                    success: function (card) {
-                        wx.closeWindow();
-                    },
-                    error: function () {
-                        $('#error').css("display","block");
-                    }
+        };
+
+        var addItem = function(imgList) {
+            choose(function(localId){
+                upload(localId,function(serverId){
+                    $('#img-null').html("");
+                    imgList.append($(tmpl.replace('#url#', localId).replace('#mid#',serverId)));
                 });
+            });
+        };
+
+        $uploaderInput.on("click", function(e){
+            addItem($uploaderFiles);
+        });
+        $inputBooks.on("click", function(e){
+            addItem($uploaderBooks);
+        });
+        $inputPerson.on("click", function(e){
+            addItem($uploaderPerson);
+        });
+        $uploaderFiles.on("click", "li", function(){
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $('.weui-gallery__opr').data('curr-media-id',$(this).data('media-id'));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function(){
+            $('.weui-gallery__opr').data('curr-media-id',null);
+            $gallery.fadeOut(100);
+        });
+        $('.weui-gallery__opr').click(function () {
+            var curr = $(this).data('curr-media-id');
+            imgList.find('[data-media-id="'+curr+'"]').remove();
+        });
+        function addImg(checkIds,legalIds,fireIds){
+            $('#img-null').html("");
+            $('#empty').css('display','none');
+            $.ajax({
+                type: "POST",
+                url: " api/fireCheck/save.json",
+                async: true,
+                data:{userid:$('#userid').val(),checkIds:checkIds,legalIds:legalIds,fireIds:fireIds},
+                success: function (card) {
+                    wx.closeWindow();
+                },
+                error: function () {
+                    $('#error').css("display","block");
+                }
+            });
+        }
+
+        var getMids = function (lis) {
+            var ids = [];
+            lis.each (function(){
+                ids.push($(this).data('media-id'));
+            });
+            return ids.join(',');
+        };
+
+        $('#showToast').on('click',function(){
+            var checkLis = $uploaderFiles.find('li'),
+                legalLis = $uploaderBooks.find('li'),
+                fireLis = $uploaderPerson.find('li');
+            if(checkLis.length == 0 || legalLis.length == 0 || fireLis.length == 0 ){
+                $('#img-null').html("照片不能为空");
+                return;
             }
+            addImg(getMids(checkLis),getMids(legalLis),getMids(fireLis));
         })
     });
 </script>
