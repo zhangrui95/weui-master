@@ -3,8 +3,8 @@
     <div class="height-fixed-fire"></div>
         <div class="weui-tab">
             <div class="weui-navbar">
-                <div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>
-                <div class="weui-navbar__item" href="#tab2" data-state="1" id="tab">已核查<span id="number-right"></span></div>
+                <div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未检查<span id="number-left"></span></div>
+                <div class="weui-navbar__item" href="#tab2" data-state="1" id="tab">已检查<span id="number-right"></span></div>
             </div>
         </div>
         <div class="page__bd fire-y bg-page bottom-cell">
@@ -29,7 +29,7 @@
             <div class="input-border">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的企业名称" required/>
                     <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
                 </div>
             </div>
@@ -200,8 +200,8 @@
                 var tabPanel = tag?'tab1':'tab2';
                 var img = tag?'icon-ok.jpg':'icon-over.jpg';
                 var txt = tag?'好厉害！':'哎呦喂！';
-                var txt1 = tag?'已经没有未核查的信息了':'快去看看是否有未核查的信息';
-                $('#'+tabPanel).html('<div class="empty-box">'+
+                var txt1 = tag?'已经没有未检查的信息了':'快去看看是否有未检查的信息';
+                $('#'+tabPanel).html('<div class="empty-box empty-box-fire">'+
                         '<img src="images/'+img+'" class="empty-img"/>'+
                         '<p class="null-word">'+txt+'</p>'+
                         '<p class="null-word2">'+txt1+'</p>'+
