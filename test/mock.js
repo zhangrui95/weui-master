@@ -305,20 +305,20 @@ module.exports = [
             res.end(JSON.stringify({
                     nums:{num:31,done:7,undo:24},
                     list:[
-                        {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'李迪迪'}},nums:{num:98,done:21}},
-                        {item:{id:'key1',name:'九转小米',type:{name:'饭店'},police:{name:'张三一'}},nums:{num:0,done:0}},
-                        {item:{id:'key1',name:'律师事务所',type:{name:'饭店'},police:{name:'张三'}},nums:{num:90,done:21}},
-                        {item:{id:'key1',name:'八府宴',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
-                        {item:{id:'key1',name:'谭阁美酒店',type:{name:'饭店'},police:{name:'张三'}},nums:{num:87,done:0}},
-                        {item:{id:'key1',name:'喜家德',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
-                        {item:{id:'key1',name:'张亮麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'幸运旅店',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'杨国福麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'兰州拉面',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'七七麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'兰州拉面',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
-                        {item:{id:'key1',name:'八八麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}}
-                    ]
+                    {item:{id:'key1',name:'南京灌汤包',type:{name:'饭店'},police:{name:'李迪迪'}},nums:{num:98,done:21}},
+                    {item:{id:'key1',name:'九转小米',type:{name:'饭店'},police:{name:'张三一'}},nums:{num:0,done:0}},
+                    {item:{id:'key1',name:'律师事务所',type:{name:'饭店'},police:{name:'张三'}},nums:{num:90,done:21}},
+                    {item:{id:'key1',name:'八府宴',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
+                    {item:{id:'key1',name:'谭阁美酒店',type:{name:'饭店'},police:{name:'张三'}},nums:{num:87,done:0}},
+                    {item:{id:'key1',name:'喜家德',type:{name:'饭店'},police:{name:'张三'}},nums:{num:0,done:0}},
+                    {item:{id:'key1',name:'张亮麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'幸运旅店',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'杨国福麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'兰州拉面',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'七七麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'兰州拉面',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}},
+                    {item:{id:'key1',name:'八八麻辣烫',type:{name:'饭店'},police:{name:'张三'}},nums:{num:34,done:21}}
+                ]
                 }
             ));
         }
@@ -474,12 +474,19 @@ module.exports = [
                     company:{name:'九转小磨'},
                     list:[
                         {createTime:1485137757000},
-                        {createTime:1484137757070},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832},
-                        {createTime:1483214046832},
                         {createTime:1485137757000},
+                        {createTime:1484137757070},
+                        {createTime:1483214046832},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832},
+                        {createTime:1485137757000},
+                        {createTime:1485137757000},
+                        {createTime:1484137757070},
+                        {createTime:1483214046832},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832},
+                        {createTime:1482214046832}
                     ]
                 }
 
@@ -523,10 +530,25 @@ module.exports = [
         }
     },
     {
-        route: "/example/api/fireCheck/detail.json",
+        route: "/example/api/firePlanItem/groupByUser.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
+                {
+                    done:87,
+                    undo:99,
+                    list:[
+                        {id:'k1',name:'张三',pointNum:23,checkNums:{num:106,undo:86}},
+                        {id:'k2',name:'李四',pointNum:23,checkNums:{num:230,undo:86}},
+                        {id:'k3',name:'余兴安',pointNum:23,checkNums:{num:27,undo:3}},
+                        {id:'k4',name:'于新刚',pointNum:23,checkNums:{num:96,undo:86}},
+                        {id:'k5',name:'李阳',pointNum:23,checkNums:{num:86,undo:46}},
+                        {id:'k6',name:'张飞',pointNum:23,checkNums:{num:76,undo:6}},
+                        {id:'k7',name:'王二',pointNum:23,checkNums:{num:36,undo:9}},
+                        {id:'k8',name:'孙七',pointNum:23,checkNums:{num:76,undo:56}},
+                        {id:'k9',name:'赵武',pointNum:23,checkNums:{num:92,undo:82}}
+                    ]
+                }
             ));
         }
     },
