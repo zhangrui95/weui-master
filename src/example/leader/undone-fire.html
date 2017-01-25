@@ -5,8 +5,8 @@
             <span class="fire-head-name">未检查</span>
             </div>
             <div class="fire-header-right"  id="choice-alert">
-            <div class="fire-header-left">筛选</div>
-            <img src="images/choice.png" class="choice-img fire-header-left"/>
+            <!--<div class="fire-header-left">筛选</div>-->
+            <!--<img src="images/choice.png" class="choice-img fire-header-left"/>-->
             </div>
         </div>
     </div>
@@ -80,32 +80,14 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
-        $.ajax({
-            type: "POST",
-            url: "api/firePlan/info.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                if(data.avatar==null||data.avatar==''){
-                    data.avatar = 'images/head.jpg'
-                }else{
-                    data.avatar += '64'
-                }
-                choice(data);
-            },
-            error: function (mes) {
-                console.log("error");
-            }
+        $('#choice-alert').on('click',function(){
+            $searchInput.val('');
+            $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#filtrate').fadeIn(100);
         });
-        function choice(data){
-            $('#choice-alert').on('click',function(){
-                $searchInput.val('');
-                $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
-                $('#filtrate').fadeIn(100);
-            });
-            $('#clear').on('click',function () {
-                $('#filtrate').fadeOut(100);
-            })
-        }
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        })
         var pagePanel = $('.page__bd');
         var currDataListCfg = {
             url:'api/firePlanItem.json',
@@ -133,13 +115,10 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                var tag = items.fcid == null || items.fcid =='';
-                var listcolor = tag?'list-color':'';
-                var checked = tag?'fire-nochecked':'fire-checked';
-                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="'+checked+'" id="'+items.id+'">'+
+                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="" id="'+items.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
-                        '<div><span class="item-width '+listcolor+'">'+items.company.name+'</span></div>'+
+                        '<div><span class="item-width">'+items.company.name+'</span></div>'+
                         '<div class="size-new">'+items.company.type.name+'、'+items.company.police.name+'</div>'+
                         '</div>'+
                         '</label>';
@@ -154,12 +133,12 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
+        currDataList.first({userid:$('#userid').val(),state:'0'});
 
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
-            data:{userid:$('#userid').val(),policeId:policeId},
+            data:{userid:$('#userid').val()},
             success: function (data) {
                 types(data);
                 click();
