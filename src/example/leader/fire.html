@@ -2,11 +2,10 @@
     <div id="fire-head">
         <div class="fire-header">
             <div class="fire-header-left">
-                <select class="select-border">
-                    <option value="2016">2016年</option>
+                <select class="select-border" id="select-year">
                     <option value="2017">2017年</option>
                 </select>
-                <select class="select-border">
+                <select class="select-border" id="select-period">
                     <option value="0">全年</option>
                     <option value="1">上半年</option>
                     <option value="2">下半年</option>
@@ -119,6 +118,12 @@
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
+        $('#select-year').on('change',function(){
+            var yearVal = $(this).val();
+        });
+        $('#select-period').on('change',function(){
+            var periodVal = $(this).val();
+        })
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
