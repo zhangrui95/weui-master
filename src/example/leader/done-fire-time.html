@@ -19,7 +19,8 @@
                     var year = newdate.getFullYear();
                     for(var k = year;k>=2017;k--){
                         $('#time-list').append(
-                                '<div class="pink" id="'+k+'">'+k+'年</div>'
+                                '<div class="pink">'+k+'年</div>'+
+                                '<div class="pink-y" id="'+k+'"></div>'
                         )
                     }
                     $('.pink').eq(0).addClass('pink-first')
@@ -32,7 +33,7 @@
                         years = date.getFullYear();
                         var str =years+"";
                         if (str.indexOf(years) !== -1){
-                            $('#'+years).after(
+                            $('#'+years).append(
                                     '<ul>' +
                                     '<li class="time-list" data-id="done-fire-detail" data-fire-check-id="'+item.id+'">' +
                                     '<img src="images/list-left.jpg" class="img-list"/>' +

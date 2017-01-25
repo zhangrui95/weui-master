@@ -267,7 +267,12 @@ $(function () {
         noMoreCb : function () {},
         xhrExternalProcess : function (params,xhr) {},
         xhrProcess : function (params,xhr) {
-            var list = xhr[this.xhrListKey];
+            var list
+            if(this.xhrListKey==null||this.xhrListKey==''){
+                list = xhr;
+            }else{
+                list = xhr[this.xhrListKey];
+            }
             if(list!=null && list.length != 0){
                 this.offset += list.length;
                 this.listProcess(list);

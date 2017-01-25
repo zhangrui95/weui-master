@@ -180,7 +180,7 @@
                         '</dl>'+
                         '</div>'
                 );
-            $('#undone').on('click',function(){
+            $('#undone,#done').on('click',function(){
                 var id = $(this).data('id');
                 window.pageManager.go(id);
             });
