@@ -1,0 +1,67 @@
+<div class="page">
+    <div class="fire-checked">
+        <div class="fire-header">
+            <div  class="fire-company-name" id="head-name"></div>
+        </div>
+        <div class="position-list" id="time-list"></div>
+    </div>
+    <script>
+        $(function(){
+            var container = $('#container');
+            var cid =  container.data('data-company-name-cid');
+            $.ajax({
+                type: "POST",
+                url: "api/fireCheck/listByCompany.json",
+                data:{userid:$('#userid').val(),cid:cid},
+                success: function (data) {
+                    $('#head-name').html(data.company.name);
+                    var newdate = new Date();
+                    var year = newdate.getFullYear();
+                    for(var k = year;k>=2017;k--){
+                        $('#time-list').append(
+                                '<div class="pink" id="'+k+'">'+k+'年</div>'
+                        )
+                    }
+                    $('.pink').eq(0).addClass('pink-first')
+                    var years;
+                    var list = data.list,datelist,item;
+                    for(var i = 0;i<list.length;i++) {
+                        item = list[i];
+                        datelist = item.createTime;
+                        var date = new Date(datelist);
+                        years = date.getFullYear();
+                        var str =years+"";
+                        if (str.indexOf(years) !== -1){
+                            $('#'+years).after(
+                                    '<ul>' +
+                                    '<li class="time-list" data-id="done-fire-detail" data-fire-check-id="'+item.id+'">' +
+                                    '<img src="images/list-left.jpg" class="img-list"/>' +
+                                    '<span>' + getLocalTime(item.createTime) + '</span>' +
+                                    '</li>' +
+                                    '</ul>'
+                            )
+                        }
+                    }
+
+                    $('.time-list').on('click',function(){
+                        var cid = $(this).data('fire-check-id');
+                        $('#container').data('fire-check-id',cid);
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+                    })
+
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
+
+            $('#new-btn').on('click',function(){
+                var id = $(this).data('id');
+                container.data('fire-check-source','fire-checked');
+                window.pageManager.go(id);
+            });
+
+        })
+    </script>
+</div>
