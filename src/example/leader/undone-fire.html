@@ -99,7 +99,7 @@
                 $(".weui-cell").on('click',function () {
                     var cid = $(this).attr('id');
                     container.data('data-company-name-cid',cid);
-                    container.data('fire-check-source','fire-choice-list');
+                    container.data('fire-check-source','undone-fire');
                     var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
@@ -115,7 +115,7 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="" id="'+items.id+'">'+
+                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="done-fire-time" id="'+items.company.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
                         '<div><span class="item-width">'+items.company.name+'</span></div>'+
