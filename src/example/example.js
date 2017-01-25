@@ -171,6 +171,7 @@ $(function () {
         pageSize:10,
         offset:0,
         loading:false,
+        isPage:true,
         data:undefined,
         xhrListKey:'list',
         url:undefined,
@@ -184,7 +185,9 @@ $(function () {
         requestTime:0,
         init : function(){
             this.winHeight = this.winPanel.height();
-            this.pagePanel.on('scroll',this.scrollHandler.bind(this));
+            if(this.isPage){
+                this.pagePanel.on('scroll',this.scrollHandler.bind(this));
+            }
         },
         first : function(data){
             this.setData(data);
