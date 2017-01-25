@@ -231,7 +231,7 @@ $(function () {
 
             $.ajax({
                 type: "POST",
-                url: this.url,
+                url: this.getUrl(),
                 async: true,
                 data: params,
                 success: function (xhr) {
@@ -248,6 +248,9 @@ $(function () {
         },
         getItemsPanel : function () {
             return this.itemsPanel
+        },
+        getUrl : function () {
+            return this.url
         },
         itemProcess : function (item) {
             this.getItemsPanel().append(this.templateProcess(item));
