@@ -538,15 +538,15 @@ module.exports = [
                     done:87,
                     undo:99,
                     list:[
-                        {id:'k1',name:'张三',pointNum:23,checkNums:{num:106,undo:86}},
-                        {id:'k2',name:'李四',pointNum:23,checkNums:{num:230,undo:86}},
-                        {id:'k3',name:'余兴安',pointNum:23,checkNums:{num:27,undo:3}},
-                        {id:'k4',name:'于新刚',pointNum:23,checkNums:{num:96,undo:86}},
-                        {id:'k5',name:'李阳',pointNum:23,checkNums:{num:86,undo:46}},
-                        {id:'k6',name:'张飞',pointNum:23,checkNums:{num:76,undo:6}},
-                        {id:'k7',name:'王二',pointNum:23,checkNums:{num:36,undo:9}},
-                        {id:'k8',name:'孙七',pointNum:23,checkNums:{num:76,undo:56}},
-                        {id:'k9',name:'赵武',pointNum:23,checkNums:{num:92,undo:82}}
+                        {id:'k1',name:'张三',pointNum:23,checkNums:{num:106,undo:86},avatar:'images/icon1.png'},
+                        {id:'k2',name:'李四',pointNum:23,checkNums:{num:230,undo:86},avatar:'images/icon1.png'},
+                        {id:'k3',name:'余兴安',pointNum:23,checkNums:{num:27,undo:3},avatar:'images/icon1.png'},
+                        {id:'k4',name:'于新刚',pointNum:23,checkNums:{num:96,undo:86},avatar:'images/icon1.png'},
+                        {id:'k5',name:'李阳',pointNum:23,checkNums:{num:86,undo:46},avatar:'images/icon1.png'},
+                        {id:'k6',name:'张飞',pointNum:23,checkNums:{num:76,undo:6},avatar:'images/icon1.png'},
+                        {id:'k7',name:'王二',pointNum:23,checkNums:{num:36,undo:9},avatar:'images/icon1.png'},
+                        {id:'k8',name:'孙七',pointNum:23,checkNums:{num:76,undo:56},avatar:'images/icon1.png'},
+                        {id:'k9',name:'赵武',pointNum:23,checkNums:{num:92,undo:82},avatar:'images/icon1.png'}
                     ]
                 }
             ));
