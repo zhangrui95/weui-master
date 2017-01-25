@@ -23,7 +23,7 @@
         </div>
         <div class="fire-nocheck-title">企业地址</div>
         <div class="none-flex cell-border cell-margin" id="place"></div>
-        <div class="fire-nocheck-title">核查时间</div>
+        <div class="fire-nocheck-title">检查时间</div>
         <div class="none-flex cell-border cell-margin bottom-cell" id="time"></div>
         <div class="height-fixed"></div>
     </div>
@@ -53,14 +53,14 @@
             success: function (data) {
                 for(var i = 0;i<data.items.length;i++){
                     if(data.items[i].type=='check'){
-                        $('#site-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
                     }else if(data.items[i].type=='legal'){
-                        $('#all-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                        $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
                     }else{
-                        $('#person-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list"/></li>')
+                        $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
                     }
                     $('#place').html(data.company.address);
-                    $('#time').html(getLocalTime(data.company.createTime));
+                    $('#time').html(getLocalTime(data.createTime));
                 }
                 $('.fire-img-list').on("click", function(){
                     $galleryImg.attr("src", this.getAttribute("src"));
