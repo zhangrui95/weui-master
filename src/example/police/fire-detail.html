@@ -60,7 +60,7 @@
                         $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
                     }
                     $('#place').html(data.company.address);
-                    $('#time').html(getLocalTime(data.company.createTime));
+                    $('#time').html(getLocalTime(data.createTime));
                 }
                 $('.fire-img-list').on("click", function(){
                     $galleryImg.attr("src", this.getAttribute("src"));
