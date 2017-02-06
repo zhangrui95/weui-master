@@ -116,13 +116,15 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
+                var checkNum = items.checkNum;
+                checkNum = checkNum==null?0:checkNum;
                 return '<label class="weui-cell weui-check__label check-border employee_lis" id="'+items.company.id+'" data-id="done-fire-time">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
                         '<div><span class="item-width">'+items.company.name+'</span></div>'+
                         '<div class="size-new">'+items.company.type.name+'、'+items.company.police.name+'</div>'+
                         '</div>'+
-                        '<span class="num-right color-orange">'+items.checkNum+'次</span>'+
+                        '<span class="num-right color-orange">'+checkNum+'次</span>'+
                         '</label>';
             },
             before:function(){
