@@ -26,6 +26,13 @@
                     $('.pink').eq(0).addClass('pink-first')
                     var years;
                     var list = data.list,datelist,item;
+                    if(list.length==0||list==[]){
+                        $('#time-list').html(
+                                '<div class="empty-box">'+
+                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                                '<p class="null-word">暂无已检查数据</p>'+
+                                '</div>');
+                    }
                     for(var i = 0;i<list.length;i++) {
                         item = list[i];
                         datelist = item.createTime;
