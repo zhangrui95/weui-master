@@ -49,7 +49,8 @@
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles"),
-                localId
+                localId,
+                tag = false
         ;
         $uploaderInput.on("click", function(e){
             wx.chooseImage({
@@ -147,7 +148,10 @@
                 return ;
             }
 
-
+            if(tag){
+                return;
+            }
+            tag = true;
             $('#card').blur();
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -158,6 +162,7 @@
                 },
                 fail:function(err){
                     $('#error').css("display","block");
+                    tag = false;
                 }
             });
         });
@@ -174,6 +179,7 @@
                 },
                 error: function () {
                     $('#error').css("display","block");
+                    tag = false;
                 }
             });
         }
