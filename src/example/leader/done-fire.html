@@ -5,8 +5,8 @@
                 <span class="fire-head-name">已检查</span>
             </div>
             <div class="fire-header-right"  id="choice-alert">
-                <!--<div class="fire-header-left">筛选</div>-->
-                <!--<img src="images/choice.png" class="choice-img fire-header-left"/>-->
+                <div class="fire-header-left">筛选</div>
+                <img src="images/choice.png" class="choice-img fire-header-left"/>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <div class="input-border">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的企业名称" required/>
                     <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
                 </div>
             </div>
@@ -45,21 +45,29 @@
                 </ul>
             </div>
             <div class="area-box">
+                <div class="choice-title">辖区
+                    <span class="cover-blue" id="area-all-cover">展开全部</span>
+                </div>
+                <ul class="area area-police" id="area">
+                    <li class="all-news  white-border choice-after" id="all-polices">全部</li>
+                </ul>
+            </div>
+            <div class="area-box">
                 <div class="choice-title">年份</div>
-                <ul class="area" id="area">
+                <ul class="area" id="year">
                     <li class="all-news  white-border years choice-after" id="all-years">全部</li>
                 </ul>
             </div>
             <div class="area-box">
                 <div class="choice-title">周期</div>
-                <ul class="area" id="period">
+                <ul class="area area-bottom" id="period">
                     <li class="all-news  white-border choice-after period" id="all-period" data-period="0">全年</li>
                     <li class="white-border period" data-period="1"><span class="item-name">上半年</span></li>
                     <li class="white-border period" data-period="2"><span class="item-name">下半年</span></li>
                 </ul>
             </div>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类、年份及周期</p></div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类、辖区、年份及周期</p></div>
         <div class="btn-box" id="btnPanel" >
             <div class="imported-left" id="reset">重置</div>
             <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
@@ -142,31 +150,17 @@
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
-            data:{userid:$('#userid').val(),policeId:policeId},
+            data:{userid:$('#userid').val()},
             success: function (data) {
                 types(data);
+                persons(data);
                 click();
-                recover(typedis);
                 years();
             },
             error: function (mes) {
                 console.log("error");
             }
         });
-        function recover(ids){
-            if(ids==null || ids.length==0){
-                return;
-            }
-            var id = ids.split(',');
-            for(var i in id){
-                $('#'+id[i]).addClass('choice-after');
-            }
-            if(typedis==''){
-                $('#all-types').addClass('choice-after');
-            }else{
-                $('#all-types').removeClass('choice-after');
-            }
-        }
         function types(data){
             if(width>999){
                 $('#all-cover').hide();
@@ -181,14 +175,32 @@
                 $('#classification li').eq(0).css('color','#ff5a54');
             }
         }
+        function persons(data){
+            if(width>999){
+                $('#all-cover').hide();
+            }else{
+                if(data.persons.length>16){
+                    $('#area-all-cover').css('display','block');
+                }
+            }
+            for(var i=0;i<data.persons.length;i++){
+                var items=data.persons[i];
+                var num = items.num;
+                if(num==null){
+                    num = 0;
+                }
+                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+num+'</span>)</span></li>');
+                $('#area li').eq(0).css('color','#ff5a54');
+            }
+        }
         function years(){
             var data = new Date();
             var year = data.getFullYear(data);
             var j=0;
-            for(var i = 2016 ;i<=year;i++){
+            for(var i = 2017 ;i<=year;i++){
                 j++;
-                $('#area').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
-                $('#area li').eq(0).css('color','#ff5a54');
+                $('#year').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
+                $('#year li').eq(0).css('color','#ff5a54');
             }
             $('.years').on('click',function () {
                 $(this).toggleClass('choice-after');
@@ -200,43 +212,50 @@
                 $('#classification').css('height', '100%');
                 $(this).html('收起');
             } else {
-                $('#classification').css('height', '100px');
+                $('#classification').css('height', '60px');
                 $(this).html('展开全部');
             }
-        })
+        });
         $('#area-all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#area').css('height', '100%');
                 $(this).html('收起');
             } else {
-                $('#area').css('height', '100px');
+                $('#area').css('height', '60px');
                 $(this).html('展开全部');
             }
-        })
+        });
         function click() {
-            $('#all-types').on('click',function () {
+            $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
-            })
+            });
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
             })
+            $('.polices').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-polices').removeClass('choice-after');
+            })
         }
-
 
         $('.period').on('click',function () {
             $(this).toggleClass('choice-after');
             $(this).siblings().removeClass('choice-after');
-        })
+        });
         $('#showToast').on('click',function(){
             var years = [];
+            var policeIds= [];
             var texts = [];
             var typeIds = [];
             var prd = '';
             var val = $searchInput.val();
             $('.types.choice-after').each (function(){
                 typeIds.push($(this).attr('id'));
+            });
+            $('.polices.choice-after').each(function(){
+                policeIds.push($(this).attr('id'));
             });
             $('.years.choice-after').each(function(){
                 years.push($(this).attr('id'));
@@ -250,15 +269,17 @@
             var typedis=typeIds.join(',');
             container.data('data-choice',texts.join(','));
             container.data('data-choice-type-ids',typedis);
+            container.data('data-choice-police-ids',policeIds.join(','));
             container.data('data-choice-years-ids',years.join(','));
             container.data('data-choice-period-ids',prd);
             container.data('data-choice-val-ids',val);
+            var policeids=$('#container').data('data-choice-police-ids');
             var alltypes = $('#all-types').hasClass('choice-after');
             var yeartypes = $('#all-years').hasClass('choice-after');
             var id = $('#showToast').data('id');
-            if(typedis == ''&& yeartypes == ''&& prd==''){
-                if(alltypes||yeartypes||prd){
-                    currDataList.first({typeIds:typedis,policeId:policeId,years:year,period:period,name:val});
+            if(typedis == ''&& yeartypes == ''&& prd==''&&policeids == ''){
+                if(alltypes||yeartypes||prd||policeids){
+                    window.pageManager.go(id);
                 }else{
                     $('#hint').fadeIn(100);
                     setTimeout(function () {
@@ -266,12 +287,12 @@
                     }, 2000);
                 }
             }else{
-                $('#filtrate').hide();
+                window.pageManager.go(id);
             }
         });
         $('#reset,#clear').on('click',function () {
             $searchInput.val('');
-            $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#all-types,#all-polices,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
         })
     });
 
