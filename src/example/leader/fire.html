@@ -11,9 +11,9 @@
                     <div class="select-border img-detail select-width" id="period-num">全年</div>
                     <div class="select-border select">▼</div>
                     <ul class="opation-box active" id="opation-period">
-                        <li id="0">全年</li>
-                        <li id="1">上半年</li>
-                        <li id="2">下半年</li>
+                        <li data-period="0">全年</li>
+                        <li data-period="1">上半年</li>
+                        <li data-period="2">下半年</li>
                     </ul>
                 </div>
             </div>
@@ -98,6 +98,7 @@
         var yearid = '';
         var periodid = '';
         container.data('data-choice-police-ids','');
+        container.data('data-choice-type-ids','');
         var width = document.body.clientWidth;
         var year=container.data('data-choice-year-ids');
         var period=container.data('data-choice-period-ids');
@@ -115,41 +116,34 @@
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
-        var data = new Date();
-        var year = data.getFullYear(data);
-        $('#year-num').html(year+'年')
-        var j = 0;
-        for(var i = year ;i>=2017;i--){
-            j++;
-            $('#opation-year').append('<li id="year'+j+'">'+i+'年</li>');
+
+        function initPeriod(){
+            var data = new Date();
+            var year = data.getFullYear(data);
+            var month = data.getMonth();
+            $('#year-num').html(year+'年');
+            $('#period-num').html(month<6?'上半年':'下半年');
+            for(var i = year ;i>=2017;i--){
+                $('#opation-year').append('<li data-year="'+i+'">'+i+'年</li>');
+            }
         }
-        $('#select-year').on('click',function(){
-            $('#opation-year').toggle();
-            $('#opation-period').hide();
-        });
-        $('#opation-year li').on('click',function(){
-            $('#year-num').html($(this).text())
-            yearid = $(this).attr('id');
-        })
-        $('#select-period').on('click',function(){
-            $('#opation-period').toggle();
-            $('#opation-year').hide();
-        });
-        $('#opation-period li').on('click',function(){
-            $('#period-num').html($(this).text());
-            periodid = $(this).attr('id');
-        })
-        $.ajax({
-            type: "POST",
-            url: "api/firePlan/info.json",
-            data:{userid:$('#userid').val(),years:yearid,period:periodid},
-            success: function (data) {
-                choice(data);
-            },
-            error: function (mes) {
-                console.log("error");
-            },
-        })
+        initPeriod();
+
+
+        function initHead(){
+            $.ajax({
+                type: "POST",
+                url: "api/firePlan/info.json",
+                data:{userid:$('#userid').val(),years:yearid,period:periodid},
+                success: function (data) {
+                    choice(data);
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            })
+        }
+
         function choice(data){
             var number = data.checkNums.plan+data.checkNums.extra;
             $('#white-top').html(
@@ -254,7 +248,18 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({years:yearid,period:periodid});
+
+        function initList(){
+            currDataList.first({years:yearid,period:periodid});
+        }
+
+        function init(){
+            initHead();
+            initList();
+        }
+
+        init();
+
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
@@ -307,7 +312,7 @@
             var j=0;
             for(var i = 2017 ;i<=year;i++){
                 j++;
-                $('#year').append('<li class="white-border years" id="year'+j+'"><span class="item-name">'+i+'</span></li>');
+                $('#year').append('<li class="white-border years" id="year'+j+'" data-year="'+i+'"><span class="item-name">'+i+'</span></li>');
                 $('#year li').eq(0).css('color','#ff5a54');
             }
             $('.years').on('click',function () {
@@ -366,7 +371,7 @@
                 policeIds.push($(this).attr('id'));
             });
             $('.years.choice-after').each(function(){
-                years.push($(this).attr('id'));
+                years.push($(this).data('year'));
             });
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text())
@@ -401,6 +406,24 @@
         $('#reset,#clear').on('click',function () {
             $searchInput.val('');
             $('#all-types,#all-polices,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+        })
+        $('#select-year').on('click',function(){
+            $('#opation-year').toggle();
+            $('#opation-period').hide();
+        });
+        $('#opation-year li').on('click',function(){
+            $('#year-num').html($(this).text())
+            yearid = $(this).data('year');
+            init();
+        })
+        $('#select-period').on('click',function(){
+            $('#opation-period').toggle();
+            $('#opation-year').hide();
+        });
+        $('#opation-period li').on('click',function(){
+            $('#period-num').html($(this).text());
+            periodid = $(this).data('period');
+            init();
         })
     })
 </script>
