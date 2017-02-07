@@ -53,7 +53,7 @@
             <div class="area-box">
                 <div class="choice-title">周期</div>
                 <ul class="area area-bottom" id="period">
-                    <li class="all-news  white-border choice-after period" id="all-period" data-period="0">全年</li>
+                    <li class="all-news  white-border choice-after period color-orange" id="all-period" data-period="0">全年</li>
                     <li class="white-border period" data-period="1"><span class="item-name">上半年</span></li>
                     <li class="white-border period" data-period="2"><span class="item-name">下半年</span></li>
                 </ul>
@@ -275,11 +275,11 @@
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
-            })
+            });
             $('.polices').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-polices').removeClass('choice-after');
-            })
+            });
         }
 
         $('.period').on('click',function () {
@@ -338,7 +338,7 @@
         $('#reset,#clear').on('click',function () {
             $searchInput.val('');
             $('#all-types,#all-polices,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
-        })
+        });
     });
 
 </script>
