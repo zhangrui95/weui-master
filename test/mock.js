@@ -170,31 +170,25 @@ module.exports = [
                     {name:'其他',num:34,id:'27'}
                 ],
                 persons:[
-                    {name:'A区',num:99},
-                    {name:'B区',num:34},
-                    {name:'C区',num:109},
-                    {name:'D区',num:71},
-                    {name:'E区',num:34},
-                    {name:'F区',num:71},
-                    {name:'G区',num:91},
-                    {name:'H区',num:50},
-                    {name:'I区',num:84},
-                    {name:'A区',num:99},
-                    {name:'B区',num:34},
-                    {name:'C区',num:109},
-                    {name:'D区',num:71},
-                    {name:'E区',num:34},
-                    {name:'F区',num:71},
-                    {name:'G区',num:91},
-                    {name:'H区',num:50},
-                    {name:'I区',num:84},
-                    {name:'C区',num:109},
-                    {name:'D区',num:71},
-                    {name:'E区',num:34},
-                    {name:'F区',num:71},
-                    {name:'G区',num:91},
-                    {name:'H区',num:50},
-                    {name:'I区',num:84}
+                    {name:'A区',num:99,id:'k1'},
+                    {name:'B区',num:34,id:'k2'},
+                    {name:'C区',num:109,id:'k3'},
+                    {name:'D区',num:71,id:'k4'},
+                    {name:'E区',num:34,id:'k5'},
+                    {name:'F区',num:71,id:'k6'},
+                    {name:'G区',num:91,id:'k7'},
+                    {name:'H区',num:50,id:'k8'},
+                    {name:'I区',num:84,id:'k9'},
+                    {name:'A区',num:99,id:'k10'},
+                    {name:'B区',num:34,id:'k11'},
+                    {name:'C区',num:109,id:'k12'},
+                    {name:'D区',num:71,id:'k13'},
+                    {name:'E区',num:34,id:'k14'},
+                    {name:'F区',num:71,id:'k15'},
+                    {name:'G区',num:91,id:'k16'},
+                    {name:'H区',num:50,id:'k17'},
+                    {name:'I区',num:84,id:'k18'},
+                    {name:'C区',num:109,id:'k19'},
                 ]
             }));
         }
@@ -565,6 +559,15 @@ module.exports = [
                     {id:'k5',company:{name:'九转小磨',police:{name:'于新刚'},type:{name:'饭店'}},checkNum:8},
                     {id:'k6',company:{name:'九转小磨',police:{name:'于新刚'},type:{name:'饭店'}},checkNum:39}
                 ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/user/me.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {id:'k1',name:'张三',avatar:'images/icon1.png'}
             ));
         }
     },

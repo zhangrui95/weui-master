@@ -75,7 +75,7 @@
         });
         $.ajax({
             type: "POST",
-            url: "api/firePlan/info.json",
+            url: "api/user/me.json",
             data:{userid:$('#userid').val()},
             success: function (data) {
                 if(data.avatar==null||data.avatar==''){
