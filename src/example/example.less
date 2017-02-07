@@ -1588,6 +1588,7 @@ body, .page {
 }
 .img-detail{
     float:left;
+    cursor: pointer;
     li{
         float: left;
     }
@@ -1620,22 +1621,18 @@ body, .page {
     overflow: hidden;
 }
 .select-border{
-    border:transparent;
     background: #ff5a54;
     color:#FFFFFF;
     font-size: 18px;
     font-family: '微软雅黑';
     outline:none;
+    border:none;
     margin-top: 15px;
     width: auto;
     option{
-        background-color:transparent;
-        color:#FFFFFF;
+        background-color:#fff;
+        color:#333;
         text-align: center;
-    }
-    &:active{
-        border:none;
-        outline:none;
     }
 }
 .leader-fire{
@@ -1761,4 +1758,40 @@ body, .page {
 }
 .area-box .area-bottom{
     padding-bottom: 40px;
+}
+.fire-itemize-y{
+    overflow-y: scroll;
+    height: 83%;
+}
+.select{
+    font-size:12px;
+    float: left;
+    line-height:26px;
+    margin-right: 2px;
+}
+.select-box{
+    position: relative;
+}
+.opation-box{
+    width: 75px;
+    height: auto;
+    position: absolute;
+    z-index: 999;
+    top: 45px;
+    background: #FFFFFF;
+    color: #ff5a54;
+    box-shadow: 0 0 8px #ddd;
+    li{
+        text-align: center;
+        width: 75px;
+        user-select: none;
+        &:hover{
+            background: #ff5a54;
+            color: #fff;
+        }
+    }
+}
+.select-width{
+    width: 61px;
+    text-align: center;
 }

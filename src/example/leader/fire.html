@@ -2,14 +2,20 @@
     <div id="fire-head">
         <div class="fire-header">
             <div class="fire-header-left">
-                <!--<select class="select-border" id="select-year">-->
-                    <!--<option value="2017">2017年</option>-->
-                <!--</select>-->
-                <!--<select class="select-border" id="select-period">-->
-                    <!--<option value="0">全年</option>-->
-                    <!--<option value="1">上半年</option>-->
-                    <!--<option value="2">下半年</option>-->
-                <!--</select>-->
+                <div class="img-detail select-box" id="select-year">
+                    <div class="select-border img-detail select-width" id="year-num">2017年</div>
+                    <div class="select-border select">▼</div>
+                    <ul class="opation-box active" id="opation-year"></ul>
+                </div>
+                <div class="img-detail select-box" id="select-period">
+                    <div class="select-border img-detail select-width" id="period-num">全年</div>
+                    <div class="select-border select">▼</div>
+                    <ul class="opation-box active" id="opation-period">
+                        <li id="0">全年</li>
+                        <li id="1">上半年</li>
+                        <li id="2">下半年</li>
+                    </ul>
+                </div>
             </div>
             <div class="fire-header-right" id="choice-alert">
                 <div class="fire-header-left">筛选</div>
@@ -89,6 +95,8 @@
 <script>
     $(function(){
         var container = $('#container');
+        var yearid = '';
+        var periodid = '';
         container.data('data-choice-police-ids','');
         var width = document.body.clientWidth;
         var year=container.data('data-choice-year-ids');
@@ -107,16 +115,34 @@
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
-        $('#select-year').on('change',function(){
-            var yearVal = $(this).val();
+        var data = new Date();
+        var year = data.getFullYear(data);
+        $('#year-num').html(year+'年')
+        var j = 0;
+        for(var i = year ;i>=2017;i--){
+            j++;
+            $('#opation-year').append('<li id="year'+j+'">'+i+'年</li>');
+        }
+        $('#select-year').on('click',function(){
+            $('#opation-year').toggle();
+            $('#opation-period').hide();
         });
-        $('#select-period').on('change',function(){
-            var periodVal = $(this).val();
+        $('#opation-year li').on('click',function(){
+            $('#year-num').html($(this).text())
+            yearid = $(this).attr('id');
+        })
+        $('#select-period').on('click',function(){
+            $('#opation-period').toggle();
+            $('#opation-year').hide();
+        });
+        $('#opation-period li').on('click',function(){
+            $('#period-num').html($(this).text());
+            periodid = $(this).attr('id');
         })
         $.ajax({
             type: "POST",
             url: "api/firePlan/info.json",
-            data:{userid:$('#userid').val()},
+            data:{userid:$('#userid').val(),years:yearid,period:periodid},
             success: function (data) {
                 choice(data);
             },
@@ -228,7 +254,7 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val()});
+        currDataList.first({years:yearid,period:periodid});
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
