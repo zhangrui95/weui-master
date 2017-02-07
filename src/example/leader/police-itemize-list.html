@@ -105,8 +105,8 @@
 //        })
         $.ajax({
             type: "POST",
-            url: "api/user/me.json",
-            data:{userid:$('#userid').val(),policeId:policeids},
+            url: "api/user/detail.json",
+            data:{userid:$('#userid').val(),id:policeids},
             success: function (data) {
                 if(data.avatar==null||data.avatar==''){
                     data.avatar = 'images/head.jpg'

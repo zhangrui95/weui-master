@@ -571,5 +571,14 @@ module.exports = [
             ));
         }
     },
+    {
+        route: "/example/api/user/detail.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {id:'k1',name:'张三',avatar:'images/icon1.png'}
+            ));
+        }
+    },
 
 ];
