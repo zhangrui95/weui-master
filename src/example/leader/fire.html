@@ -99,6 +99,7 @@
         var periodid = '';
         container.data('data-choice-police-ids','');
         container.data('data-choice-type-ids','');
+        container.data('data-state-list','');
         var width = document.body.clientWidth;
         var year=container.data('data-choice-year-ids');
         var period=container.data('data-choice-period-ids');
@@ -402,7 +403,6 @@
                     }, 2000);
                 }
             }else{
-                container.data('data-state-list','');
                 window.pageManager.go(id);
             }
         });

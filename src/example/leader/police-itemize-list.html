@@ -90,6 +90,7 @@
         var period=container.data('data-choice-period-ids');
         var val = container.data('data-choice-val-ids');
         var policeids=container.data('data-choice-police-ids');
+        container.data('data-state-list','');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
@@ -383,7 +384,6 @@
                     }, 2000);
                 }
             }else{
-                container.data('data-state-list','');
                 window.pageManager.go(id);
             }
         });

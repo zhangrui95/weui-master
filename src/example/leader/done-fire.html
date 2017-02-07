@@ -273,6 +273,7 @@
             container.data('data-choice-years-ids',years.join(','));
             container.data('data-choice-period-ids',prd);
             container.data('data-choice-val-ids',val);
+            container.data('data-state-list','1');
             var policeids=$('#container').data('data-choice-police-ids');
             var alltypes = $('#all-types').hasClass('choice-after');
             var yeartypes = $('#all-years').hasClass('choice-after');
@@ -287,7 +288,6 @@
                     }, 2000);
                 }
             }else{
-                container.data('data-state-list','1');
                 window.pageManager.go(id);
             }
         });
