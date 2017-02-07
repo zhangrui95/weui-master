@@ -322,7 +322,7 @@
             var id = $('#showToast').data('id');
             if(typedis == ''&& yeartypes == ''&& prd==''&&policeids == ''){
                 if(alltypes||yeartypes||policeids){
-                    currDataList.first({typeIds:typedis,policeIds:policeids,years:year,period:prd,name:val});
+                    currDataList.first({typeIds:typedis,policeIds:policeids,years:year,period:prd,name:val,state:state});
                     $('#filtrate').hide();
                 }else{
                     $('#hint').fadeIn(100);
