@@ -32,7 +32,7 @@
 
     </div>
     <div class="page__bd leader-fire-y bg-page bottom-cell-pad">
-        <div id="box" class="bg-box-bottom">
+        <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="list"></div>
         </div>
     </div>
@@ -402,10 +402,6 @@
             $searchInput.val('');
             $('#all-types,#all-polices,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
         })
-//        $('#select-year').on('click',function(){
-//            $('#opation-year').toggle();
-//            $('#opation-period').hide();
-//        });
         $('#select-year').on('click', function () {
             var data = new Date();
             var year = data.getFullYear(data);
