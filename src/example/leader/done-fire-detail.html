@@ -1,6 +1,7 @@
 <div class="page">
     <div class="fire-nochecked">
         <div class="nochecked-header" id="name"></div>
+        <marquee class="nochecked-header" id="name-scroll"></marquee>
     </div>
     <div class="detail-y">
         <div class="fire-nocheck-title">检查现场</div>
@@ -43,7 +44,13 @@
             url: "api/company/detail.json",
             data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
-                $('#name').html(data.company.name);
+                if(data.company.name.length>15){
+                    $('#name-scroll').html(data.company.name);
+                    $('#name').hide();
+                }else{
+                    $('#name').html(data.company.name);
+                    $('#name-scroll').hide();
+                }
             }
         });
         $.ajax({

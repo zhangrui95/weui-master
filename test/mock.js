@@ -465,7 +465,7 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 {
-                    company:{name:'九转小磨'},
+                    company:{name:'豪峰会汽车服务有限公司/豪车盛宴/汽车有限公司'},
                     list:[
                         {createTime:1485137757000},
                         {createTime:1485137757000},
