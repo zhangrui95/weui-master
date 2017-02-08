@@ -3,18 +3,13 @@
         <div class="fire-header">
             <div class="fire-header-left">
                 <div class="img-detail select-box" id="select-year">
-                    <div class="select-border img-detail select-width" id="year-num">2017年</div>
+                    <div class="select-border img-detail select-width" id="year-num"></div>
                     <div class="select-border select">▼</div>
                     <ul class="opation-box active" id="opation-year"></ul>
                 </div>
                 <div class="img-detail select-box" id="select-period">
-                    <div class="select-border img-detail select-width" id="period-num">全年</div>
+                    <div class="select-border img-detail select-width" id="period-num"></div>
                     <div class="select-border select">▼</div>
-                    <!--<ul class="opation-box active" id="opation-period">-->
-                        <!--<li data-period="0">全年</li>-->
-                        <!--<li data-period="1">上半年</li>-->
-                        <!--<li data-period="2">下半年</li>-->
-                    <!--</ul>-->
                 </div>
             </div>
             <div class="fire-header-right" id="choice-alert">
@@ -124,6 +119,7 @@
             var month = data.getMonth();
             yearid = year;
             periodid = month<6?1:2;
+            $('#year-num').html(year+'年');
             $('#period-num').html(month<6?'上半年':'下半年');
         }
         initPeriod();
