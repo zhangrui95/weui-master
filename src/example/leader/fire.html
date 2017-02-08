@@ -456,15 +456,6 @@
                 });
 
         });
-        $('#select-period').on('click',function(){
-            $('#opation-period').toggle();
-            $('#opation-year').hide();
-        });
-        $('#opation-period li').on('click',function(){
-            $('#period-num').html($(this).text());
-            periodid = $(this).data('period');
-            init();
-        })
     })
 </script>
 
