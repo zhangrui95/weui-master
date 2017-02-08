@@ -10,11 +10,11 @@
                 <div class="img-detail select-box" id="select-period">
                     <div class="select-border img-detail select-width" id="period-num">全年</div>
                     <div class="select-border select">▼</div>
-                    <ul class="opation-box active" id="opation-period">
-                        <li data-period="0">全年</li>
-                        <li data-period="1">上半年</li>
-                        <li data-period="2">下半年</li>
-                    </ul>
+                    <!--<ul class="opation-box active" id="opation-period">-->
+                        <!--<li data-period="0">全年</li>-->
+                        <!--<li data-period="1">上半年</li>-->
+                        <!--<li data-period="2">下半年</li>-->
+                    <!--</ul>-->
                 </div>
             </div>
             <div class="fire-header-right" id="choice-alert">
@@ -124,11 +124,7 @@
             var month = data.getMonth();
             yearid = year;
             periodid = month<6?1:2;
-            $('#year-num').html(year+'年');
             $('#period-num').html(month<6?'上半年':'下半年');
-            for(var i = year ;i>=2017;i--){
-                $('#opation-year').append('<li data-year="'+i+'">'+i+'年</li>');
-            }
         }
         initPeriod();
 
@@ -410,15 +406,56 @@
             $searchInput.val('');
             $('#all-types,#all-polices,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
         })
-        $('#select-year').on('click',function(){
-            $('#opation-year').toggle();
-            $('#opation-period').hide();
+//        $('#select-year').on('click',function(){
+//            $('#opation-year').toggle();
+//            $('#opation-period').hide();
+//        });
+        $('#select-year').on('click', function () {
+            var data = new Date();
+            var year = data.getFullYear(data);
+            for(var i= year ;i>=2017;i--){
+                weui.picker([{
+                    label: i,
+                    value:i
+                }], {
+                    onConfirm: function (result) {
+                        $('#year-num').html(result[0]+'年');
+                        yearid = result[0];
+                        init();
+                    }
+                });
+            }
         });
-        $('#opation-year li').on('click',function(){
-            $('#year-num').html($(this).text())
-            yearid = $(this).data('year');
-            init();
-        })
+        $('#select-period').on('click', function () {
+                weui.picker([
+                    {
+                    label: '全年',
+                    value:0
+                    },
+                    {
+                        label: '上半年',
+                        value:1
+                    },
+                    {
+                        label: '下半年',
+                        value:2
+                    }], {
+                    onConfirm: function (result) {
+                        var label='';
+                        if(result[0]==0){
+                            label='全年';
+                        }else if(result[0]==1){
+                            label='上半年';
+                        }else{
+                            label='下半年';
+                        }
+                        $('#period-num').html(label);
+                        periodid =result[0] ;
+                        init();
+                    }
+                });
+
+        });
         $('#select-period').on('click',function(){
             $('#opation-period').toggle();
             $('#opation-year').hide();
