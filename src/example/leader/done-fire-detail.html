@@ -19,10 +19,14 @@
                 <ul class="img-detail" id="person-img"></ul>
             </div>
         </div>
-        <div class="fire-nocheck-title">企业地址</div>
-        <div class="none-flex cell-border cell-margin" id="place"></div>
-        <div class="fire-nocheck-title">检查时间</div>
-        <div class="none-flex cell-border cell-margin bottom-cell" id="time"></div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
+            <div class="weui-cell__bd bd-right place-top"  id="place"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">检查时间</label></div>
+            <div class="weui-cell__bd bd-right place-top"  id="time"></div>
+        </div>
         <div class="height-fixed"></div>
     </div>
     <div class="weui-gallery" id="gallery">
@@ -92,21 +96,33 @@
                     $('#book').addClass('img-book-height');
                 }
                 $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
-                if(more==0){
+                $('#site-img li').eq(length).after('<li class="more-img pack-up" id="pack-up">收起</li>');
+                if(more<=1){
                     $('#more-num').hide();
+                    $('#pack-up').hide();
                 }
                 $('#more-num').on('click',function(){
                     $('.img-box-height').css('height','auto');
                     $(this).hide();
-                })
+                });
+                $('#pack-up').on('click',function(){
+                    $('.img-box-height').css('height','76px');
+                    $('#more-num').show();
+                });
                 $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
-                if(moreBook==0){
+                $('#all-img li').eq(bookLength).after('<li class="more-img pack-up" id="pack-up-book">收起</li>');
+                if(moreBook<=1){
                     $('#more-nums').hide();
+                    $('#pack-up-book').hide();
                 }
                 $('#more-nums').on('click',function(){
                     $('.img-book-height').css('height','auto');
                     $(this).hide();
-                })
+                });
+                $('#pack-up-book').on('click',function(){
+                    $('.img-book-height').css('height','76px');
+                    $('#more-nums').show();
+                });
 
             },
             error: function (mes) {

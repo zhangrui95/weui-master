@@ -1,7 +1,5 @@
 <div class="fire-checked">
-    <div class="fire-header">
-        <div  class="fire-company-name" id="head-name"></div>
-    </div>
+    <div class="fire-header"></div>
     <div class="position-list" id="time-list"></div>
 </div>
 <button class="orange-button" data-id="fire-nochecked" id="new-btn">新建检查</button>
@@ -14,7 +12,17 @@
             url: "api/fireCheck/listByCompany.json",
             data:{userid:$('#userid').val(),cid:cid},
             success: function (data) {
-                $('#head-name').html(data.company.name);
+                $('.fire-header').html(
+                        '<div  class="fire-company-name" id="head-name"></div>'+
+                        '<marquee  class="fire-company-name" id="head-name-scroll"></marquee>'
+                )
+                if(data.company.name.length>15){
+                    $('#head-name-scroll').html(data.company.name);
+                    $('#head-name').hide();
+                }else{
+                    $('#head-name').html(data.company.name);
+                    $('#head-name-scroll').hide();
+                }
                 var newdate = new Date();
                 var year = newdate.getFullYear();
                 for(var k = year;k>=2017;k--){
