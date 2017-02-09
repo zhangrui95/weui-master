@@ -1,8 +1,5 @@
 <div class="page">
-    <div class="fire-nochecked">
-        <div class="nochecked-header" id="name"></div>
-        <marquee class="nochecked-header" id="name-scroll"></marquee>
-    </div>
+    <div class="fire-nochecked" id="fire-nochecked"></div>
     <div class="detail-y">
         <div class="fire-nocheck-title">检查现场</div>
         <div class="none-flex cell-border cell-margin" id="site">
@@ -44,6 +41,10 @@
             url: "api/company/detail.json",
             data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
+                $('#fire-nochecked').html(
+                        '<div class="nochecked-header done-detail-head" id="name"></div>'+
+                        '<marquee class="nochecked-header" id="name-scroll"></marquee>'
+                );
                 if(data.company.name.length>15){
                     $('#name-scroll').html(data.company.name);
                     $('#name').hide();

@@ -1,9 +1,6 @@
 <div class="page">
     <div class="fire-checked">
-        <div class="fire-header">
-            <div  class="fire-company-name" id="head-name"></div>
-            <marquee class="fire-company-name" id="head-name-scroll"></marquee>
-        </div>
+        <div class="fire-header"></div>
         <div class="position-list" id="time-list"></div>
     </div>
     <script>
@@ -15,6 +12,10 @@
                 url: "api/fireCheck/listByCompany.json",
                 data:{userid:$('#userid').val(),cid:cid},
                 success: function (data) {
+                    $('.fire-header').html(
+                            '<div  class="fire-company-name" id="head-name"></div>'+
+                            '<marquee  class="fire-company-name" id="head-name-scroll"></marquee>'
+                    )
                     if(data.company.name.length>15){
                         $('#head-name-scroll').html(data.company.name);
                         $('#head-name').hide();
