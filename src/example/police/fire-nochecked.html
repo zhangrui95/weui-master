@@ -3,9 +3,7 @@
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
-    <div class="fire-nochecked">
-        <div class="nochecked-header done-detail-head" id="head-name"></div>
-    </div>
+    <div class="fire-nochecked" id="fire-nochecked"></div>
     <div class="nochecked-y">
         <div class="fire-nocheck-title">检查现场</div>
         <div class="none-flex cell-border cell-margin">
@@ -78,7 +76,17 @@
             url: "api/company/detail.json",
             data:{userid:$('#userid').val(),id:cid},
             success: function (data) {
-                $('#head-name').html(data.company.name);
+                $('#fire-nochecked').html(
+                        '<div class="nochecked-header done-detail-head" id="name"></div>'+
+                        '<marquee class="nochecked-header" id="name-scroll"></marquee>'
+                );
+                if(data.company.name.length>15){
+                    $('#name-scroll').html(data.company.name);
+                    $('#name').hide();
+                }else{
+                    $('#name').html(data.company.name);
+                    $('#name-scroll').hide();
+                }
             },
             error: function (mes) {
                 console.log("error");
