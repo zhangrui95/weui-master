@@ -416,7 +416,7 @@ module.exports = [
             res.end(JSON.stringify(
                 {
                     company:{name:'瓦力科技',address:'黑龙江省哈尔滨市南岗区嵩山路19号',type:{name:"软件"},police:{name:'林琳'}},
-                    users:[{name:'苏三',mobile:'13936003636'},{name:'西维维尔.西维维尔',mobile:'13936003636'}]
+                    users:[{name:'苏三',mobile:'13936003636'},{name:'西维维尔',mobile:'13936003636'}]
                 }
 
             ));
@@ -578,6 +578,35 @@ module.exports = [
             res.end(JSON.stringify(
                 {id:'k1',name:'张三',avatar:'images/icon1.png?'}
             ));
+        }
+    },
+    {
+        route: "/example/api/company/save.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                name:'',
+                address:'',
+                type:'',
+                police:'',
+                fireState:'',
+                groupType:'',
+                officeBuilding:'',
+                legalPersonCard:'',
+                legalPersonName:'',
+                legalPersonPhone:'',
+                legalPersonMobile:'',
+                add:[
+                    {
+                        name:'',
+                        role:'',
+                        mobile:'',
+                        wid:'',
+                        email:'',
+                        post:''
+                    }
+            ]
+        }));
         }
     },
 

@@ -1,0 +1,367 @@
+<div class="page page-list">
+    <div id="error" class="error" style="display: none;">
+        <img src="images/error.png"/>
+        <span>当前网络不可用，请检查你的网络设置</span>
+    </div>
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+        <div class="head-title">基本信息</div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+            <div class="weui-cell__bd bd-right" id="company-name">
+                <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业名称" id="input-change"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
+            <div class="weui-cell__bd bd-right place-top" id="company-place">
+                <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业地址"  value="" id="input-place"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
+                <div class="weui-cell__bd bd-right" id="classify"></div>
+                <span class="num-right" id="icon1"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
+            <div class="weui-cell__bd bd-right" id="group"></div>
+            <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+        </div>
+         <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
+                <div class="weui-cell__bd bd-right" id="fire"></div>
+             <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+         </div>
+            <div class="none-flex cell-border cell-margin head-title-border">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right" id="police"></div>
+                <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+            </div>
+        <div class="head-title">法人</div>
+        <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
+            <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
+                <div class="weui-cell__bd bd-right">
+                    <div class="active" id="phone-num-box"><span id="mobile-num"></span><span id="symbol">/</span><span id="tel-num"></span></div>
+                    <span class="num-right"><img class="icon-go icon-top" id = 'legal-icon'src="images/icon-go.jpg"></span>
+                </div>
+            </div>
+        <div class="head-title">联系人</div>
+            <div id="link-box"></div>
+            <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
+    </div>
+        <div class="not-null active" id="notNull">*请填选必填项</div>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <img  class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
+    <div class="btn-box" data-id="employee_list" id="look">
+        <a class="btn" href="javascript:" id="showToast" data-id="clear_data">保存</a>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMask" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet">
+            <div class="weui-actionsheet__menu" id="choice-list"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMasks" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheets">
+            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
+                <div class="weui-actionsheet__cell group-choice-name">普通</div>
+                <div class="weui-actionsheet__cell group-choice-name">其他</div>
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMask-fire" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet-fire">
+            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-list-fire">
+                <div class="weui-actionsheet__cell fire-choice-name">非重点消防单位</div>
+                <div class="weui-actionsheet__cell fire-choice-name">重点消防单位</div>
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
+            </div>
+        </div>
+        <div class="weui-mask" id="iosMask-police" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet-police">
+            <div class="weui-actionsheet__menu" id="choice-list-police"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-police">取消</div>
+            </div>
+        </div>
+    </div>
+    <div class="blank active" id="alert">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' id="legal-person-name" placeholder="法人姓名"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' id="legal-phone"  placeholder="11位手机号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">电话号码</div>
+            <input type='text' id="legal-company-tel-num" placeholder="企业电话号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">身份证号</div>
+            <input type='text' id="IdCard" placeholder="法人身份证号码"/>
+        </div>
+    </div>
+    <div class="page-alert active" id="alertbackground">
+        <div class="btn-box" data-id="employee_list" >
+            <a class="btn" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
+        </div>
+    </div>
+    <div class="blank active" id="alert-person">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' id="linkName" placeholder="联系人姓名"/>
+            <span class="star-red">*</span>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' id="linkPhone" placeholder="11位手机号码"/>
+            <span class="star-red">*</span>
+        </div>
+        <div class="td-style">
+            <div class="td-name">性别</div>
+            <select class="sex" id="sex">
+                <option value="">--请选择--</option>
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </div>
+        <div class="td-style" >
+            <div class="td-name">微信号</div>
+            <input type='text' id="WeXin" placeholder="微信账号"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">邮箱</div>
+            <input type='text' id="E-mail" placeholder="邮箱账号"/>
+        </div>
+        <div class="td-style" >
+            <div class="td-name">职位</div>
+            <input type='text'id="Work" placeholder="工作职位"/>
+        </div>
+        <div class="prompt active" id="prompt">*请输入必填项</div>
+    </div>
+    <div class="page-alert active" id="personbackground"></div>
+    <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
+        <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
+    </div>
+    <div class="btn-box active" data-id="employee_list" id="amend">
+        <a class="btn" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+        var $iosActionsheets = $('#iosActionsheets');
+        var $iosMasks = $('#iosMasks');
+        var $iosActionsheetFire = $('#iosActionsheet-fire');
+        var $iosMaskFire = $('#iosMask-fire');
+        var $iosActionsheetPolice = $('#iosActionsheet-police');
+        var $iosMaskPolice = $('#iosMask-police');
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+            $iosActionsheets.removeClass('weui-actionsheet_toggle');
+            $iosMasks.fadeOut(200);
+            $iosActionsheetPolice.removeClass('weui-actionsheet_toggle');
+            $iosMaskPolice.fadeOut(200);
+            $iosActionsheetFire.removeClass('weui-actionsheet_toggle');
+            $iosMaskFire.fadeOut(200);
+        }
+        $iosMask.on('click', hideActionSheet);
+        $iosMasks.on('click', hideActionSheet);
+        $iosMaskPolice.on('click', hideActionSheet);
+        $iosMaskFire.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $('#iosActionsheetCancels').on('click', hideActionSheet);
+        $('#iosActionsheetCancel-police').on('click', hideActionSheet);
+        $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
+        $('#input-change').focus();
+            $.ajax({
+                type: "POST",
+                url: "api/company/info.json",
+                data:{userid:$('#userid').val()},
+                success: function (data) {
+                    typeChoice(data);
+                    policeChoice(data);
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+        //选择企业分类
+        function typeChoice(data) {
+            $('#classify').on('click',function(){
+                for(var i = 0;i<data.types.length;i++){
+                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name">'+data.types[i].name+'</div>');
+                }
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.fadeIn(200);
+                $('.type-choice-name').on('click',function(){
+                    $('#classify').html($(this).text());
+                    hideActionSheet();
+                });
+            });
+        };
+        //选择辖区
+        function policeChoice(data) {
+            $('#police').on('click',function(){
+                for(var i = 0;i<data.persons.length;i++){
+                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name">'+data.persons[i].name+'</div>');
+                }
+                $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
+                $iosMaskPolice.fadeIn(200);
+                $('.police-choice-name').on('click',function(){
+                    $('#police').html($(this).text());
+                    hideActionSheet();
+                });
+            });
+        }
+        //选择企业组别
+        $('#group').on('click',function(){
+            $iosActionsheets.addClass('weui-actionsheet_toggle');
+            $iosMasks.fadeIn(200);
+            $('.group-choice-name').on('click',function(){
+                $('#group').html($(this).text());
+                hideActionSheet();
+            });
+        });
+        //选择消防等级
+        $('#fire').on('click',function(){
+            $iosActionsheetFire.addClass('weui-actionsheet_toggle');
+            $iosMaskFire.fadeIn(200);
+            $('.fire-choice-name').on('click',function(){
+                $('#fire').html($(this).text());
+                hideActionSheet();
+            });
+        });
+        //添加法人信息
+        $('#legal-person').on('click',function(){
+            $('#alert,#alertbackground').fadeIn(100);
+            $('#legal-person-name').focus();
+            $('#new-save').on('click',function(){
+                $('#alert,#alertbackground').fadeOut(100);
+                var legalName = $('#legal-person-name').val();
+                $('#symbol').hide();
+                if(legalName.length==0){
+                    $('#legal-name').html('法人信息');
+                }else{
+                    $('#legal-name').html(legalName);
+                }
+                var legalPhone = $('#legal-phone').val();
+                $('#mobile-num').html(legalPhone);
+                var legalCompanyNum = $('#legal-company-tel-num').val();
+                $('#tel-num').html(legalCompanyNum);
+                if(legalPhone.length == 0&&legalCompanyNum.length==0){
+                    $('#legal-icon').show();
+                }else{
+                    $('#legal-icon').hide();
+                }
+                if(legalPhone.length != 0&&legalCompanyNum.length!=0){
+                    $('#symbol').show();
+                }
+                $('#phone-num-box').show();
+            });
+            $('#alertbackground').on('click',function(){
+                $('#alert,#alertbackground').fadeOut(100);
+            });
+        });
+        //添加联系人
+        $('#add-linkman').on('click',function(){
+            $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
+            var sex = '';
+            $('#sex').on('change',function(){
+                sex = $(this).val();
+            });
+            $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
+            $('#prompt').hide();
+            $('#personbackground').on('click',function(){
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+            });
+        });
+        $('#news-save').on('click',function(){
+            var linkmanName = $('#linkName').val();
+            var linkPhone = $('#linkPhone').val();
+            var WeXin = $('#WeXin').val();
+            var Email = $('#E-mail').val();
+            var Work = $('#Work').val();
+            console.log(WeXin,Work,Email);
+            if(linkmanName.length==0||linkPhone==0){
+                $('#prompt').show();
+            }else{
+                var html =  '<div class="none-flex cell-border cell-margin link-man">'+
+                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                        '<div class="weui-cell__bd bd-right label-phone">'+
+                            linkPhone+
+                        '</div>'+
+                        '</div>'
+                $('#link-box').append(html);
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+            }
+        });
+        $('.link-man').live('click',function(){
+            $('#alert-person,#personbackground,#amend').fadeIn(100);
+            var _this = $(this).find('.label-width');
+            var _this_phone = $(this).find('.label-phone');
+            $('#linkName').val(_this.text());
+            $('#linkPhone').val(_this_phone.text());
+            $('#amend-new').on('click',function(){
+                $('#prompt').hide();
+                _this.html($('#linkName').val());
+                _this_phone.html($('#linkPhone').val());
+                $('#alert-person,#personbackground,#amend').fadeOut(100);
+            });
+        });
+        $('#showToast').on('click',function(){
+            var hints = '';
+            function hint(hints) {
+                $('#notNull').html(hints);
+                $('#notNull').show();
+            }
+            if($('#input-change').val().length==0||$('#input-change').val()==''){
+                var hints = '*请输入企业名称'
+                hint(hints);
+            }else if($('#input-place').val().length==0||$('#input-place').val()==''){
+                var hints = '*请输入企业地址'
+                hint(hints);
+            }else if($('#classify').text().length==0||$('#classify').text()==''){
+                var hints = '*请选择企业分类'
+                hint(hints);
+            }else if($('#group').text().length==0||$('#group').text()==''){
+                var hints = '*请选择企业组别'
+                hint(hints);
+            }else if($('#fire').text().length==0||$('#fire').text()==''){
+                var hints = '*请选择消防等级'
+                hint(hints);
+            }else if($('#police').text().length==0||$('#police').text()==''){
+                var hints = '*请选择辖区'
+                hint(hints);
+            }else if($('#link-box').text().length==0||$('#link-box').text()==''){
+                var hints = '*请添加企业联系人信息'
+                hint(hints);
+            }else{
+                $('#notNull').hide();
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            }
+
+        });
+    })
+</script>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 <div class="page page-list">
+    <img class="change-news" src="images/icon-edit.png" id="change"/>
     <div id="error" class="error" style="display: none;">
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
@@ -10,11 +11,104 @@
     <div class="btn-box" data-id="employee_list" id="look">
         <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>
     </div>
+    <div>
+        <div class="weui-mask" id="iosMask" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet">
+            <div class="weui-actionsheet__menu" id="choice-list"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMasks" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheets">
+            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
+                <div class="weui-actionsheet__cell group-choice-name">普通</div>
+                <div class="weui-actionsheet__cell group-choice-name">其他</div>
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+            </div>
+        </div>
+    </div>
+    <div class="page-alert active" id="alert">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' id="legal-person-name" placeholder="法人姓名"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' id="legal-phone"  placeholder="11位手机号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">电话号码</div>
+            <input type='text' id="legal-company-tel-num" placeholder="企业电话号码"/>
+        </div>
+        <div class="btn-box" data-id="employee_list" >
+            <a class="btn" href="javascript:" id="new-save" data-id="police-company_list">保存</a>
+        </div>
+    </div>
+    <div class="page-alert active" id="alert-person">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' placeholder="联系人姓名"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' placeholder="11位手机号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">性别</div>
+            <select>
+                <option>--请选择--</option>
+                <option>男</option>
+                <option>女</option>
+            </select>
+        </div>
+        <div class="td-style">
+            <div class="td-name">微信号</div>
+            <input type='text' placeholder="微信账号"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">邮箱</div>
+            <input type='text' placeholder="邮箱账号"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">职位</div>
+            <input type='text' placeholder="工作职位"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">英文名</div>
+            <input type='text' placeholder="英文名字"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">座机</div>
+            <input type='text' placeholder="座机号码"/>
+        </div>
+        <div class="btn-box" data-id="employee_list" >
+            <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">保存</a>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(function(){
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+        var $iosActionsheets = $('#iosActionsheets');
+        var $iosMasks = $('#iosMasks');
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+            $iosActionsheets.removeClass('weui-actionsheet_toggle');
+            $iosMasks.fadeOut(200);
+        }
+        $iosMask.on('click', hideActionSheet);
+        $iosMasks.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $('#iosActionsheetCancels').on('click', hideActionSheet);
         $gallery = $("#gallery"),
-                $galleryImg = $("#galleryImg")
+        $galleryImg = $("#galleryImg")
         var cid =  $('#container').data('data-company-name-cid');
         $.ajax({
             type: "POST",
@@ -33,49 +127,50 @@
             var company = data.company.name;
             var police = data.company.police.name;
             company = company==null?'':company;
-                var html =      '<div class="head-title">基本信息</div>'+
+                var html =      '<div id="news-change">'+
+                                '<div class="head-title">基本信息</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
+                                '<div class="weui-cell__bd bd-right" id="company-name">'+
                                 company+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
-                                '<div class="weui-cell__bd bd-right place-top" >'+
+                                '<div class="weui-cell__bd bd-right place-top" id="company-place">'+
                                 address+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                ''+
+                                '<div class="weui-cell__bd bd-right" id="classify">'+
+                                '饭店'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                ''+
+                                '<div class="weui-cell__bd bd-right" id="group">'+
+                                '普通'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
-                                '<div class="none-flex cell-border cell-margin head-title-border">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">法人</label></div>'+
-                                '<div class="weui-cell__bd bd-right" >'+
-                                '<span>手机号</span>/<span>电话号</span>'+
+                                '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人</label></div>'+
+                                '<div class="weui-cell__bd bd-right">'+
+                                '<span id="mobile-num">手机号</span>/<span id="tel-num">电话号</span>'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'
-                for(var i=0;i<data.users.length;i++){
-                    var index = i+1;
-                    html +=
-                            '<div class="none-flex cell-border cell-margin">' +
-                            '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
-                            '<div class="weui-cell__bd bd-right" >' +
-                            data.users[i].mobile +
-                            '</div>' +
-                            '</div>'
-                }
+                            for(var i=0;i<data.users.length;i++){
+                                var index = i+1;
+                                html +=
+                                '<div class="none-flex cell-border cell-margin link-man">' +
+                                '<div class="weui-cell__hd"><label class="weui-label label-width" id="linkman">'+data.users[i].name+'</label></div>' +
+                                '<div class="weui-cell__bd bd-right" >' +
+                                    data.users[i].mobile +
+                                '</div>' +
+                                '</div>'
+                            }
                 ;
                 html += '</div>';
             $('.cells-ajax').append(html);
@@ -86,14 +181,91 @@
             $gallery.on("click", function(){
                 $gallery.fadeOut(100);
             });
+            $('#change').on('click',function(){
+                $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
+                var txt = $('#company-name').text();
+                var txt1= $('#company-place').text();
+                $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
+                $('#company-place').html('<textarea class="input-change" type="text" id="textarea-place">'+txt1+'</textarea>');
+                $('#classify').on('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "api/company/info.json",
+                        data:{userid:$('#userid').val()},
+                        success: function (data) {
+                            for(var i = 0;i<data.types.length;i++){
+                                $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name">'+data.types[i].name+'</div>');
+                            }
+                            $iosActionsheet.addClass('weui-actionsheet_toggle');
+                            $iosMask.fadeIn(200);
+                            $('.type-choice-name').on('click',function(){
+                                $('#classify').html($(this).text());
+                                hideActionSheet();
+                            });
+                        },
+                        error: function (mes) {
+                            console.log("error");
+                        }
+                    });
+                });
+                $('#group').on('click',function(){
+                    $iosActionsheets.addClass('weui-actionsheet_toggle');
+                    $iosMasks.fadeIn(200);
+                    $('.group-choice-name').on('click',function(){
+                        $('#group').html($(this).text());
+                        hideActionSheet();
+                    });
+                });
+                $('#legal-person').on('click',function(){
+                    $('#alert').fadeIn(100);
+                    var changeLegalname = $('#legal-name').text();
+                    $('#legal-person-name').val(changeLegalname);
+                    var changelegalPhone = $('#mobile-num').text();
+                    $('#legal-phone').val(changelegalPhone);
+                    var changelegalCompanyNum = $('#tel-num').text();
+                    $('#legal-company-tel-num').val(changelegalCompanyNum);
+                    $('#legal-person-name,#legal-phone,#legal-company-tel-num').focus();
+                    $('#new-save').on('click',function(){
+                        $('#alert').fadeOut(100);
+                        var legalName = $('#legal-person-name').val();
+                        $('#legal-name').html(legalName);
+                        var legalPhone = $('#legal-phone').val();
+                        $('#mobile-num').html(legalPhone);
+                        var legalCompanyNum = $('#legal-company-tel-num').val();
+                        $('#tel-num').html(legalCompanyNum);
+                    })
+                });
+                $('#news-change').after(
+                        '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>'
+                );
+                $('#add-linkman,.link-man').on('click',function(){
+                    $('#alert-person').fadeIn(100);
+                    $('#news-save').on('click',function(){
+                        $('#alert-person').fadeOut(100);
+                    })
+                });
+                $('#save').on('click',function(){
+                    $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
+                    $('#add-linkman').hide();
+                    var text = $('#input-change').val();
+                    var text1 = $('#textarea-place').val();
+                    $('#company-name').html(text);
+                    $('#company-place').html(text1);
+                    Toast();
+                })
+            });
         }
-        $('.btn-box').on('click',function(){
-            $('#container').data('data-list-employee-val',null);
-            $('#container').data('data-company-name-cid',cid);
-            var id = $('.btn-box').data('id');
-            $('#taskId').val($(this).data('tid'));
-            window.pageManager.go(id);
-        })
+        function  Toast() {
+            $('#showToast').on('click',function(){
+                $('#container').data('data-list-employee-val',null);
+                $('#container').data('data-company-name-cid',cid);
+                var id = $('.btn-box').data('id');
+                $('#taskId').val($(this).data('tid'));
+                window.pageManager.go(id);
+            })
+        }
+        Toast();
+
     })
 </script>
 
