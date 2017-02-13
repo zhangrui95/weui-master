@@ -345,6 +345,9 @@
                     });
                 });
                 $('#save').on('click',function(){
+                    $('#classify').unbind();
+                    $('#group').unbind();
+                    $('#legal-person').unbind();
                    $('#add-linkman').hide();
                     $('#change').show();
                     $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
