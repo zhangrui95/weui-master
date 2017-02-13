@@ -609,5 +609,45 @@ module.exports = [
         }));
         }
     },
+    {
+        route: "/example/api/company/update.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                id:'企业id',
+                name:'',
+                address:'',
+                type:'',
+                police:'',
+                fireState:'',
+                groupType:'',
+                officeBuilding:'',
+                legalPersonCard:'',
+                legalPersonName:'',
+                legalPersonPhone:'',
+                legalPersonMobile:'',
+                add:[
+                    {
+                        name:'',
+                        role:'',
+                        mobile:'',
+                        wid:'',
+                        email:'',
+                        post:''
+                    }
+                ],
+                upt:[//更新的数组
+                    {
+                        id:'用户的id',
+                    }
+                ],
+                del:[//删除用户的数组
+                    {
+                        id:'删除用户的id',
+                    }
+                ]
+        }));
+        }
+    },
 
 ];
