@@ -23,21 +23,22 @@
                 <div class="weui-cell__bd bd-right" id="classify"></div>
                 <span class="num-right" id="icon1"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
         </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right" id="police"></div>
+                <span class="num-right" id="icon2"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+            </div>
         <div class="none-flex cell-border cell-margin">
             <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
             <div class="weui-cell__bd bd-right" id="group"></div>
-            <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+            <span class="num-right" id="icon3"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
         </div>
-         <div class="none-flex cell-border cell-margin">
+         <div class="none-flex cell-border cell-margin head-title-border">
                 <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
                 <div class="weui-cell__bd bd-right" id="fire"></div>
-             <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+             <span class="num-right" id="icon4"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
          </div>
-            <div class="none-flex cell-border cell-margin head-title-border">
-                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                <div class="weui-cell__bd bd-right" id="police"></div>
-                <span class="num-right"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
-            </div>
+
         <div class="head-title">法人</div>
         <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
             <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
@@ -71,8 +72,8 @@
         <div class="weui-mask" id="iosMasks" style="display: none"></div>
         <div class="weui-actionsheet" id="iosActionsheets">
             <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
-                <div class="weui-actionsheet__cell group-choice-name">普通</div>
-                <div class="weui-actionsheet__cell group-choice-name">其他</div>
+                <div class="weui-actionsheet__cell group-choice-name" data-group="0">普通</div>
+                <div class="weui-actionsheet__cell group-choice-name" data-group="1">其他</div>
             </div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
@@ -83,8 +84,8 @@
         <div class="weui-mask" id="iosMask-fire" style="display: none"></div>
         <div class="weui-actionsheet" id="iosActionsheet-fire">
             <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-list-fire">
-                <div class="weui-actionsheet__cell fire-choice-name">非重点消防单位</div>
-                <div class="weui-actionsheet__cell fire-choice-name">重点消防单位</div>
+                <div class="weui-actionsheet__cell fire-choice-name" data-fire="0">非重点消防单位</div>
+                <div class="weui-actionsheet__cell fire-choice-name" data-fire="1">重点消防单位</div>
             </div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
@@ -207,26 +208,37 @@
         function typeChoice(data) {
             $('#classify').on('click',function(){
                 for(var i = 0;i<data.types.length;i++){
-                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name">'+data.types[i].name+'</div>');
+                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data.types[i].id+'>'+data.types[i].name+'</div>');
                 }
                 $iosActionsheet.addClass('weui-actionsheet_toggle');
                 $iosMask.fadeIn(200);
                 $('.type-choice-name').on('click',function(){
                     $('#classify').html($(this).text());
+                    var typeId = $(this).attr('id');
+                    $('#container').data('data-add-typeId',typeId);
+                    if($('#classify').text()!=''){
+                        $('#icon1').hide();
+                    }
                     hideActionSheet();
                 });
             });
         };
+
         //选择辖区
         function policeChoice(data) {
             $('#police').on('click',function(){
                 for(var i = 0;i<data.persons.length;i++){
-                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name">'+data.persons[i].name+'</div>');
+                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id='+data.persons[i].id+'>'+data.persons[i].name+'</div>');
                 }
                 $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
                 $iosMaskPolice.fadeIn(200);
                 $('.police-choice-name').on('click',function(){
                     $('#police').html($(this).text());
+                    var policeId = $(this).attr('id');
+                    $('#container').data('data-add-policeId',policeId);
+                    if($('#police').text()!=''){
+                        $('#icon2').hide();
+                    }
                     hideActionSheet();
                 });
             });
@@ -237,6 +249,11 @@
             $iosMasks.fadeIn(200);
             $('.group-choice-name').on('click',function(){
                 $('#group').html($(this).text());
+                var groupId = $(this).data('group');
+                $('#container').data('data-add-groupId',groupId);
+                if($('#group').text()!=''){
+                    $('#icon3').hide();
+                }
                 hideActionSheet();
             });
         });
@@ -246,6 +263,11 @@
             $iosMaskFire.fadeIn(200);
             $('.fire-choice-name').on('click',function(){
                 $('#fire').html($(this).text());
+                var fireId = $(this).data('fire');
+                $('#container').data('data-add-fireId',fireId);
+                if($('#fire').text()!=''){
+                    $('#icon4').hide();
+                }
                 hideActionSheet();
             });
         });
@@ -283,9 +305,9 @@
         //添加联系人
         $('#add-linkman').on('click',function(){
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
-            var sex = '';
             $('#sex').on('change',function(){
-                sex = $(this).val();
+                var sex = $(this).val();
+                $('#container').data('data-add-sex',sex);
             });
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
             $('#prompt').hide();
@@ -299,31 +321,59 @@
             var WeXin = $('#WeXin').val();
             var Email = $('#E-mail').val();
             var Work = $('#Work').val();
-            console.log(WeXin,Work,Email);
-            if(linkmanName.length==0||linkPhone==0){
+            var role = $('#container').data('data-add-sex');
+            if(linkmanName.length==0||linkPhone.length==0){
                 $('#prompt').show();
             }else{
-                var html =  '<div class="none-flex cell-border cell-margin link-man">'+
-                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                        '<div class="weui-cell__bd bd-right label-phone">'+
-                            linkPhone+
-                        '</div>'+
-                        '</div>'
-                $('#link-box').append(html);
-                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                $.ajax({
+                    type: "POST",
+                    url: "api/company/save.json",
+                    data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
+                    success: function (data) {
+                        var html =  '<div class="none-flex cell-border cell-margin link-man">'+
+                                '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                                '<div class="weui-cell__bd bd-right label-phone">'+
+                                linkPhone+
+                                '</div>'+
+                                '</div>'
+                        $('#link-box').append(html);
+                        $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                    },
+                    error: function () {
+                    }
+                });
             }
         });
         $('.link-man').live('click',function(){
+            $('#prompt').hide();
             $('#alert-person,#personbackground,#amend').fadeIn(100);
             var _this = $(this).find('.label-width');
             var _this_phone = $(this).find('.label-phone');
             $('#linkName').val(_this.text());
             $('#linkPhone').val(_this_phone.text());
             $('#amend-new').on('click',function(){
-                $('#prompt').hide();
-                _this.html($('#linkName').val());
-                _this_phone.html($('#linkPhone').val());
-                $('#alert-person,#personbackground,#amend').fadeOut(100);
+                var linkmanName = $('#linkName').val();
+                var linkPhone = $('#linkPhone').val();
+                var WeXin = $('#WeXin').val();
+                var Email = $('#E-mail').val();
+                var Work = $('#Work').val();
+                var role = $('#container').data('data-add-sex');
+                if($('#linkName').val().length==0||$('#linkPhone').val().length==0){
+                    $('#prompt').show();
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "api/company/save.json",
+                        data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
+                        success: function (data) {
+                            _this.html($('#linkName').val());
+                            _this_phone.html($('#linkPhone').val());
+                            $('#alert-person,#personbackground,#amend').fadeOut(100);
+                        },
+                        error: function () {
+                        }
+                    });
+                }
             });
         });
         $('#showToast').on('click',function(){
@@ -332,13 +382,24 @@
                 $('#notNull').html(hints);
                 $('#notNull').show();
             }
-            if($('#input-change').val().length==0||$('#input-change').val()==''){
+            var inputChange = $('#input-change').val();
+            var inputplace = $('#input-place').val();
+            var classify = $('#classify').text();
+            var type = $('#container').data('data-add-typeId');
+            var police = $('#container').data('data-add-policeId');
+            var group = $('#container').data('data-add-groupId');
+            var fire = $('#container').data('data-add-fireId');
+            var legalPersonName= $('#legal-person-name').val();
+            var legalPersonPhone= $('#legal-phone').val();
+            var legalPersonMobile= $('#legal-company-tel-num').val();
+            var legalPersonCard = $('#IdCard').val();
+            if(inputChange.length==0||inputChange==''){
                 var hints = '*请输入企业名称'
                 hint(hints);
-            }else if($('#input-place').val().length==0||$('#input-place').val()==''){
+            }else if(inputplace.length==0||inputplace==''){
                 var hints = '*请输入企业地址'
                 hint(hints);
-            }else if($('#classify').text().length==0||$('#classify').text()==''){
+            }else if(classify.length==0||classify==''){
                 var hints = '*请选择企业分类'
                 hint(hints);
             }else if($('#group').text().length==0||$('#group').text()==''){
@@ -354,9 +415,18 @@
                 var hints = '*请添加企业联系人信息'
                 hint(hints);
             }else{
-                $('#notNull').hide();
-                var id = $(this).data('id');
-                window.pageManager.go(id);
+                $.ajax({
+                    type: "POST",
+                    url: "api/company/save.json",
+                    data:{name:inputChange,address:inputplace,type:type,police:police,fireState:fire,groupType:group,legalPersonName:legalPersonName,legalPersonPhone:legalPersonPhone,legalPersonMobile:legalPersonMobile,legalPersonCard:legalPersonCard},
+                    success: function () {
+                        $('#notNull').hide();
+                        var id = $('#showToast').data('id');
+                        window.pageManager.go(id);
+                    },
+                    error: function () {
+                    }
+                });
             }
 
         });
