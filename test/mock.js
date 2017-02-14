@@ -392,16 +392,16 @@ module.exports = [
                 list:[
                     {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
                     {id:'key2',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张二二'}},
-                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key3',name:'九转小磨九转小磨九转小磨九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
                     {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'}},
-                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'}},
-                    {id:'key2',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key2',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'}},
-                    {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'}},
-                    {id:'key2',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key2',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key4',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}}
+                    {id:'key5',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'}},
+                    {id:'key6',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key7',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'}},
+                    {id:'key8',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key9',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'}},
+                    {id:'key10',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key11',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
+                    {id:'key12',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}}
                 ],
                     count:90
             }
@@ -647,6 +647,20 @@ module.exports = [
                     }
                 ]
         }));
+        }
+    },
+    {
+        route: "/example/api/company/close.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify());
+        }
+    },
+    {
+        route: "/example/api/company/delete.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify());
         }
     },
 

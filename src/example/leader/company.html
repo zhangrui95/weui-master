@@ -13,7 +13,6 @@
         </form>
         <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
     </div>
-    <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="search-results" id="search-results"></div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -27,6 +26,17 @@
             </div>
         </div>
     </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="alert" id="alert"><p>操作失败，请重试！</p></div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -89,15 +99,63 @@
                     var _x= _touch.pageX;
                     var errand = _x - start;
                     if(errand>50){
+                        $(this).find('.item-width').animate({width:'95%'},400,'linear');
+                        $(this).find('.size-new').animate({width:'220px'},400,'linear');
                         $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
                     }else if(errand<-50){
+                        var _this = $(this);
+                        $(this).find('.item-width').animate({width:'73%'},400,'linear');
+                        $(this).find('.size-new').animate({width:'195px'},400,'linear');
                         $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
                         $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
                         $(this).siblings('.delete-box').find('.delete').on('click',function(){
-                            $(this).parent().parent().remove();
+                            var id = _this.attr('id');
+                            $('#androidDialog2').fadeIn(200);
+                            $('#dialog').html('确定删除该企业？');
+                            $('#primary').on('click',function(){
+                                $('#androidDialog2').fadeOut(200);
+                                $.ajax({
+                                    type: "delete",
+                                    url: "api/company/delete.json",
+                                    data:{id:id},
+                                    success: function () {
+                                        _this.parent().remove();
+                                    },
+                                    error: function () {
+                                        $('#alert').fadeIn(200);
+                                        setTimeout(function () {
+                                            $('#alert').fadeOut(200);
+                                        }, 2000);
+                                    }
+                                });
+                            });
+                            $('#default').on('click',function(){
+                                $('#androidDialog2').fadeOut(200);
+                            });
+
                         });
                         $(this).siblings('.delete-box').find('.logout').on('click',function(){
-                            $(this).parent().parent().remove();
+                            var id = _this.attr('id');
+                            $('#androidDialog2').fadeIn(200);
+                            $('#dialog').html('确定注销该企业？')
+                            $('#primary').on('click',function(){
+                                $('#androidDialog2').fadeOut(200);
+                                $.ajax({
+                                    type: "put",
+                                    url: "api/company/close.json",
+                                    data:{id:id},
+                                    success: function () {
+                                        _this.parent().remove();
+                                    },
+                                    error: function () {
+                                        console.log(000)
+                                    }
+                                });
+                            });
+                            $('#default').on('click',function(){
+                                $('#androidDialog2').fadeOut(200);
+                            });
+
                         });
                     }else if(errand==0){
                         var cid = $(this).attr('id');

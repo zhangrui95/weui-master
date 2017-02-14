@@ -196,6 +196,9 @@
                 var txt1= $('#company-place').text();
                 $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
                 $('#company-place').html('<textarea class="input-change" type="text" id="textarea-place">'+txt1+'</textarea>');
+                $('#input-change').focus();
+                var changeval = $('#input-change').val();
+                $('#input-change').val(changeval);
                 //选择企业分类
                 $('#classify').on('click',function(){
                     $.ajax({
@@ -241,7 +244,7 @@
                     $('#legal-phone').val(changelegalPhone);
                     var changelegalCompanyNum = $('#tel-num').text();
                     $('#legal-company-tel-num').val(changelegalCompanyNum);
-                    $('#legal-person-name,#legal-phone,#legal-company-tel-num').focus();
+                    $('#legal-person-name').focus();
                     if(legalPhone.length == 0||legalCompanyNum.length==0){
                         $('#symbol').show();
                     }
