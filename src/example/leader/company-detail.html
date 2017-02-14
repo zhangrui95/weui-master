@@ -274,35 +274,6 @@
                         $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                     });
                 });
-                $('#news-save').on('click',function(){
-                    var linkmanName = $('#linkName').val();
-                    var linkPhone = $('#linkPhone').val();
-                    var WeXin = $('#WeXin').val();
-                    var Email = $('#E-mail').val();
-                    var Work = $('#Work').val();
-                    var role = $('#container').data('data-add-sex');
-                    if(linkmanName.length==0||linkPhone.length==0){
-                        $('#prompt').show();
-                    }else{
-                        $.ajax({
-                            type: "PUT",
-                            url: "api/company/update.json",
-                            data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
-                            success: function (data) {
-                                var html =  '<div class="none-flex cell-border cell-margin link-alert link-man">'+
-                                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                                        '<div class="weui-cell__bd bd-right label-phone">'+
-                                        linkPhone+
-                                        '</div>'+
-                                        '</div>'
-                                $('#link-box').append(html);
-                                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
-                            },
-                            error: function () {
-                            }
-                        });
-                    }
-                });
                 $('.link-man').live('click',function(){
                     $('#sex').on('change',function(){
                         var sex = $(this).val();
@@ -348,6 +319,7 @@
                     $('#classify').unbind();
                     $('#group').unbind();
                     $('#legal-person').unbind();
+                    $('#add-linkman').unbind();
                    $('#add-linkman').hide();
                     $('#change').show();
                     $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
@@ -381,6 +353,35 @@
                 });
             });
         }
+        $('#news-save').on('click',function(){
+            var linkmanName = $('#linkName').val();
+            var linkPhone = $('#linkPhone').val();
+            var WeXin = $('#WeXin').val();
+            var Email = $('#E-mail').val();
+            var Work = $('#Work').val();
+            var role = $('#container').data('data-add-sex');
+            if(linkmanName.length==0||linkPhone.length==0){
+                $('#prompt').show();
+            }else{
+                $.ajax({
+                    type: "PUT",
+                    url: "api/company/update.json",
+                    data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
+                    success: function (data) {
+                        var html =  '<div class="none-flex cell-border cell-margin link-alert link-man">'+
+                                '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                                '<div class="weui-cell__bd bd-right label-phone">'+
+                                linkPhone+
+                                '</div>'+
+                                '</div>'
+                        $('#link-box').append(html);
+                        $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
         function  Toast() {
             $('#showToast').on('click',function(){
                 $('#container').data('data-list-employee-val',null);
