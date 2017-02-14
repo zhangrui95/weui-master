@@ -1,167 +1,168 @@
 <div class="page page-list">
-    <div id="error" class="error" style="display: none;">
-        <img src="images/error.png"/>
-        <span>当前网络不可用，请检查你的网络设置</span>
-    </div>
-    <div class="page__bd details cells-ajax page_y">
-        <div id="news-change">
-        <div class="head-title">基本信息</div>
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
-            <div class="weui-cell__bd bd-right" id="company-name">
-                <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业名称" id="input-change"/>
-            </div>
+    <form class="active" id="form-box"></form>
+        <div id="error" class="error" style="display: none;">
+            <img src="images/error.png"/>
+            <span>当前网络不可用，请检查你的网络设置</span>
         </div>
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
-            <div class="weui-cell__bd bd-right place-top" id="company-place">
-                <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业地址"  value="" id="input-place"/>
-            </div>
-        </div>
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
-                <div class="weui-cell__bd bd-right" id="classify"></div>
-                <span class="num-right" id="icon1"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
-        </div>
+        <div class="page__bd details cells-ajax page_y">
+            <div id="news-change">
+            <div class="head-title">基本信息</div>
             <div class="none-flex cell-border cell-margin">
-                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                <div class="weui-cell__bd bd-right" id="police"></div>
-                <span class="num-right" id="icon2"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
-            </div>
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
-            <div class="weui-cell__bd bd-right" id="group"></div>
-            <span class="num-right" id="icon3"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
-        </div>
-         <div class="none-flex cell-border cell-margin head-title-border">
-                <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
-                <div class="weui-cell__bd bd-right" id="fire"></div>
-             <span class="num-right" id="icon4"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
-         </div>
-
-        <div class="head-title">法人</div>
-        <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
-            <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
-                <div class="weui-cell__bd bd-right">
-                    <div class="active" id="phone-num-box"><span id="mobile-num"></span><span id="symbol">/</span><span id="tel-num"></span></div>
-                    <span class="num-right"><img class="icon-go icon-top" id = 'legal-icon'src="images/icon-go.jpg"></span>
+                <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+                <div class="weui-cell__bd bd-right" id="company-name">
+                    <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业名称" id="input-change"/>
                 </div>
             </div>
-        <div class="head-title">联系人</div>
-            <div id="link-box"></div>
-            <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
-    </div>
-        <div class="not-null active" id="notNull">*请填选必填项</div>
-    </div>
-    <div class="weui-gallery" id="gallery">
-        <img  class="weui-gallery__img center-img" id="galleryImg"/>
-    </div>
-    <div class="btn-box" data-id="employee_list" id="look">
-        <a class="btn" href="javascript:" id="showToast" data-id="clear_data">保存</a>
-    </div>
-    <div>
-        <div class="weui-mask" id="iosMask" style="display: none"></div>
-        <div class="weui-actionsheet" id="iosActionsheet">
-            <div class="weui-actionsheet__menu" id="choice-list"></div>
-            <div class="weui-actionsheet__action">
-                <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
+                <div class="weui-cell__bd bd-right place-top" id="company-place">
+                    <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业地址"  value="" id="input-place"/>
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
+                    <div class="weui-cell__bd bd-right" id="classify"></div>
+                    <span class="num-right" id="icon1"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+            </div>
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                    <div class="weui-cell__bd bd-right" id="police"></div>
+                    <span class="num-right" id="icon2"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+                </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
+                <div class="weui-cell__bd bd-right" id="group"></div>
+                <span class="num-right" id="icon3"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+            </div>
+             <div class="none-flex cell-border cell-margin head-title-border">
+                    <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
+                    <div class="weui-cell__bd bd-right" id="fire"></div>
+                 <span class="num-right" id="icon4"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+             </div>
+
+            <div class="head-title">法人</div>
+            <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
+                <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
+                    <div class="weui-cell__bd bd-right">
+                        <div class="active" id="phone-num-box"><span id="mobile-num"></span><span id="symbol">/</span><span id="tel-num"></span></div>
+                        <span class="num-right"><img class="icon-go icon-top" id = 'legal-icon'src="images/icon-go.jpg"></span>
+                    </div>
+                </div>
+            <div class="head-title">联系人</div>
+                <div id="link-box"></div>
+                <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
+        </div>
+            <div class="not-null active" id="notNull">*请填选必填项</div>
+        </div>
+        <div class="weui-gallery" id="gallery">
+            <img  class="weui-gallery__img center-img" id="galleryImg"/>
+        </div>
+        <div class="btn-box" data-id="employee_list" id="look">
+            <a class="btn" href="javascript:" id="showToast" data-id="clear_data">保存</a>
+        </div>
+        <div>
+            <div class="weui-mask" id="iosMask" style="display: none"></div>
+            <div class="weui-actionsheet" id="iosActionsheet">
+                <div class="weui-actionsheet__menu" id="choice-list"></div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div>
-        <div class="weui-mask" id="iosMasks" style="display: none"></div>
-        <div class="weui-actionsheet" id="iosActionsheets">
-            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
-                <div class="weui-actionsheet__cell group-choice-name" data-group="0">普通</div>
-                <div class="weui-actionsheet__cell group-choice-name" data-group="1">其他</div>
-            </div>
-            <div class="weui-actionsheet__action">
-                <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="weui-mask" id="iosMask-fire" style="display: none"></div>
-        <div class="weui-actionsheet" id="iosActionsheet-fire">
-            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-list-fire">
-                <div class="weui-actionsheet__cell fire-choice-name" data-fire="0">非重点消防单位</div>
-                <div class="weui-actionsheet__cell fire-choice-name" data-fire="1">重点消防单位</div>
-            </div>
-            <div class="weui-actionsheet__action">
-                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
+        <div>
+            <div class="weui-mask" id="iosMasks" style="display: none"></div>
+            <div class="weui-actionsheet" id="iosActionsheets">
+                <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
+                    <div class="weui-actionsheet__cell group-choice-name" data-group="0">普通</div>
+                    <div class="weui-actionsheet__cell group-choice-name" data-group="1">其他</div>
+                </div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+                </div>
             </div>
         </div>
-        <div class="weui-mask" id="iosMask-police" style="display: none"></div>
-        <div class="weui-actionsheet" id="iosActionsheet-police">
-            <div class="weui-actionsheet__menu" id="choice-list-police"></div>
-            <div class="weui-actionsheet__action">
-                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-police">取消</div>
+        <div>
+            <div class="weui-mask" id="iosMask-fire" style="display: none"></div>
+            <div class="weui-actionsheet" id="iosActionsheet-fire">
+                <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-list-fire">
+                    <div class="weui-actionsheet__cell fire-choice-name" data-fire="0">非重点消防单位</div>
+                    <div class="weui-actionsheet__cell fire-choice-name" data-fire="1">重点消防单位</div>
+                </div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
+                </div>
+            </div>
+            <div class="weui-mask" id="iosMask-police" style="display: none"></div>
+            <div class="weui-actionsheet" id="iosActionsheet-police">
+                <div class="weui-actionsheet__menu" id="choice-list-police"></div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" id="iosActionsheetCancel-police">取消</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="blank active" id="alert">
-        <div class="td-style td-top">
-            <div class="td-name">姓名</div>
-            <input type='text' id="legal-person-name" placeholder="法人姓名"/>
+        <div class="blank active" id="alert">
+            <div class="td-style td-top">
+                <div class="td-name">姓名</div>
+                <input type='text' id="legal-person-name" placeholder="法人姓名"/>
+            </div>
+            <div class="td-style">
+                <div class="td-name">手机号码</div>
+                <input type='text' id="legal-phone"  placeholder="11位手机号码"/>
+            </div>
+            <div class="td-style">
+                <div class="td-name">电话号码</div>
+                <input type='text' id="legal-company-tel-num" placeholder="企业电话号码"/>
+            </div>
+            <div class="td-style">
+                <div class="td-name">身份证号</div>
+                <input type='text' id="IdCard" placeholder="法人身份证号码"/>
+            </div>
         </div>
-        <div class="td-style">
-            <div class="td-name">手机号码</div>
-            <input type='text' id="legal-phone"  placeholder="11位手机号码"/>
+        <div class="page-alert active" id="alertbackground">
+            <div class="btn-box" data-id="employee_list" >
+                <a class="btn" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
+            </div>
         </div>
-        <div class="td-style">
-            <div class="td-name">电话号码</div>
-            <input type='text' id="legal-company-tel-num" placeholder="企业电话号码"/>
+        <div class="blank active" id="alert-person">
+            <div class="td-style td-top">
+                <div class="td-name">姓名</div>
+                <input type='text' id="linkName" placeholder="联系人姓名"/>
+                <span class="star-red">*</span>
+            </div>
+            <div class="td-style">
+                <div class="td-name">手机号码</div>
+                <input type='text' id="linkPhone" placeholder="11位手机号码"/>
+                <span class="star-red">*</span>
+            </div>
+            <div class="td-style">
+                <div class="td-name">性别</div>
+                <select class="sex" id="sex">
+                    <option value="">--请选择--</option>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+                </select>
+            </div>
+            <div class="td-style" >
+                <div class="td-name">微信号</div>
+                <input type='text' id="WeXin" placeholder="微信账号"/>
+            </div>
+            <div class="td-style">
+                <div class="td-name">邮箱</div>
+                <input type='text' id="E-mail" placeholder="邮箱账号"/>
+            </div>
+            <div class="td-style" >
+                <div class="td-name">职位</div>
+                <input type='text'id="Work" placeholder="工作职位"/>
+            </div>
+            <div class="prompt active" id="prompt">*请输入必填项</div>
         </div>
-        <div class="td-style">
-            <div class="td-name">身份证号</div>
-            <input type='text' id="IdCard" placeholder="法人身份证号码"/>
+        <div class="page-alert active" id="personbackground"></div>
+        <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
+            <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
         </div>
-    </div>
-    <div class="page-alert active" id="alertbackground">
-        <div class="btn-box" data-id="employee_list" >
-            <a class="btn" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
+        <div class="btn-box active" data-id="employee_list" id="amend">
+            <a class="btn" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
         </div>
-    </div>
-    <div class="blank active" id="alert-person">
-        <div class="td-style td-top">
-            <div class="td-name">姓名</div>
-            <input type='text' id="linkName" placeholder="联系人姓名"/>
-            <span class="star-red">*</span>
-        </div>
-        <div class="td-style">
-            <div class="td-name">手机号码</div>
-            <input type='text' id="linkPhone" placeholder="11位手机号码"/>
-            <span class="star-red">*</span>
-        </div>
-        <div class="td-style">
-            <div class="td-name">性别</div>
-            <select class="sex" id="sex">
-                <option value="">--请选择--</option>
-                <option value="0">男</option>
-                <option value="1">女</option>
-            </select>
-        </div>
-        <div class="td-style" >
-            <div class="td-name">微信号</div>
-            <input type='text' id="WeXin" placeholder="微信账号"/>
-        </div>
-        <div class="td-style">
-            <div class="td-name">邮箱</div>
-            <input type='text' id="E-mail" placeholder="邮箱账号"/>
-        </div>
-        <div class="td-style" >
-            <div class="td-name">职位</div>
-            <input type='text'id="Work" placeholder="工作职位"/>
-        </div>
-        <div class="prompt active" id="prompt">*请输入必填项</div>
-    </div>
-    <div class="page-alert active" id="personbackground"></div>
-    <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
-        <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
-    </div>
-    <div class="btn-box active" data-id="employee_list" id="amend">
-        <a class="btn" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
-    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -325,12 +326,7 @@
             if(linkmanName.length==0||linkPhone.length==0){
                 $('#prompt').show();
             }else{
-                $.ajax({
-                    type: "POST",
-                    url: "api/company/save.json",
-                    data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
-                    success: function (data) {
-                        var html =  '<div class="none-flex cell-border cell-margin link-man">'+
+                    var html =  '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'" data-role="'+role+'">'+
                                 '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
                                 '<div class="weui-cell__bd bd-right label-phone">'+
                                 linkPhone+
@@ -338,10 +334,6 @@
                                 '</div>'
                         $('#link-box').append(html);
                         $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
-                    },
-                    error: function () {
-                    }
-                });
             }
         });
         $('.link-man').live('click',function(){
@@ -361,18 +353,9 @@
                 if($('#linkName').val().length==0||$('#linkPhone').val().length==0){
                     $('#prompt').show();
                 }else{
-                    $.ajax({
-                        type: "POST",
-                        url: "api/company/save.json",
-                        data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
-                        success: function (data) {
                             _this.html($('#linkName').val());
                             _this_phone.html($('#linkPhone').val());
                             $('#alert-person,#personbackground,#amend').fadeOut(100);
-                        },
-                        error: function () {
-                        }
-                    });
                 }
             });
         });
@@ -393,6 +376,36 @@
             var legalPersonPhone= $('#legal-phone').val();
             var legalPersonMobile= $('#legal-company-tel-num').val();
             var legalPersonCard = $('#IdCard').val();
+            $('#form-box').html(
+                    '<input name="name" value="'+inputChange+'"/>'+
+                    '<input name="address" value="'+inputplace+'"/>'+
+                    '<input name="type" value="'+type+'"/>'+
+                    '<input name="police" value="'+police+'"/>'+
+                    '<input name="groupType" value="'+group+'"/>'+
+                    '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
+                    '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
+                    '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
+                    '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
+                    '<div id="add-list-name"></div>'
+            );
+            var linkLength = $('#link-box').find('.link-man').length;
+            for(var i = 0;i<=linkLength-1;i++){
+                var manLink = $('#link-box').find('.link-man').eq(i);
+                var name = manLink.data('name');
+                var phone = manLink.data('phone');
+                var WeXin = manLink.data('weixin');
+                var Email = manLink.data('email');
+                var Work = manLink.data('post');
+                var role = manLink.data('role');
+                $('#add-list-name').append(
+                        '<input name="add['+i+'].name" value="'+name+'"/>'+
+                        '<input name="add['+i+'].mobile" value="'+phone+'"/>'+
+                        '<input name="add['+i+'].wid" value="'+WeXin+'"/>'+
+                        '<input name="add['+i+'].email" value="'+Email+'"/>'+
+                        '<input name="add['+i+'].post" value="'+Work+'"/>'+
+                        '<input name="add['+i+'].role" value="'+role+'"/>'
+                );
+            }
             if(inputChange.length==0||inputChange==''){
                 var hints = '*请输入企业名称'
                 hint(hints);
@@ -415,10 +428,11 @@
                 var hints = '*请添加企业联系人信息'
                 hint(hints);
             }else{
+                var json = $('#form-box').serialize();
                 $.ajax({
                     type: "POST",
                     url: "api/company/save.json",
-                    data:{name:inputChange,address:inputplace,type:type,police:police,fireState:fire,groupType:group,legalPersonName:legalPersonName,legalPersonPhone:legalPersonPhone,legalPersonMobile:legalPersonMobile,legalPersonCard:legalPersonCard},
+                    data:{json},
                     success: function () {
                         $('#notNull').hide();
                         var id = $('#showToast').data('id');
