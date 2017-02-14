@@ -749,6 +749,7 @@ body, .page {
 }
 .cell-y{
     overflow-y: scroll;
+    overflow-x: hidden;
     height:100%;
     margin-bottom:10%;
 }
@@ -1912,8 +1913,8 @@ body, .page {
     width:100%;
     background: #fff;
 }
-.delete{
-    width: 50px;
+.delete-box{
+    width: 101px;
     text-align: center;
     background: #ff5a54;
     color:#fff;
@@ -1921,9 +1922,22 @@ body, .page {
     line-height: 78px;
     position:absolute;
     top: 0px;
-    right:0px;
+    right:-101px;
+    overflow-x: hidden;
+    .delete{
+        width: 50px;
+        float: left;
+        border-right:1px solid #FFFFFF;
+    }
+    .logout{
+        width: 50px;
+        float: left;
+    }
 }
 .label-relative{
     position: relative;
-    margin:0 0 0 12px;
 }
+.icon-delete{
+    width: 25px;
+}
+
