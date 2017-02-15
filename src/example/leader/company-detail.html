@@ -347,7 +347,7 @@
                     console.log(json);
                     $.ajax({
                         type: "PUT",
-                        url: "api/company/update.json",
+                        url: "api/company/update.json?userid="+$('#userid').val(),
                         data:json,
                         success: function () {
                             $('#notNull').hide();

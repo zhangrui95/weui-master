@@ -137,7 +137,7 @@
                             $('#androidDialog2').fadeOut(200);
                             $.ajax({
                                 type: "delete",
-                                url: "api/company/delete.json?id="+id,
+                                url: "api/company/delete.json?id="+id+"&userid="+$('#userid').val(),
                                 success: function () {
                                     _this.parent().remove();
                                 },
@@ -159,7 +159,7 @@
                             $('#androidDialog2').fadeOut(200);
                             $.ajax({
                                 type: "put",
-                                url: "api/company/close.json",
+                                url: "api/company/close.json?userid="+$('#userid').val(),
                                 data:{id:id},
                                 success: function () {
                                     _this.parent().remove();

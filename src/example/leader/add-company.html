@@ -479,7 +479,7 @@
                 console.log(json);
                 $.ajax({
                     type: "POST",
-                    url: "api/company/save.json",
+                    url: "api/company/save.json?userid="+$('#userid').val(),
                     data:json,
                     success: function () {
                         $('#notNull').hide();
