@@ -21,7 +21,9 @@
             </div>
             <p class="weui-grid__label">从业人员统计</p>
         </a>
-        <a href="javascript:;" class="weui-grid" data-id="police-clear-company" id="police-clear">
+        <!-- build:[data-href] leader -->
+        <a href="javascript:;" class="weui-grid" data-href="leader.html" data-id="police-clear-company" id="police-clear">
+            <!-- /build -->
             <div class="weui-grid__icon">
                 <img src="images/icon9.png" alt="" class="radius">
             </div>
@@ -54,6 +56,7 @@
         $('#container').data('data-choice-type-ids','');
         $('#container').data('data-choice-police-ids','');
     });
+    var post = $('#userPost').val()
     $.ajax({
         type: "POST",
         url: "api/user/policeInfo.json",
@@ -70,7 +73,12 @@
             $('#container').data('self-policeId',data.policeId);
             $('.weui-grid').on('click', function(){
                 var id = $(this).data('id');
-                window.pageManager.go(id);
+                if(id == 'police-clear-company' && post == '企业管理员'){
+                    var url = $(this).data('href');
+                    window.location.href = url+'?userid='+$('#userid').val()+'#clear_data';
+                }else{
+                    window.pageManager.go(id);
+                }
             });
         },
         error: function (mes) {
