@@ -40,7 +40,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        var $searchBar = $('#searchBar'),
+            var $searchBar = $('#searchBar'),
                 $searchResult = $('#searchResult'),
                 $searchText = $('#searchText'),
                 $searchInput = $('#searchInput'),
@@ -85,9 +85,16 @@
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
                 result(xhr);
-//                $('.num-right').on('click',function(){
-//                    $(this).siblings('.delete-box').animate({right:'-12px'},500,'linear');
-//                });
+                $('.icon-delete').on('click',function(){
+                    $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
+                    $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
+                    $(this).siblings('.weui-cell').find('.item-width').animate({width:'73%'},400,'linear');
+                    $(this).siblings('.weui-cell').find('.size-new').animate({width:'195px'},400,'linear');
+                    var _this = $(this);
+                    var id = _this.siblings('.weui-cell').attr('id');
+                    Delete(id,_this);
+                    Logout(id,_this);
+                });
                 var touchMove;
                 var start;
                 $('.weui-cell').on("touchstart",function(e){
@@ -104,59 +111,13 @@
                         $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
                     }else if(errand<-50){
                         var _this = $(this);
+                        var id = _this.attr('id');
                         $(this).find('.item-width').animate({width:'73%'},400,'linear');
                         $(this).find('.size-new').animate({width:'195px'},400,'linear');
                         $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
                         $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
-                        $(this).siblings('.delete-box').find('.delete').on('click',function(){
-                            var id = _this.attr('id');
-                            $('#androidDialog2').fadeIn(200);
-                            $('#dialog').html('确定删除该企业？');
-                            $('#primary').on('click',function(){
-                                $('#androidDialog2').fadeOut(200);
-                                $.ajax({
-                                    type: "delete",
-                                    url: "api/company/delete.json",
-                                    data:{id:id},
-                                    success: function () {
-                                        _this.parent().remove();
-                                    },
-                                    error: function () {
-                                        $('#alert').fadeIn(200);
-                                        setTimeout(function () {
-                                            $('#alert').fadeOut(200);
-                                        }, 2000);
-                                    }
-                                });
-                            });
-                            $('#default').on('click',function(){
-                                $('#androidDialog2').fadeOut(200);
-                            });
-
-                        });
-                        $(this).siblings('.delete-box').find('.logout').on('click',function(){
-                            var id = _this.attr('id');
-                            $('#androidDialog2').fadeIn(200);
-                            $('#dialog').html('确定注销该企业？')
-                            $('#primary').on('click',function(){
-                                $('#androidDialog2').fadeOut(200);
-                                $.ajax({
-                                    type: "put",
-                                    url: "api/company/close.json",
-                                    data:{id:id},
-                                    success: function () {
-                                        _this.parent().remove();
-                                    },
-                                    error: function () {
-                                        console.log(000)
-                                    }
-                                });
-                            });
-                            $('#default').on('click',function(){
-                                $('#androidDialog2').fadeOut(200);
-                            });
-
-                        });
+                        Delete(id,_this);
+                        Logout(id,_this);
                     }else if(errand==0){
                         var cid = $(this).attr('id');
                         container.data('data-company-name-cid',cid);
@@ -165,6 +126,55 @@
                         window.pageManager.go(id);
                     }
                 });
+                $('#default').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                });
+                function Delete(id,_this) {
+                    _this.siblings('.delete-box').find('.delete').on('click',function(){
+                        $('#androidDialog2').fadeIn(200);
+                        $('#dialog').html('确定删除该企业？');
+                        $('#primary').on('click',function(){
+                            $('#androidDialog2').fadeOut(200);
+                            $.ajax({
+                                type: "delete",
+                                url: "api/company/delete.json",
+                                data:{id:id},
+                                success: function () {
+                                    _this.parent().remove();
+                                },
+                                error: function () {
+                                    $('#alert').fadeIn(200);
+                                    setTimeout(function () {
+                                        $('#alert').fadeOut(200);
+                                    }, 2000);
+                                }
+                            });
+                        });
+                    });
+                }
+                function  Logout(id,_this){
+                    _this.siblings('.delete-box').find('.logout').on('click',function(){
+                        $('#androidDialog2').fadeIn(200);
+                        $('#dialog').html('确定注销该企业？')
+                        $('#primary').on('click',function(){
+                            $('#androidDialog2').fadeOut(200);
+                            $.ajax({
+                                type: "put",
+                                url: "api/company/close.json",
+                                data:{id:id},
+                                success: function () {
+                                    _this.parent().remove();
+                                },
+                                error: function () {
+                                    $('#alert').fadeIn(200);
+                                    setTimeout(function () {
+                                        $('#alert').fadeOut(200);
+                                    }, 2000);
+                                }
+                            });
+                        });
+                    });
+                }
 //                $(".weui-cell").on('click',function () {
 //                        var cid = $(this).attr('id');
 //                        container.data('data-company-name-cid',cid);
@@ -191,8 +201,8 @@
                         '<div><span class="item-width">'+items.name+'</span></div>'+
                         '<div class="size-new">'+items.type.name+'、'+items.police.name+'</div>'+
                         '</div>'+
-                        '<span class="num-right"><img class="icon-go" src="images/icon-go.jpg"></span>'+
                         '</label>'+
+                        '<img class="icon-go icon-delete" src="images/icon-delete.png">'+
                         '<div class="delete-box">'+
                         '<div class="delete" >删除</div>'+
                         '<div class="logout" >注销</div>'+
