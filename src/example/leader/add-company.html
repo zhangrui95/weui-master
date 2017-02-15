@@ -347,19 +347,24 @@
                 if(email.test(Email)==false){
                     $('#prompt').html('*请输入正确的邮箱账号');
                     $('#prompt').show();
+                }else{
+                    Link();
                 }
             } else{
-                    var html =   '<div class="link-news-box">'+
-                                    '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
-                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                                    '<div class="weui-cell__bd bd-right label-phone">'+
-                                    linkPhone+
-                                    '</div>'+
-                                    '</div>'+
-                                    '<div class="link-delete">删除</div>'+
-                                    '</div>'
-                        $('#link-box').append(html);
-                        $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                Link();
+            }
+            function Link(){
+                var html =   '<div class="link-news-box">'+
+                        '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
+                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                        '<div class="weui-cell__bd bd-right label-phone">'+
+                        linkPhone+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="link-delete">删除</div>'+
+                        '</div>'
+                $('#link-box').append(html);
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
             }
         });
         $('.link-man').live('click',function(){
@@ -387,6 +392,10 @@
                     if(email.test(Email)==false){
                         $('#prompt').html('*请输入正确的邮箱账号');
                         $('#prompt').show();
+                    }else{
+                        _this.html($('#linkName').val());
+                        _this_phone.html($('#linkPhone').val());
+                        $('#alert-person,#changeground,#amend').fadeOut(100);
                     }
                 }else{
                             _this.html($('#linkName').val());
