@@ -39,7 +39,6 @@
                     <div class="weui-cell__bd bd-right" id="fire"></div>
                  <span class="num-right" id="icon4"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
              </div>
-
             <div class="head-title">法人</div>
             <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
                 <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
@@ -51,7 +50,7 @@
             <div class="head-title">联系人</div>
                 <div id="link-box"></div>
                 <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
-        </div>
+             </div>
             <div class="not-null active" id="notNull">*请填选必填项</div>
         </div>
         <div class="weui-gallery" id="gallery">
@@ -187,59 +186,57 @@
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
         $('#input-change').focus();
         //选择企业分类
+        $.ajax({
+            type: "POST",
+            url: "api/companyType.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                for(var i = 0;i<data.length;i++){
+                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                }
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
             $('#classify').on('click',function(){
-                $('#choice-list').html('');
-                $.ajax({
-                    type: "POST",
-                    url: "api/companyType.json",
-                    data:{userid:$('#userid').val()},
-                    success: function (data) {
-                        for(var i = 0;i<data.length;i++){
-                            $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                        }
-                        $iosActionsheet.addClass('weui-actionsheet_toggle');
-                        $iosMask.fadeIn(200);
-                        $('.type-choice-name').on('click',function(){
-                            $('#classify').html($(this).text());
-                            var typeId = $(this).attr('id');
-                            $('#container').data('data-add-typeId',typeId);
-                            if($('#classify').text()!=''){
-                                $('#icon1').hide();
-                            }
-                            hideActionSheet();
-                        });
-                    },
-                    error: function () {
-                        console.log("error");
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.fadeIn(200);
+                $('.type-choice-name').on('click',function(){
+                    $('#classify').html($(this).text());
+                    var typeId = $(this).attr('id');
+                    $('#container').data('data-add-typeId',typeId);
+                    if($('#classify').text()!=''){
+                        $('#icon1').hide();
                     }
+                    hideActionSheet();
                 });
             });
         //选择辖区
-        $('#police').on('click',function(){
-            $('#choice-list-police').html('');
-            $.ajax({
-                type: "POST",
-                url: "api/user/policeHadArea.json",
-                data: {userid: $('#userid').val()},
-                success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
-                    }
-                    $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
-                    $iosMaskPolice.fadeIn(200);
-                    $('.police-choice-name').on('click', function () {
-                        $('#police').html($(this).text());
-                        var policeId = $(this).attr('id');
-                        $('#container').data('data-add-policeId', policeId);
-                        if ($('#police').text() != '') {
-                            $('#icon2').hide();
-                        }
-                        hideActionSheet();
-                    });
-                },
-                error: function () {
-                    console.log("error");
+        $.ajax({
+            type: "POST",
+            url: "api/user/policeHadArea.json",
+            data: {userid: $('#userid').val()},
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
                 }
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+        $('#police').on('click',function(){
+            $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
+            $iosMaskPolice.fadeIn(200);
+            $('.police-choice-name').on('click', function () {
+                $('#police').html($(this).text());
+                var policeId = $(this).attr('id');
+                $('#container').data('data-add-policeId', policeId);
+                if ($('#police').text() != '') {
+                    $('#icon2').hide();
+                }
+                hideActionSheet();
             });
          });
         //选择企业组别
@@ -301,7 +298,29 @@
                 $('#alert,#alertbackground').fadeOut(100);
             });
         });
-        //添加联系人
+        //删除及添加联系人
+        var touchMove;
+        var start;
+        $('.link-man').live("touchstart",function(e){
+            start = e.touches[0].pageX;
+        }).live("touchmove",function(e){
+            touchMove = e.touches[0].pageX;
+        }).live('touchend',function(e){
+            var _touch = e.changedTouches[0];
+            var _x= _touch.pageX;
+            var errand = _x - start;
+            if(errand>50){
+                $(this).parent().animate({left:'0px'},400,'linear');
+            }else if(errand<-50){
+                var _this = $(this);
+                var id = _this.attr('id');
+                $(this).parent().animate({left:'-50px'},400,'linear');
+                $(this).parent().siblings().animate({left:'0'},400,'linear');
+                $(this).siblings('.link-delete').click(function(){
+                    $(this).parent().remove();
+                });
+            }
+        });
         $('#add-linkman').on('click',function(){
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
@@ -316,15 +335,29 @@
             var WeXin = $('#WeXin').val();
             var Email = $('#E-mail').val();
             var Work = $('#Work').val();
+            var pattern = /^1[34578]\d{9}$/;
+            var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if(linkmanName.length==0||linkPhone.length==0){
+                $('#prompt').html('*请输入必填项');
                 $('#prompt').show();
-            }else{
-                    var html =  '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
-                                '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                                '<div class="weui-cell__bd bd-right label-phone">'+
-                                linkPhone+
-                                '</div>'+
-                                '</div>'
+            }else if(pattern.test(linkPhone)==false){
+                $('#prompt').html('*请输入正确的手机号码');
+                $('#prompt').show();
+            }else if(Email.length!=0){
+                if(email.test(Email)==false){
+                    $('#prompt').html('*请输入正确的邮箱账号');
+                    $('#prompt').show();
+                }
+            } else{
+                    var html =   '<div class="link-news-box">'+
+                                    '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
+                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                                    '<div class="weui-cell__bd bd-right label-phone">'+
+                                    linkPhone+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="link-delete">删除</div>'+
+                                    '</div>'
                         $('#link-box').append(html);
                         $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
             }
@@ -342,8 +375,19 @@
                 var WeXin = $('#WeXin').val();
                 var Email = $('#E-mail').val();
                 var Work = $('#Work').val();
-                if($('#linkName').val().length==0||$('#linkPhone').val().length==0){
+                var pattern = /^1[34578]\d{9}$/;
+                var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                if(linkmanName.length==0||linkPhone.length==0){
+                    $('#prompt').html('*请输入必填项');
                     $('#prompt').show();
+                }else if(pattern.test(linkPhone)==false){
+                    $('#prompt').html('*请输入正确的手机号码');
+                    $('#prompt').show();
+                }else if(Email.length!=0){
+                    if(email.test(Email)==false){
+                        $('#prompt').html('*请输入正确的邮箱账号');
+                        $('#prompt').show();
+                    }
                 }else{
                             _this.html($('#linkName').val());
                             _this_phone.html($('#linkPhone').val());
