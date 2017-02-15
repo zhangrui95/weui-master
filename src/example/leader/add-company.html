@@ -186,66 +186,62 @@
         $('#iosActionsheetCancel-police').on('click', hideActionSheet);
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
         $('#input-change').focus();
+        //选择企业分类
+            $('#classify').on('click',function(){
+                $('#choice-list').html('');
+                $.ajax({
+                    type: "POST",
+                    url: "api/companyType.json",
+                    data:{userid:$('#userid').val()},
+                    success: function (data) {
+                        for(var i = 0;i<data.length;i++){
+                            $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                        }
+                        $iosActionsheet.addClass('weui-actionsheet_toggle');
+                        $iosMask.fadeIn(200);
+                        $('.type-choice-name').on('click',function(){
+                            $('#classify').html($(this).text());
+                            var typeId = $(this).attr('id');
+                            $('#container').data('data-add-typeId',typeId);
+                            if($('#classify').text()!=''){
+                                $('#icon1').hide();
+                            }
+                            hideActionSheet();
+                        });
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+            });
+        //选择辖区
+        $('#police').on('click',function(){
+            $('#choice-list-police').html('');
             $.ajax({
                 type: "POST",
-                url: "api/companyType.json",
-                data:{userid:$('#userid').val()},
+                url: "api/user/policeHadArea.json",
+                data: {userid: $('#userid').val()},
                 success: function (data) {
-                    typeChoice(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                    }
+                    $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
+                    $iosMaskPolice.fadeIn(200);
+                    $('.police-choice-name').on('click', function () {
+                        $('#police').html($(this).text());
+                        var policeId = $(this).attr('id');
+                        $('#container').data('data-add-policeId', policeId);
+                        if ($('#police').text() != '') {
+                            $('#icon2').hide();
+                        }
+                        hideActionSheet();
+                    });
                 },
                 error: function () {
                     console.log("error");
                 }
             });
-        //选择企业分类
-        function typeChoice(data) {
-            $('#classify').on('click',function(){
-                for(var i = 0;i<data.length;i++){
-                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                }
-                $iosActionsheet.addClass('weui-actionsheet_toggle');
-                $iosMask.fadeIn(200);
-                $('.type-choice-name').on('click',function(){
-                    $('#classify').html($(this).text());
-                    var typeId = $(this).attr('id');
-                    $('#container').data('data-add-typeId',typeId);
-                    if($('#classify').text()!=''){
-                        $('#icon1').hide();
-                    }
-                    hideActionSheet();
-                });
-            });
-        };
-        $.ajax({
-            type: "POST",
-            url: "api/user/policeHadArea.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                policeChoice(data);
-            },
-            error: function () {
-                console.log("error");
-            }
-        });
-        //选择辖区
-        function policeChoice(data) {
-            $('#police').on('click',function(){
-                for(var i = 0;i<data.length;i++){
-                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                }
-                $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
-                $iosMaskPolice.fadeIn(200);
-                $('.police-choice-name').on('click',function(){
-                    $('#police').html($(this).text());
-                    var policeId = $(this).attr('id');
-                    $('#container').data('data-add-policeId',policeId);
-                    if($('#police').text()!=''){
-                        $('#icon2').hide();
-                    }
-                    hideActionSheet();
-                });
-            });
-        }
+         });
         //选择企业组别
         $('#group').on('click',function(){
             $iosActionsheets.addClass('weui-actionsheet_toggle');
