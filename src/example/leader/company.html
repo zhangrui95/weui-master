@@ -137,8 +137,7 @@
                             $('#androidDialog2').fadeOut(200);
                             $.ajax({
                                 type: "delete",
-                                url: "api/company/delete.json",
-                                data:{id:id},
+                                url: "api/company/delete.json?id="+id,
                                 success: function () {
                                     _this.parent().remove();
                                 },
