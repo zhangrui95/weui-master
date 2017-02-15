@@ -4,6 +4,7 @@
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
+    <form class="active" id="form-box"></form>
     <div class="page__bd details cells-ajax page_y"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -66,14 +67,6 @@
             <input type='text' id="linkPhone" placeholder="11位手机号码"/>
             <span class="star-red">*</span>
         </div>
-        <div class="td-style">
-            <div class="td-name">性别</div>
-            <select class="sex" id="sex">
-                <option value="">--请选择--</option>
-                <option value="0">男</option>
-                <option value="1">女</option>
-            </select>
-        </div>
         <div class="td-style" >
             <div class="td-name">微信号</div>
             <input type='text' id="WeXin" placeholder="微信账号"/>
@@ -89,6 +82,7 @@
         <div class="prompt active" id="prompt">*请输入必填项</div>
     </div>
     <div class="page-alert active" id="personbackground"></div>
+    <div class="page-alert active" id="changeground"></div>
     <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
         <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
     </div>
@@ -170,7 +164,7 @@
                                 for(var i=0;i<data.users.length;i++){
                                     var index = i+1;
                                     html +=
-                                    '<div class="none-flex cell-border cell-margin link-alert">' +
+                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'" >' +
                                     '<div class="weui-cell__hd"><label class="weui-label label-width" id="linkman">'+data.users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
                                         data.users[i].mobile +
@@ -201,13 +195,14 @@
                 $('#input-change').val(changeval);
                 //选择企业分类
                 $('#classify').on('click',function(){
+                    $('#choice-list').html('');
                     $.ajax({
                         type: "POST",
-                        url: "api/company/info.json",
+                        url: "api/companyType.json",
                         data:{userid:$('#userid').val()},
                         success: function (data) {
-                            for(var i = 0;i<data.types.length;i++){
-                                $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data.types[i].id+'>'+data.types[i].name+'</div>');
+                            for(var i = 0;i<data.length;i++){
+                                $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
                             }
                             $iosActionsheet.addClass('weui-actionsheet_toggle');
                             $iosMask.fadeIn(200);
@@ -267,10 +262,6 @@
                 //添加修改联系人
                 $('#add-linkman').on('click',function(){
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
-                    $('#sex').on('change',function(){
-                        var sex = $(this).val();
-                        $('#container').data('data-add-sex',sex);
-                    });
                     $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
                     $('#prompt').hide();
                     $('#personbackground').on('click',function(){
@@ -278,15 +269,10 @@
                     });
                 });
                 $('.link-man').live('click',function(){
-                    $('#sex').on('change',function(){
-                        var sex = $(this).val();
-                        console.log(sex);
-                        $('#container').data('data-add-sex',sex);
-                    });
                     $('#prompt').hide();
-                    $('#alert-person,#personbackground,#amend').fadeIn(100);
-                    $('#personbackground').on('click',function(){
-                        $('#alert-person,#personbackground,#amend').fadeOut(100);
+                    $('#alert-person,#changeground,#amend').fadeIn(100);
+                    $('#changeground').on('click',function(){
+                        $('#alert-person,#changeground,#amend').fadeOut(100);
                     });
                     var _this = $(this).find('.label-width');
                     var _this_phone = $(this).find('.label-phone');
@@ -298,23 +284,12 @@
                         var WeXin = $('#WeXin').val();
                         var Email = $('#E-mail').val();
                         var Work = $('#Work').val();
-                        var role = $('#container').data('data-add-sex');
                         if($('#linkName').val().length==0||$('#linkPhone').val().length==0){
                             $('#prompt').show();
                         }else{
-                            console.log(linkmanName,linkPhone,WeXin,Email,Work,role);
-                            $.ajax({
-                                type: "PUT",
-                                url: "api/company/update.json",
-                                data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
-                                success: function (data) {
-                                    _this.html($('#linkName').val());
-                                    _this_phone.html($('#linkPhone').val());
-                                    $('#alert-person,#personbackground,#amend').fadeOut(100);
-                                },
-                                error: function () {
-                                }
-                            });
+                            _this.html($('#linkName').val());
+                            _this_phone.html($('#linkPhone').val());
+                            $('#alert-person,#changeground,#amend').fadeOut(100);
                         }
                     });
                 });
@@ -341,10 +316,39 @@
                     var legalPersonPhone= $('#legal-phone').val();
                     var legalPersonMobile= $('#legal-company-tel-num').val();
                     var legalPersonCard = $('#IdCard').val();
+                    $('#form-box').html(
+                            '<input name="name" value="'+inputChange+'"/>'+
+                            '<input name="address" value="'+inputplace+'"/>'+
+                            '<input name="type" value="'+type+'"/>'+
+                            '<input name="groupType" value="'+group+'"/>'+
+                            '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
+                            '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
+                            '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
+                            '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
+                            '<div id="add-list-name"></div>'
+                    );
+                    var linkLength = $('#link-box').find('.link-alert').length;
+                    for(var i = 0;i<=linkLength-1;i++){
+                        var manLink = $('#link-box').find('.link-alert').eq(i);
+                        var name = manLink.data('name');
+                        var phone = manLink.data('phone');
+                        var WeXin = manLink.data('weixin');
+                        var Email = manLink.data('email');
+                        var Work = manLink.data('post');
+                        $('#add-list-name').append(
+                                '<input name="add['+i+'].name" value="'+name+'"/>'+
+                                '<input name="add['+i+'].mobile" value="'+phone+'"/>'+
+                                '<input name="add['+i+'].wid" value="'+WeXin+'"/>'+
+                                '<input name="add['+i+'].email" value="'+Email+'"/>'+
+                                '<input name="add['+i+'].post" value="'+Work+'"/>'
+                        );
+                    }
+                    var json = $('#form-box').serialize();
+                    console.log(json);
                     $.ajax({
                         type: "PUT",
                         url: "api/company/update.json",
-                        data:{name:inputChange,address:inputplace,type:type,groupType:group,legalPersonName:legalPersonName,legalPersonPhone:legalPersonPhone,legalPersonMobile:legalPersonMobile,legalPersonCard:legalPersonCard},
+                        data:json,
                         success: function () {
                             $('#notNull').hide();
                             var id = $('#showToast').data('id');
@@ -362,27 +366,17 @@
             var WeXin = $('#WeXin').val();
             var Email = $('#E-mail').val();
             var Work = $('#Work').val();
-            var role = $('#container').data('data-add-sex');
             if(linkmanName.length==0||linkPhone.length==0){
                 $('#prompt').show();
             }else{
-                $.ajax({
-                    type: "PUT",
-                    url: "api/company/update.json",
-                    data:{name:linkmanName,mobile:linkPhone,role:role,wid:WeXin,email:Email,post:Work},
-                    success: function (data) {
-                        var html =  '<div class="none-flex cell-border cell-margin link-alert link-man">'+
-                                '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                                '<div class="weui-cell__bd bd-right label-phone">'+
-                                linkPhone+
-                                '</div>'+
-                                '</div>'
-                        $('#link-box').append(html);
-                        $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
-                    },
-                    error: function () {
-                    }
-                });
+                var html =  '<div class="none-flex cell-border cell-margin link-alert link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
+                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                        '<div class="weui-cell__bd bd-right label-phone">'+
+                        linkPhone+
+                        '</div>'+
+                        '</div>'
+                $('#link-box').append(html);
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
             }
         });
         function  Toast() {

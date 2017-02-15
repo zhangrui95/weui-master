@@ -584,83 +584,58 @@ module.exports = [
         route: "/example/api/company/save.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({
-                name:'',
-                address:'',
-                type:'',
-                police:'',
-                fireState:'',
-                groupType:'',
-                officeBuilding:'',
-                legalPersonCard:'',
-                legalPersonName:'',
-                legalPersonPhone:'',
-                legalPersonMobile:'',
-                add:[
-                    {
-                        name:'',
-                        role:'',
-                        mobile:'',
-                        wid:'',
-                        email:'',
-                        post:''
-                    }
-            ]
-        }));
+            res.end(JSON.stringify({state:0}));
         }
     },
     {
         route: "/example/api/company/update.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({
-                id:'企业id',
-                name:'',
-                address:'',
-                type:'',
-                police:'',
-                fireState:'',
-                groupType:'',
-                officeBuilding:'',
-                legalPersonCard:'',
-                legalPersonName:'',
-                legalPersonPhone:'',
-                legalPersonMobile:'',
-                add:[
-                    {
-                        name:'',
-                        role:'',
-                        mobile:'',
-                        wid:'',
-                        email:'',
-                        post:''
-                    }
-                ],
-                upt:[//更新的数组
-                    {
-                        id:'',
-                    }
-                ],
-                del:[//删除用户的数组
-                    {
-                        id:'',
-                    }
-                ]
-        }));
+            res.end(JSON.stringify({state:0}));
         }
     },
     {
         route: "/example/api/company/close.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify());
+            res.end(JSON.stringify({state:0}));
         }
     },
     {
         route: "/example/api/company/delete.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify());
+            res.end(JSON.stringify({state:0}));
+        }
+    },
+    {
+        route: "/example/api/user/policeHadArea.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify( [
+                {id:'t1',name:'张三'},
+                {id:'t2',name:'王二'},
+                {id:'t3',name:'李四'},
+                {id:'t4',name:'孙七'},
+                {id:'t5',name:'柳柳'},
+                {id:'t6',name:'夏夏'},
+                {id:'t7',name:'佳佳'},
+            ]));
+        }
+    },
+    {
+        route: "/example/api/companyType.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify( [
+                {id:'t1',name:'饭店'},
+                {id:'t2',name:'幼儿园'},
+                {id:'t3',name:'医疗'},
+                {id:'t4',name:'洗浴'},
+                {id:'t5',name:'旅店'},
+                {id:'t6',name:'汽配'},
+                {id:'t7',name:'律师事务所'},
+            ]));
         }
     },
 
