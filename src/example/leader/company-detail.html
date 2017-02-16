@@ -264,7 +264,7 @@
                     var moveY = top -endY;
                     $('body').unbind();
                     if(moveX==0&&moveY==0){
-                        changeClick()
+                        changeClick();
                     }
                 });
             });
@@ -498,7 +498,9 @@
                    var inputChange = $('#company-name').text();
                    var inputplace = $('#company-place').text();
                    var type = $('#container').data('data-add-typeId');
+                   var police = $('#container').data('data-add-policeId');
                    var group = $('#container').data('data-add-groupId');
+                   var fire = $('#container').data('data-add-fireId');
                    var legalPersonName= $('#legal-person-name').val();
                    var legalPersonPhone= $('#legal-phone').val();
                    var legalPersonMobile= $('#legal-company-tel-num').val();
@@ -507,7 +509,9 @@
                            '<input name="name" value="'+inputChange+'"/>'+
                            '<input name="address" value="'+inputplace+'"/>'+
                            '<input name="type" value="'+type+'"/>'+
+                           '<input name="police" value="'+police+'"/>'+
                            '<input name="groupType" value="'+group+'"/>'+
+                           '<input name="fireState" value="'+fire+'"/>'+
                            '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
                            '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
                            '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
@@ -539,7 +543,7 @@
                    var json = $('#form-box').serialize();
                    $.ajax({
                        type: "post",
-                       url: "api/company/update.json",
+                       url: "api/company/update.json?userid="+$('#userid').val(),
                        data:json,
                        success: function () {
                            $('#notNull').hide();
@@ -550,14 +554,14 @@
                        }
                    });
                });
+               $('.link-delete').live('click',function(){
+                   var dele =$(this).siblings('.link-man').attr('id');
+                   $('#container').data('data-link-dele',dele);
+                   $('#dele-new').append($(this).parent().html());
+                   $(this).parent().remove();
+               });i
            }
         }
-        $('.link-delete').live('click',function(){
-            var dele =$(this).siblings('.link-man').attr('id');
-            $('#container').data('data-link-dele',dele);
-            $('#dele-new').append($(this).parent().html());
-            $(this).parent().remove();
-        });
         $('#news-save').on('click',function(){
             var linkmanName = $('#linkName').val();
             var linkPhone = $('#linkPhone').val();

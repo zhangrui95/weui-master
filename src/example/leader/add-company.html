@@ -9,42 +9,38 @@
             <div class="head-title">基本信息</div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
-                <div class="weui-cell__bd bd-right" id="company-name">
-                    <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业名称" id="input-change"/>
+                <div class="weui-cell__bd bd-right font-color" id="company-name">
+                    <input class="input-change fire-num-box-border font-color" type="text" placeholder="请输入企业名称" id="input-change"/>
                 </div>
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
-                <div class="weui-cell__bd bd-right place-top" id="company-place">
-                    <input class="input-change fire-num-box-border" type="text" placeholder="请输入企业地址"  value="" id="input-place"/>
+                <div class="weui-cell__bd bd-right font-color place-top" id="company-place">
+                    <input class="input-change fire-num-box-border font-color" type="text" placeholder="请输入企业地址"  value="" id="input-place"/>
                 </div>
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
-                    <div class="weui-cell__bd bd-right" id="classify"></div>
-                    <span class="num-right" id="icon1"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+                    <div class="weui-cell__bd bd-right font-color" id="classify">请选择</div>
             </div>
                 <div class="none-flex cell-border cell-margin">
                     <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                    <div class="weui-cell__bd bd-right" id="police"></div>
-                    <span class="num-right" id="icon2"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+                    <div class="weui-cell__bd bd-right font-color" id="police">请选择</div>
                 </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
-                <div class="weui-cell__bd bd-right" id="group"></div>
-                <span class="num-right" id="icon3"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+                <div class="weui-cell__bd bd-right font-color" id="group">请选择</div>
             </div>
              <div class="none-flex cell-border cell-margin head-title-border">
                     <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
-                    <div class="weui-cell__bd bd-right" id="fire"></div>
-                 <span class="num-right" id="icon4"><img class="icon-go icon-top" src="images/icon-go.jpg"></span>
+                    <div class="weui-cell__bd bd-right font-color" id="fire">请选择</div>
              </div>
             <div class="head-title">法人</div>
             <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
                 <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
-                    <div class="weui-cell__bd bd-right">
+                    <div class="weui-cell__bd bd-right font-color">
                         <div class="active" id="phone-num-box"><span id="mobile-num"></span><span id="symbol">/</span><span id="tel-num"></span></div>
-                        <span class="num-right"><img class="icon-go icon-top" id = 'legal-icon'src="images/icon-go.jpg"></span>
+                        <span class="" id = 'legal-icon'>请填写手机号/电话号</span>
                     </div>
                 </div>
             <div class="head-title">联系人</div>
@@ -360,7 +356,7 @@
                 var html =   '<div class="link-news-box">'+
                         '<div class="none-flex cell-border cell-margin link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
                         '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
-                        '<div class="weui-cell__bd bd-right label-phone">'+
+                        '<div class="weui-cell__bd bd-right font-color label-phone">'+
                         linkPhone+
                         '</div>'+
                         '</div>'+
