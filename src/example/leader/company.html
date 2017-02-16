@@ -77,6 +77,10 @@
             $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">'+'</span><span class="result-num"><span class="type-blue">'+data.count+'</span></span>');
         }
 
+        $('#default').on('click',function(){
+            $('#androidDialog2').fadeOut(200);
+        });
+
         var currDataListCfg = {
             url:'api/company.json',
             pagePanel:pagePanel,
@@ -95,40 +99,31 @@
                     Delete(id,_this);
                     Logout(id,_this);
                 });
-                var touchMove;
-                var start;
-                $('.weui-cell').on("touchstart",function(e){
-                    start = e.touches[0].pageX;
-                }).on("touchmove",function(e){
-                    touchMove = e.touches[0].pageX;
-                }).on('touchend',function(e){
-                    var _touch = e.changedTouches[0];
-                    var _x= _touch.pageX;
-                    var errand = _x - start;
-                    if(errand>50){
-                        $(this).find('.item-width').animate({width:'90%'},400,'linear');
-                        $(this).find('.size-new').animate({width:'220px'},400,'linear');
-                        $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
-                    }else if(errand<-50){
-                        var _this = $(this);
-                        var id = _this.attr('id');
-                        $(this).find('.item-width').animate({width:'72%'},400,'linear');
-                        $(this).find('.size-new').animate({width:'195px'},400,'linear');
-                        $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
-                        $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
-                        Delete(id,_this);
-                        Logout(id,_this);
-                    }else if(errand==0){
-                        var cid = $(this).attr('id');
-                        container.data('data-company-name-cid',cid);
-                        var id = $('.weui-cell').data('id');
-                        $('#taskId').val($(this).data('tid'));
-                        window.pageManager.go(id);
-                    }
+
+                $('.weui-cell').on('swipeLeft',function(e){
+                    console.log('swipeLeft',e.swipe)
+                    var _this = $(this);
+                    var id = _this.attr('id');
+                    $(this).find('.item-width').animate({width:'72%'},400,'linear');
+                    $(this).find('.size-new').animate({width:'195px'},400,'linear');
+                    $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
+                    $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
+                    Delete(id,_this);
+                    Logout(id,_this);
+                }).on('swipeRight',function(e){
+                    console.log('swipeRight',e.swipe)
+                    $(this).find('.item-width').animate({width:'90%'},400,'linear');
+                    $(this).find('.size-new').animate({width:'220px'},400,'linear');
+                    $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
+                }).on('click',function (e) {
+                    console.log('click',e.swipe)
+                    var cid = $(this).attr('id');
+                    container.data('data-company-name-cid',cid);
+                    var id = $('.weui-cell').data('id');
+                    $('#taskId').val($(this).data('tid'));
+                    window.pageManager.go(id);
                 });
-                $('#default').on('click',function(){
-                    $('#androidDialog2').fadeOut(200);
-                });
+
                 function Delete(id,_this) {
                     _this.siblings('.delete-box').find('.delete').on('click',function(){
                         $('#androidDialog2').fadeIn(200);
@@ -174,13 +169,7 @@
                         });
                     });
                 }
-//                $(".weui-cell").on('click',function () {
-//                        var cid = $(this).attr('id');
-//                        container.data('data-company-name-cid',cid);
-//                        var id = $('.weui-cell').data('id');
-//                        $('#taskId').val($(this).data('tid'));
-//                        window.pageManager.go(id);
-//                });
+
             },
             emptyCb : function () {
                 $('#list').html('<div class="empty-box">'+

@@ -306,34 +306,109 @@ $(function () {
         }
     };
 
+    var webMoveCfg = {
+        startEventName : 'mousedown',
+        endEventName : 'mouseup',
+        funcGetX : function(e){ return e.clientX; },
+        funcGetY : function(e){ return e.clientY; }
+    };
+
+    var mobileMoveCfg = {
+        startEventName : 'touchstart',
+        endEventName : 'touchend',
+        funcGetX : function(e){ return e.changedTouches[0].clientX; },
+        funcGetY : function(e){ return e.changedTouches[0].clientY; }
+    };
+
+    function moveCfg(supportTouch){
+        return supportTouch ? mobileMoveCfg : webMoveCfg
+    }
+
+    function isSupportTouch() {
+        try {
+            document.createEvent("TouchEvent");
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function doMove(supportTouch,_old$On,callback,blockCb){
+        var touchStartX, touchStartY,cfg = moveCfg(supportTouch);
+        _old$On.apply(this, [cfg.startEventName, function(e){
+            touchStartX = cfg.funcGetX(e);
+            touchStartY = cfg.funcGetY(e);
+        }]);
+        _old$On.apply(this, [cfg.endEventName, function(e){
+            if (touchStartX == null || touchStartY == null) return;
+            var touchEndX = cfg.funcGetX(e),touchEndY = cfg.funcGetY(e),
+                touchMoveX = touchStartX - touchEndX,touchMoveY = touchStartY - touchEndY,
+                touchX = touchMoveX>0?'left':'right',touchY = touchMoveY>0?'up':'down';
+            var swipe = {
+                touchStartX:touchStartX,
+                touchEndX:touchEndX,
+                touchMoveX:touchMoveX,
+                touchStartY:touchStartY,
+                touchEndY:touchEndY,
+                touchMoveY:touchMoveY,
+                touchX:touchX,
+                touchY:touchY
+            };
+            if (blockCb(swipe,this)) return;
+            e.preventDefault();
+            e.swipe = swipe;
+            callback.apply(this, [e]);
+        }]);
+    }
+
     function fastClick(){
-        var supportTouch = function(){
-            try {
-                document.createEvent("TouchEvent");
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }();
+        var supportTouch = isSupportTouch();
         var _old$On = $.fn.on;
 
+        var doClick = function(callback){
+            doMove.apply(this,[supportTouch,_old$On,callback,function (swipe) {
+                return Math.abs(swipe.touchMoveX) > 10 || Math.abs(swipe.touchMoveY) > 10
+            }]);
+        };
+
         $.fn.on = function(){
-            if(/click/.test(arguments[0]) && typeof arguments[1] == 'function' && supportTouch){ // 只扩展支持touch的当前元素的click事件
-                var touchStartY, callback = arguments[1];
-                _old$On.apply(this, ['touchstart', function(e){
-                    touchStartY = e.changedTouches[0].clientY;
-                }]);
-                _old$On.apply(this, ['touchend', function(e){
-                    if (touchStartY == null || Math.abs(e.changedTouches[0].clientY - touchStartY) > 10) return;
-                    e.preventDefault();
-                    callback.apply(this, [e]);
-                }]);
+            if(/click/.test(arguments[0]) && typeof arguments[1] == 'function'){ // 只扩展支持touch的当前元素的click事件
+                doClick.apply(this, [arguments[1]]);
             }else{
                 _old$On.apply(this, arguments);
             }
             return this;
         };
     }
+
+    function swipe(){
+        var supportTouch = isSupportTouch();
+        var _old$On = $.fn.on;
+
+        var doSwipe = function(callback,target){
+            doMove.apply(this,[supportTouch,_old$On,callback,function (swipe) {
+                return (Math.abs(swipe.touchMoveX) <= 50 && Math.abs(swipe.touchMoveY) <= 50) || (target!=null && target != swipe.touchX && target != swipe.touchY)
+            }]);
+        };
+
+        $.fn.on = function(){
+            if(/swipeUp/.test(arguments[0]) && typeof arguments[1] == 'function'){ // 只扩展支持touch的当前元素的click事件
+                doSwipe.apply(this, [arguments[1],'up']);
+            }else if(/swipeDown/.test(arguments[0]) && typeof arguments[1] == 'function'){
+                doSwipe.apply(this, [arguments[1],'down']);
+            }else if(/swipeLeft/.test(arguments[0]) && typeof arguments[1] == 'function'){
+                doSwipe.apply(this, [arguments[1],'left']);
+            }else if(/swipeRight/.test(arguments[0]) && typeof arguments[1] == 'function'){
+                doSwipe.apply(this, [arguments[1],'right']);
+            }else if(/swipe/.test(arguments[0]) && typeof arguments[1] == 'function'){
+                doSwipe.apply(this, [arguments[1]]);
+            }else{
+                _old$On.apply(this, arguments);
+            }
+            return this;
+        };
+    }
+
     function preload(){
         // $(window).on("load", function(){
         //     var imgList = [
@@ -452,6 +527,7 @@ $(function () {
     function init(){
         preload();
         fastClick();
+        swipe();
         androidInputBugFix();
         setJSAPI();
         window.dataList = dataList;
