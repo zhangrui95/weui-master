@@ -512,12 +512,17 @@
                     type: "POST",
                     url: "api/company/save.json?userid="+$('#userid').val(),
                     data:json,
-                    success: function () {
-                        $('#notNull').hide();
-                        var id = $('#showToast').data('id');
-                        window.pageManager.go(id);
+                    success: function (xhr) {
+                        if(xhr && xhr.state == 0){
+                            $('#notNull').hide();
+                            var id = $('#showToast').data('id');
+                            window.pageManager.go(id);
+                        }else{
+                            hint('添加失败');
+                        }
                     },
                     error: function () {
+                        hint('添加失败');
                     }
                 });
             }
