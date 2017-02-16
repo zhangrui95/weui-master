@@ -119,7 +119,8 @@
         </div>
         <div class="page-alert active" id="alertbackground">
             <div class="btn-box" data-id="employee_list" >
-                <a class="btn" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
+                <a class="imported-left none-style" href="javascript:" id="" data-id="police-company_list">取消</a>
+                <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
             </div>
         </div>
         <div class="blank active" id="alert-person">
@@ -150,10 +151,12 @@
         <div class="page-alert active" id="personbackground"></div>
         <div class="page-alert active" id="changeground"></div>
         <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
-            <a class="btn" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
+            <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
         </div>
         <div class="btn-box active" data-id="employee_list" id="amend">
-            <a class="btn" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
+            <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
         </div>
 </div>
 <script type="text/javascript">
@@ -325,7 +328,7 @@
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
             $('#prompt').hide();
-            $('#personbackground').on('click',function(){
+            $('#dis-none').on('click',function(){
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
             });
         });
@@ -403,7 +406,7 @@
                             $('#alert-person,#changeground,#amend').fadeOut(100);
                 }
             });
-            $('#changeground').on('click',function(){
+            $('#dis-none1').on('click',function(){
                 $('#alert-person,#changeground,#amend').fadeOut(100);
             });
         });
@@ -462,21 +465,20 @@
             }else if(classify.length==0||classify==''){
                 var hints = '*请选择企业分类';
                 hint(hints);
+            }else if($('#police').text().length==0||$('#police').text()==''){
+                var hints = '*请选择辖区';
+                hint(hints);
             }else if($('#group').text().length==0||$('#group').text()==''){
                 var hints = '*请选择企业组别';
                 hint(hints);
             }else if($('#fire').text().length==0||$('#fire').text()==''){
                 var hints = '*请选择消防等级';
                 hint(hints);
-            }else if($('#police').text().length==0||$('#police').text()==''){
-                var hints = '*请选择辖区';
-                hint(hints);
             }else if($('#link-box').text().length==0||$('#link-box').text()==''){
                 var hints = '*请添加企业联系人信息';
                 hint(hints);
             }else{
                 var json = $('#form-box').serialize();
-                console.log(json);
                 $.ajax({
                     type: "POST",
                     url: "api/company/save.json?userid="+$('#userid').val(),
