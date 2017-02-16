@@ -192,13 +192,13 @@
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="classify">'+
+                                '<div class="weui-cell__bd bd-right" id="classify" data-types="'+ data.company.type.id+'">'+
                                 type+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="police">' +
+                                    '<div class="weui-cell__bd bd-right" id="police" data-polices="'+ data.company.police.id+'">' +
                                 police+
                                 '</div>'+
                                 '</div>'+
@@ -227,8 +227,8 @@
                                     var index = i+1;
                                     html +=
                                     '<div class="link-news-box">'+
-                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'" id="'+data.users[i].id+'">' +
-                                    '<div class="weui-cell__hd"><label class="weui-label label-width" id="linkman">'+data.users[i].name+'</label></div>' +
+                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'"  data-weixin="'+data.users[i].wid+'" data-email="'+data.users[i].email+'" data-post="'+data.users[i].post+'" id="'+data.users[i].id+'">' +
+                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
                                         data.users[i].mobile +
                                     '</div>' +
@@ -532,13 +532,21 @@
                        var WeXin = manLink.data('weixin');
                        var Email = manLink.data('email');
                        var Work = manLink.data('post');
-                       $('#add-list-name').append(
-                               '<input name="upt['+i+'].name" value="'+name+'"/>'+
-                               '<input name="upt['+i+'].mobile" value="'+phone+'"/>'+
-                               '<input name="upt['+i+'].wid" value="'+WeXin+'"/>'+
-                               '<input name="upt['+i+'].email" value="'+Email+'"/>'+
-                               '<input name="upt['+i+'].post" value="'+Work+'"/>'
-                       );
+                       if(name!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].name" value="'+name+'"/>');
+                       }
+                       if(phone!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].mobile" value="'+phone+'"/>');
+                       }
+                       if(WeXin!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].wid" value="'+WeXin+'"/>');
+                       }
+                       if(Email!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].email" value="'+Email+'"/>');
+                       }
+                       if(Work!='undefined'){
+                           $('#add-list-name').append( '<input name="upt['+i+'].post" value="'+Work+'"/>');
+                       }
                    }
                    var json = $('#form-box').serialize();
                    $.ajax({
