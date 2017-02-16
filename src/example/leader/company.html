@@ -101,7 +101,6 @@
                 });
 
                 $('.weui-cell').on('swipeLeft',function(e){
-                    console.log('swipeLeft',e.swipe)
                     var _this = $(this);
                     var id = _this.attr('id');
                     $(this).find('.item-width').animate({width:'72%'},400,'linear');
@@ -111,12 +110,10 @@
                     Delete(id,_this);
                     Logout(id,_this);
                 }).on('swipeRight',function(e){
-                    console.log('swipeRight',e.swipe)
                     $(this).find('.item-width').animate({width:'90%'},400,'linear');
                     $(this).find('.size-new').animate({width:'220px'},400,'linear');
                     $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
                 }).on('click',function (e) {
-                    console.log('click',e.swipe)
                     var cid = $(this).attr('id');
                     container.data('data-company-name-cid',cid);
                     var id = $('.weui-cell').data('id');
@@ -194,10 +191,8 @@
                         '<div class="delete-box">'+
                         '<div class="delete" >删除</div>'+
                         '<div class="logout" >注销</div>'+
-                        '</div>'
-                        '</div>'
-
-                        ;
+                        '</div>'+
+                        '</div>';
             },
             before:function(){
                 $("#load").show();
