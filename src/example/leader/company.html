@@ -158,7 +158,7 @@
                         $('#primary').on('click',function(){
                             $('#androidDialog2').fadeOut(200);
                             $.ajax({
-                                type: "put",
+                                type: "post",
                                 url: "api/company/close.json?userid="+$('#userid').val(),
                                 data:{id:id},
                                 success: function () {

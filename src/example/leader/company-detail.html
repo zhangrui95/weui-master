@@ -489,7 +489,7 @@
                     var json = $('#form-box').serialize();
                     console.log(json);
                     $.ajax({
-                        type: "PUT",
+                        type: "post",
                         url: "api/company/update.json",
                         data:json,
                         success: function () {
