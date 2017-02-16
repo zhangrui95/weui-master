@@ -5,6 +5,7 @@
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
     <form class="active" id="form-box"></form>
+    <div class="active" id="dele-new"></div>
     <div class="page__bd details cells-ajax page_y"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -30,6 +31,25 @@
             </div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMask-fire" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet-fire">
+            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-list-fire">
+                <div class="weui-actionsheet__cell fire-choice-name" data-fire="0">非重点消防单位</div>
+                <div class="weui-actionsheet__cell fire-choice-name" data-fire="1">重点消防单位</div>
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
+            </div>
+    </div>
+    <div class="weui-mask" id="iosMask-police" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet-police">
+            <div class="weui-actionsheet__menu" id="choice-list-police"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel-police">取消</div>
             </div>
         </div>
     </div>
@@ -96,16 +116,28 @@
         var $iosMask = $('#iosMask');
         var $iosActionsheets = $('#iosActionsheets');
         var $iosMasks = $('#iosMasks');
+        var $iosActionsheetFire = $('#iosActionsheet-fire');
+        var $iosMaskFire = $('#iosMask-fire');
+        var $iosActionsheetPolice = $('#iosActionsheet-police');
+        var $iosMaskPolice = $('#iosMask-police');
         function hideActionSheet() {
             $iosActionsheet.removeClass('weui-actionsheet_toggle');
             $iosMask.fadeOut(200);
             $iosActionsheets.removeClass('weui-actionsheet_toggle');
             $iosMasks.fadeOut(200);
+            $iosActionsheetPolice.removeClass('weui-actionsheet_toggle');
+            $iosMaskPolice.fadeOut(200);
+            $iosActionsheetFire.removeClass('weui-actionsheet_toggle');
+            $iosMaskFire.fadeOut(200);
         }
         $iosMask.on('click', hideActionSheet);
         $iosMasks.on('click', hideActionSheet);
+        $iosMaskPolice.on('click', hideActionSheet);
+        $iosMaskFire.on('click', hideActionSheet);
         $('#iosActionsheetCancel').on('click', hideActionSheet);
         $('#iosActionsheetCancels').on('click', hideActionSheet);
+        $('#iosActionsheetCancel-police').on('click', hideActionSheet);
+        $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
         $gallery = $("#gallery"),
         $galleryImg = $("#galleryImg")
         var cid =  $('#container').data('data-company-name-cid');
@@ -124,7 +156,22 @@
             var address = data.company.address;
             address = address==null?'':address;
             var company = data.company.name;
+            var type = data.company.type.name;
             var police = data.company.police.name;
+            var groupType = data.company.groupType;
+            var fireState = data.company.fireState;
+            var group = '';
+            if(groupType==0){
+                group = '普通';
+            }else if(groupType==1){
+                group = '其他';
+            }
+            var fire = '';
+            if(fireState==0){
+                fire = '非重点消防单位';
+            }else if(fireState==1){
+                fire = '重点消防单位';
+            }
             company = company==null?'':company;
                 var html =      '<div id="news-change">'+
                                 '<div class="head-title">基本信息</div>'+
@@ -143,13 +190,25 @@
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
                                 '<div class="weui-cell__bd bd-right" id="classify">'+
-                                '饭店'+
+                                type+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="none-flex cell-border cell-margin">'+
+                                    '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
+                                    '<div class="weui-cell__bd bd-right" id="police">' +
+                                police+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="none-flex cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
+                                '<div class="weui-cell__bd bd-right" id="group">'+
+                                group+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border">'+
-                                '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="group">'+
-                                '普通'+
+                                    '<div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>'+
+                                    '<div class="weui-cell__bd bd-right" id="fire">' +
+                                fire+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
@@ -164,11 +223,14 @@
                                 for(var i=0;i<data.users.length;i++){
                                     var index = i+1;
                                     html +=
-                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'" >' +
+                                    '<div class="link-news-box">'+
+                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'" id="'+data.users[i].id+'">' +
                                     '<div class="weui-cell__hd"><label class="weui-label label-width" id="linkman">'+data.users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
                                         data.users[i].mobile +
                                     '</div>' +
+                                    '</div>'+
+                                    '<div class="link-delete">删除</div>'+
                                     '</div>'
                                 }
                                 html += '</div>';
@@ -218,6 +280,47 @@
                         }
                     });
                 });
+                //选择辖区
+                $.ajax({
+                    type: "POST",
+                    url: "api/user/policeHadArea.json",
+                    data: {userid: $('#userid').val()},
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                        }
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+                $('#police').on('click',function(){
+                    $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
+                    $iosMaskPolice.fadeIn(200);
+                    $('.police-choice-name').on('click', function () {
+                        $('#police').html($(this).text());
+                        var policeId = $(this).attr('id');
+                        $('#container').data('data-add-policeId', policeId);
+                        if ($('#police').text() != '') {
+                            $('#icon2').hide();
+                        }
+                        hideActionSheet();
+                    });
+                });
+                //选择消防等级
+                $('#fire').on('click',function(){
+                    $iosActionsheetFire.addClass('weui-actionsheet_toggle');
+                    $iosMaskFire.fadeIn(200);
+                    $('.fire-choice-name').on('click',function(){
+                        $('#fire').html($(this).text());
+                        var fireId = $(this).data('fire');
+                        $('#container').data('data-add-fireId',fireId);
+                        if($('#fire').text()!=''){
+                            $('#icon4').hide();
+                        }
+                        hideActionSheet();
+                    });
+                });
                 $('#group').on('click',function(){
                     $iosActionsheets.addClass('weui-actionsheet_toggle');
                     $iosMasks.fadeIn(200);
@@ -259,7 +362,26 @@
                 $('#news-change').after(
                         '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>'
                 );
-                //添加修改联系人
+                //删除及添加修改联系人
+                var touchMove;
+                var start;
+                $('.link-man').live("touchstart",function(e){
+                    start = e.touches[0].pageX;
+                }).live("touchmove",function(e){
+                    touchMove = e.touches[0].pageX;
+                }).live('touchend',function(e){
+                    var _touch = e.changedTouches[0];
+                    var _x= _touch.pageX;
+                    var errand = _x - start;
+                    if(errand>50){
+                        $(this).parent().animate({left:'0px'},400,'linear');
+                    }else if(errand<-50){
+                        var _this = $(this);
+                        var id = _this.attr('id');
+                        $(this).parent().animate({left:'-50px'},400,'linear');
+                        $(this).parent().siblings().animate({left:'0'},400,'linear');
+                    }
+                });
                 $('#add-linkman').on('click',function(){
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
                     $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
@@ -284,8 +406,23 @@
                         var WeXin = $('#WeXin').val();
                         var Email = $('#E-mail').val();
                         var Work = $('#Work').val();
-                        if($('#linkName').val().length==0||$('#linkPhone').val().length==0){
+                        var pattern = /^1[34578]\d{9}$/;
+                        var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                        if(linkmanName.length==0||linkPhone.length==0){
+                            $('#prompt').html('*请输入必填项');
                             $('#prompt').show();
+                        }else if(pattern.test(linkPhone)==false){
+                            $('#prompt').html('*请输入正确的手机号码');
+                            $('#prompt').show();
+                        }else if(Email.length!=0){
+                            if(email.test(Email)==false){
+                                $('#prompt').html('*请输入正确的邮箱账号');
+                                $('#prompt').show();
+                            }else{
+                                _this.html($('#linkName').val());
+                                _this_phone.html($('#linkPhone').val());
+                                $('#alert-person,#changeground,#amend').fadeOut(100);
+                            }
                         }else{
                             _this.html($('#linkName').val());
                             _this_phone.html($('#linkPhone').val());
@@ -325,8 +462,14 @@
                             '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
                             '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
                             '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
-                            '<div id="add-list-name"></div>'
+                            '<div id="add-list-name"></div>'+
+                            '<div id="dele-box"></div>'
                     );
+                    var deleLink = $('#dele-new').find('.link-alert').length;
+                    for(var i = 0;i<=deleLink-1;i++){
+                        var delId = $('#dele-new').find('.link-alert').eq(i).attr('id');
+                        $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                    }
                     var linkLength = $('#link-box').find('.link-alert').length;
                     for(var i = 0;i<=linkLength-1;i++){
                         var manLink = $('#link-box').find('.link-alert').eq(i);
@@ -336,18 +479,18 @@
                         var Email = manLink.data('email');
                         var Work = manLink.data('post');
                         $('#add-list-name').append(
-                                '<input name="add['+i+'].name" value="'+name+'"/>'+
-                                '<input name="add['+i+'].mobile" value="'+phone+'"/>'+
-                                '<input name="add['+i+'].wid" value="'+WeXin+'"/>'+
-                                '<input name="add['+i+'].email" value="'+Email+'"/>'+
-                                '<input name="add['+i+'].post" value="'+Work+'"/>'
+                                '<input name="upt['+i+'].name" value="'+name+'"/>'+
+                                '<input name="upt['+i+'].mobile" value="'+phone+'"/>'+
+                                '<input name="upt['+i+'].wid" value="'+WeXin+'"/>'+
+                                '<input name="upt['+i+'].email" value="'+Email+'"/>'+
+                                '<input name="upt['+i+'].post" value="'+Work+'"/>'
                         );
                     }
                     var json = $('#form-box').serialize();
                     console.log(json);
                     $.ajax({
                         type: "PUT",
-                        url: "api/company/update.json?userid="+$('#userid').val(),
+                        url: "api/company/update.json",
                         data:json,
                         success: function () {
                             $('#notNull').hide();
@@ -360,20 +503,46 @@
                 });
             });
         }
+        $('.link-delete').live('click',function(){
+            var dele =$(this).siblings('.link-man').attr('id');
+            $('#container').data('data-link-dele',dele);
+            $('#dele-new').append($(this).parent().html());
+            $(this).parent().remove();
+        });
         $('#news-save').on('click',function(){
             var linkmanName = $('#linkName').val();
             var linkPhone = $('#linkPhone').val();
             var WeXin = $('#WeXin').val();
             var Email = $('#E-mail').val();
             var Work = $('#Work').val();
+            var pattern = /^1[34578]\d{9}$/;
+            var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if(linkmanName.length==0||linkPhone.length==0){
+                $('#prompt').html('*请输入必填项');
                 $('#prompt').show();
-            }else{
-                var html =  '<div class="none-flex cell-border cell-margin link-alert link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
+            }else if(pattern.test(linkPhone)==false){
+                $('#prompt').html('*请输入正确的手机号码');
+                $('#prompt').show();
+            }else if(Email.length!=0){
+                if(email.test(Email)==false){
+                    $('#prompt').html('*请输入正确的邮箱账号');
+                    $('#prompt').show();
+                }else{
+                    Link();
+                }
+            } else{
+                Link();
+            }
+            function Link(){
+                var html =
+                        '<div class="link-news-box">'+
+                        '<div class="none-flex cell-border cell-margin link-alert link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
                         '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
                         '<div class="weui-cell__bd bd-right label-phone">'+
                         linkPhone+
                         '</div>'+
+                        '</div>'+
+                        '<div class="link-delete">删除</div>'+
                         '</div>'
                 $('#link-box').append(html);
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
