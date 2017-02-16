@@ -130,8 +130,15 @@
                             $.ajax({
                                 type: "delete",
                                 url: "api/company/delete.json?id="+id+"&userid="+$('#userid').val(),
-                                success: function () {
-                                    _this.parent().remove();
+                                success: function (xhr) {
+                                    if(xhr && xhr.state == 0){
+                                        _this.parent().remove();
+                                    }else{
+                                        $('#alert').fadeIn(200);
+                                        setTimeout(function () {
+                                            $('#alert').fadeOut(200);
+                                        }, 2000);
+                                    }
                                 },
                                 error: function () {
                                     $('#alert').fadeIn(200);
@@ -154,7 +161,14 @@
                                 url: "api/company/close.json?userid="+$('#userid').val(),
                                 data:{id:id},
                                 success: function () {
-                                    _this.parent().remove();
+                                    if(xhr && xhr.state == 0){
+                                        _this.parent().remove();
+                                    }else{
+                                        $('#alert').fadeIn(200);
+                                        setTimeout(function () {
+                                            $('#alert').fadeOut(200);
+                                        }, 2000);
+                                    }
                                 },
                                 error: function () {
                                     $('#alert').fadeIn(200);
