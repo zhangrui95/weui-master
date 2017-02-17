@@ -70,13 +70,12 @@
             <div class="td-name">身份证号</div>
             <input type='text' id="IdCard" placeholder="法人身份证号码"/>
         </div>
-    </div>
-    <div class="page-alert active" id="alertbackground">
-        <div class="btn-box" data-id="employee_list" >
+        <div class="button-box" data-id="employee_list" >
             <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="police-company_list">取消</a>
             <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
         </div>
     </div>
+    <div class="page-alert active" id="alertbackground"></div>
     <div class="blank active" id="alert-person">
         <div class="td-style td-top">
             <div class="td-name">姓名</div>
@@ -101,17 +100,17 @@
             <input type='text'id="Work" placeholder="工作职位"/>
         </div>
         <div class="prompt active" id="prompt">*请输入必填项</div>
+        <div class="button-box active" data-id="employee_list" id="person-news-change-btn">
+            <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
+        </div>
+        <div class="button-box active" data-id="employee_list" id="amend">
+            <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
+        </div>
     </div>
     <div class="page-alert active" id="personbackground"></div>
     <div class="page-alert active" id="changeground"></div>
-    <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
-        <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
-        <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
-    </div>
-    <div class="btn-box active" data-id="employee_list" id="amend">
-        <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
-        <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
-    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -555,16 +554,16 @@
                 fire = '重点消防单位';
             }
             if(legalPersonName==null){
-                legalPersonName='法人姓名'
+                legalPersonName=''
             }
             if(legalPersonCard==null){
                 legalPersonCard=''
             }
             if(legalPersonPhone==null){
-                legalPersonPhone='手机号'
+                legalPersonPhone=''
             }
             if(legalPersonMobile==null){
-                legalPersonMobile='电话号'
+                legalPersonMobile=''
             }
             company = company==null?'':company;
                 var html =      '<div id="news-change">'+

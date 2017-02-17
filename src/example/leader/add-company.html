@@ -53,7 +53,7 @@
                 <div id="link-box"></div>
                 <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
              </div>
-            <div class="not-null active" id="notNull">*请填选必填项</div>
+            <div class="prompt active" id="notNull">请填选必填项</div>
         </div>
         <div class="weui-gallery" id="gallery">
             <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -118,13 +118,12 @@
                 <div class="td-name">身份证号</div>
                 <input type='text' id="IdCard" placeholder="法人身份证号码"/>
             </div>
-        </div>
-        <div class="page-alert active" id="alertbackground">
-            <div class="btn-box" data-id="employee_list" >
+            <div class="button-box" data-id="employee_list" >
                 <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="police-company_list">取消</a>
                 <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
             </div>
         </div>
+        <div class="page-alert active" id="alertbackground"></div>
         <div class="blank active" id="alert-person">
             <div class="td-style td-top">
                 <div class="td-name">姓名</div>
@@ -148,18 +147,29 @@
                 <div class="td-name">职位</div>
                 <input type='text'id="Work" placeholder="工作职位"/>
             </div>
-            <div class="prompt active" id="prompt">*请输入必填项</div>
+            <!--<div class="prompt active" id="prompt">*请输入必填项</div>-->
+            <div class="prompt" id="prompt"><p>请输入必填项</p></div>
+            <div class="button-box active" data-id="employee_list" id="person-news-change-btn">
+                <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
+                <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
+            </div>
+            <div class="button-box  active" data-id="employee_list" id="amend">
+                <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
+                <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
+            </div>
         </div>
         <div class="page-alert active" id="personbackground"></div>
-        <div class="page-alert active" id="changeground"></div>
-        <div class="btn-box active" data-id="employee_list" id="person-news-change-btn">
-            <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
-            <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
-        </div>
-        <div class="btn-box active" data-id="employee_list" id="amend">
-            <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
-            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
-        </div>
+    <div class="page-alert active" id="changeground"></div>
+        <div class="js_dialog" id="androidDialog2" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog weui-skin_android">
+                <div class="weui-dialog__bd" id="dialog"></div>
+                <div class="weui-dialog__ft" id="primary-box">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+                </div>
+            </div>
+     </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -274,7 +284,6 @@
         //添加法人信息
         $('#legal-person').on('click',function(){
             $('#alert,#alertbackground').fadeIn(100);
-            $('#legal-person-name').focus();
             $('#new-save').on('click',function(){
                 $('#alert,#alertbackground').fadeOut(100);
                 var legalName = $('#legal-person-name').val();
@@ -323,7 +332,7 @@
             });
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
-            $('#linkName').focus();
+//            $('#linkName').focus();
             $('#prompt').hide();
             $('#dis-none').on('click',function(){
                 outPop();
@@ -339,15 +348,24 @@
             var pattern = /^1[34578]\d{9}$/;
             var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if(linkmanName.length==0||linkPhone.length==0){
-                $('#prompt').html('*请输入必填项');
-                $('#prompt').show();
+                $('#prompt').html('请输入必填项');
+                $('#prompt').fadeIn(100);
+                setTimeout(function () {
+                    $('#prompt').fadeOut(100);
+                }, 2000);
             }else if(pattern.test(linkPhone)==false){
-                $('#prompt').html('*请输入正确的手机号码');
-                $('#prompt').show();
+                $('#prompt').html('请输入正确的手机号码');
+                $('#prompt').fadeIn(100);
+                setTimeout(function () {
+                    $('#prompt').fadeOut(100);
+                }, 2000);
             }else if(Email.length!=0){
                 if(email.test(Email)==false){
-                    $('#prompt').html('*请输入正确的邮箱账号');
-                    $('#prompt').show();
+                    $('#prompt').html('请输入正确的邮箱账号');
+                    $('#prompt').fadeIn(100);
+                    setTimeout(function () {
+                        $('#prompt').fadeOut(100);
+                    }, 2000);
                 }else{
                     Link();
                 }
@@ -383,15 +401,22 @@
             manPan.data('email',Email);
             manPan.data('post',Work);
         }
-
+        $('#default').on('click',function(){
+            $('#androidDialog2').fadeOut(200);
+        });
         function bindEveryMan() {
             $('.link-man').on('swipeLeft',function (e) {
                 var _this = $(this);
                 var id = _this.attr('id');
                 $(this).parent().animate({left:'-50px'},400,'linear');
                 $(this).parent().siblings().animate({left:'0'},400,'linear');
-                $(this).siblings('.link-delete').click(function(){
-                    $(this).parent().remove();
+                $(this).siblings('.link-delete').on('click',function(){
+                    $('#androidDialog2').fadeIn(200);
+                    $('#dialog').html('确定删除该联系人');
+                    $('#primary').on('click',function(){
+                        $('#androidDialog2').fadeOut(200);
+                        _this.parent().remove();
+                    });
                 });
             }).on('swipeRight',function (e) {
                 $(this).parent().animate({left:'0px'},400,'linear');
@@ -412,15 +437,24 @@
                     var pattern = /^1[34578]\d{9}$/;
                     var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                     if(linkmanName.length==0||linkPhone.length==0){
-                        $('#prompt').html('*请输入必填项');
-                        $('#prompt').show();
+                        $('#prompt').html('请输入必填项');
+                        $('#prompt').fadeIn(100);
+                        setTimeout(function () {
+                            $('#prompt').fadeOut(100);
+                        }, 2000);
                     }else if(pattern.test(linkPhone)==false){
-                        $('#prompt').html('*请输入正确的手机号码');
-                        $('#prompt').show();
+                        $('#prompt').html('请输入正确的手机号码');
+                        $('#prompt').fadeIn(100);
+                        setTimeout(function () {
+                            $('#prompt').fadeOut(100);
+                        }, 2000);
                     }else if(Email.length!=0){
                         if(email.test(Email)==false){
-                            $('#prompt').html('*请输入正确的邮箱账号');
-                            $('#prompt').show();
+                            $('#prompt').html('请输入正确的邮箱账号');
+                            $('#prompt').fadeIn(100);
+                            setTimeout(function () {
+                                $('#prompt').fadeOut(100);
+                            }, 2000);
                         }else{
                             _this.html($('#linkName').val());
                             _this_phone.html($('#linkPhone').val());
@@ -439,13 +473,14 @@
                 });
             });
         }
-
-
         $('#showToast').on('click',function(){
             var hints = '';
             function hint(hints) {
                 $('#notNull').html(hints);
-                $('#notNull').show();
+                $('#notNull').fadeIn(100);
+                setTimeout(function () {
+                    $('#notNull').fadeOut(100);
+                }, 2000);
             }
             var inputChange = $('#input-change').val();
             var inputplace = $('#input-place').val();
@@ -488,25 +523,25 @@
                 );
             }
             if(inputChange.length==0||inputChange==''){
-                var hints = '*请输入企业名称';
+                var hints = '请输入企业名称';
                 hint(hints);
             }else if(inputplace.length==0||inputplace==''){
-                var hints = '*请输入企业地址';
+                var hints = '请输入企业地址';
                 hint(hints);
             }else if(classify=='请选择'){
-                var hints = '*请选择企业分类';
+                var hints = '请选择企业分类';
                 hint(hints);
             }else if($('#police').text()=='请选择'){
-                var hints = '*请选择辖区';
+                var hints = '请选择辖区';
                 hint(hints);
             }else if($('#group').text()=='请选择'){
-                var hints = '*请选择企业组别';
+                var hints = '请选择企业组别';
                 hint(hints);
             }else if($('#fire').text()=='请选择'){
-                var hints = '*请选择消防等级';
+                var hints = '请选择消防等级';
                 hint(hints);
             }else if($('#link-box').text().length==0||$('#link-box').text()==''){
-                var hints = '*请添加企业联系人信息';
+                var hints = '请添加企业联系人信息';
                 hint(hints);
             }else{
                 var json = $('#form-box').serialize();
@@ -528,7 +563,6 @@
                     }
                 });
             }
-
         });
     });
 </script>

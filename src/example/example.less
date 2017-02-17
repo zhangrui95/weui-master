@@ -466,12 +466,19 @@ body, .page {
     margin-right: 10px;
 }
 .prompt{
-    width: 80%;
-    color:red;
-    font-size: 12px;
-    height: 22px;
-    line-height: 22px;
-    margin: 0 auto;
+    position: fixed;
+    z-index: 5000;
+    width: 7.6em;
+    top: 180px;
+    left: 50%;
+    margin-left: -3.8em;
+    background: rgba(40,40,40,.75);
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    line-height: 1.6em;
+    padding: 18px 10px;
+    display: none;
 }
 
 .header-img{
@@ -675,6 +682,26 @@ body, .page {
         background: #4493d5;
     }
 }
+.button-box{
+    width: 100%;
+    padding-top:30px;
+    background: #FFFFFF;
+    height: 60px;
+    .btn-bg{
+        width: 40%;
+        border: 1px solid #55A3E7;
+        height: 44px;
+        line-height: 44px;
+    }
+    .none-style{
+        width: 40%;
+        border: 1px solid #ff5a54;
+        color: #ff5a54;
+        border-radius: 5px;
+        height: 44px;
+        line-height: 44px;
+    }
+}
 .btn-box{
     width: 100%;
     padding-top:15px;
@@ -682,7 +709,6 @@ body, .page {
     //box-shadow:  0 -20px 40px #fff;
    border-top:1px solid #eee;
     position: absolute;
-    z-index: 2000;
     height: 60px;
     bottom: 0;
     .two-box-btn{
@@ -1900,10 +1926,11 @@ body, .page {
 }
 .blank{
     width: 100%;
+    height: 100%;
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
-    z-index: 1999;
+    z-index: 2000;
 }
 .star-red{
     color: red;
