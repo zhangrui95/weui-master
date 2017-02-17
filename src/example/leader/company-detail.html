@@ -486,6 +486,8 @@
                     var object = 'upt['+i+']';
                     if(id==null){
                         object = 'add['+j+']';
+                    }else{
+                        $('#add-list-name').append('<input name="'+object+'.id" value="'+id+'"/>');
                     }
                     if(name!=null){
                         $('#add-list-name').append('<input name="'+object+'.name" value="'+name+'"/>');
