@@ -490,22 +490,23 @@
                         '<input name="add['+i+'].post" value="'+Work+'"/>'
                 );
             }
+            console.log(classify)
             if(inputChange.length==0||inputChange==''){
                 var hints = '*请输入企业名称';
                 hint(hints);
             }else if(inputplace.length==0||inputplace==''){
                 var hints = '*请输入企业地址';
                 hint(hints);
-            }else if(classify.length==0||classify==''){
+            }else if(classify=='请选择'){
                 var hints = '*请选择企业分类';
                 hint(hints);
-            }else if($('#police').text().length==0||$('#police').text()==''){
+            }else if($('#police').text()=='请选择'){
                 var hints = '*请选择辖区';
                 hint(hints);
-            }else if($('#group').text().length==0||$('#group').text()==''){
+            }else if($('#group').text()=='请选择'){
                 var hints = '*请选择企业组别';
                 hint(hints);
-            }else if($('#fire').text().length==0||$('#fire').text()==''){
+            }else if($('#fire').text()=='请选择'){
                 var hints = '*请选择消防等级';
                 hint(hints);
             }else if($('#link-box').text().length==0||$('#link-box').text()==''){
