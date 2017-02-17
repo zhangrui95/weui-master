@@ -192,25 +192,25 @@
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="classify" data-types="'+ data.company.type.id+'">'+
+                                '<div class="weui-cell__bd bd-right blur" id="classify" data-types="'+ data.company.type.id+'">'+
                                 type+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="police" data-polices="'+ data.company.police.id+'">' +
+                                    '<div class="weui-cell__bd bd-right blur" id="police" data-polices="'+ data.company.police.id+'">' +
                                 police+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="group"  data-groups="'+groupType+'">'+
+                                '<div class="weui-cell__bd bd-right blur" id="group"  data-groups="'+groupType+'">'+
                                 group+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="fire" data-fires="'+fireState+'">' +
+                                    '<div class="weui-cell__bd bd-right blur" id="fire" data-fires="'+fireState+'">' +
                                 fire+
                                 '</div>'+
                                 '</div>'+
@@ -381,6 +381,9 @@
                        hideActionSheet();
                    });
                });
+               $('.blur').on('click',function(){
+                   $('#input-change,#textarea-place').blur();
+               });
                //法人信息修改
                $('#legal-person').on('click',function(){
                    $('#alert,#alertbackground').fadeIn(100);
@@ -454,6 +457,22 @@
                    var _this_phone = $(this).find('.label-phone');
                    $('#linkName').val(_this.text());
                    $('#linkPhone').val(_this_phone.text());
+                   var weixin = $(this).data('weixin');
+                   if(weixin=='undefined'){
+                       weixin='';
+                   }
+                   $('#WeXin').val(weixin);
+                   var email = $(this).data('email');
+                   if(email=='undefined'){
+                       email='';
+                   }
+                   $('#E-mail').val(email);
+                   $('#WeXin').val(weixin);
+                   var post = $(this).data('post');
+                   if(post=='undefined'){
+                       post='';
+                   }
+                   $('#Work').val(post);
                    $('#amend-new').on('click',function(){
                        var linkmanName = $('#linkName').val();
                        var linkPhone = $('#linkPhone').val();

@@ -23,22 +23,22 @@
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
-                <div class="weui-cell__bd bd-right font-color" id="classify">请选择</div>
+                <div class="weui-cell__bd bd-right font-color blur" id="classify">请选择</div>
                 <div  class="red-star">*</div>
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                <div class="weui-cell__bd bd-right font-color" id="police">请选择</div>
+                <div class="weui-cell__bd bd-right font-color blur" id="police">请选择</div>
                 <div class="red-star">*</div>
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
-                <div class="weui-cell__bd bd-right font-color" id="group">请选择</div>
+                <div class="weui-cell__bd bd-right font-color blur" id="group">请选择</div>
                 <div class="red-star">*</div>
             </div>
              <div class="none-flex cell-border cell-margin head-title-border">
                     <div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>
-                    <div class="weui-cell__bd bd-right font-color" id="fire">请选择</div>
+                    <div class="weui-cell__bd bd-right font-color blur" id="fire">请选择</div>
                     <div class="red-star">*</div>
              </div>
             <div class="head-title">法人</div>
@@ -302,6 +302,9 @@
                 $('#alert,#alertbackground').fadeOut(100);
             });
         });
+        $('.blur').on('click',function(){
+            $('#input-change,#input-place').blur();
+        });
         //删除及添加联系人
 //        var touchMove;
 //        var start;
@@ -329,6 +332,7 @@
         $('#add-linkman').on('click',function(){
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
+            $('#linkName').focus();
             $('#prompt').hide();
             $('#dis-none').on('click',function(){
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
@@ -490,7 +494,6 @@
                         '<input name="add['+i+'].post" value="'+Work+'"/>'
                 );
             }
-            console.log(classify)
             if(inputChange.length==0||inputChange==''){
                 var hints = '*请输入企业名称';
                 hint(hints);
