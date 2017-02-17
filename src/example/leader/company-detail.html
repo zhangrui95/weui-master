@@ -233,7 +233,7 @@
                                     post = post == null ? '':' data-post="'+post+'"';
                                     html +=
                                     '<div class="link-news-box">'+
-                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+users[i].name+'" data-phone="'+users[i].mobile+'" '+wid+email+post+' id="'+users[i].id+'">' +
+                                    '<div class="none-flex cell-border cell-margin link-alert old-link"  data-name="'+users[i].name+'" data-phone="'+users[i].mobile+'" '+wid+email+post+' id="'+users[i].id+'">' +
                                     '<div class="weui-cell__hd"><label class="weui-label label-width">'+users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
                                         users[i].mobile +
@@ -566,7 +566,7 @@
                            $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
                        }
                    }
-
+                   var oldLength = $('#link-box .old-link').length;
                    $('#link-box').find('.link-alert').each(function(i){
                        var manLink = $(this);
                        var name = manLink.data('name');
@@ -574,20 +574,26 @@
                        var WeXin = manLink.data('weixin');
                        var Email = manLink.data('email');
                        var Work = manLink.data('post');
+                       var id = $(this).attr('id');
+                       var j = i-oldLength;
+                       var object = 'upt['+i+']';
+                       if(id==null){
+                           object = 'add['+j+']';
+                       }
                        if(name!=null){
-                           $('#add-list-name').append('<input name="upt['+i+'].name" value="'+name+'"/>');
+                           $('#add-list-name').append('<input name="'+object+'.name" value="'+name+'"/>');
                        }
                        if(phone!=null){
-                           $('#add-list-name').append('<input name="upt['+i+'].mobile" value="'+phone+'"/>');
+                           $('#add-list-name').append('<input name="'+object+'.mobile" value="'+phone+'"/>');
                        }
                        if(WeXin!=null){
-                           $('#add-list-name').append('<input name="upt['+i+'].wid" value="'+WeXin+'"/>');
+                           $('#add-list-name').append('<input name="'+object+'.wid" value="'+WeXin+'"/>');
                        }
                        if(Email!=null){
-                           $('#add-list-name').append('<input name="upt['+i+'].email" value="'+Email+'"/>');
+                           $('#add-list-name').append('<input name="'+object+'.email" value="'+Email+'"/>');
                        }
                        if(Work!=null){
-                           $('#add-list-name').append( '<input name="upt['+i+'].post" value="'+Work+'"/>');
+                           $('#add-list-name').append( '<input name="'+object+'.post" value="'+Work+'"/>');
                        }
                    });
                    var json = $('#form-box').serialize();
