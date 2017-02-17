@@ -163,6 +163,10 @@
             var police = data.company.police.name;
             var groupType = data.company.groupType;
             var fireState = data.company.fireState;
+            var legalPersonCard = data.company.legalPersonCard;
+            var legalPersonName = data.company.legalPersonName;
+            var legalPersonPhone = data.company.legalPersonPhone;
+            var legalPersonMobile = data.company.legalPersonMobile;
             var group = '未选择';
             if(groupType==0){
                 group = '普通';
@@ -174,6 +178,18 @@
                 fire = '非重点消防单位';
             }else if(fireState==1){
                 fire = '重点消防单位';
+            }
+            if(legalPersonName==null){
+                legalPersonName='法人姓名'
+            }
+            if(legalPersonCard==null){
+                legalPersonCard=''
+            }
+            if(legalPersonPhone==null){
+                legalPersonPhone='手机号'
+            }
+            if(legalPersonMobile==null){
+                legalPersonMobile='电话号'
             }
             company = company==null?'':company;
                 var html =      '<div id="news-change">'+
@@ -216,9 +232,9 @@
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
-                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+data.company.legalPersonCard+'">'+data.company.legalPersonName+'</label></div>'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+legalPersonCard+'">'+legalPersonName+'</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                '<span id="mobile-num">'+data.company.legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+data.company.legalPersonMobile+'</span>'+
+                                '<span id="mobile-num">'+legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+legalPersonMobile+'</span>'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'+
