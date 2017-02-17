@@ -361,6 +361,7 @@
                 $('#dis-none1').on('click',function(){
                     $('#alert-person,#changeground,#amend').fadeOut(100);
                 });
+                var manPan = $(this);
                 var _this = $(this).find('.label-width');
                 var _this_phone = $(this).find('.label-phone');
                 $('#linkName').val(_this.text());
@@ -403,11 +404,13 @@
                             _this.html($('#linkName').val());
                             _this_phone.html($('#linkPhone').val());
                             $('#alert-person,#changeground,#amend').fadeOut(100);
+                            motifyMan(manPan);
                         }
                     }else{
                         _this.html($('#linkName').val());
                         _this_phone.html($('#linkPhone').val());
                         $('#alert-person,#changeground,#amend').fadeOut(100);
+                        motifyMan(manPan);
                     }
                 });
             });
@@ -528,6 +531,19 @@
                 $('#dele-new').append($(this).parent().html());
                 $(this).parent().remove();
             });
+        }
+
+        function motifyMan(manPan){
+            var linkmanName = $('#linkName').val();
+            var linkPhone = $('#linkPhone').val();
+            var WeXin = $('#WeXin').val();
+            var Email = $('#E-mail').val();
+            var Work = $('#Work').val();
+            manPan.data('name',linkmanName);
+            manPan.data('phone',linkPhone);
+            manPan.data('weixin',WeXin);
+            manPan.data('email',Email);
+            manPan.data('post',Work);
         }
 
         function lists(data) {
