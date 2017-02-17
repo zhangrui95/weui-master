@@ -23,10 +23,10 @@
                 <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
                     <div class="weui-cell__bd bd-right font-color" id="classify">请选择</div>
             </div>
-                <div class="none-flex cell-border cell-margin">
-                    <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                    <div class="weui-cell__bd bd-right font-color" id="police">请选择</div>
-                </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right font-color" id="police">请选择</div>
+            </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
                 <div class="weui-cell__bd bd-right font-color" id="group">请选择</div>
@@ -183,7 +183,6 @@
         $('#iosActionsheetCancels').on('click', hideActionSheet);
         $('#iosActionsheetCancel-police').on('click', hideActionSheet);
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
-        $('#input-change').focus();
         //选择企业分类
         $.ajax({
             type: "POST",
@@ -528,5 +527,5 @@
             }
 
         });
-    })
+    });
 </script>
