@@ -81,6 +81,96 @@
             $('#androidDialog2').fadeOut(200);
         });
 
+        function confirmDialog(msg,callback){
+            $('#androidDialog2').fadeIn(200);
+            $('#dialog').html(msg);
+            $('#primary').unbind().on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+                callback();
+            });
+        }
+
+        function Delete(id,_this) {
+            console.log('bind delete',id)
+            _this.siblings('.delete-box').find('.delete').on('click',function(){
+                confirmDialog('确定删除该企业？',function(){
+                    $.ajax({
+                        type: "delete",
+                        url: "api/company/delete.json?id="+id+"&userid="+$('#userid').val(),
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 0){
+                                _this.parent().remove();
+                            }else{
+                                $('#alert').fadeIn(200);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(200);
+                                }, 2000);
+                            }
+                        },
+                        error: function () {
+                            $('#alert').fadeIn(200);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(200);
+                            }, 2000);
+                        }
+                    });
+                });
+            });
+        }
+
+        function  Logout(id,_this){
+            console.log('bind Logout',id)
+            _this.siblings('.delete-box').find('.logout').on('click',function(){
+                confirmDialog('确定注销该企业？',function () {
+                    $.ajax({
+                        type: "post",
+                        url: "api/company/close.json?userid="+$('#userid').val(),
+                        data:{id:id},
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 0){
+                                _this.parent().remove();
+                            }else{
+                                $('#alert').fadeIn(200);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(200);
+                                }, 2000);
+                            }
+                        },
+                        error: function () {
+                            $('#alert').fadeIn(200);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(200);
+                            }, 2000);
+                        }
+                    });
+                });
+            });
+        }
+
+        var isCellEditModel = false;
+
+        function showCellAction(cell){
+            isCellEditModel = true;
+            cell.find('.item-width').animate({width:'72%'},400,'linear');
+            cell.find('.size-new').animate({width:'195px'},400,'linear');
+            cell.parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
+            cell.siblings('.delete-box').animate({right:'0'},400,'linear');
+        }
+
+        function hideCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},400,'linear');
+            cell.find('.size-new').animate({width:'220px'},400,'linear');
+            cell.siblings('.delete-box').animate({right:'-101px'},400,'linear');
+        }
+
+        function hideAllCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},400,'linear');
+            cell.find('.size-new').animate({width:'220px'},400,'linear');
+            cell.parent().parent().find('.delete-box').animate({right:'-101px'},400,'linear');
+        }
+
         var currDataListCfg = {
             url:'api/company.json',
             pagePanel:pagePanel,
@@ -89,97 +179,31 @@
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
                 result(xhr);
-                $('.icon-delete').on('click',function(){
-                    $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
-                    $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
-                    $(this).siblings('.weui-cell').find('.item-width').animate({width:'72%'},400,'linear');
-                    $(this).siblings('.weui-cell').find('.size-new').animate({width:'195px'},400,'linear');
+
+                $('.icon-delete').each(function(){
                     var _this = $(this);
                     var id = _this.siblings('.weui-cell').attr('id');
                     Delete(id,_this);
                     Logout(id,_this);
+                }).on('click',function(){
+                    showCellAction($(this).siblings('.weui-cell'));
                 });
 
                 $('.weui-cell').on('swipeLeft',function(e){
-                    var _this = $(this);
-                    var id = _this.attr('id');
-                    $(this).find('.item-width').animate({width:'72%'},400,'linear');
-                    $(this).find('.size-new').animate({width:'195px'},400,'linear');
-                    $(this).parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
-                    $(this).siblings('.delete-box').animate({right:'0'},400,'linear');
-                    Delete(id,_this);
-                    Logout(id,_this);
+                    showCellAction($(this));
                 }).on('swipeRight',function(e){
-                    $(this).find('.item-width').animate({width:'90%'},400,'linear');
-                    $(this).find('.size-new').animate({width:'220px'},400,'linear');
-                    $(this).siblings('.delete-box').animate({right:'-101px'},400,'linear');
+                    hideCellAction($(this));
                 }).on('click',function (e) {
-                    var cid = $(this).attr('id');
-                    container.data('data-company-name-cid',cid);
-                    var id = $('.weui-cell').data('id');
-                    $('#taskId').val($(this).data('tid'));
-                    window.pageManager.go(id);
+                    if(isCellEditModel){
+                        hideAllCellAction($(this));
+                    }else{
+                        var cid = $(this).attr('id');
+                        container.data('data-company-name-cid',cid);
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    }
                 });
-
-                function Delete(id,_this) {
-                    _this.siblings('.delete-box').find('.delete').on('click',function(){
-                        $('#androidDialog2').fadeIn(200);
-                        $('#dialog').html('确定删除该企业？');
-                        $('#primary').on('click',function(){
-                            $('#androidDialog2').fadeOut(200);
-                            $.ajax({
-                                type: "delete",
-                                url: "api/company/delete.json?id="+id+"&userid="+$('#userid').val(),
-                                success: function (xhr) {
-                                    if(xhr && xhr.state == 0){
-                                        _this.parent().remove();
-                                    }else{
-                                        $('#alert').fadeIn(200);
-                                        setTimeout(function () {
-                                            $('#alert').fadeOut(200);
-                                        }, 2000);
-                                    }
-                                },
-                                error: function () {
-                                    $('#alert').fadeIn(200);
-                                    setTimeout(function () {
-                                        $('#alert').fadeOut(200);
-                                    }, 2000);
-                                }
-                            });
-                        });
-                    });
-                }
-                function  Logout(id,_this){
-                    _this.siblings('.delete-box').find('.logout').on('click',function(){
-                        $('#androidDialog2').fadeIn(200);
-                        $('#dialog').html('确定注销该企业？')
-                        $('#primary').on('click',function(){
-                            $('#androidDialog2').fadeOut(200);
-                            $.ajax({
-                                type: "post",
-                                url: "api/company/close.json?userid="+$('#userid').val(),
-                                data:{id:id},
-                                success: function () {
-                                    if(xhr && xhr.state == 0){
-                                        _this.parent().remove();
-                                    }else{
-                                        $('#alert').fadeIn(200);
-                                        setTimeout(function () {
-                                            $('#alert').fadeOut(200);
-                                        }, 2000);
-                                    }
-                                },
-                                error: function () {
-                                    $('#alert').fadeIn(200);
-                                    setTimeout(function () {
-                                        $('#alert').fadeOut(200);
-                                    }, 2000);
-                                }
-                            });
-                        });
-                    });
-                }
 
             },
             emptyCb : function () {
