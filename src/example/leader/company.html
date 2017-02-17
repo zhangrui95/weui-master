@@ -91,7 +91,6 @@
         }
 
         function Delete(id,_this) {
-            console.log('bind delete',id)
             _this.siblings('.delete-box').find('.delete').on('click',function(){
                 confirmDialog('确定删除该企业？',function(){
                     $.ajax({
@@ -119,7 +118,6 @@
         }
 
         function  Logout(id,_this){
-            console.log('bind Logout',id)
             _this.siblings('.delete-box').find('.logout').on('click',function(){
                 confirmDialog('确定注销该企业？',function () {
                     $.ajax({
