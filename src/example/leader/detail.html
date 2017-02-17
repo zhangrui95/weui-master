@@ -37,9 +37,10 @@
             if(rota != null && rota.length > 0){
                 rota = rota[0].user.name;
             }
-            var address = task.user.address;
+            var companyObj = task.company||{};
+            var address = companyObj.address;
             address = address==null?'':address;
-            var company = task.user.company;
+            var company = companyObj.name;
             company = company==null?'':company;
             var html ='<div class="weui-cells weui-cells_form cells-margin" id="'+task.id+'">' +
                         '<div class="none-flex cell-top">'+
