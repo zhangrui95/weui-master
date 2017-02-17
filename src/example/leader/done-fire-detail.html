@@ -40,6 +40,17 @@
         var cid =  container.data('data-company-name-cid');
         var $gallery = $("#gallery"),
                 $galleryImg = $("#galleryImg");
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
         $.ajax({
             type: "POST",
             url: "api/company/detail.json",
@@ -75,10 +86,14 @@
                     $('#time').html(getLocalTime(data.createTime));
                 }
                 $('.fire-img-list').on("click", function(){
+                    inPop(function(){
+                        $gallery.fadeOut(100);
+                    });
                     $galleryImg.attr("src", this.getAttribute("src"));
                     $gallery.fadeIn(100);
                 });
                 $gallery.on("click", function(){
+                    outPop();
                     $gallery.fadeOut(100);
                 });
                 var width = $('.img-detail').width();

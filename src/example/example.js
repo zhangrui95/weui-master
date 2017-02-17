@@ -8,6 +8,7 @@ $(function () {
         _pageStack: [],
         _configs: [],
         _pageAppend: function(){},
+        _beforeHashchangeOnce: undefined,
         _defaultPage: null,
         _pageIndex: 1,
         setDefault: function (defaultPage) {
@@ -18,13 +19,33 @@ $(function () {
             this._pageAppend = pageAppend;
             return this;
         },
+        setBeforeHashchangeOnce: function (beforeHashchangeOnce) {
+            this._beforeHashchangeOnce = beforeHashchangeOnce;
+            return this;
+        },
         init: function () {
             var self = this;
 
-            $(window).on('hashchange', function () {
+            $(window).on('hashchange', function (e) {
+                var _beforeHashchangeOnce = self._beforeHashchangeOnce;
+                if(_beforeHashchangeOnce){
+                    self._beforeHashchangeOnce = null;
+                    if(!_beforeHashchangeOnce(e)){
+                        var oldURL = e.oldURL,idx = oldURL.indexOf('#');
+                        var oldHash = idx > 0 ? oldURL.substring(idx+1,oldURL.length) : '';
+                        var oldPage = self._find('url', '#'+oldHash) || self._defaultPage;
+                        oldPage.isPopQuit = true;
+                        location.hash = oldHash;
+                        return ;
+                    }
+                }
                 var state = history.state || {};
                 var url = location.hash.indexOf('#') === 0 ? location.hash : '#';
                 var page = self._find('url', url) || self._defaultPage;
+                if(page.isPopQuit){
+                    page.isPopQuit = false;
+                    return;
+                }
                 if (state._pageIndex <= self._pageIndex || self._findInStack(url)) {
                     self._back(page);
                 } else {

@@ -6,8 +6,8 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        $gallery = $("#gallery"),
-        $galleryImg = $("#galleryImg")
+        var $gallery = $("#gallery"),
+            $galleryImg = $("#galleryImg");
         document.title = '详情';
         $.ajax({
             type: "POST",
@@ -20,6 +20,17 @@
                 console.log("error");
             }
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
         function lists(data) {
             var task = data.task;
             var rota = data.rota;
@@ -91,10 +102,14 @@
             html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
+                inPop(function(){
+                    $gallery.fadeOut(100);
+                });
                 $galleryImg.attr("src", this.getAttribute("src"));
                 $gallery.fadeIn(100);
             });
             $gallery.on("click", function(){
+                outPop();
                 $gallery.fadeOut(100);
             });
         }

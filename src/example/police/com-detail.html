@@ -14,8 +14,8 @@
 </div>
 <script type="text/javascript">
     $(function(){
-        $gallery = $("#gallery"),
-                $galleryImg = $("#galleryImg")
+        var $gallery = $("#gallery"),
+                $galleryImg = $("#galleryImg");
         $.ajax({
             type: "POST",
             url: "api/employee/detail.json",
@@ -27,6 +27,16 @@
                 $('#error').css("display","block");
             }
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
         function lists(data) {
             var address = data.company.address;
             address = address==null?'':address;
@@ -97,10 +107,14 @@
             html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
+                inPop(function(){
+                    $gallery.fadeOut(100);
+                });
                 $galleryImg.attr("src", this.getAttribute("src"));
                 $gallery.fadeIn(100);
             });
             $gallery.on("click", function(){
+                outPop();
                 $gallery.fadeOut(100);
             });
         }
