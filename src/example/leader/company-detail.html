@@ -222,22 +222,27 @@
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'+
-                                '<div id="link-box">'
-                                for(var i=0;i<data.users.length;i++){
-                                    var index = i+1;
+                                '<div id="link-box">';
+            var users = data.users,wid,email,post;
+                                for(var i=0;i<users.length;i++){
+                                    wid = users[i].wid;
+                                    wid = wid == null ? '':' data-weixin="'+wid+'"';
+                                    email = users[i].email;
+                                    email = email == null ? '':' data-email="'+email+'"';
+                                    post = users[i].post;
+                                    post = post == null ? '':' data-post="'+post+'"';
                                     html +=
                                     '<div class="link-news-box">'+
-                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'"  data-weixin="'+data.users[i].wid+'" data-email="'+data.users[i].email+'" data-post="'+data.users[i].post+'" id="'+data.users[i].id+'">' +
-                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
+                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+users[i].name+'" data-phone="'+users[i].mobile+'" '+wid+email+post+' id="'+users[i].id+'">' +
+                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
-                                        data.users[i].mobile +
+                                        users[i].mobile +
                                     '</div>' +
                                     '</div>'+
                                     '<div class="link-delete">删除</div>'+
                                     '</div>'
                                 }
                                 html += '</div>';
-            ;
                 html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
@@ -521,19 +526,19 @@
                    var inputChange = $('#company-name').text();
                    var inputplace = $('#company-place').text();
                    var type = $('#container').data('data-add-typeId');
-                   if(type==undefined){
+                   if(type==null){
                        type = $('#classify').data('types');
                    }
                    var police = $('#container').data('data-add-policeId');
-                   if(police==undefined){
+                   if(police==null){
                        police = $('#police').data('polices');
                    }
                    var group = $('#container').data('data-add-groupId');
-                   if(group==undefined){
+                   if(group==null){
                        group =  $('#group').data('groups');
                    }
                    var fire = $('#container').data('data-add-fireId');
-                   if(fire==undefined){
+                   if(fire==null){
                        fire = $('#fire').data('fires');
                    }
                    var legalPersonName= $('#legal-person-name').val();
@@ -561,30 +566,30 @@
                            $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
                        }
                    }
-                   var linkLength = $('#link-box').find('.link-alert').length;
-                   for(var i = 0;i<=linkLength-1;i++){
-                       var manLink = $('#link-box').find('.link-alert').eq(i);
+
+                   $('#link-box').find('.link-alert').each(function(i){
+                       var manLink = $(this);
                        var name = manLink.data('name');
                        var phone = manLink.data('phone');
                        var WeXin = manLink.data('weixin');
                        var Email = manLink.data('email');
                        var Work = manLink.data('post');
-                       if(name!='undefined'){
+                       if(name!=null){
                            $('#add-list-name').append('<input name="upt['+i+'].name" value="'+name+'"/>');
                        }
-                       if(phone!='undefined'){
+                       if(phone!=null){
                            $('#add-list-name').append('<input name="upt['+i+'].mobile" value="'+phone+'"/>');
                        }
-                       if(WeXin!='undefined'){
+                       if(WeXin!=null){
                            $('#add-list-name').append('<input name="upt['+i+'].wid" value="'+WeXin+'"/>');
                        }
-                       if(Email!='undefined'){
+                       if(Email!=null){
                            $('#add-list-name').append('<input name="upt['+i+'].email" value="'+Email+'"/>');
                        }
-                       if(Work!='undefined'){
+                       if(Work!=null){
                            $('#add-list-name').append( '<input name="upt['+i+'].post" value="'+Work+'"/>');
                        }
-                   }
+                   });
                    var json = $('#form-box').serialize();
                    $.ajax({
                        type: "post",
