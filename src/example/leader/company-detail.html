@@ -204,13 +204,13 @@
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="group">'+
+                                '<div class="weui-cell__bd bd-right" id="group"  data-groups="'+groupType+'">'+
                                 group+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="fire">' +
+                                    '<div class="weui-cell__bd bd-right" id="fire" data-fires="'+fireState+'">' +
                                 fire+
                                 '</div>'+
                                 '</div>'+
@@ -498,9 +498,21 @@
                    var inputChange = $('#company-name').text();
                    var inputplace = $('#company-place').text();
                    var type = $('#container').data('data-add-typeId');
+                   if(type==undefined){
+                       type = $('#classify').data('types');
+                   }
                    var police = $('#container').data('data-add-policeId');
+                   if(police==undefined){
+                       police = $('#police').data('polices');
+                   }
                    var group = $('#container').data('data-add-groupId');
+                   if(group==undefined){
+                       group =  $('#group').data('groups');
+                   }
                    var fire = $('#container').data('data-add-fireId');
+                   if(fire==undefined){
+                       fire = $('#fire').data('fires');
+                   }
                    var legalPersonName= $('#legal-person-name').val();
                    var legalPersonPhone= $('#legal-phone').val();
                    var legalPersonMobile= $('#legal-company-tel-num').val();
