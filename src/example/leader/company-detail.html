@@ -163,7 +163,7 @@
             var police = data.company.police.name;
             var groupType = data.company.groupType;
             var fireState = data.company.fireState;
-            var group = '';
+            var group = '未选择';
             if(groupType==0){
                 group = '普通';
             }else if(groupType==1){
@@ -192,33 +192,33 @@
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="classify">'+
+                                '<div class="weui-cell__bd bd-right blur" id="classify" data-types="'+ data.company.type.id+'">'+
                                 type+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="police">' +
+                                    '<div class="weui-cell__bd bd-right blur" id="police" data-polices="'+ data.company.police.id+'">' +
                                 police+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                                '<div class="weui-cell__bd bd-right" id="group">'+
+                                '<div class="weui-cell__bd bd-right blur" id="group"  data-groups="'+groupType+'">'+
                                 group+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border">'+
                                     '<div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>'+
-                                    '<div class="weui-cell__bd bd-right" id="fire">' +
+                                    '<div class="weui-cell__bd bd-right blur" id="fire" data-fires="'+fireState+'">' +
                                 fire+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
-                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人</label></div>'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+data.company.legalPersonCard+'">'+data.company.legalPersonName+'</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                '<span id="mobile-num">手机号</span><span id="symbol">/</span><span id="tel-num">电话号</span>'+
+                                '<span id="mobile-num">'+data.company.legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+data.company.legalPersonMobile+'</span>'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'+
@@ -227,8 +227,8 @@
                                     var index = i+1;
                                     html +=
                                     '<div class="link-news-box">'+
-                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'" id="'+data.users[i].id+'">' +
-                                    '<div class="weui-cell__hd"><label class="weui-label label-width" id="linkman">'+data.users[i].name+'</label></div>' +
+                                    '<div class="none-flex cell-border cell-margin link-alert"  data-name="'+data.users[i].name+'" data-phone="'+data.users[i].mobile+'"  data-weixin="'+data.users[i].wid+'" data-email="'+data.users[i].email+'" data-post="'+data.users[i].post+'" id="'+data.users[i].id+'">' +
+                                    '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
                                     '<div class="weui-cell__bd bd-right label-phone" >' +
                                         data.users[i].mobile +
                                     '</div>' +
@@ -381,17 +381,22 @@
                        hideActionSheet();
                    });
                });
+               $('.blur').on('click',function(){
+                   $('#input-change,#textarea-place').blur();
+               });
                //法人信息修改
                $('#legal-person').on('click',function(){
                    $('#alert,#alertbackground').fadeIn(100);
                    var legalPhone = $('#legal-phone').val();
                    var legalCompanyNum = $('#legal-company-tel-num').val();
                    var changeLegalname = $('#legal-name').text();
+                   var legalPersonCard = $('#legal-name').data('cardid');
                    $('#legal-person-name').val(changeLegalname);
                    var changelegalPhone = $('#mobile-num').text();
                    $('#legal-phone').val(changelegalPhone);
                    var changelegalCompanyNum = $('#tel-num').text();
                    $('#legal-company-tel-num').val(changelegalCompanyNum);
+                   $('#IdCard').val(legalPersonCard);
                    $('#legal-person-name').focus();
                    if(legalPhone.length == 0||legalCompanyNum.length==0){
                        $('#symbol').show();
@@ -404,6 +409,8 @@
                        $('#mobile-num').html(legalPhone);
                        var legalCompanyNum = $('#legal-company-tel-num').val();
                        $('#tel-num').html(legalCompanyNum);
+                       var legalCard = $('#IdCard').val();
+                       $('#legal-name').data('cardid',legalCard);
                    });
                    $('#dis-none2').on('click',function(){
                        $('#alert,#alertbackground').fadeOut(100);
@@ -450,6 +457,22 @@
                    var _this_phone = $(this).find('.label-phone');
                    $('#linkName').val(_this.text());
                    $('#linkPhone').val(_this_phone.text());
+                   var weixin = $(this).data('weixin');
+                   if(weixin=='undefined'){
+                       weixin='';
+                   }
+                   $('#WeXin').val(weixin);
+                   var email = $(this).data('email');
+                   if(email=='undefined'){
+                       email='';
+                   }
+                   $('#E-mail').val(email);
+                   $('#WeXin').val(weixin);
+                   var post = $(this).data('post');
+                   if(post=='undefined'){
+                       post='';
+                   }
+                   $('#Work').val(post);
                    $('#amend-new').on('click',function(){
                        var linkmanName = $('#linkName').val();
                        var linkPhone = $('#linkPhone').val();
@@ -498,9 +521,21 @@
                    var inputChange = $('#company-name').text();
                    var inputplace = $('#company-place').text();
                    var type = $('#container').data('data-add-typeId');
+                   if(type==undefined){
+                       type = $('#classify').data('types');
+                   }
                    var police = $('#container').data('data-add-policeId');
+                   if(police==undefined){
+                       police = $('#police').data('polices');
+                   }
                    var group = $('#container').data('data-add-groupId');
+                   if(group==undefined){
+                       group =  $('#group').data('groups');
+                   }
                    var fire = $('#container').data('data-add-fireId');
+                   if(fire==undefined){
+                       fire = $('#fire').data('fires');
+                   }
                    var legalPersonName= $('#legal-person-name').val();
                    var legalPersonPhone= $('#legal-phone').val();
                    var legalPersonMobile= $('#legal-company-tel-num').val();
@@ -522,7 +557,9 @@
                    var deleLink = $('#dele-new').find('.link-alert').length;
                    for(var i = 0;i<=deleLink-1;i++){
                        var delId = $('#dele-new').find('.link-alert').eq(i).attr('id');
-                       $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                       if(delId!=undefined){
+                           $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                       }
                    }
                    var linkLength = $('#link-box').find('.link-alert').length;
                    for(var i = 0;i<=linkLength-1;i++){
@@ -532,13 +569,21 @@
                        var WeXin = manLink.data('weixin');
                        var Email = manLink.data('email');
                        var Work = manLink.data('post');
-                       $('#add-list-name').append(
-                               '<input name="upt['+i+'].name" value="'+name+'"/>'+
-                               '<input name="upt['+i+'].mobile" value="'+phone+'"/>'+
-                               '<input name="upt['+i+'].wid" value="'+WeXin+'"/>'+
-                               '<input name="upt['+i+'].email" value="'+Email+'"/>'+
-                               '<input name="upt['+i+'].post" value="'+Work+'"/>'
-                       );
+                       if(name!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].name" value="'+name+'"/>');
+                       }
+                       if(phone!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].mobile" value="'+phone+'"/>');
+                       }
+                       if(WeXin!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].wid" value="'+WeXin+'"/>');
+                       }
+                       if(Email!='undefined'){
+                           $('#add-list-name').append('<input name="upt['+i+'].email" value="'+Email+'"/>');
+                       }
+                       if(Work!='undefined'){
+                           $('#add-list-name').append( '<input name="upt['+i+'].post" value="'+Work+'"/>');
+                       }
                    }
                    var json = $('#form-box').serialize();
                    $.ajax({
