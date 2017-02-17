@@ -163,7 +163,7 @@
             var police = data.company.police.name;
             var groupType = data.company.groupType;
             var fireState = data.company.fireState;
-            var group = '';
+            var group = '未选择';
             if(groupType==0){
                 group = '普通';
             }else if(groupType==1){
@@ -216,9 +216,9 @@
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
-                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人</label></div>'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+data.company.legalPersonCard+'">'+data.company.legalPersonName+'</label></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
-                                '<span id="mobile-num">手机号</span><span id="symbol">/</span><span id="tel-num">电话号</span>'+
+                                '<span id="mobile-num">'+data.company.legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+data.company.legalPersonMobile+'</span>'+
                                 '</div>'+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'+
@@ -387,11 +387,13 @@
                    var legalPhone = $('#legal-phone').val();
                    var legalCompanyNum = $('#legal-company-tel-num').val();
                    var changeLegalname = $('#legal-name').text();
+                   var legalPersonCard = $('#legal-name').data('cardid');
                    $('#legal-person-name').val(changeLegalname);
                    var changelegalPhone = $('#mobile-num').text();
                    $('#legal-phone').val(changelegalPhone);
                    var changelegalCompanyNum = $('#tel-num').text();
                    $('#legal-company-tel-num').val(changelegalCompanyNum);
+                   $('#IdCard').val(legalPersonCard);
                    $('#legal-person-name').focus();
                    if(legalPhone.length == 0||legalCompanyNum.length==0){
                        $('#symbol').show();
@@ -404,6 +406,8 @@
                        $('#mobile-num').html(legalPhone);
                        var legalCompanyNum = $('#legal-company-tel-num').val();
                        $('#tel-num').html(legalCompanyNum);
+                       var legalCard = $('#IdCard').val();
+                       $('#legal-name').data('cardid',legalCard);
                    });
                    $('#dis-none2').on('click',function(){
                        $('#alert,#alertbackground').fadeOut(100);
@@ -534,7 +538,9 @@
                    var deleLink = $('#dele-new').find('.link-alert').length;
                    for(var i = 0;i<=deleLink-1;i++){
                        var delId = $('#dele-new').find('.link-alert').eq(i).attr('id');
-                       $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                       if(delId!=undefined){
+                           $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                       }
                    }
                    var linkLength = $('#link-box').find('.link-alert').length;
                    for(var i = 0;i<=linkLength-1;i++){
