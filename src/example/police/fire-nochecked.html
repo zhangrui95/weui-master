@@ -142,7 +142,24 @@
             $uploaderPerson.html('');
             addItem($uploaderPerson);
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
         var preview = function (target,type) {
+            inPop(function(){
+                var trash = $('.weui-gallery__opr');
+                trash.data('curr-media-id',null);
+                trash.data('curr-media-type',null);
+                $gallery.fadeOut(100);
+            });
             $galleryImg.attr("style", target.getAttribute("style"));
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',$(target).data('media-id'));
@@ -159,6 +176,7 @@
             preview(this,'fire');
         });
         $gallery.on("click", function(){
+            outPop();
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',null);
             trash.data('curr-media-type',null);

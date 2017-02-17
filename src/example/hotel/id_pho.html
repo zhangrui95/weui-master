@@ -74,11 +74,25 @@
                 }
             });
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
         $uploaderFiles.on("click", "li", function(){
+            inPop(function(){
+                $gallery.fadeOut(100);
+            });
             $galleryImg.attr("style", this.getAttribute("style"));
             $gallery.fadeIn(100);
         });
         $gallery.on("click", function(){
+            outPop();
             $gallery.fadeOut(100);
         });
         var cardValid = function (value) {
