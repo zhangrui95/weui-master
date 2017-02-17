@@ -141,20 +141,395 @@
         $('#iosActionsheetCancels').on('click', hideActionSheet);
         $('#iosActionsheetCancel-police').on('click', hideActionSheet);
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
-        $gallery = $("#gallery"),
-        $galleryImg = $("#galleryImg")
         var cid =  $('#container').data('data-company-name-cid');
-        $.ajax({
-            type: "POST",
-            url: "api/company/detail.json",
-            data:{id:cid,userid:$('#userid').val()},
-            success: function (data) {
-                lists(data);
-            },
-            error: function (mes) {
-                $('#error').css("display","block");
-            }
+        function load() {
+            $.ajax({
+                type: "POST",
+                url: "api/company/detail.json",
+                data:{id:cid,userid:$('#userid').val()},
+                success: function (data) {
+                    lists(data);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
+        }
+        load();
+        $('#change').on('touchstart',function(e){
+            var left = e.touches[0].pageX;
+            var top = e.touches[0].pageY;
+            e.preventDefault();
+            $('body').on('touchmove',function(e){
+                var x = e.touches[0].clientX-25;
+                var y = e.touches[0].clientY-25;
+                $('#change').css('left',x + "px");
+                $('#change').css('top',y + "px")
+            });
+            $('#change').on('touchend',function(e){
+                var endX = e.changedTouches[0].pageX;
+                var endY= e.changedTouches[0].pageY;
+                var moveX = left - endX;
+                var moveY = top -endY;
+                $('body').unbind();
+                if(moveX==0&&moveY==0){
+                    changeClick();
+                }
+            });
         });
+        $('#change').on('mousedown',function(e){
+            var _event = window.event||e;
+            var left = _event.offsetX;
+            var top = _event.offsetY;
+            var downX = _event.pageX;
+            var downY = _event.pageY;
+            _event.preventDefault();
+            $('body').on('mousemove',function(e){
+                var _event = window.event||e;
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#change').css('left',x + "px");
+                $('#change').css('top',y + "px")
+            });
+            $('#change').on('mouseup',function(e){
+                $('body').unbind();
+                var upX = e.pageX;
+                var upY = e.pageY;
+                var moveX = downX - upX;
+                var moveY = downY - upY;
+                if(moveX==0&&moveY==0){
+                    changeClick();
+                }
+
+            });
+        });
+        function changeClick() {
+            $('#change').hide();
+            $('.link-alert').addClass('link-man');
+            $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
+            var txt = $('#company-name').text();
+            var txt1= $('#company-place').text();
+            $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
+            $('#company-place').html('<input class="input-change" type="text" id="textarea-place" value="'+txt1+'"/>');
+            $('#input-change').focus();
+            var changeval = $('#input-change').val();
+            $('#input-change').val(changeval);
+            //选择企业分类
+            $('#classify').on('click',function(){
+                $('#choice-list').html('');
+                $.ajax({
+                    type: "POST",
+                    url: "api/companyType.json",
+                    data:{userid:$('#userid').val()},
+                    success: function (data) {
+                        for(var i = 0;i<data.length;i++){
+                            $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                        }
+                        $iosActionsheet.addClass('weui-actionsheet_toggle');
+                        $iosMask.fadeIn(200);
+                        $('.type-choice-name').on('click',function(){
+                            $('#classify').html($(this).text());
+                            var typeId = $(this).attr('id');
+                            $('#container').data('data-add-typeId',typeId);
+                            hideActionSheet();
+                        });
+                    },
+                    error: function (mes) {
+                        console.log("error");
+                    }
+                });
+            });
+            //选择辖区
+            $.ajax({
+                type: "POST",
+                url: "api/user/policeHadArea.json",
+                data: {userid: $('#userid').val()},
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                    }
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+            $('#police').on('click',function(){
+                $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
+                $iosMaskPolice.fadeIn(200);
+                $('.police-choice-name').on('click', function () {
+                    $('#police').html($(this).text());
+                    var policeId = $(this).attr('id');
+                    $('#container').data('data-add-policeId', policeId);
+                    if ($('#police').text() != '') {
+                        $('#icon2').hide();
+                    }
+                    hideActionSheet();
+                });
+            });
+            //选择消防等级
+            $('#fire').on('click',function(){
+                $iosActionsheetFire.addClass('weui-actionsheet_toggle');
+                $iosMaskFire.fadeIn(200);
+                $('.fire-choice-name').on('click',function(){
+                    $('#fire').html($(this).text());
+                    var fireId = $(this).data('fire');
+                    $('#container').data('data-add-fireId',fireId);
+                    if($('#fire').text()!=''){
+                        $('#icon4').hide();
+                    }
+                    hideActionSheet();
+                });
+            });
+            $('#group').on('click',function(){
+                $iosActionsheets.addClass('weui-actionsheet_toggle');
+                $iosMasks.fadeIn(200);
+                $('.group-choice-name').on('click',function(){
+                    $('#group').html($(this).text());
+                    var groupId = $(this).data('group');
+                    $('#container').data('data-add-groupId',groupId);
+                    hideActionSheet();
+                });
+            });
+            $('.blur').on('click',function(){
+                $('#input-change,#textarea-place').blur();
+            });
+            //法人信息修改
+            $('#legal-person').on('click',function(){
+                $('#alert,#alertbackground').fadeIn(100);
+                var legalPhone = $('#legal-phone').val();
+                var legalCompanyNum = $('#legal-company-tel-num').val();
+                var changeLegalname = $('#legal-name').text();
+                var legalPersonCard = $('#legal-name').data('cardid');
+                $('#legal-person-name').val(changeLegalname);
+                var changelegalPhone = $('#mobile-num').text();
+                $('#legal-phone').val(changelegalPhone);
+                var changelegalCompanyNum = $('#tel-num').text();
+                $('#legal-company-tel-num').val(changelegalCompanyNum);
+                $('#IdCard').val(legalPersonCard);
+                $('#legal-person-name').focus();
+                if(legalPhone.length == 0||legalCompanyNum.length==0){
+                    $('#symbol').show();
+                }
+                $('#new-save').on('click',function(){
+                    $('#alert,#alertbackground').fadeOut(100);
+                    var legalName = $('#legal-person-name').val();
+                    $('#legal-name').html(legalName);
+                    var legalPhone = $('#legal-phone').val();
+                    $('#mobile-num').html(legalPhone);
+                    var legalCompanyNum = $('#legal-company-tel-num').val();
+                    $('#tel-num').html(legalCompanyNum);
+                    var legalCard = $('#IdCard').val();
+                    $('#legal-name').data('cardid',legalCard);
+                });
+                $('#dis-none2').on('click',function(){
+                    $('#alert,#alertbackground').fadeOut(100);
+                });
+            });
+            $('#news-change').after(
+                    '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>'
+            );
+            //删除及添加修改联系人
+            var touchMove;
+            var start;
+            $('.link-man').live("touchstart",function(e){
+                start = e.touches[0].pageX;
+            }).live("touchmove",function(e){
+                touchMove = e.touches[0].pageX;
+            }).live('touchend',function(e){
+                var _touch = e.changedTouches[0];
+                var _x= _touch.pageX;
+                var errand = _x - start;
+                if(errand>50){
+                    $(this).parent().animate({left:'0px'},400,'linear');
+                }else if(errand<-50){
+                    var _this = $(this);
+                    var id = _this.attr('id');
+                    $(this).parent().animate({left:'-50px'},400,'linear');
+                    $(this).parent().siblings().animate({left:'0'},400,'linear');
+                }
+            });
+            $('#add-linkman').on('click',function(){
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
+                $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
+                $('#prompt').hide();
+                $('#dis-none').on('click',function(){
+                    $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                });
+            });
+            $('.link-man').live('click',function(){
+                $('#prompt').hide();
+                $('#alert-person,#changeground,#amend').fadeIn(100);
+                $('#dis-none1').on('click',function(){
+                    $('#alert-person,#changeground,#amend').fadeOut(100);
+                });
+                var _this = $(this).find('.label-width');
+                var _this_phone = $(this).find('.label-phone');
+                $('#linkName').val(_this.text());
+                $('#linkPhone').val(_this_phone.text());
+                var weixin = $(this).data('weixin');
+                if(weixin=='undefined'){
+                    weixin='';
+                }
+                $('#WeXin').val(weixin);
+                var email = $(this).data('email');
+                if(email=='undefined'){
+                    email='';
+                }
+                $('#E-mail').val(email);
+                $('#WeXin').val(weixin);
+                var post = $(this).data('post');
+                if(post=='undefined'){
+                    post='';
+                }
+                $('#Work').val(post);
+                $('#amend-new').on('click',function(){
+                    var linkmanName = $('#linkName').val();
+                    var linkPhone = $('#linkPhone').val();
+                    var WeXin = $('#WeXin').val();
+                    var Email = $('#E-mail').val();
+                    var Work = $('#Work').val();
+                    var pattern = /^1[34578]\d{9}$/;
+                    var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    if(linkmanName.length==0||linkPhone.length==0){
+                        $('#prompt').html('*请输入必填项');
+                        $('#prompt').show();
+                    }else if(pattern.test(linkPhone)==false){
+                        $('#prompt').html('*请输入正确的手机号码');
+                        $('#prompt').show();
+                    }else if(Email.length!=0){
+                        if(email.test(Email)==false){
+                            $('#prompt').html('*请输入正确的邮箱账号');
+                            $('#prompt').show();
+                        }else{
+                            _this.html($('#linkName').val());
+                            _this_phone.html($('#linkPhone').val());
+                            $('#alert-person,#changeground,#amend').fadeOut(100);
+                        }
+                    }else{
+                        _this.html($('#linkName').val());
+                        _this_phone.html($('#linkPhone').val());
+                        $('#alert-person,#changeground,#amend').fadeOut(100);
+                    }
+                });
+            });
+            $('#save').on('click',function(){
+                $('#classify').unbind();
+                $('#group').unbind();
+                $('#legal-person').unbind();
+                $('#add-linkman').unbind();
+                $('#add-linkman').hide();
+                $('#change').show();
+                $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
+                $('#maskbox').hide();
+                var text = $('#input-change').val();
+                var text1 = $('#textarea-place').val();
+                $('#company-name').html(text);
+                $('#company-place').html(text1);
+                $('.link-alert').removeClass('link-man');
+                Toast();
+                var inputChange = $('#company-name').text();
+                var inputplace = $('#company-place').text();
+                var type = $('#container').data('data-add-typeId');
+                if(type==null){
+                    type = $('#classify').data('types');
+                }
+                var police = $('#container').data('data-add-policeId');
+                if(police==null){
+                    police = $('#police').data('polices');
+                }
+                var group = $('#container').data('data-add-groupId');
+                if(group==null){
+                    group =  $('#group').data('groups');
+                }
+                var fire = $('#container').data('data-add-fireId');
+                if(fire==null){
+                    fire = $('#fire').data('fires');
+                }
+                var legalPersonName= $('#legal-person-name').val();
+                var legalPersonPhone= $('#legal-phone').val();
+                var legalPersonMobile= $('#legal-company-tel-num').val();
+                var legalPersonCard = $('#IdCard').val();
+                $('#form-box').html(
+                        '<input name="name" value="'+inputChange+'"/>'+
+                        '<input name="address" value="'+inputplace+'"/>'+
+                        '<input name="type" value="'+type+'"/>'+
+                        '<input name="police" value="'+police+'"/>'+
+                        '<input name="groupType" value="'+group+'"/>'+
+                        '<input name="fireState" value="'+fire+'"/>'+
+                        '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
+                        '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
+                        '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
+                        '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
+                        '<div id="add-list-name"></div>'+
+                        '<div id="dele-box"></div>'
+                );
+                var $dele = $('#dele-new');
+                $dele.find('.link-alert').each(function(i){
+                    var delId = $(this).attr('id');
+                    if(delId!=null){
+                        $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                    }
+                });
+                var oldLength = $('#link-box .old-link').length;
+                $('#link-box').find('.link-alert').each(function(i){
+                    var manLink = $(this);
+                    var name = manLink.data('name');
+                    var phone = manLink.data('phone');
+                    var WeXin = manLink.data('weixin');
+                    var Email = manLink.data('email');
+                    var Work = manLink.data('post');
+                    var id = $(this).attr('id');
+                    var j = i-oldLength;
+                    var object = 'upt['+i+']';
+                    if(id==null){
+                        object = 'add['+j+']';
+                    }
+                    if(name!=null){
+                        $('#add-list-name').append('<input name="'+object+'.name" value="'+name+'"/>');
+                    }
+                    if(phone!=null){
+                        $('#add-list-name').append('<input name="'+object+'.mobile" value="'+phone+'"/>');
+                    }
+                    if(WeXin!=null){
+                        $('#add-list-name').append('<input name="'+object+'.wid" value="'+WeXin+'"/>');
+                    }
+                    if(Email!=null){
+                        $('#add-list-name').append('<input name="'+object+'.email" value="'+Email+'"/>');
+                    }
+                    if(Work!=null){
+                        $('#add-list-name').append( '<input name="'+object+'.post" value="'+Work+'"/>');
+                    }
+                });
+                var json = $('#form-box').serialize();
+                $.ajax({
+                    type: "post",
+                    url: "api/company/update.json?userid="+$('#userid').val(),
+                    data:json,
+                    success: function (xhr) {
+                        if(xhr && xhr.state == 0){
+                            $dele.html('');
+                            $('#notNull').hide();
+                            $('.cells-ajax').html('');
+                            load();
+                        }else{
+                            $('#prompt').html('更新失败');
+                            $('#prompt').show();
+                        }
+                    },
+                    error: function () {
+                        $('#prompt').html('更新失败');
+                        $('#prompt').show();
+                    }
+                });
+            });
+            $('.link-delete').live('click',function(){
+                var dele =$(this).siblings('.link-man').attr('id');
+                $('#container').data('data-link-dele',dele);
+                $('#dele-new').append($(this).parent().html());
+                $(this).parent().remove();
+            });
+        }
+
         function lists(data) {
             var address = data.company.address;
             address = address==null?'':address;
@@ -261,378 +636,6 @@
                                 html += '</div>';
                 html += '</div>';
             $('.cells-ajax').append(html);
-            $('.head-img').on("click", function(){
-                $galleryImg.attr("src", this.getAttribute("src"));
-                $gallery.fadeIn(100);
-            });
-            $gallery.on("click", function(){
-                $gallery.fadeOut(100);
-            });
-            $('#change').on('touchstart',function(e){
-                var left = e.touches[0].pageX;
-                var top = e.touches[0].pageY;
-                e.preventDefault();
-                $('body').on('touchmove',function(e){
-                    var x = e.touches[0].clientX-25;
-                    var y = e.touches[0].clientY-25;
-                    $('#change').css('left',x + "px");
-                    $('#change').css('top',y + "px")
-                });
-                $('#change').on('touchend',function(e){
-                    var endX = e.changedTouches[0].pageX;
-                    var endY= e.changedTouches[0].pageY;
-                    var moveX = left - endX;
-                    var moveY = top -endY;
-                    $('body').unbind();
-                    if(moveX==0&&moveY==0){
-                        changeClick();
-                    }
-                });
-            });
-            $('#change').on('mousedown',function(e){
-                var _event = window.event||e;
-                var left = _event.offsetX;
-                var top = _event.offsetY;
-                var downX = _event.pageX;
-                var downY = _event.pageY;
-                _event.preventDefault();
-                $('body').on('mousemove',function(e){
-                    var _event = window.event||e;
-                    var x = _event.clientX-left;
-                    var y = _event.clientY-top;
-                    $('#change').css('left',x + "px");
-                    $('#change').css('top',y + "px")
-                });
-                $('#change').on('mouseup',function(e){
-                    $('body').unbind();
-                    var upX = e.pageX;
-                    var upY = e.pageY;
-                    var moveX = downX - upX;
-                    var moveY = downY - upY;
-                    if(moveX==0&&moveY==0){
-                        changeClick();
-                    }
-
-                });
-            });
-           function changeClick() {
-               $('#change').hide();
-               $('.link-alert').addClass('link-man');
-               $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
-               var txt = $('#company-name').text();
-               var txt1= $('#company-place').text();
-               $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
-               $('#company-place').html('<input class="input-change" type="text" id="textarea-place" value="'+txt1+'"/>');
-               $('#input-change').focus();
-               var changeval = $('#input-change').val();
-               $('#input-change').val(changeval);
-               //选择企业分类
-               $('#classify').on('click',function(){
-                   $('#choice-list').html('');
-                   $.ajax({
-                       type: "POST",
-                       url: "api/companyType.json",
-                       data:{userid:$('#userid').val()},
-                       success: function (data) {
-                           for(var i = 0;i<data.length;i++){
-                               $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                           }
-                           $iosActionsheet.addClass('weui-actionsheet_toggle');
-                           $iosMask.fadeIn(200);
-                           $('.type-choice-name').on('click',function(){
-                               $('#classify').html($(this).text());
-                               var typeId = $(this).attr('id');
-                               $('#container').data('data-add-typeId',typeId);
-                               hideActionSheet();
-                           });
-                       },
-                       error: function (mes) {
-                           console.log("error");
-                       }
-                   });
-               });
-               //选择辖区
-               $.ajax({
-                   type: "POST",
-                   url: "api/user/policeHadArea.json",
-                   data: {userid: $('#userid').val()},
-                   success: function (data) {
-                       for (var i = 0; i < data.length; i++) {
-                           $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
-                       }
-                   },
-                   error: function () {
-                       console.log("error");
-                   }
-               });
-               $('#police').on('click',function(){
-                   $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
-                   $iosMaskPolice.fadeIn(200);
-                   $('.police-choice-name').on('click', function () {
-                       $('#police').html($(this).text());
-                       var policeId = $(this).attr('id');
-                       $('#container').data('data-add-policeId', policeId);
-                       if ($('#police').text() != '') {
-                           $('#icon2').hide();
-                       }
-                       hideActionSheet();
-                   });
-               });
-               //选择消防等级
-               $('#fire').on('click',function(){
-                   $iosActionsheetFire.addClass('weui-actionsheet_toggle');
-                   $iosMaskFire.fadeIn(200);
-                   $('.fire-choice-name').on('click',function(){
-                       $('#fire').html($(this).text());
-                       var fireId = $(this).data('fire');
-                       $('#container').data('data-add-fireId',fireId);
-                       if($('#fire').text()!=''){
-                           $('#icon4').hide();
-                       }
-                       hideActionSheet();
-                   });
-               });
-               $('#group').on('click',function(){
-                   $iosActionsheets.addClass('weui-actionsheet_toggle');
-                   $iosMasks.fadeIn(200);
-                   $('.group-choice-name').on('click',function(){
-                       $('#group').html($(this).text());
-                       var groupId = $(this).data('group');
-                       $('#container').data('data-add-groupId',groupId);
-                       hideActionSheet();
-                   });
-               });
-               $('.blur').on('click',function(){
-                   $('#input-change,#textarea-place').blur();
-               });
-               //法人信息修改
-               $('#legal-person').on('click',function(){
-                   $('#alert,#alertbackground').fadeIn(100);
-                   var legalPhone = $('#legal-phone').val();
-                   var legalCompanyNum = $('#legal-company-tel-num').val();
-                   var changeLegalname = $('#legal-name').text();
-                   var legalPersonCard = $('#legal-name').data('cardid');
-                   $('#legal-person-name').val(changeLegalname);
-                   var changelegalPhone = $('#mobile-num').text();
-                   $('#legal-phone').val(changelegalPhone);
-                   var changelegalCompanyNum = $('#tel-num').text();
-                   $('#legal-company-tel-num').val(changelegalCompanyNum);
-                   $('#IdCard').val(legalPersonCard);
-                   $('#legal-person-name').focus();
-                   if(legalPhone.length == 0||legalCompanyNum.length==0){
-                       $('#symbol').show();
-                   }
-                   $('#new-save').on('click',function(){
-                       $('#alert,#alertbackground').fadeOut(100);
-                       var legalName = $('#legal-person-name').val();
-                       $('#legal-name').html(legalName);
-                       var legalPhone = $('#legal-phone').val();
-                       $('#mobile-num').html(legalPhone);
-                       var legalCompanyNum = $('#legal-company-tel-num').val();
-                       $('#tel-num').html(legalCompanyNum);
-                       var legalCard = $('#IdCard').val();
-                       $('#legal-name').data('cardid',legalCard);
-                   });
-                   $('#dis-none2').on('click',function(){
-                       $('#alert,#alertbackground').fadeOut(100);
-                   });
-               });
-               $('#news-change').after(
-                       '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>'
-               );
-               //删除及添加修改联系人
-               var touchMove;
-               var start;
-               $('.link-man').live("touchstart",function(e){
-                   start = e.touches[0].pageX;
-               }).live("touchmove",function(e){
-                   touchMove = e.touches[0].pageX;
-               }).live('touchend',function(e){
-                   var _touch = e.changedTouches[0];
-                   var _x= _touch.pageX;
-                   var errand = _x - start;
-                   if(errand>50){
-                       $(this).parent().animate({left:'0px'},400,'linear');
-                   }else if(errand<-50){
-                       var _this = $(this);
-                       var id = _this.attr('id');
-                       $(this).parent().animate({left:'-50px'},400,'linear');
-                       $(this).parent().siblings().animate({left:'0'},400,'linear');
-                   }
-               });
-               $('#add-linkman').on('click',function(){
-                   $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
-                   $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
-                   $('#prompt').hide();
-                   $('#dis-none').on('click',function(){
-                       $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
-                   });
-               });
-               $('.link-man').live('click',function(){
-                   $('#prompt').hide();
-                   $('#alert-person,#changeground,#amend').fadeIn(100);
-                   $('#dis-none1').on('click',function(){
-                       $('#alert-person,#changeground,#amend').fadeOut(100);
-                   });
-                   var _this = $(this).find('.label-width');
-                   var _this_phone = $(this).find('.label-phone');
-                   $('#linkName').val(_this.text());
-                   $('#linkPhone').val(_this_phone.text());
-                   var weixin = $(this).data('weixin');
-                   if(weixin=='undefined'){
-                       weixin='';
-                   }
-                   $('#WeXin').val(weixin);
-                   var email = $(this).data('email');
-                   if(email=='undefined'){
-                       email='';
-                   }
-                   $('#E-mail').val(email);
-                   $('#WeXin').val(weixin);
-                   var post = $(this).data('post');
-                   if(post=='undefined'){
-                       post='';
-                   }
-                   $('#Work').val(post);
-                   $('#amend-new').on('click',function(){
-                       var linkmanName = $('#linkName').val();
-                       var linkPhone = $('#linkPhone').val();
-                       var WeXin = $('#WeXin').val();
-                       var Email = $('#E-mail').val();
-                       var Work = $('#Work').val();
-                       var pattern = /^1[34578]\d{9}$/;
-                       var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-                       if(linkmanName.length==0||linkPhone.length==0){
-                           $('#prompt').html('*请输入必填项');
-                           $('#prompt').show();
-                       }else if(pattern.test(linkPhone)==false){
-                           $('#prompt').html('*请输入正确的手机号码');
-                           $('#prompt').show();
-                       }else if(Email.length!=0){
-                           if(email.test(Email)==false){
-                               $('#prompt').html('*请输入正确的邮箱账号');
-                               $('#prompt').show();
-                           }else{
-                               _this.html($('#linkName').val());
-                               _this_phone.html($('#linkPhone').val());
-                               $('#alert-person,#changeground,#amend').fadeOut(100);
-                           }
-                       }else{
-                           _this.html($('#linkName').val());
-                           _this_phone.html($('#linkPhone').val());
-                           $('#alert-person,#changeground,#amend').fadeOut(100);
-                       }
-                   });
-               });
-               $('#save').on('click',function(){
-                   $('#classify').unbind();
-                   $('#group').unbind();
-                   $('#legal-person').unbind();
-                   $('#add-linkman').unbind();
-                   $('#add-linkman').hide();
-                   $('#change').show();
-                   $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
-                   $('#maskbox').hide();
-                   var text = $('#input-change').val();
-                   var text1 = $('#textarea-place').val();
-                   $('#company-name').html(text);
-                   $('#company-place').html(text1);
-                   $('.link-alert').removeClass('link-man');
-                   Toast();
-                   var inputChange = $('#company-name').text();
-                   var inputplace = $('#company-place').text();
-                   var type = $('#container').data('data-add-typeId');
-                   if(type==null){
-                       type = $('#classify').data('types');
-                   }
-                   var police = $('#container').data('data-add-policeId');
-                   if(police==null){
-                       police = $('#police').data('polices');
-                   }
-                   var group = $('#container').data('data-add-groupId');
-                   if(group==null){
-                       group =  $('#group').data('groups');
-                   }
-                   var fire = $('#container').data('data-add-fireId');
-                   if(fire==null){
-                       fire = $('#fire').data('fires');
-                   }
-                   var legalPersonName= $('#legal-person-name').val();
-                   var legalPersonPhone= $('#legal-phone').val();
-                   var legalPersonMobile= $('#legal-company-tel-num').val();
-                   var legalPersonCard = $('#IdCard').val();
-                   $('#form-box').html(
-                           '<input name="name" value="'+inputChange+'"/>'+
-                           '<input name="address" value="'+inputplace+'"/>'+
-                           '<input name="type" value="'+type+'"/>'+
-                           '<input name="police" value="'+police+'"/>'+
-                           '<input name="groupType" value="'+group+'"/>'+
-                           '<input name="fireState" value="'+fire+'"/>'+
-                           '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
-                           '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
-                           '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
-                           '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
-                           '<div id="add-list-name"></div>'+
-                           '<div id="dele-box"></div>'
-                   );
-                   var deleLink = $('#dele-new').find('.link-alert').length;
-                   for(var i = 0;i<=deleLink-1;i++){
-                       var delId = $('#dele-new').find('.link-alert').eq(i).attr('id');
-                       if(delId!=undefined){
-                           $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
-                       }
-                   }
-                   var oldLength = $('#link-box .old-link').length;
-                   $('#link-box').find('.link-alert').each(function(i){
-                       var manLink = $(this);
-                       var name = manLink.data('name');
-                       var phone = manLink.data('phone');
-                       var WeXin = manLink.data('weixin');
-                       var Email = manLink.data('email');
-                       var Work = manLink.data('post');
-                       var id = $(this).attr('id');
-                       var j = i-oldLength;
-                       var object = 'upt['+i+']';
-                       if(id==null){
-                           object = 'add['+j+']';
-                       }
-                       if(name!=null){
-                           $('#add-list-name').append('<input name="'+object+'.name" value="'+name+'"/>');
-                       }
-                       if(phone!=null){
-                           $('#add-list-name').append('<input name="'+object+'.mobile" value="'+phone+'"/>');
-                       }
-                       if(WeXin!=null){
-                           $('#add-list-name').append('<input name="'+object+'.wid" value="'+WeXin+'"/>');
-                       }
-                       if(Email!=null){
-                           $('#add-list-name').append('<input name="'+object+'.email" value="'+Email+'"/>');
-                       }
-                       if(Work!=null){
-                           $('#add-list-name').append( '<input name="'+object+'.post" value="'+Work+'"/>');
-                       }
-                   });
-                   var json = $('#form-box').serialize();
-                   $.ajax({
-                       type: "post",
-                       url: "api/company/update.json?userid="+$('#userid').val(),
-                       data:json,
-                       success: function () {
-                           $('#notNull').hide();
-                           var id = $('#showToast').data('id');
-                           window.pageManager.go(id);
-                       },
-                       error: function () {
-                       }
-                   });
-               });
-               $('.link-delete').live('click',function(){
-                   var dele =$(this).siblings('.link-man').attr('id');
-                   $('#container').data('data-link-dele',dele);
-                   $('#dele-new').append($(this).parent().html());
-                   $(this).parent().remove();
-               });
-           }
         }
         $('#news-save').on('click',function(){
             var linkmanName = $('#linkName').val();
