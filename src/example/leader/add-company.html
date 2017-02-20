@@ -386,7 +386,7 @@
                         linkPhone+
                         '</div>'+
                         '</div>'+
-                        '<div class="link-delete">删除</div>'+
+                        '<div class="link-delete">×</div>'+
                         '</div>'
                 $('#link-box').append(html);
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
@@ -411,12 +411,13 @@
             $('#androidDialog2').fadeOut(200);
         });
         function bindEveryMan() {
-            $('.link-man').on('swipeLeft',function (e) {
-                var _this = $(this);
-                var id = _this.attr('id');
-                $(this).parent().animate({left:'-50px'},400,'linear');
-                $(this).parent().siblings().animate({left:'0'},400,'linear');
-                $(this).siblings('.link-delete').on('click',function(){
+//            $('.link-man').on('swipeLeft',function (e) {
+//                var _this = $(this);
+//                var id = _this.attr('id');
+//                $(this).parent().animate({left:'-50px'},400,'linear');
+//                $(this).parent().siblings().animate({left:'0'},400,'linear');
+                $('.link-man').siblings('.link-delete').on('click',function(){
+                    var _this = $(this);
                     $('#androidDialog2').fadeIn(200);
                     $('#dialog').html('确定删除该联系人');
                     $('#primary').on('click',function(){
@@ -424,9 +425,10 @@
                         _this.parent().remove();
                     });
                 });
-            }).on('swipeRight',function (e) {
-                $(this).parent().animate({left:'0px'},400,'linear');
-            }).on('click',function(){
+//            }).on('swipeRight',function (e) {
+//                $(this).parent().animate({left:'0px'},400,'linear');
+//            })
+            $('.link-man') .on('click',function(){
                 $('#prompt').hide();
                 $('#alert-person,#changeground,#amend').fadeIn(100);
                 var manPan = $(this);
