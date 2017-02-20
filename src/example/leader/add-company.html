@@ -411,23 +411,15 @@
             $('#androidDialog2').fadeOut(200);
         });
         function bindEveryMan() {
-//            $('.link-man').on('swipeLeft',function (e) {
-//                var _this = $(this);
-//                var id = _this.attr('id');
-//                $(this).parent().animate({left:'-50px'},400,'linear');
-//                $(this).parent().siblings().animate({left:'0'},400,'linear');
-                $('.link-man').siblings('.link-delete').on('click',function(){
-                    var _this = $(this);
-                    $('#androidDialog2').fadeIn(200);
-                    $('#dialog').html('确定删除该联系人');
-                    $('#primary').on('click',function(){
-                        $('#androidDialog2').fadeOut(200);
-                        _this.parent().remove();
-                    });
-                });
-//            }).on('swipeRight',function (e) {
-//                $(this).parent().animate({left:'0px'},400,'linear');
-//            })
+            $('.link-man').siblings('.link-delete').on('click',function(){
+                var _this = $(this);
+                $('#androidDialog2').fadeIn(200);
+                $('#dialog').html('确定删除该联系人');
+                $('#primary').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                    _this.parent().remove();
+                })
+            });
             $('.link-man') .on('click',function(){
                 $('#prompt').hide();
                 $('#alert-person,#changeground,#amend').fadeIn(100);

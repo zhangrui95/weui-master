@@ -361,7 +361,7 @@
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                 });
             });
-            $('.link-man').live('click',function(){
+            $('.link-man').on('click',function(){
                 $('#prompt').hide();
                 $('#alert-person,#changeground,#amend').fadeIn(100);
                 $('#dis-none1').on('click',function(){
@@ -427,6 +427,22 @@
                         $('#alert-person,#changeground,#amend').fadeOut(100);
                         motifyMan(manPan);
                     }
+                });
+            });
+            $('#default').on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+            });
+            $('.link-delete').on('click',function(){
+                var _this = $(this);
+                var dele =_this.siblings('.link-man').attr('id');
+                $('#container').data('data-link-dele',dele);
+                $('#androidDialog2').fadeIn(200);
+                $('#dialog').html('确定删除该联系人');
+                $('#dele-new').html('');
+                $('#primary').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                    _this.parent().remove();
+                    $('#dele-new').append(_this.parent().html());
                 });
             });
             $('#save').on('click',function(){
@@ -543,22 +559,6 @@
                         $('#prompt').html('更新失败');
                         $('#prompt').show();
                     }
-                });
-            });
-            $('#default').on('click',function(){
-                $('#androidDialog2').fadeOut(200);
-            });
-            $('.link-delete').live('click',function(){
-                var _this = $(this);
-                var dele =_this.siblings('.link-man').attr('id');
-                $('#container').data('data-link-dele',dele);
-                $('#androidDialog2').fadeIn(200);
-                $('#dialog').html('确定删除该联系人');
-                $('#dele-new').html('');
-                $('#primary').on('click',function(){
-                    $('#androidDialog2').fadeOut(200);
-                    _this.parent().remove();
-                    $('#dele-new').append(_this.parent().html());
                 });
             });
         }
@@ -742,6 +742,22 @@
                         '</div>'
                 $('#link-box').append(html);
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                $('#default').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                });
+                $('.link-delete').on('click',function(){
+                    var _this = $(this);
+                    var dele =_this.siblings('.link-man').attr('id');
+                    $('#container').data('data-link-dele',dele);
+                    $('#androidDialog2').fadeIn(200);
+                    $('#dialog').html('确定删除该联系人');
+                    $('#dele-new').html('');
+                    $('#primary').on('click',function(){
+                        $('#androidDialog2').fadeOut(200);
+                        _this.parent().remove();
+                        $('#dele-new').append(_this.parent().html());
+                    });
+                });
             }
         });
         function  Toast() {
