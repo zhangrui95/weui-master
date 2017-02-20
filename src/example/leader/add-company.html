@@ -51,7 +51,7 @@
             </div>
             <div class="head-title">联系人</div>
                 <div id="link-box"></div>
-                <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>
+                <div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>
              </div>
             <div class="prompt active" id="notNull">请填选必填项</div>
         </div>
@@ -200,32 +200,30 @@
         $('#iosActionsheetCancel-police').on('click', hideActionSheet);
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
         //选择企业分类
-        $.ajax({
-            type: "POST",
-            url: "api/companyType.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                for(var i = 0;i<data.length;i++){
-                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                }
-            },
-            error: function () {
-                console.log("error");
-            }
-        });
-            $('#classify').on('click',function(){
-                $iosActionsheet.addClass('weui-actionsheet_toggle');
-                $iosMask.fadeIn(200);
-                $('.type-choice-name').on('click',function(){
-                    $('#classify').html($(this).text());
-                    var typeId = $(this).attr('id');
-                    $('#container').data('data-add-typeId',typeId);
-                    if($('#classify').text()!=''){
-                        $('#icon1').hide();
+        $('#classify').on('click',function(){
+            $('#choice-list').html('');
+            $.ajax({
+                type: "POST",
+                url: "api/companyType.json",
+                data:{userid:$('#userid').val()},
+                success: function (data) {
+                    for(var i = 0;i<data.length;i++){
+                        $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
                     }
-                    hideActionSheet();
-                });
+                    $iosActionsheet.addClass('weui-actionsheet_toggle');
+                    $iosMask.fadeIn(200);
+                    $('.type-choice-name').on('click',function(){
+                        $('#classify').html($(this).text());
+                        var typeId = $(this).attr('id');
+                        $('#container').data('data-add-typeId',typeId);
+                        hideActionSheet();
+                    });
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
             });
+        });
         //选择辖区
         $.ajax({
             type: "POST",
@@ -247,12 +245,9 @@
                 $('#police').html($(this).text());
                 var policeId = $(this).attr('id');
                 $('#container').data('data-add-policeId', policeId);
-                if ($('#police').text() != '') {
-                    $('#icon2').hide();
-                }
                 hideActionSheet();
             });
-         });
+        });
         //选择企业组别
         $('#group').on('click',function(){
             $iosActionsheets.addClass('weui-actionsheet_toggle');
@@ -261,9 +256,6 @@
                 $('#group').html($(this).text());
                 var groupId = $(this).data('group');
                 $('#container').data('data-add-groupId',groupId);
-                if($('#group').text()!=''){
-                    $('#icon3').hide();
-                }
                 hideActionSheet();
             });
         });

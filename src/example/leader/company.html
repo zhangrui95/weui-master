@@ -149,24 +149,24 @@
 
         function showCellAction(cell){
             isCellEditModel = true;
-            cell.find('.item-width').animate({width:'72%'},400,'linear');
-            cell.find('.size-new').animate({width:'195px'},400,'linear');
-            cell.parent().siblings().find('.delete-box').animate({right:'-101px'},400,'linear');
-            cell.siblings('.delete-box').animate({right:'0'},400,'linear');
+            cell.find('.item-width').animate({width:'72%'},200,'linear');
+            cell.find('.size-new').animate({width:'195px'},200,'linear');
+            cell.parent().siblings().find('.delete-box').animate({right:'-101px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'0'},200,'linear');
         }
 
         function hideCellAction(cell){
             isCellEditModel = false;
-            cell.find('.item-width').animate({width:'90%'},400,'linear');
-            cell.find('.size-new').animate({width:'220px'},400,'linear');
-            cell.siblings('.delete-box').animate({right:'-101px'},400,'linear');
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'-101px'},200,'linear');
         }
 
         function hideAllCellAction(cell){
             isCellEditModel = false;
-            cell.find('.item-width').animate({width:'90%'},400,'linear');
-            cell.find('.size-new').animate({width:'220px'},400,'linear');
-            cell.parent().parent().find('.delete-box').animate({right:'-101px'},400,'linear');
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.parent().parent().find('.delete-box').animate({right:'-101px'},200,'linear');
         }
 
         var currDataListCfg = {

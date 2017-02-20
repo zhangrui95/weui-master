@@ -218,6 +218,12 @@
             $('.link-delete').show();
             $('#change').hide();
             $('.link-alert').addClass('link-man');
+            if($('#legal-name').html()==''){
+                $('#add-legal').html('<div class="add-legal-person"><span class="add-icon">+</span>新增法人</div>');
+            };
+            if($('#legal-name').html()!=''){
+                $('#add-legal').hide();
+            };
             $('#empty-name').on('click',function(){
                 $('#input-change').val('');
                 $('#input-change').focus();
@@ -279,9 +285,6 @@
                     $('#police').html($(this).text());
                     var policeId = $(this).attr('id');
                     $('#container').data('data-add-policeId', policeId);
-                    if ($('#police').text() != '') {
-                        $('#icon2').hide();
-                    }
                     hideActionSheet();
                 });
             });
@@ -293,9 +296,6 @@
                     $('#fire').html($(this).text());
                     var fireId = $(this).data('fire');
                     $('#container').data('data-add-fireId',fireId);
-                    if($('#fire').text()!=''){
-                        $('#icon4').hide();
-                    }
                     hideActionSheet();
                 });
             });
@@ -329,6 +329,9 @@
                     $('#alert,#alertbackground').fadeOut(100);
                     var legalName = $('#legal-person-name').val();
                     $('#legal-name').html(legalName);
+                    if($('#legal-name').html()!=''){
+                        $('#add-legal').hide();
+                    }
                     var legalPhone = $('#legal-phone').val();
                     $('#mobile-num').html(legalPhone);
                     var legalCompanyNum = $('#legal-company-tel-num').val();
@@ -350,7 +353,7 @@
                 });
             });
             $('#news-change').after(
-                    '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人<img src="images/icon-go.jpg" class="lt-img"/></div>'
+                    '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>'
             );
             //删除及添加修改联系人
             $('#add-linkman').on('click',function(){
@@ -448,7 +451,7 @@
             $('#save').on('click',function(){
                 $('.bd-right').css('margin-right','0');
                 $('.icon-go-width').hide();
-                $('link-delete').hide()
+                $('.link-delete').hide();
                 $('#classify').unbind();
                 $('#group').unbind();
                 $('#legal-person').unbind();
@@ -620,14 +623,14 @@
                                 '<div class="weui-cell__bd bd-right" id="company-name">'+
                                 company+
                                 '</div>'+
-                                '<img src="images/empty.png" class="icon-go-width" id="empty-name"/> '+
+                                '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-name"/> '+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
                                 '<div class="weui-cell__bd bd-right place-top" id="company-place">'+
                                 address+
                                 '</div>'+
-                                '<img src="images/empty.png" class="icon-go-width" id="empty-place"/> '+
+                                '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-place"/> '+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
@@ -659,7 +662,7 @@
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
-                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+legalPersonCard+'">'+legalPersonName+'</label></div>'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+legalPersonCard+'">'+legalPersonName+'</label></div><div id="add-legal"></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
                                 '<span id="mobile-num">'+legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+legalPersonMobile+'</span>'+
                                 '</div>'+
