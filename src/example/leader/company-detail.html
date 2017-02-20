@@ -314,6 +314,9 @@
             });
             //法人信息修改
             $('#legal-person').on('click',function(){
+                inPop(function(){
+                    $('#alert,#alertbackground').fadeOut(100);
+                });
                 $('#alert,#alertbackground').fadeIn(100);
                 var legalPhone = $('#legal-phone').val();
                 var legalCompanyNum = $('#legal-company-tel-num').val();
@@ -349,6 +352,7 @@
                     }
                 });
                 $('#dis-none2').on('click',function(){
+                    outPop();
                     $('#alert,#alertbackground').fadeOut(100);
                 });
             });
@@ -356,18 +360,36 @@
                     '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>'
             );
             //删除及添加修改联系人
+            function inPop(callback){
+                pageManager.setBeforeHashchangeOnce(function (e) {
+                    callback()
+                    return false;
+                })
+            }
+
+            function outPop(){
+                pageManager.setBeforeHashchangeOnce(null)
+            }
             $('#add-linkman').on('click',function(){
+                inPop(function(){
+                    $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                });
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
                 $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
                 $('#prompt').hide();
                 $('#dis-none').on('click',function(){
+                    outPop();
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                 });
             });
             $('.link-man').on('click',function(){
+                inPop(function(){
+                    $('#alert-person,#changeground,#amend').fadeOut(100);
+                });
                 $('#prompt').hide();
                 $('#alert-person,#changeground,#amend').fadeIn(100);
                 $('#dis-none1').on('click',function(){
+                    outPop();
                     $('#alert-person,#changeground,#amend').fadeOut(100);
                 });
                 var manPan = $(this);

@@ -273,9 +273,25 @@
                 hideActionSheet();
             });
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback()
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
         //添加法人信息
         $('#legal-person').on('click',function(){
+            inPop(function(){
+                $('#alert,#alertbackground').fadeOut(100);
+            });
             $('#alert,#alertbackground').fadeIn(100);
+            $('#dis-none2').on('click',function(){
+                outPop();
+                $('#alert,#alertbackground').fadeOut(100);
+            });
             $('#new-save').on('click',function(){
                 $('#alert,#alertbackground').fadeOut(100);
                 var legalName = $('#legal-person-name').val();
@@ -305,32 +321,16 @@
                 }
                 $('#phone-num-box').show();
             });
-            $('#dis-none2').on('click',function(){
-                $('#alert,#alertbackground').fadeOut(100);
-            });
         });
         $('.blur').on('click',function(){
             $('#input-change,#input-place').blur();
         });
-
-        function inPop(callback){
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback()
-                return false;
-            })
-        }
-
-        function outPop(){
-            pageManager.setBeforeHashchangeOnce(null)
-        }
-
         $('#add-linkman').on('click',function(){
             inPop(function(){
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
             });
             $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
             $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
-//            $('#linkName').focus();
             $('#prompt').hide();
             $('#dis-none').on('click',function(){
                 outPop();
