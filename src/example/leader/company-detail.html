@@ -429,6 +429,22 @@
                     }
                 });
             });
+            $('#default').on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+            });
+            $('.old-link').siblings('.link-delete').on('click',function(){
+                var _this = $(this);
+                var dele =_this.siblings('.link-man').attr('id');
+                $('#container').data('data-link-dele',dele);
+                $('#androidDialog2').fadeIn(200);
+                $('#dialog').html('确定删除该联系人');
+                $('#dele-new').html('');
+                $('#primary').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                    _this.parent().remove();
+                    $('#dele-new').append(_this.parent().html());
+                });
+            });
             $('#save').on('click',function(){
                 $('.bd-right').css('margin-right','0');
                 $('.icon-go-width').hide();
@@ -543,22 +559,6 @@
                         $('#prompt').html('更新失败');
                         $('#prompt').show();
                     }
-                });
-            });
-            $('#default').on('click',function(){
-                $('#androidDialog2').fadeOut(200);
-            });
-            $('.link-delete').on('click',function(){
-                var _this = $(this);
-                var dele =_this.siblings('.link-man').attr('id');
-                $('#container').data('data-link-dele',dele);
-                $('#androidDialog2').fadeIn(200);
-                $('#dialog').html('确定删除该联系人');
-                $('#dele-new').html('');
-                $('#primary').on('click',function(){
-                    $('#androidDialog2').fadeOut(200);
-                    _this.parent().remove();
-                    $('#dele-new').append(_this.parent().html());
                 });
             });
         }
@@ -738,20 +738,15 @@
                         linkPhone+
                         '</div>'+
                         '</div>'+
-                        '<div class="link-delete block">×</div>'+
+                        '<div class="link-delete block add-link-delete">×</div>'+
                         '</div>'
                 $('#link-box').append(html);
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                 $('#default').on('click',function(){
                     $('#androidDialog2').fadeOut(200);
                 });
-                $('#default').on('click',function(){
-                    $('#androidDialog2').fadeOut(200);
-                });
-                $('.link-delete').on('click',function(){
+                $('.add-link-delete').on('click',function(){
                     var _this = $(this);
-                    var dele =_this.siblings('.link-man').attr('id');
-                    $('#container').data('data-link-dele',dele);
                     $('#androidDialog2').fadeIn(200);
                     $('#dialog').html('确定删除该联系人');
                     $('#primary').on('click',function(){
