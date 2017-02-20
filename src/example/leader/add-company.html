@@ -302,8 +302,14 @@
                 }else{
                     $('#legal-icon').hide();
                 }
-                if(legalPhone.length != 0&&legalCompanyNum.length!=0){
+                if(legalPhone.length != 0||legalCompanyNum.length!=0){
                     $('#symbol').show();
+                }
+                if(legalPhone.length != 0&&legalCompanyNum.length==0){
+                    $('#symbol').hide();
+                }
+                if(legalPhone.length == 0&&legalCompanyNum.length!=0){
+                    $('#symbol').hide();
                 }
                 $('#phone-num-box').show();
             });

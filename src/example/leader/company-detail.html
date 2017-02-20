@@ -111,6 +111,16 @@
     </div>
     <div class="page-alert active" id="personbackground"></div>
     <div class="page-alert active" id="changeground"></div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -305,10 +315,6 @@
                 var changelegalCompanyNum = $('#tel-num').text();
                 $('#legal-company-tel-num').val(changelegalCompanyNum);
                 $('#IdCard').val(legalPersonCard);
-                $('#legal-person-name').focus();
-                if(legalPhone.length == 0||legalCompanyNum.length==0){
-                    $('#symbol').show();
-                }
                 $('#new-save').on('click',function(){
                     $('#alert,#alertbackground').fadeOut(100);
                     var legalName = $('#legal-person-name').val();
@@ -319,6 +325,15 @@
                     $('#tel-num').html(legalCompanyNum);
                     var legalCard = $('#IdCard').val();
                     $('#legal-name').data('cardid',legalCard);
+                    if(legalPhone.length != 0&&legalCompanyNum.length!=0){
+                        $('#symbol').show();
+                    }
+                    if(legalPhone.length == 0&&legalCompanyNum.length!=0){
+                        $('#symbol').hide();
+                    }
+                    if(legalPhone.length != 0&&legalCompanyNum.length==0){
+                        $('#symbol').hide();
+                    }
                 });
                 $('#dis-none2').on('click',function(){
                     $('#alert,#alertbackground').fadeOut(100);
@@ -527,11 +542,21 @@
                     }
                 });
             });
+            $('#default').on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+            });
             $('.link-delete').live('click',function(){
-                var dele =$(this).siblings('.link-man').attr('id');
+                var _this = $(this);
+                var dele =_this.siblings('.link-man').attr('id');
                 $('#container').data('data-link-dele',dele);
-                $('#dele-new').append($(this).parent().html());
-                $(this).parent().remove();
+                $('#androidDialog2').fadeIn(200);
+                $('#dialog').html('确定删除该联系人');
+                $('#dele-new').html('');
+                $('#primary').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                    _this.parent().remove();
+                    $('#dele-new').append(_this.parent().html());
+                });
             });
         }
 
@@ -573,16 +598,16 @@
                 fire = '重点消防单位';
             }
             if(legalPersonName==null){
-                legalPersonName=''
+                legalPersonName='';
             }
             if(legalPersonCard==null){
-                legalPersonCard=''
+                legalPersonCard='';
             }
             if(legalPersonPhone==null){
-                legalPersonPhone=''
+                legalPersonPhone='';
             }
             if(legalPersonMobile==null){
-                legalPersonMobile=''
+                legalPersonMobile='';
             }
             company = company==null?'':company;
                 var html =      '<div id="news-change">'+
@@ -654,6 +679,12 @@
                                 html += '</div>';
                 html += '</div>';
             $('.cells-ajax').append(html);
+            if($('#mobile-num').text()==''){
+                $('#symbol').hide();
+            }
+            if($('#tel-num').text()==''){
+                $('#symbol').hide();
+            }
         }
         $('#news-save').on('click',function(){
             var linkmanName = $('#linkName').val();
