@@ -121,6 +121,7 @@
             </div>
         </div>
     </div>
+    <div class="prompt active" id="notNull">请填选必填项</div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -173,7 +174,7 @@
                 var x = e.touches[0].clientX-25;
                 var y = e.touches[0].clientY-25;
                 $('#change').css('left',x + "px");
-                $('#change').css('top',y + "px")
+                $('#change').css('top',y + "px");
             });
             $('#change').on('touchend',function(e){
                 var endX = e.changedTouches[0].pageX;
@@ -471,25 +472,16 @@
                 });
             });
             $('#save').on('click',function(){
-                $('.bd-right').css('margin-right','0');
-                $('.icon-go-width').hide();
-                $('.link-delete').hide();
-                $('#classify').unbind();
-                $('#group').unbind();
-                $('#legal-person').unbind();
-                $('#add-linkman').unbind();
-                $('#add-linkman').hide();
-                $('#change').show();
-                $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
-                $('#maskbox').hide();
-                var text = $('#input-change').val();
-                var text1 = $('#textarea-place').val();
-                $('#company-name').html(text);
-                $('#company-place').html(text1);
-                $('.link-alert').removeClass('link-man');
-                Toast();
-                var inputChange = $('#company-name').text();
-                var inputplace = $('#company-place').text();
+                var hints = '';
+                function hint(hints) {
+                    $('#notNull').html(hints);
+                    $('#notNull').fadeIn(100);
+                    setTimeout(function () {
+                        $('#notNull').fadeOut(100);
+                    }, 2000);
+                }
+                var inputChange = $('#input-change').val();
+                var inputplace = $('#textarea-place').val();
                 var type = $('#container').data('data-add-typeId');
                 if(type==null){
                     type = $('#classify').data('types');
@@ -564,27 +556,68 @@
                         $('#add-list-name').append( '<input name="'+object+'.post" value="'+Work+'"/>');
                     }
                 });
-                var json = $('#form-box').serialize();
-                $.ajax({
-                    type: "post",
-                    url: "api/company/update.json?userid="+$('#userid').val(),
-                    data:json,
-                    success: function (xhr) {
-                        if(xhr && xhr.state == 0){
-                            $dele.html('');
-                            $('#notNull').hide();
-                            $('.cells-ajax').html('');
-                            load();
-                        }else{
+                if(inputChange.length==0||inputChange==''){
+                    var hints = '请输入企业名称';
+                    hint(hints);
+                }else if(inputplace.length==0||inputplace==''){
+                    var hints = '请输入企业地址';
+                    hint(hints);
+                }else if(type==''){
+                    var hints = '请选择企业分类';
+                    hint(hints);
+                }else if($('#police').text()==''){
+                    var hints = '请选择辖区';
+                    hint(hints);
+                }else if($('#group').text()==''){
+                    var hints = '请选择企业组别';
+                    hint(hints);
+                }else if($('#fire').text()==''){
+                    var hints = '请选择消防等级';
+                    hint(hints);
+                }else if($('#link-box').text().length==0||$('#link-box').text()==''){
+                    var hints = '请添加企业联系人信息';
+                    hint(hints);
+                }else{
+                    $('.bd-right').css('margin-right','0');
+                    $('.icon-go-width').hide();
+                    $('.link-delete').hide();
+                    $('#classify').unbind();
+                    $('#group').unbind();
+                    $('#legal-person').unbind();
+                    $('#add-linkman').unbind();
+                    $('#add-linkman').hide();
+                    $('#change').show();
+                    $('#maskbox').hide();
+                    var text = $('#input-change').val();
+                    var text1 = $('#textarea-place').val();
+                    $('#company-name').html(text);
+                    $('#company-place').html(text1);
+                    $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
+                    $('.link-alert').removeClass('link-man');
+                    Toast();
+                    var json = $('#form-box').serialize();
+                    $.ajax({
+                        type: "post",
+                        url: "api/company/update.json?userid="+$('#userid').val(),
+                        data:json,
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 0){
+                                $dele.html('');
+                                $('#notNull').hide();
+                                $('.cells-ajax').html('');
+                                load();
+                            }else{
+                                $('#prompt').html('更新失败');
+                                $('#prompt').show();
+                            }
+                        },
+                        error: function () {
                             $('#prompt').html('更新失败');
                             $('#prompt').show();
                         }
-                    },
-                    error: function () {
-                        $('#prompt').html('更新失败');
-                        $('#prompt').show();
-                    }
-                });
+                    });
+                }
+
             });
         }
 
@@ -688,7 +721,6 @@
                                 '<div class="weui-cell__bd bd-right">'+
                                 '<span id="mobile-num">'+legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+legalPersonMobile+'</span>'+
                                 '</div>'+
-                                '<img src="images/icon-go.jpg" class="icon-go-width"/> '+
                                 '</div>'+
                                 '<div class="head-title">联系人</div>'+
                                 '<div id="link-box">';
