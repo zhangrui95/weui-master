@@ -236,8 +236,10 @@
             $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
             var txt = $('#company-name').text();
             var txt1= $('#company-place').text();
+            var txt2 =$('#company-building').text();
             $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
             $('#company-place').html('<input class="input-change" type="text" id="textarea-place" value="'+txt1+'"/>');
+            $('#company-building').html('<input class="input-change" type="text" value="'+txt2+'" id="input-building"/>');
             var changeval = $('#input-change').val();
             $('#input-change').val(changeval);
             //选择企业分类
@@ -482,6 +484,7 @@
                 }
                 var inputChange = $('#input-change').val();
                 var inputplace = $('#textarea-place').val();
+                var inputbuilding = $('#input-building').val();
                 var type = $('#container').data('data-add-typeId');
                 if(type==null){
                     type = $('#classify').data('types');
@@ -506,6 +509,7 @@
                         '<input name="id" value="'+cid+'"/>'+
                         '<input name="name" value="'+inputChange+'"/>'+
                         '<input name="address" value="'+inputplace+'"/>'+
+                        '<input name="officeBuilding" value="'+inputbuilding+'"/>'+
                         '<input name="type" value="'+type+'"/>'+
                         '<input name="police" value="'+police+'"/>'+
                         '<input name="groupType" value="'+group+'"/>'+
@@ -607,13 +611,11 @@
                                 $('.cells-ajax').html('');
                                 load();
                             }else{
-                                $('#prompt').html('更新失败');
-                                $('#prompt').show();
+                                hint('更新失败');
                             }
                         },
                         error: function () {
-                            $('#prompt').html('更新失败');
-                            $('#prompt').show();
+                            hint('更新失败');
                         }
                     });
                 }
@@ -646,6 +648,7 @@
             var legalPersonName = data.company.legalPersonName;
             var legalPersonPhone = data.company.legalPersonPhone;
             var legalPersonMobile = data.company.legalPersonMobile;
+            var officeBuilding = data.company.officeBuilding;
             var group = '未选择';
             if(groupType==0){
                 group = '普通';
@@ -670,6 +673,9 @@
             if(legalPersonMobile==null){
                 legalPersonMobile='';
             }
+            if(officeBuilding ==null){
+                officeBuilding='';
+            }
             company = company==null?'':company;
                 var html =      '<div id="news-change">'+
                                 '<div class="head-title">基本信息</div>'+
@@ -684,6 +690,13 @@
                                 '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
                                 '<div class="weui-cell__bd bd-right place-top" id="company-place">'+
                                 address+
+                                '</div>'+
+                                '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-place"/> '+
+                                '</div>'+
+                                '<div class="none-flex cell-border cell-margin">'+
+                                '<div class="weui-cell__hd"><label class="weui-label">写字楼/商场</label></div>'+
+                                '<div class="weui-cell__bd bd-right place-top" id="company-building">'+
+                                officeBuilding +
                                 '</div>'+
                                 '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-place"/> '+
                                 '</div>'+

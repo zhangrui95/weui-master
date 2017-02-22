@@ -22,6 +22,12 @@
                 <div class="red-star">*</div>
             </div>
             <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">写字楼/商场</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="company-building">
+                    <input class="input-change fire-num-box-border font-color" type="text" placeholder="请输入写字楼"  value="" id="input-building"/>
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>
                 <div class="weui-cell__bd bd-right font-color blur" id="classify">请选择</div>
                 <div  class="red-star">*</div>
@@ -159,7 +165,7 @@
             </div>
         </div>
         <div class="page-alert active" id="personbackground"></div>
-    <div class="page-alert active" id="changeground"></div>
+        <div class="page-alert active" id="changeground"></div>
         <div class="js_dialog" id="androidDialog2" style="display: none;">
             <div class="weui-mask"></div>
             <div class="weui-dialog weui-skin_android">
@@ -476,6 +482,7 @@
             }
             var inputChange = $('#input-change').val();
             var inputplace = $('#input-place').val();
+            var officeBuilding = $('#input-building').val();
             var classify = $('#classify').text();
             var type = $('#container').data('data-add-typeId');
             var police = $('#container').data('data-add-policeId');
@@ -488,6 +495,7 @@
             $('#form-box').html(
                     '<input name="name" value="'+inputChange+'"/>'+
                     '<input name="address" value="'+inputplace+'"/>'+
+                    '<input name="officeBuilding" value="'+officeBuilding+'"/>'+
                     '<input name="type" value="'+type+'"/>'+
                     '<input name="police" value="'+police+'"/>'+
                     '<input name="groupType" value="'+group+'"/>'+
@@ -515,26 +523,19 @@
                 );
             }
             if(inputChange.length==0||inputChange==''){
-                var hints = '请输入企业名称';
-                hint(hints);
+                hint('请输入企业名称');
             }else if(inputplace.length==0||inputplace==''){
-                var hints = '请输入企业地址';
-                hint(hints);
+                hint('请输入企业地址');
             }else if(classify=='请选择'){
-                var hints = '请选择企业分类';
-                hint(hints);
+                hint('请选择企业分类');
             }else if($('#police').text()=='请选择'){
-                var hints = '请选择辖区';
-                hint(hints);
+                hint('请选择辖区');
             }else if($('#group').text()=='请选择'){
-                var hints = '请选择企业组别';
-                hint(hints);
+                hint( '请选择企业组别');
             }else if($('#fire').text()=='请选择'){
-                var hints = '请选择消防等级';
-                hint(hints);
+                hint('请选择消防等级');
             }else if($('#link-box').text().length==0||$('#link-box').text()==''){
-                var hints = '请添加企业联系人信息';
-                hint(hints);
+                hint('请添加企业联系人信息');
             }else{
                 var json = $('#form-box').serialize();
                 $.ajax({
