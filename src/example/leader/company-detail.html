@@ -328,7 +328,7 @@
                 var legalPhone = $('#legal-phone').val();
                 var legalCompanyNum = $('#legal-company-tel-num').val();
                 var changeLegalname = $('#legal-name').text();
-                var legalPersonCard = $('#legal-name').data('cardid');
+                var legalPersonCard = $('#legalCard').text();
                 $('#legal-person-name').val(changeLegalname);
                 var changelegalPhone = $('#mobile-num').text();
                 $('#legal-phone').val(changelegalPhone);
@@ -347,7 +347,7 @@
                     var legalCompanyNum = $('#legal-company-tel-num').val();
                     $('#tel-num').html(legalCompanyNum);
                     var legalCard = $('#IdCard').val();
-                    $('#legal-name').data('cardid',legalCard);
+                    $('#legalCard').html(legalCard);
                     if(legalPhone.length != 0&&legalCompanyNum.length!=0){
                         $('#symbol').show();
                     }
@@ -505,10 +505,10 @@
                 if(fire==null){
                     fire = $('#fire').data('fires');
                 }
-                var legalPersonName= $('#legal-person-name').val();
-                var legalPersonPhone= $('#legal-phone').val();
-                var legalPersonMobile= $('#legal-company-tel-num').val();
-                var legalPersonCard = $('#IdCard').val();
+                var legalPersonName= $('#legal-name').html();
+                var legalPersonPhone= $('#mobile-num').html();
+                var legalPersonMobile= $('#tel-num').html();
+                var legalPersonCard = $('#legalCard').html();
                 $('#form-box').html(
                         '<input name="id" value="'+cid+'"/>'+
                         '<input name="name" value="'+inputChange+'"/>'+
@@ -734,11 +734,12 @@
                                 '</div>'+
                                 '<div class="head-title">法人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
-                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" data-cardid="'+legalPersonCard+'">'+legalPersonName+'</label></div><div id="add-legal"></div>'+
+                                '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" >'+legalPersonName+'</label></div><div id="add-legal"></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
                                 '<span id="mobile-num">'+legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+legalPersonMobile+'</span>'+
                                 '</div>'+
                                 '</div>'+
+                                '<span class="active" id="legalCard">'+legalPersonCard+'</span>'+
                                 '<div class="head-title">联系人</div>'+
                                 '<div id="link-box">';
             var users = data.users,wid,email,post;
@@ -762,6 +763,8 @@
                                 }
                                 html += '</div>';
                 html += '</div>';
+            console.log(legalPersonCard);
+
             $('.cells-ajax').append(html);
             if($('#mobile-num').text()==''){
                 $('#symbol').hide();
