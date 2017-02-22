@@ -233,6 +233,10 @@
                 $('#textarea-place').val('');
                 $('#textarea-place').focus();
             });
+            $('#empty-building').on('click',function(){
+                $('#input-building').val('');
+                $('#input-building').focus();
+            });
             $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
             var txt = $('#company-name').text();
             var txt1= $('#company-place').text();
@@ -313,7 +317,7 @@
                 });
             });
             $('.blur').on('click',function(){
-                $('#input-change,#textarea-place').blur();
+                $('#input-change,#textarea-place,#input-building').blur();
             });
             //法人信息修改
             $('#legal-person').on('click',function(){
@@ -698,7 +702,7 @@
                                 '<div class="weui-cell__bd bd-right place-top" id="company-building">'+
                                 officeBuilding +
                                 '</div>'+
-                                '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-place"/> '+
+                                '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-building"/> '+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
