@@ -367,16 +367,6 @@
                     '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>'
             );
             //删除及添加修改联系人
-            function inPop(callback){
-                pageManager.setBeforeHashchangeOnce(function (e) {
-                    callback()
-                    return false;
-                })
-            }
-
-            function outPop(){
-                pageManager.setBeforeHashchangeOnce(null)
-            }
             $('#add-linkman').on('click',function(){
                 inPop(function(){
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
@@ -389,78 +379,7 @@
                     $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                 });
             });
-            $('.link-man').on('click',function(){
-                inPop(function(){
-                    $('#alert-person,#changeground,#amend').fadeOut(100);
-                });
-                $('#prompt').hide();
-                $('#alert-person,#changeground,#amend').fadeIn(100);
-                $('#dis-none1').on('click',function(){
-                    outPop();
-                    $('#alert-person,#changeground,#amend').fadeOut(100);
-                });
-                var manPan = $(this);
-                var _this = $(this).find('.label-width');
-                var _this_phone = $(this).find('.label-phone');
-                $('#linkName').val(_this.text());
-                $('#linkPhone').val(_this_phone.text());
-                var weixin = $(this).data('weixin');
-                if(weixin=='undefined'){
-                    weixin='';
-                }
-                $('#WeXin').val(weixin);
-                var email = $(this).data('email');
-                if(email=='undefined'){
-                    email='';
-                }
-                $('#E-mail').val(email);
-                $('#WeXin').val(weixin);
-                var post = $(this).data('post');
-                if(post=='undefined'){
-                    post='';
-                }
-                $('#Work').val(post);
-                $('#amend-new').on('click',function(){
-                    var linkmanName = $('#linkName').val();
-                    var linkPhone = $('#linkPhone').val();
-                    var WeXin = $('#WeXin').val();
-                    var Email = $('#E-mail').val();
-                    var Work = $('#Work').val();
-                    var pattern = /^1[34578]\d{9}$/;
-                    var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-                    if(linkmanName.length==0||linkPhone.length==0){
-                        $('#prompt').html('请输入必填项');
-                        $('#prompt').fadeIn(100);
-                        setTimeout(function () {
-                            $('#prompt').fadeOut(100);
-                        }, 2000);
-                    }else if(pattern.test(linkPhone)==false){
-                        $('#prompt').html('请输入正确的手机号码');
-                        $('#prompt').fadeIn(100);
-                        setTimeout(function () {
-                            $('#prompt').fadeOut(100);
-                        }, 2000);
-                    }else if(Email.length!=0){
-                        if(email.test(Email)==false){
-                            $('#prompt').html('请输入正确的邮箱账号');
-                            $('#prompt').fadeIn(100);
-                            setTimeout(function () {
-                                $('#prompt').fadeOut(100);
-                            }, 2000);
-                        }else{
-                            _this.html($('#linkName').val());
-                            _this_phone.html($('#linkPhone').val());
-                            $('#alert-person,#changeground,#amend').fadeOut(100);
-                            motifyMan(manPan);
-                        }
-                    }else{
-                        _this.html($('#linkName').val());
-                        _this_phone.html($('#linkPhone').val());
-                        $('#alert-person,#changeground,#amend').fadeOut(100);
-                        motifyMan(manPan);
-                    }
-                });
-            });
+            linkAlert();
             $('#default').on('click',function(){
                 $('#androidDialog2').fadeOut(200);
             });
@@ -763,8 +682,6 @@
                                 }
                                 html += '</div>';
                 html += '</div>';
-            console.log(legalPersonCard);
-
             $('.cells-ajax').append(html);
             if($('#mobile-num').text()==''){
                 $('#symbol').hide();
@@ -818,6 +735,7 @@
                         '<div class="link-delete block add-link-delete">×</div>'+
                         '</div>'
                 $('#link-box').append(html);
+                linkAlert();
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
                 $('#default').on('click',function(){
                     $('#androidDialog2').fadeOut(200);
@@ -833,6 +751,89 @@
                 });
             }
         });
+        function linkAlert() {
+            $('.link-man').on('click',function(){
+                inPop(function(){
+                    $('#alert-person,#changeground,#amend').fadeOut(100);
+                });
+                $('#prompt').hide();
+                $('#alert-person,#changeground,#amend').fadeIn(100);
+                $('#dis-none1').on('click',function(){
+                    outPop();
+                    $('#alert-person,#changeground,#amend').fadeOut(100);
+                });
+                var manPan = $(this);
+                var _this = $(this).find('.label-width');
+                var _this_phone = $(this).find('.label-phone');
+                $('#linkName').val(_this.text());
+                $('#linkPhone').val(_this_phone.text());
+                var weixin = $(this).data('weixin');
+                if(weixin=='undefined'){
+                    weixin='';
+                }
+                $('#WeXin').val(weixin);
+                var email = $(this).data('email');
+                if(email=='undefined'){
+                    email='';
+                }
+                $('#E-mail').val(email);
+                $('#WeXin').val(weixin);
+                var post = $(this).data('post');
+                if(post=='undefined'){
+                    post='';
+                }
+                $('#Work').val(post);
+                $('#amend-new').on('click',function(){
+                    var linkmanName = $('#linkName').val();
+                    var linkPhone = $('#linkPhone').val();
+                    var WeXin = $('#WeXin').val();
+                    var Email = $('#E-mail').val();
+                    var Work = $('#Work').val();
+                    var pattern = /^1[34578]\d{9}$/;
+                    var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    if(linkmanName.length==0||linkPhone.length==0){
+                        $('#prompt').html('请输入必填项');
+                        $('#prompt').fadeIn(100);
+                        setTimeout(function () {
+                            $('#prompt').fadeOut(100);
+                        }, 2000);
+                    }else if(pattern.test(linkPhone)==false){
+                        $('#prompt').html('请输入正确的手机号码');
+                        $('#prompt').fadeIn(100);
+                        setTimeout(function () {
+                            $('#prompt').fadeOut(100);
+                        }, 2000);
+                    }else if(Email.length!=0){
+                        if(email.test(Email)==false){
+                            $('#prompt').html('请输入正确的邮箱账号');
+                            $('#prompt').fadeIn(100);
+                            setTimeout(function () {
+                                $('#prompt').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            _this.html($('#linkName').val());
+                            _this_phone.html($('#linkPhone').val());
+                            $('#alert-person,#changeground,#amend').fadeOut(100);
+                            motifyMan(manPan);
+                        }
+                    }else{
+                        _this.html($('#linkName').val());
+                        _this_phone.html($('#linkPhone').val());
+                        $('#alert-person,#changeground,#amend').fadeOut(100);
+                        motifyMan(manPan);
+                    }
+                });
+            });
+        }
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback()
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
         function  Toast() {
             $('#showToast').on('click',function(){
                 $('#container').data('data-list-employee-val',null);
