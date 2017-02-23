@@ -51,12 +51,25 @@
             </div>
         </div>
     </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd">
+                确定删除该照片？
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm">确定</a>
+            </div>
+        </div>
+    </div>
     <div class="btn-box" id="btnPanel">
         <a class="btn box-orange" href="javascript:" id="showToast" >提交</a>
     </div>
 </div>
 <script type="text/javascript">
     $(function(){
+        var $androidDialog2 = $('#androidDialog2');
         var container = $('#container');
         var cid =  container.data('data-company-name-cid');
         var source =  container.data('fire-check-source');
@@ -183,6 +196,7 @@
             $gallery.fadeOut(100);
         });
         $('.weui-gallery__opr').click(function () {
+            $androidDialog2.fadeIn(100);
             var oThis = $(this);
             var curr = oThis.data('curr-media-id');
             var type = oThis.data('curr-media-type');
@@ -194,9 +208,15 @@
             }else if(type == 'fire'){
                 imgList = $uploaderPerson;
             }
-            if(imgList){
-                imgList.find('[data-media-id="'+curr+'"]').remove();
-            }
+            $('#confirm').on('click',function(){
+                if(imgList){
+                    imgList.find('[data-media-id="'+curr+'"]').remove();
+                }
+                $androidDialog2.fadeOut(100);
+            });
+            $('#cancel').on('click',function(){
+                $androidDialog2.fadeOut(100);
+            });
         });
         function addImg(checkIds,legalIds,fireIds){
             $('#img-null').html("");
