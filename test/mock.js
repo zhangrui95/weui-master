@@ -20,8 +20,8 @@ module.exports = [
                     {id:'key3', card:'230105199603022203', company:'旅店3', createTime:1482214046832},
                     {id:'key4', card:'230105199603022204', company:'旅店4', createTime:1482214046832}
                 ],
-                    undo:19,
-                    done:37
+                    undo:55,
+                    done:1020
                 }
             ));
         }
@@ -44,8 +44,8 @@ module.exports = [
                 {id:'key3', card:'230105199603022203', company:'旅店3', createTime:1482214046832},
                 {id:'key4', card:'230105199603022204', company:'旅店4', createTime:1482214046832}
             ],
-                undo:10,
-                done:55
+                undo:100,
+                done:955
             }));
         }
     },

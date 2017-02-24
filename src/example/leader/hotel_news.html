@@ -1,16 +1,20 @@
 <!--旅店信息-->
 <div class="page page_box page-list">
-    <div class="weui-tab">
-        <div class="weui-navbar">
-            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right"></span></div>
-        </div>
+    <!--<div class="weui-tab">-->
+        <!--<div class="weui-navbar">-->
+            <!--<div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span id="number-left"></span></div>-->
+            <!--<div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right"></span></div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="nocard-title">
+        <div class="fire-header-left">未带身份证入住</div>
+        <div class="right-title" id="number-right"></div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none">
                 <div class="weui-cells"  id="tab1"></div>
-                <div class="weui-cells active"  id="tab2"></div>
+                <div class="weui-cells"  id="tab2"></div>
             </div>
             <div class="weui-loadmore-load" id="load">
                 <i class="weui-loading"></i>
@@ -24,7 +28,6 @@
 </div>
 <script type="text/javascript">
     $(function(){
-
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page_box .page__bd');
@@ -35,8 +38,8 @@
             winPanel:container.find('.page_box'),
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                $('#number-left').html('('+data.undo+')');
-                $('#number-right').html('('+data.done+')');
+                var num = data.undo + data.done;
+                $('#number-right').html(num);
                 $(".weui-cell").on('click',function () {
                     var id = $(this).data('id');
                     $('#container').data('detail-source','hotel_news');
@@ -48,8 +51,8 @@
                 var tag = currState=='0';
                 var tabPanel = tag?'tab1':'tab2';
                 var img = tag?'icon-ok.jpg':'icon-over.jpg';
-                var txt = tag?'好厉害！':'哎呦喂！';
-                var txt1 = tag?'已经没有未核查的信息了':'快去看看是否有未核查的信息';
+                var txt = tag?'很抱歉！':'哎呦喂！';
+                var txt1 = tag?'没有相关信息哦':'快去看看是否有未核查的信息';
                 $('#'+tabPanel).html('<div class="empty-box">'+
                         '<img src="images/'+img+'" class="empty-img"/>'+
                         '<p class="null-word">'+txt+'</p>'+
@@ -61,7 +64,7 @@
                 $('.empty-box').hide();
             },
             getItemsPanel : function () {
-                return $('#'+(currState=='0'?'tab1':'tab2'));
+                return $('#tab1,#tab2');
             },
             templateProcess : function (item) {
                 return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="'+item.id+'">' +
