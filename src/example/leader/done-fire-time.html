@@ -1,7 +1,7 @@
 <div class="page">
     <div class="fire-checked">
         <div class="fire-header"></div>
-        <div class="position-list" id="time-list"></div>
+        <div class="position-list-leader" id="time-list"></div>
     </div>
     <script>
         $(function(){
@@ -37,7 +37,7 @@
                     if(list.length==0||list==[]){
                         $('#time-list').html(
                                 '<div class="empty-box">'+
-                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                                '<img src="images/icon-none.jpg" class="empty-img"/>'+
                                 '<p class="null-word">暂无已检查数据</p>'+
                                 '</div>');
                     }

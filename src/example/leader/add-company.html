@@ -49,10 +49,10 @@
              </div>
             <div class="head-title">法人</div>
             <div class="none-flex cell-border cell-margin head-title-border" id="legal-person">
-                <div class="weui-cell__hd"><label class="weui-label" id="legal-name">法人信息</label></div>
+                <div class="weui-cell__hd"><label class="weui-label" id="legal-name"><div class="add-legal-person"><span class="add-icon">+</span>新增法人</div></label></div>
                     <div class="weui-cell__bd bd-right font-color">
                         <div class="active" id="phone-num-box"><span id="mobile-num"></span><span id="symbol">/</span><span id="tel-num"></span></div>
-                        <span class="" id = 'legal-icon'>请填写手机号/电话号</span>
+                        <span class="" id = 'legal-icon'></span>
                     </div>
             </div>
             <div class="head-title">联系人</div>
@@ -302,11 +302,7 @@
                 $('#alert,#alertbackground').fadeOut(100);
                 var legalName = $('#legal-person-name').val();
                 $('#symbol').hide();
-                if(legalName.length==0){
-                    $('#legal-name').html('法人信息');
-                }else{
-                    $('#legal-name').html(legalName);
-                }
+                $('#legal-name').html(legalName);
                 var legalPhone = $('#legal-phone').val();
                 $('#mobile-num').html(legalPhone);
                 var legalCompanyNum = $('#legal-company-tel-num').val();
@@ -315,6 +311,9 @@
                     $('#legal-icon').show();
                 }else{
                     $('#legal-icon').hide();
+                }
+                if(legalName.length==0&&legalPhone.length == 0&&legalCompanyNum.length==0){
+                    $('#legal-name').html('<div class="add-legal-person"><span class="add-icon">+</span>新增法人</div>');
                 }
                 if(legalPhone.length != 0||legalCompanyNum.length!=0){
                     $('#symbol').show();
