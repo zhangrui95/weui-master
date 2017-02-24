@@ -70,6 +70,7 @@
             <div class="td-name">身份证号</div>
             <input type='text' id="IdCard" placeholder="法人身份证号码"/>
         </div>
+        <div class="prompt" id="hite"></div>
         <div class="button-box" data-id="employee_list" >
             <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="police-company_list">取消</a>
             <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
@@ -336,18 +337,24 @@
                 $('#legal-company-tel-num').val(changelegalCompanyNum);
                 $('#IdCard').val(legalPersonCard);
                 $('#new-save').on('click',function(){
-                    $('#alert,#alertbackground').fadeOut(100);
+                    var pattern = /^1[34578]\d{9}$/;
                     var legalName = $('#legal-person-name').val();
-                    $('#legal-name').html(legalName);
-                    if($('#legal-name').html()!=''){
-                        $('#add-legal').hide();
-                    }
                     var legalPhone = $('#legal-phone').val();
-                    $('#mobile-num').html(legalPhone);
                     var legalCompanyNum = $('#legal-company-tel-num').val();
-                    $('#tel-num').html(legalCompanyNum);
                     var legalCard = $('#IdCard').val();
-                    $('#legalCard').html(legalCard);
+                    if(legalPhone!=''){
+                        if(pattern.test(legalPhone)==false){
+                            $('#hite').html('请输入正确的手机号码');
+                            $('#hite').fadeIn(100);
+                            setTimeout(function () {
+                                $('#hite').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            testMobile();
+                        }
+                    } else{
+                        testMobile();
+                    }
                     if(legalPhone.length != 0&&legalCompanyNum.length!=0){
                         $('#symbol').show();
                     }
@@ -357,6 +364,16 @@
                     if(legalPhone.length != 0&&legalCompanyNum.length==0){
                         $('#symbol').hide();
                     }
+                    function testMobile(){
+                        $('#alert,#alertbackground').fadeOut(100);
+                        $('#legal-name').html(legalName);
+                        $('#mobile-num').html(legalPhone);
+                        $('#tel-num').html(legalCompanyNum);
+                        $('#legalCard').html(legalCard);
+                        if(legalName!=''||legalPhone!=''|| legalCompanyNum!=''){
+                            $('#add-legal').hide();
+                        };
+                    };
                 });
                 $('#dis-none2').on('click',function(){
                     outPop();

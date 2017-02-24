@@ -124,6 +124,7 @@
                 <div class="td-name">身份证号</div>
                 <input type='text' id="IdCard" placeholder="法人身份证号码"/>
             </div>
+            <div class="prompt" id="hite"></div>
             <div class="button-box" data-id="employee_list" >
                 <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="police-company_list">取消</a>
                 <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
@@ -153,7 +154,6 @@
                 <div class="td-name">职位</div>
                 <input type='text'id="Work" placeholder="工作职位"/>
             </div>
-            <!--<div class="prompt active" id="prompt">*请输入必填项</div>-->
             <div class="prompt" id="prompt"><p>请输入必填项</p></div>
             <div class="button-box active" data-id="employee_list" id="person-news-change-btn">
                 <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
@@ -299,14 +299,30 @@
                 $('#alert,#alertbackground').fadeOut(100);
             });
             $('#new-save').on('click',function(){
-                $('#alert,#alertbackground').fadeOut(100);
+                var pattern = /^1[34578]\d{9}$/;
                 var legalName = $('#legal-person-name').val();
                 $('#symbol').hide();
-                $('#legal-name').html(legalName);
                 var legalPhone = $('#legal-phone').val();
-                $('#mobile-num').html(legalPhone);
                 var legalCompanyNum = $('#legal-company-tel-num').val();
-                $('#tel-num').html(legalCompanyNum);
+                if(legalPhone!=''){
+                    if(pattern.test(legalPhone)==false){
+                        $('#hite').html('请输入正确的手机号码');
+                        $('#hite').fadeIn(100);
+                        setTimeout(function () {
+                            $('#hite').fadeOut(100);
+                        }, 2000);
+                    }else{
+                        testMobile();
+                    }
+                } else{
+                    testMobile();
+                }
+                function testMobile(){
+                    $('#alert,#alertbackground').fadeOut(100);
+                    $('#legal-name').html(legalName);
+                    $('#mobile-num').html(legalPhone);
+                    $('#tel-num').html(legalCompanyNum);
+                };
                 if(legalPhone.length == 0&&legalCompanyNum.length==0){
                     $('#legal-icon').show();
                 }else{
