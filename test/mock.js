@@ -497,8 +497,6 @@ module.exports = [
                     company:{name:'瓦力科技',address:'黑龙江省哈尔滨市南岗区嵩山路19号',createTime:1485137757000},
                     items:[
                         {type:'check',photo:'images/icon1.png'},
-                        {type:'check',photo:'images/icon2.png'},
-                        {type:'check',photo:'images/icon8.png'},
                         {type:'fire',photo:'images/icon2.png'},
                         {type:'legal',photo:'images/icon3.png'},
                         {type:'legal',photo:'images/icon4.png'},

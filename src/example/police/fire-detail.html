@@ -9,26 +9,31 @@
                 <ul class="img-detail" id="site-img"></ul>
             </div>
         </div>
+        <div class="hight-border"></div>
         <div class="fire-nocheck-title">法律文书</div>
         <div class="none-flex cell-border cell-margin" id="book">
             <div class="weui-cell__bd bd-right">
                 <ul class="img-detail" id="all-img"></ul>
             </div>
         </div>
+        <div class="hight-border"></div>
         <div class="fire-nocheck-title">消防负责人</div>
         <div class="none-flex cell-border cell-margin">
             <div class="weui-cell__bd bd-right">
                 <ul class="img-detail" id="person-img"></ul>
             </div>
         </div>
+        <div class="hight-border"></div>
         <div class="none-flex cell-border cell-margin">
             <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
             <div class="weui-cell__bd bd-right place-top"  id="place"></div>
         </div>
+        <div class="hight-border"></div>
         <div class="none-flex cell-border cell-margin">
             <div class="weui-cell__hd"><label class="weui-label">检查时间</label></div>
             <div class="weui-cell__bd bd-right place-top"  id="time"></div>
         </div>
+        <div class="hight-border"></div>
         <div class="height-fixed"></div>
     </div>
     <div class="weui-gallery" id="gallery">
@@ -97,7 +102,7 @@
                     outPop();
                     $gallery.fadeOut(100);
                 });
-                var width = $('.img-detail').width();
+                var width = $('.bd-right').width();
                 var nums = Math.floor(width/49)*2;
                 var length = $('#site-img li').length;
                 var more = length-nums+1;
@@ -105,11 +110,15 @@
                 var moreBook = bookLength-nums+1;
                 var height = $('#site').height();
                 var bookHeight = $('#book').height();
-                if(height>76){
+                if(height>92){
                     $('#site').addClass('img-box-height');
+                }else{
+                    $('#site').removeClass('img-box-height');
                 }
-                if(bookHeight>76){
+                if(bookHeight>92){
                     $('#book').addClass('img-book-height');
+                }else{
+                    $('#book').removeClass('img-book-height');
                 }
                 $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
                 $('#site-img li').eq(length).after('<li class="more-img pack-up" id="pack-up">收起</li>');
@@ -122,7 +131,7 @@
                     $(this).hide();
                 });
                 $('#pack-up').on('click',function(){
-                    $('.img-box-height').css('height','76px');
+                    $('.img-box-height').css('height','92px');
                     $('#more-num').show();
                 });
                 $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
@@ -136,7 +145,7 @@
                     $(this).hide();
                 });
                 $('#pack-up-book').on('click',function(){
-                    $('.img-book-height').css('height','76px');
+                    $('.img-book-height').css('height','92px');
                     $('#more-nums').show();
                 });
 
