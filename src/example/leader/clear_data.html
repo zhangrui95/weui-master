@@ -218,7 +218,11 @@
                 var moveX = left - endX;
                 var moveY = top -endY;
                 $('body').unbind();
-                if(moveX==0&&moveY==0){
+//                if(moveX==0&&moveY==0){
+//                    var id = $('#add-new-company').data('id');
+//                    window.pageManager.go(id);
+//                }
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                     var id = $('#add-new-company').data('id');
                     window.pageManager.go(id);
                 }

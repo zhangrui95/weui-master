@@ -183,7 +183,10 @@
                 var moveX = left - endX;
                 var moveY = top -endY;
                 $('body').unbind();
-                if(moveX==0&&moveY==0){
+//                if(moveX==0&&moveY==0){
+//                    changeClick();
+//                }
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                     changeClick();
                 }
             });
