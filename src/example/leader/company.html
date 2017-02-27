@@ -240,10 +240,11 @@
         };
         var typeIds = container.data('data-choice-type-ids');
         var policeIds = container.data('data-choice-police-ids');
+        var group = container.data('data-rost-group');
         var currDataList = window.dataList.newList(currDataListCfg);
         var val = container.data('data-list-val');
+//        console.log(group);
         currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
-
         var search = function(){
             var val=$searchInput.val();
             container.data('data-list-val',val);
@@ -251,7 +252,6 @@
                 currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
             }
         };
-
         $searchInput.on('keyup',function(){
             window.lazyRateProxy(search,500);
         });

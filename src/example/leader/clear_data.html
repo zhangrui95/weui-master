@@ -22,11 +22,12 @@
             <div class="choice-title">组别
             </div>
             <ul class="area sort">
-                <li class="all-news"><span class="item-name">普通</span><span>(<span class="type-blue">0</span>)</span></li>
-                <li class="all-news"><span class="item-name">其他</span><span>(<span class="type-blue">0</span>)</span></li>
+                <li class="all-news white-border sorts choice-after" data-group="" id="all-sort">全部</li>
+                <li class="all-news white-border sorts" data-group="0" id="common"><span class="item-name">普通</span><span>(<span class="type-blue" id="common-num"></span>)</span></li>
+                <li class="all-news white-border sorts" data-group="1"  id="rest"><span class="item-name">其他</span><span>(<span class="type-blue" id="rest-num"></span>)</span></li>
             </ul>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类及辖区</p></div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类、辖区及组别</p></div>
     </div>
     <div class="btn-box">
         <a class="btn" href="javascript:" id="showToast" data-id="company">查询</a>
@@ -37,6 +38,7 @@
         var width = document.body.clientWidth;
         var typedis=$('#container').data('data-choice-type-ids');
         var policeids=$('#container').data('data-choice-police-ids');
+        var groupId=$('#container').data('data-groupId');
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
@@ -45,9 +47,11 @@
                 animate(data);
                 types(data);
                 persons(data);
+                sort(data);
                 click();
                 recover(typedis);
                 recover(policeids);
+                recover(groupId);
             },
             error: function (mes) {
                 console.log("error");
@@ -70,6 +74,11 @@
                 $('#all-polices').addClass('choice-after');
             }else{
                 $('#all-polices').removeClass('choice-after');
+            }
+            if(groupId==''){
+                $('#all-sort').addClass('choice-after');
+            }else{
+                $('#all-sort').removeClass('choice-after');
             }
         }
         function animate(data){
@@ -108,6 +117,11 @@
                 $('#area li').eq(0).css('color','#55a3e7');
             }
         }
+        function sort(data){
+            $('.sort li').eq(0).css('color','#55a3e7');
+            $('#common-num').html(0);
+            $('#rest-num').html(0);
+        }
         $('#all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#classification').css('height', '100%');
@@ -116,7 +130,7 @@
                 $('#classification').css('height', '100px');
                 $(this).html('展开全部');
             }
-        })
+        });
         $('#area-all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#area').css('height', '100%');
@@ -125,7 +139,7 @@
                 $('#area').css('height', '100px');
                 $(this).html('展开全部');
             }
-        })
+        });
         function click() {
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
@@ -139,6 +153,10 @@
                 $(this).toggleClass('choice-after');
                 $('#all-polices').removeClass('choice-after');
             })
+            $('#common,#rest,#all-sort').on('click',function () {
+                $(this).toggleClass('choice-after');
+               $(this).siblings().removeClass('choice-after');
+            });
         }
         $('#showToast').on('click',function(){
             var policeIds = [];
@@ -152,18 +170,23 @@
                 policeIds.push($(this).attr('id'));
             })
             $('.choice-after .item-name').each(function(){
-                texts.push($(this).text())
+                texts.push($(this).text());
             });
+            var group = $('.sorts.choice-after').data('group');
+            var groupId = $('.sorts.choice-after').attr('id');
             $('#container').data('data-choice',texts.join(','));
             $('#container').data('data-choice-type-ids',typeIds.join(','));
             $('#container').data('data-choice-police-ids',policeIds.join(','));
+            $('#container').data('data-rost-group',group);
+            $('#container').data('data-groupId',groupId);
             var id = $('#showToast').data('id');
             var typedis=$('#container').data('data-choice-type-ids');
             var policeids=$('#container').data('data-choice-police-ids');
             var alltypes = $('#all-types').hasClass('choice-after');
             var policetypes = $('#all-polices').hasClass('choice-after');
-            if(typedis == ''&& policeids == ''){
-                if(alltypes||policetypes){
+            var grouptypes = $('#all-sort').hasClass('choice-after');
+            if(typedis == ''&& policeids == ''&& group==null){
+                if(alltypes||policetypes||grouptypes){
                     window.pageManager.go(id);
                 }else{
                     $('#hint').fadeIn(100);
@@ -187,7 +210,7 @@
                 var x = _event.clientX-left;
                 var y = _event.clientY-top;
                 $('#add-new-company').css('left',x + "px");
-                $('#add-new-company').css('top',y + "px")
+                $('#add-new-company').css('top',y + "px");
             });
             $('#add-new-company').on('mouseup',function(e){
                 $('body').unbind();
@@ -199,7 +222,6 @@
                     var id = $('#add-new-company').data('id');
                     window.pageManager.go(id);
                 }
-
             });
         });
         $('#add-new-company').on('touchstart',function(e){
@@ -210,7 +232,7 @@
                 var x = e.touches[0].clientX-25;
                 var y = e.touches[0].clientY-25;
                 $('#add-new-company').css('left',x + "px");
-                $('#add-new-company').css('top',y + "px")
+                $('#add-new-company').css('top',y + "px");
             });
             $('#add-new-company').on('touchend',function(e){
                 var endX = e.changedTouches[0].pageX;
