@@ -214,7 +214,6 @@
                 if(moveX==0&&moveY==0){
                     changeClick();
                 }
-
             });
         });
         function changeClick() {
@@ -241,7 +240,12 @@
                 $('#input-building').val('');
                 $('#input-building').focus();
             });
-            $('#look').html('<a class="btn" href="javascript:" id="save" data-id="">保存</a>');
+            $('#look').html(
+                    '<div class="btn-box" id="btnPanel">'+
+                    '<div class="cancel-left" id="cancel-left">取消</div>'+
+                    '<a class="btn-right" href="javascript:" id="save">保存</a>'+
+                    '</div>'
+            );
             var txt = $('#company-name').text();
             var txt1= $('#company-place').text();
             var txt2 =$('#company-building').text();
@@ -526,23 +530,11 @@
                     var hints = '请添加企业联系人信息';
                     hint(hints);
                 }else{
-                    $('.bd-right').css('margin-right','0');
-                    $('.icon-go-width').hide();
-                    $('.link-delete').hide();
-                    $('#classify').unbind();
-                    $('#group').unbind();
-                    $('#legal-person').unbind();
-                    $('#add-linkman').unbind();
-                    $('#add-linkman').hide();
-                    $('#change').show();
-                    $('#maskbox').hide();
+                   restore();
                     var text = $('#input-change').val();
                     var text1 = $('#textarea-place').val();
                     $('#company-name').html(text);
                     $('#company-place').html(text1);
-                    $('#look').html(' <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
-                    $('.link-alert').removeClass('link-man');
-                    Toast();
                     var json = $('#form-box').serialize();
                     $.ajax({
                         type: "post",
@@ -564,6 +556,11 @@
                     });
                 }
 
+            });
+            $('#cancel-left').on('click',function(){
+                $('.cells-ajax').html('');
+                load();
+                restore();
             });
         }
 
@@ -848,12 +845,27 @@
         }
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
-                callback()
+                callback();
                 return false;
             })
         }
         function outPop(){
-            pageManager.setBeforeHashchangeOnce(null)
+            pageManager.setBeforeHashchangeOnce(null);
+        }
+        function  restore() {
+            $('.bd-right').css('margin-right','0');
+            $('.icon-go-width').hide();
+            $('.link-delete').hide();
+            $('#classify').unbind();
+            $('#group').unbind();
+            $('#legal-person').unbind();
+            $('#add-linkman').unbind();
+            $('#add-linkman').hide();
+            $('#change').show();
+            $('#maskbox').hide();
+            $('#look').html('<a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>');
+            $('.link-alert').removeClass('link-man');
+            Toast();
         }
         function  Toast() {
             $('#showToast').on('click',function(){
@@ -862,7 +874,7 @@
                 var id = $('.btn-box').data('id');
                 $('#taskId').val($(this).data('tid'));
                 window.pageManager.go(id);
-            })
+            });
         }
         Toast();
     })
