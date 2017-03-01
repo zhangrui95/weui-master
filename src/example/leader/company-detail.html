@@ -107,7 +107,7 @@
         </div>
         <div class="button-box active" data-id="employee_list" id="amend">
             <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
-            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">修改</a>
+            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">确定</a>
         </div>
     </div>
     <div class="page-alert active" id="personbackground"></div>
@@ -203,7 +203,7 @@
                 var x = _event.clientX-left;
                 var y = _event.clientY-top;
                 $('#change').css('left',x + "px");
-                $('#change').css('top',y + "px")
+                $('#change').css('top',y + "px");
             });
             $('#change').on('mouseup',function(e){
                 $('body').unbind();
@@ -241,9 +241,9 @@
                 $('#input-building').focus();
             });
             $('#look').html(
-                    '<div class="btn-box" id="btnPanel">'+
-                    '<div class="cancel-left" id="cancel-left">取消</div>'+
-                    '<a class="btn-right" href="javascript:" id="save">保存</a>'+
+                    '<div class="btn-box button-box" id="btnPanel">'+
+                    '<div class="imported-left none-style" id="cancel-left">取消</div>'+
+                    '<a class="btn-bg bg-style" href="javascript:" id="save">保存</a>'+
                     '</div>'
             );
             var txt = $('#company-name').text();
