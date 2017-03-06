@@ -75,7 +75,7 @@
             }else{
                 $('#all-polices').removeClass('choice-after');
             }
-            if(groupId==''){
+            if(groupId==''||groupId=='all-sort'){
                 $('#all-sort').addClass('choice-after');
             }else{
                 $('#all-sort').removeClass('choice-after');
@@ -118,9 +118,11 @@
             }
         }
         function sort(data){
+            var cnum = data.groupTypes.common;
+            var onum = data.groupTypes.other;
             $('.sort li').eq(0).css('color','#55a3e7');
-            $('#common-num').html(0);
-            $('#rest-num').html(0);
+            $('#common-num').html(cnum);
+            $('#rest-num').html(onum);
         }
         $('#all-cover').click(function() {
             if ($(this).html() == '展开全部') {
@@ -144,15 +146,15 @@
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
-            })
+            });
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
-            })
+            });
             $('.polices').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-polices').removeClass('choice-after');
-            })
+            });
             $('#common,#rest,#all-sort').on('click',function () {
                 $(this).toggleClass('choice-after');
                $(this).siblings().removeClass('choice-after');
@@ -165,10 +167,10 @@
             $('#container').data('data-list-val',null);
             $('.types.choice-after').each (function(){
                 typeIds.push($(this).attr('id'));
-            })
+            });
             $('.polices.choice-after').each(function(){
                 policeIds.push($(this).attr('id'));
-            })
+            });
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text());
             });
