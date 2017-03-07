@@ -11,11 +11,12 @@
             <div class="choice-title">组别
             </div>
             <ul class="area sort">
-                <li class="all-news"><span class="item-name">普通</span><span>(<span class="type-blue">0</span>)</span></li>
-                <li class="all-news"><span class="item-name">其他</span><span>(<span class="type-blue">0</span>)</span></li>
+                <li class="all-news white-border sorts choice-after" data-group="" id="all-sort">全部</li>
+                <li class="all-news white-border sorts" data-group="0" id="common"><span class="item-name">普通</span><span>(<span class="type-blue" id="common-num"></span>)</span></li>
+                <li class="all-news white-border sorts" data-group="1"  id="rest"><span class="item-name">其他</span><span>(<span class="type-blue" id="rest-num"></span>)</span></li>
             </ul>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类</p></div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类及组别</p></div>
     </div>
     <div class="btn-box" data-id="hotel_news">
         <a class="btn" href="javascript:" id="showToast" data-id="police-company">查询</a>
@@ -27,6 +28,7 @@
         var container= $('#container');
         var typedis=container.data('data-choice-type-ids');
         var policeId = container.data('self-policeId');
+        var groupId=$('#container').data('data-groupId');
         $.ajax({
             type: "POST",
             url: "api/company/info.json",
@@ -34,8 +36,10 @@
             success: function (data) {
                 animate(data);
                 types(data);
+                sort(data);
                 click();
                 recover(typedis);
+                recover(groupId);
             },
             error: function (mes) {
                 console.log("error");
@@ -53,6 +57,11 @@
                 $('#all-types').addClass('choice-after');
             }else{
                 $('#all-types').removeClass('choice-after');
+            }
+            if(groupId==''||groupId=='all-sort'){
+                $('#all-sort').addClass('choice-after');
+            }else{
+                $('#all-sort').removeClass('choice-after');
             }
         }
         function animate(data){
@@ -77,6 +86,13 @@
                 $('#classification li').eq(0).css('color','#55a3e7');
             }
         }
+        function sort(data){
+            var cnum = data.groupTypes.common;
+            var onum = data.groupTypes.other;
+            $('.sort li').eq(0).css('color','#55a3e7');
+            $('#common-num').html(cnum);
+            $('#rest-num').html(onum);
+        }
         $('#all-cover').click(function() {
             if ($(this).html() == '展开全部') {
                 $('#classification').css('height', '100%');
@@ -99,11 +115,15 @@
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
-            })
+            });
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
-            })
+            });
+            $('#common,#rest,#all-sort').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $(this).siblings().removeClass('choice-after');
+            });
         }
         $('#showToast').on('click',function(){
             var texts = [];
@@ -115,13 +135,18 @@
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text())
             });
+            var group = $('.sorts.choice-after').data('group');
+            var groupId = $('.sorts.choice-after').attr('id');
             $('#container').data('data-choice',texts.join(','));
             $('#container').data('data-choice-type-ids',typeIds.join(','));
+            $('#container').data('data-rost-group',group);
+            $('#container').data('data-groupId',groupId);
             var id = $('#showToast').data('id');
             var typedis=$('#container').data('data-choice-type-ids');
             var alltypes = $('#all-types').hasClass('choice-after');
-            if(typedis == ''){
-                if(alltypes){
+            var grouptypes = $('#all-sort').hasClass('choice-after');
+            if(typedis == ''&& group==null){
+                if(alltypes||grouptypes){
                     window.pageManager.go(id);
                 }else{
                     $('#hint').fadeIn(100);

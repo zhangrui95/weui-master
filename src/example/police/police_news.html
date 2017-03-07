@@ -47,14 +47,13 @@
         </a>
         <a href="javascript:;" class="weui-grid">
         </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
     </div>
 </div>
 <script>
     $('#clear,#police-clear').on('click',function(){
         $('#container').data('data-choice-type-ids','');
         $('#container').data('data-choice-police-ids','');
+        $('#container').data('data-groupId','');
     });
     var post = $('#userPost').val()
     $.ajax({
