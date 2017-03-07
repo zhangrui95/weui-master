@@ -5,8 +5,7 @@
     </div>
     <div class="page__bd details cells-ajax page_y"></div>
     <div class="btn-box" id="btnPanel" style="display: none">
-        <label class="imported-left"><input type="checkbox" class="imported-person"  style="float: left" id="importantCheck"/>重点人员</label>
-        <a class="btn-bg" href="javascript:" id="showToast" >确认并核查</a>
+        <a class="btn" href="javascript:" id="showToast" >核查完毕</a>
     </div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -91,18 +90,18 @@
                         getLocalTime(data.doneTime)+
                         '</div>'+
                         '</div>'
-                var word="非重点人员";
-                var red='';
-                if(data.personState==1){
-                    word="重点人员"
-                    var red='type-red';
-                }
-                html+='<div class="none-flex cell-border cells-margin" id="fin-time">'+
-                        '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
-                        '<div class="weui-cell__bd bd-right '+red+'" id="import-employee">'+
-                            word+
-                        '</div>'+
-                        '</div>'
+//                var word="非重点人员";
+//                var red='';
+//                if(data.personState==1){
+//                    word="重点人员"
+//                    var red='type-red';
+//                }
+//                html+='<div class="none-flex cell-border cells-margin" id="fin-time">'+
+//                        '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
+//                        '<div class="weui-cell__bd bd-right '+red+'" id="import-employee">'+
+//                            word+
+//                        '</div>'+
+//                        '</div>'
             }
             html += '</div>';
             $('.cells-ajax').append(html);

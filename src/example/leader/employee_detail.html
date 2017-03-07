@@ -3,7 +3,6 @@
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
-    <!--<img src="images/zhang.png" class="zhang" id="zhang"/>-->
     <div class="page__bd details cells-ajax bd-y"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -88,21 +87,21 @@
                         getLocalTime(data.doneTime)+
                         '</div>'+
                         '</div>'
-                if(data.personState==1){
-                    html+='<div class="none-flex cell-border" id="fin-time">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
-                            '<div class="weui-cell__bd bd-right type-red">'+
-                                '重点人员'+
-                            '</div>'+
-                            '</div>'
-                }else{
-                    html+='<div class="none-flex cell-border" id="fin-time">'+
-                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
-                            '<div class="weui-cell__bd bd-right">'+
-                                '非重点人员'+
-                            '</div>'+
-                            '</div>'
-                }
+//                if(data.personState==1){
+//                    html+='<div class="none-flex cell-border" id="fin-time">'+
+//                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
+//                            '<div class="weui-cell__bd bd-right type-red">'+
+//                                '重点人员'+
+//                            '</div>'+
+//                            '</div>'
+//                }else{
+//                    html+='<div class="none-flex cell-border" id="fin-time">'+
+//                            '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
+//                            '<div class="weui-cell__bd bd-right">'+
+//                                '非重点人员'+
+//                            '</div>'+
+//                            '</div>'
+//                }
             }
             html+= '<div class="none-flex cell-border cells-margin" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
