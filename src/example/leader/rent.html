@@ -1,0 +1,88 @@
+<div class="page page-list">
+    <div class="nocard-title">
+        <div class="fire-header-left">租住人数</div>
+        <div class="right-title" id="number-right">1055</div>
+    </div>
+    <div class="grayness-box">
+        <div class="gray-area">辖区</div>
+        <div class="gray-num">租住房屋</div>
+        <div class="gray-rent">租住人数</div>
+    </div>
+    <div class="rent-box" id="rent-box"></div>
+    <div class="position-choice position-blue" id="choice-alert">
+        <img src="images/Iconset.png" class="choice-img"/>
+    </div>
+    <div class="rent-pop" id="filtrate">
+        <div class="filtrate-header rent-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的信息" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="filtrate-y">
+            <div class="classification-box">
+                <div class="choice-title">分类
+                    <span class="cover-blue" id="all-cover">展开全部</span>
+                </div>
+                <ul class="classification" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
+            </div>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
+        <div class="btn-box" id="btnPanel" >
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        });
+        $('#choice-alert').on('click',function(){
+            $searchInput.val('');
+            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#filtrate').fadeIn(100);
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/firePlanItem/groupByUser.json",
+            data:{},
+            success: function (data) {
+                for(var i = 0;i<data.list.length;i++){
+                    $('#rent-box').append(
+                            '<div class="rent-news" data-id="rent-new">'+
+                            '<div class="imgandname">'+
+                            '<div class="imgname">'+
+                            '<img src="images/head.jpg" class="header-img">'+
+                            '<p>于新刚</p>'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="num-width">10</div>'+
+                            '<div class="num-width">23</div>'+
+                            '</div>'
+                    );
+                    $('.rent-news').on('click',function(){
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+                    });
+                };
+            },
+            error: function () {
+            }
+        });
+    });
+
+</script>

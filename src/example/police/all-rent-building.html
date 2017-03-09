@@ -1,0 +1,123 @@
+<div class="page page-list police-rent">
+    <img class="change-news" src="images/icon-new.png" id="add-new-company" data-id="add-company"/>
+    <div class="position-choice position-blue" id="choice-alert">
+        <img src="images/Iconset.png" class="choice-img">
+    </div>
+    <div class="nocard-title">
+        <div class="fire-header-left">全部房屋</div>
+        <div class="right-title" id="number-right">40间</div>
+    </div>
+    <div class="joint-box" id="joint-box"></div>
+    <div class="rent-pop" id="filtrate">
+        <div class="filtrate-header rent-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="filtrate-y">
+            <div class="classification-box">
+                <div class="choice-title">上报人员</div>
+                <ul class="classification box-height" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
+            </div>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
+        <div class="btn-box" id="btnPanel" >
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
+        var width = document.body.clientWidth;
+        var container = $('#container');
+        var typedis=container.data('data-choice-type-ids');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        });
+        $('#choice-alert').on('click',function(){
+            $searchInput.val('');
+            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#filtrate').fadeIn(100);
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/rentNew.json",
+            data:{},
+            success: function (data) {
+                for(var i = 0;i<data.list.length;i++){
+                    var list = data.list[i];
+                    $('#joint-box').append(
+                            ' <div class="joint-border" data-id="rent-detail">' +
+                            '<div class="head-name">嵩山路19-21号2单元407室</div>'+
+                            '<div class="building-num">4人</div>'+
+                            '</div>'
+                    );
+                    $('.joint-border').click(function(){
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+                    });
+                }
+            },
+            error: function () {
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/rent/person.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                types(data);
+                recover(typedis);
+                click();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+        }
+        function types(data){
+            for (var i = 0; i < data.person.length; i++) {
+                var items = data.person[i];
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+        };
+        function click() {
+            $('#all-types').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
+                $(this).toggleClass('choice-after');
+            });
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+        };
+    });
+</script>

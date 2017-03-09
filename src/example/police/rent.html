@@ -1,0 +1,154 @@
+<div class="page page-list police-rent">
+    <img class="change-news" src="images/icon-new.png" id="add-new-company" data-id="add-company"/>
+    <div class="nocard-title rent-head-height">
+        <div class="fire-header-left">
+            <img src="images/head.jpg" class="police-header-img">
+            <span class="fire-head-name">于新刚</span>
+        </div>
+        <div class="white-position" id="white-position">
+            <div class="rent-num-box" id="all-rent-building" data-id="all-rent-building">
+                <dl class="num-center">
+                    <dt>29</dt>
+                    <dd>租住房屋</dd>
+                </dl>
+            </div>
+            <div class="rent-num-box rent-num-box-border" id="rent-num" data-id="rent-num">
+                <dl class="num-center">
+                    <dt>40</dt>
+                    <dd>租住人数</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="grayness-box">
+        <div class="gray-area">上报人员</div>
+        <div class="gray-num">租住房屋</div>
+        <div class="gray-rent">租住人数</div>
+    </div>
+    <div class="rent-box" id="rent-box"></div>
+    <div class="position-choice position-blue" id="choice-alert">
+        <img src="images/Iconset.png" class="choice-img"/>
+    </div>
+    <div class="rent-pop" id="filtrate">
+        <div class="filtrate-header rent-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="filtrate-y">
+            <div class="classification-box">
+                <div class="choice-title">上报人员</div>
+                <ul class="classification box-height" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
+            </div>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
+        <div class="btn-box" id="btnPanel" >
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
+        var width = document.body.clientWidth;
+        var container = $('#container');
+        var typedis=container.data('data-choice-type-ids');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        });
+        $('#choice-alert').on('click',function(){
+            $searchInput.val('');
+            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#filtrate').fadeIn(100);
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/firePlanItem/groupByUser.json",
+            data:{},
+            success: function (data) {
+                for(var i = 0;i<data.list.length;i++){
+                    $('#rent-box').append(
+                            '<div class="rent-news">'+
+                            '<div class="imgandname">'+
+                            '<div class="imgname">'+
+                            '<img src="images/head.jpg" class="header-img">'+
+                            '<p>李春凤</p>'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="num-width rent-build" data-id="builder-rent">10</div>'+
+                            '<div class="num-width rent-person" data-id="builder-person-num">23</div>'+
+                            '</div>'
+                    );
+                    $('.rent-build,.rent-person').on('click',function(){
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+                    });
+                };
+            },
+            error: function () {
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/rent/person.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                types(data);
+                recover(typedis);
+                click();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+        }
+        function types(data){
+            for (var i = 0; i < data.person.length; i++) {
+                var items = data.person[i];
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+        };
+        function click() {
+            $('#all-types').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
+                $(this).toggleClass('choice-after');
+            });
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+        };
+        $('#rent-num,#all-rent-building').click(function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+    });
+
+</script>

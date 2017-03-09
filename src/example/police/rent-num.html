@@ -1,0 +1,168 @@
+<div class="page page-list police-rent">
+    <img class="change-news" src="images/icon-new.png" id="add-new-company" data-id="add-company"/>
+    <div class="position-choice position-blue" id="choice-alert">
+        <img src="images/Iconset.png" class="choice-img">
+    </div>
+    <div class="nocard-title" id="fire-choice-header">
+        <div class="fire-header-left">全部人数</div>
+        <div class="right-title" id="number-right">45人</div>
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="list"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+    <div class="rent-pop" id="filtrate">
+        <div class="filtrate-header rent-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="filtrate-y">
+            <div class="classification-box">
+                <div class="choice-title">上报人员</div>
+                <ul class="classification box-height" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
+            </div>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
+        <div class="btn-box" id="btnPanel" >
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
+        var width = document.body.clientWidth;
+        var container = $('#container');
+        var typedis=container.data('data-choice-type-ids');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        });
+        $('#choice-alert').on('click',function(){
+            $searchInput.val('');
+            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#filtrate').fadeIn(100);
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        });
+        var currDataListCfg = {
+            url:'api/rentNew.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params) {
+                $(".weui-cell").on('click',function () {
+                    $('#container').data('data-list-employee-val',null);
+                    var allnum=$(this).find('.num-right .type-blue').text();
+                    if(allnum==0){
+                        $searchInput.blur();
+                        $('#alert').fadeIn(100);
+                        setTimeout(function () {
+                            $('#alert').fadeOut(100);
+                        }, 2000);
+                    }else{
+                        var cid = $(this).attr('id');
+                        container.data('data-company-name-cid',cid);
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    }
+                });
+            },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items) {
+                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="rent-detail" id="'+items.id+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width" id="company-names">'+items.card+'</span></div>'+
+                        '<div class="size-new">'+items.community.name+'、'+items.community.advisor+'</div>'+
+                        '</div>'+
+                        '</label>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({});
+        $.ajax({
+            type: "POST",
+            url: "api/rent/person.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                types(data);
+                recover(typedis);
+                click();
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function recover(ids){
+            if(ids==null || ids.length==0){
+                return;
+            }
+            var id = ids.split(',');
+            for(var i in id){
+                $('#'+id[i]).addClass('choice-after');
+            }
+            if(typedis==''){
+                $('#all-types').addClass('choice-after');
+            }else{
+                $('#all-types').removeClass('choice-after');
+            }
+        }
+        function types(data){
+            for (var i = 0; i < data.person.length; i++) {
+                var items = data.person[i];
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
+                $('#classification li').eq(0).css('color','#55a3e7');
+            }
+        };
+        function click() {
+            $('#all-types').on('click',function () {
+                $(this).siblings().removeClass('choice-after');
+                $(this).toggleClass('choice-after');
+            });
+            $('.types').on('click',function () {
+                $(this).toggleClass('choice-after');
+                $('#all-types').removeClass('choice-after');
+            })
+        };
+    });
+</script>

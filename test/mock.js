@@ -140,6 +140,7 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({
                 num:1350,
+                groupTypes:{common:11,other:10},
                 types:[
                     {name:'餐饮',num:12,id:'1'},
                     {name:'旅店',num:21,id:'2'},
@@ -220,7 +221,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             var ret = {id:'key1',personState:0, card:'230105199603022201',company:{name:'七星手机卖场', police:{name:'李丽丽'}} ,user:{uid:'100',company:'九转小磨',address:'xx路yy号', name:'李四', mobile:'13012345678'},doneUser:{name:'王曦'}, photo:'images/header.jpg', state:'0', createTime:1482214046832, doneTime:null};
-            ret.state = '1';
+            ret.state = '0';
             ret.doneUser = {uid:'2301', name:'民警1'};
             ret.doneTime = 1482214046832;
             res.end(JSON.stringify(ret));
@@ -396,18 +397,18 @@ module.exports = [
             res.end(JSON.stringify(
             {
                 list:[
-                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key2',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张二二'}},
-                    {id:'key3',name:'九转小磨九转小磨九转小磨九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'}},
-                    {id:'key5',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'}},
-                    {id:'key6',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key7',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'}},
-                    {id:'key8',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key9',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'}},
-                    {id:'key10',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key11',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'}},
-                    {id:'key12',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'}}
+                    {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                    {id:'key2',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张二二'},groupType:1},
+                    {id:'key3',name:'九转小磨九转小磨九转小磨九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                    {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'},groupType:0},
+                    {id:'key5',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'},groupType:0},
+                    {id:'key6',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                    {id:'key7',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'},groupType:1},
+                    {id:'key8',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:1},
+                    {id:'key9',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'},groupType:0},
+                    {id:'key10',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                    {id:'key11',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                    {id:'key12',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0}
                 ],
                     count:90
             }
@@ -544,7 +545,10 @@ module.exports = [
                         {id:'k6',name:'张飞',pointNum:23,checkNums:{num:76,undo:6},avatar:'images/icon1.png?'},
                         {id:'k7',name:'王二',pointNum:23,checkNums:{num:36,undo:9},avatar:'images/icon1.png?'},
                         {id:'k8',name:'孙七',pointNum:23,checkNums:{num:76,undo:56},avatar:'images/icon1.png?'},
-                        {id:'k9',name:'赵武',pointNum:23,checkNums:{num:92,undo:82},avatar:'images/icon1.png?'}
+                        {id:'k9',name:'赵武',pointNum:23,checkNums:{num:92,undo:82},avatar:'images/icon1.png?'},
+                        {id:'k10',name:'王二',pointNum:23,checkNums:{num:36,undo:9},avatar:'images/icon1.png?'},
+                        {id:'k11',name:'孙七',pointNum:23,checkNums:{num:76,undo:56},avatar:'images/icon1.png?'},
+                        {id:'k12',name:'赵武',pointNum:23,checkNums:{num:92,undo:82},avatar:'images/icon1.png?'}
                     ]
                 }
             ));
@@ -663,6 +667,56 @@ module.exports = [
                 ]
 
             ));
+        }
+    },
+    {
+        route: "/example/api/rentNew.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    list:[
+                        {card:'231105199503232227',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r1'},
+                        {card:'232105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r2'},
+                        {card:'233105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r3'},
+                        {card:'234105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r4'},
+                        {card:'235105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r5'},
+                        {card:'236105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r6'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r7'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r8'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r9'},
+                        {card:'238105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r10'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r11'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r12'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r13'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r14'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r15'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r16'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'1',community:{name:'建设社区',advisor:'张三'},id:'r17'},
+                        {card:'230105199503232226',createTime:1482214046832,state:'0',community:{name:'建设社区',advisor:'张三'},id:'r18'}
+                    ],
+
+                }
+            ));
+        }
+    },
+    {
+        route: "/example/api/rent/person.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                person:[
+                    {name:'李春凤',id:'k1',num:9},
+                    {name:'张德静',id:'k2',num:4},
+                    {name:'王金花',id:'k3',num:10},
+                    {name:'单战',id:'k4',num:19},
+                    {name:'张三',id:'k5',num:21},
+                    {name:'李四',id:'k6',num:17},
+                    {name:'赵丽',id:'k7',num:5},
+                    {name:'王五',id:'k8',num:8},
+                    {name:'孙权',id:'k9',num:13}
+                ],
+            }));
         }
     },
 

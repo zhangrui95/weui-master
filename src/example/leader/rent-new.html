@@ -1,0 +1,81 @@
+<div class="page page-list">
+    <div class="nocard-title" id="fire-choice-header">
+        <div class="fire-header-left">
+            <img src="images/head.jpg" class="police-header-img">
+            <span class="fire-head-name">于新刚</span>
+        </div>
+        <div class="right-title" id="number-right">45</div>
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="list"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+        var currDataListCfg = {
+            url:'api/rentNew.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params) {
+                $(".weui-cell").on('click',function () {
+                    $('#container').data('data-list-employee-val',null);
+                    var allnum=$(this).find('.num-right .type-blue').text();
+                    if(allnum==0){
+                        $searchInput.blur();
+                        $('#alert').fadeIn(100);
+                        setTimeout(function () {
+                            $('#alert').fadeOut(100);
+                        }, 2000);
+                    }else{
+                        var cid = $(this).attr('id');
+                        container.data('data-company-name-cid',cid);
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    }
+                });
+            },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items) {
+                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="rent-detail" id="'+items.id+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width" id="company-names">'+items.card+'</span></div>'+
+                        '<div class="size-new">'+items.community.name+'、'+items.community.advisor+'</div>'+
+                        '</div>'+
+                        '</label>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({});
+    });
+</script>
