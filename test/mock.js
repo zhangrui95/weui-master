@@ -719,5 +719,20 @@ module.exports = [
             }));
         }
     },
+    {
+        route: "/example/api/community.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {name:'建设社区',id:'s1'},
+                    {name:'传奇社区',id:'s2'},
+                    {name:'红旗社区',id:'s3'},
+                    {name:'泰海社区',id:'s4'},
+                    {name:'天木社区',id:'s5'}
+                ]
+            ));
+        }
+    },
 
 ];

@@ -1,5 +1,5 @@
 <div class="page page-list police-rent">
-    <img class="change-news" src="images/icon-new.png" id="add-new-company" data-id="add-company"/>
+    <img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>
     <div class="position-choice position-blue" id="choice-alert">
         <img src="images/Iconset.png" class="choice-img">
     </div>
@@ -31,19 +31,16 @@
                 </div>
             </div>
         </div>
-        <div class="filtrate-y">
-            <div class="classification-box">
-                <div class="choice-title">上报人员</div>
-                <ul class="classification box-height" id="classification">
-                    <li class="all-news white-border choice-after" id="all-types">全部</li>
-                </ul>
-            </div>
-        </div>
         <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
         <div class="btn-box" id="btnPanel" >
             <div class="imported-left" id="reset">重置</div>
-            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
         </div>
+    </div>
+    <div class="pop-add-box" id="pop-add-box">
+        <div class="rent-pop" id="add"></div>
+        <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
+        <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
     </div>
 </div>
 <script>
@@ -58,9 +55,19 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
+        $('#add-new-rent').on('click',function(){
+            $('#pop-add-box').fadeIn(100);
+            $('#add').fadeIn(100);
+        });
+        $('#add').on('click',function(){
+            $('#pop-add-box').fadeOut(100);
+        });
+        $('#rent-add,#add-have-rent').click(function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
         $('#choice-alert').on('click',function(){
             $searchInput.val('');
-            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
             $('#filtrate').fadeIn(100);
         });
         $('#clear').on('click',function () {
@@ -120,49 +127,5 @@
         };
         var currDataList = window.dataList.newList(currDataListCfg);
         currDataList.first({});
-        $.ajax({
-            type: "POST",
-            url: "api/rent/person.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                types(data);
-                recover(typedis);
-                click();
-            },
-            error: function (mes) {
-                console.log("error");
-            }
-        });
-        function recover(ids){
-            if(ids==null || ids.length==0){
-                return;
-            }
-            var id = ids.split(',');
-            for(var i in id){
-                $('#'+id[i]).addClass('choice-after');
-            }
-            if(typedis==''){
-                $('#all-types').addClass('choice-after');
-            }else{
-                $('#all-types').removeClass('choice-after');
-            }
-        }
-        function types(data){
-            for (var i = 0; i < data.person.length; i++) {
-                var items = data.person[i];
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
-                $('#classification li').eq(0).css('color','#55a3e7');
-            }
-        };
-        function click() {
-            $('#all-types').on('click',function () {
-                $(this).siblings().removeClass('choice-after');
-                $(this).toggleClass('choice-after');
-            });
-            $('.types').on('click',function () {
-                $(this).toggleClass('choice-after');
-                $('#all-types').removeClass('choice-after');
-            })
-        };
     });
 </script>

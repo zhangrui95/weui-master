@@ -1,7 +1,20 @@
 <div class="page page-list">
-    <div class="nocard-title">
-        <div class="fire-header-left">租住人数</div>
-        <div class="right-title" id="number-right">1055</div>
+    <div class="nocard-title rent-head-height">
+        <div class="fire-header-left">先锋派出所</div>
+        <div class="white-position" id="white-position">
+            <div class="rent-num-box" id="all-rent-building" data-id="all-rent-building">
+                <dl class="num-center">
+                    <dt>289</dt>
+                    <dd>租住房屋</dd>
+                </dl>
+            </div>
+            <div class="rent-num-box rent-num-box-border" id="rent-num" data-id="rent-num">
+                <dl class="num-center">
+                    <dt>420</dt>
+                    <dd>租住人数</dd>
+                </dl>
+            </div>
+        </div>
     </div>
     <div class="grayness-box">
         <div class="gray-area">辖区</div>
@@ -24,20 +37,9 @@
                 </div>
             </div>
         </div>
-        <div class="filtrate-y">
-            <div class="classification-box">
-                <div class="choice-title">分类
-                    <span class="cover-blue" id="all-cover">展开全部</span>
-                </div>
-                <ul class="classification" id="classification">
-                    <li class="all-news white-border choice-after" id="all-types">全部</li>
-                </ul>
-            </div>
-        </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
         <div class="btn-box" id="btnPanel" >
             <div class="imported-left" id="reset">重置</div>
-            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
         </div>
     </div>
 </div>
@@ -50,7 +52,6 @@
         });
         $('#choice-alert').on('click',function(){
             $searchInput.val('');
-            $('#all-types').addClass('choice-after').siblings().removeClass('choice-after');
             $('#filtrate').fadeIn(100);
         });
         $('#clear').on('click',function () {
@@ -63,18 +64,18 @@
             success: function (data) {
                 for(var i = 0;i<data.list.length;i++){
                     $('#rent-box').append(
-                            '<div class="rent-news" data-id="rent-new">'+
+                            '<div class="rent-news">'+
                             '<div class="imgandname">'+
                             '<div class="imgname">'+
                             '<img src="images/head.jpg" class="header-img">'+
                             '<p>于新刚</p>'+
                             '</div>'+
                             '</div>'+
-                            '<div class="num-width">10</div>'+
-                            '<div class="num-width">23</div>'+
+                            '<div class="num-width builder-rent" data-id="builder-rent">10</div>'+
+                            '<div class="num-width rent-person-num" data-id="rent-new">23</div>'+
                             '</div>'
                     );
-                    $('.rent-news').on('click',function(){
+                    $('.rent-person-num,.builder-rent,#all-rent-building,#rent-num').on('click',function(){
                         var id = $(this).data('id');
                         window.pageManager.go(id);
                     });

@@ -1,16 +1,10 @@
-<div class="page page-list police-rent">
-    <img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>
+<div class="page page-list">
     <div class="position-choice position-blue" id="choice-alert">
         <img src="images/Iconset.png" class="choice-img">
     </div>
     <div class="nocard-title">
-        <div class="fire-header-left">
-            <div class="fire-header-left">
-                <img src="images/head.jpg" class="police-header-img">
-                <span class="fire-head-name">于新刚</span>
-            </div>
-        </div>
-        <div class="right-title" id="number-right">4间</div>
+        <div class="fire-header-left">全部房屋</div>
+        <div class="right-title" id="number-right">289间</div>
     </div>
     <div class="joint-box" id="joint-box"></div>
     <div class="rent-pop" id="filtrate">
@@ -43,10 +37,6 @@
         var $searchInput = $('#searchInput');
         var width = document.body.clientWidth;
         var container = $('#container');
-        var typedis=container.data('data-choice-type-ids');
-        $searchClear.on('click',function(){
-            $searchInput.val('');
-        });
         $('#add-new-rent').on('click',function(){
             $('#pop-add-box').fadeIn(100);
             $('#add').fadeIn(100);
@@ -57,6 +47,10 @@
         $('#rent-add,#add-have-rent').click(function(){
             var id = $(this).data('id');
             window.pageManager.go(id);
+        });
+        var typedis=container.data('data-choice-type-ids');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
         });
         $('#choice-alert').on('click',function(){
             $searchInput.val('');
@@ -73,7 +67,7 @@
                 for(var i = 0;i<data.list.length;i++){
                     var list = data.list[i];
                     $('#joint-box').append(
-                            ' <div class="joint-border" data-id="rent-joint">' +
+                            ' <div class="joint-border" data-id="rent-detail">' +
                             '<div class="head-name">嵩山路19-21号2单元407室</div>'+
                             '<div class="building-num">4人</div>'+
                             '</div>'
