@@ -159,11 +159,11 @@
         var container = $('#container');
         var pagePanel = $('#company-list');
         var currDataListCfg = {
-            url:'api/hotel.json',
+            url:'api/employee/companies.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
-            xhrListKey:'',
+//            xhrListKey:'',
             itemsPanel:$('#box'),
             xhrExternalProcess : function (params) {
                 $('#submit').on('click',function(){
@@ -195,15 +195,15 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                return '<label class="weui-cell weui-check__label check-border-list hotel-list-height" for="'+items.id+'">'+
+                return '<label class="weui-cell weui-check__label check-border-list hotel-list-height" for="'+items.item.id+'">'+
                         '<div class="weui-cell__ft ft_width">'+
                         '<div class="border-gray"></div>'+
-                        '<input type="radio" name="radio1" class="weui-check" id="'+items.id+'">'+
+                        '<input type="radio" name="radio1" class="weui-check" id="'+items.item.id+'">'+
                         '<span class="weui-icon-checked"></span>'+
                         '</div>'+
                         '<div class="hotel-news company-news">'+
-                        '<div class="hotel-name company-name">'+items.company+'</div>'+
-                        '<div class="hotel-place company-place">'+items.address+'</div>'+
+                        '<div class="hotel-name company-name">'+items.item.name+'</div>'+
+                        '<div class="hotel-place company-place">'+items.item.address+'</div>'+
                         '</div>'+
                         '</label>';
             },

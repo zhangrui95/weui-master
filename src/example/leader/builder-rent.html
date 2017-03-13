@@ -57,10 +57,6 @@
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
-        $('#choice-alert').on('click',function(){
-            $searchInput.val('');
-            $('#filtrate').fadeIn(100);
-        });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
@@ -85,6 +81,54 @@
             },
             error: function () {
             }
+        });
+        $('#choice-alert').on('mousedown',function(e){
+            var _event = window.event||e;
+            var left = _event.offsetX;
+            var top = _event.offsetY;
+            var downX = _event.pageX;
+            var downY = _event.pageY;
+            _event.preventDefault();
+            $('body').on('mousemove',function(e){
+                var _event = window.event||e;
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#choice-alert').css('left',x + "px");
+                $('#choice-alert').css('top',y + "px");
+            });
+            $('#choice-alert').on('mouseup',function(e){
+                $('body').unbind();
+                var upX = e.pageX;
+                var upY = e.pageY;
+                var moveX = downX - upX;
+                var moveY = downY - upY;
+                if(moveX==0&&moveY==0){
+                    $searchInput.val('');
+                    $('#filtrate').fadeIn(100);
+                }
+            });
+        });
+        $('#choice-alert').on('touchstart',function(e){
+            var left = e.touches[0].pageX;
+            var top = e.touches[0].pageY;
+            e.preventDefault();
+            $('body').on('touchmove',function(e){
+                var x = e.touches[0].clientX-25;
+                var y = e.touches[0].clientY-25;
+                $('#choice-alert').css('left',x + "px");
+                $('#choice-alert').css('top',y + "px");
+            });
+            $('#choice-alert').on('touchend',function(e){
+                var endX = e.changedTouches[0].pageX;
+                var endY= e.changedTouches[0].pageY;
+                var moveX = left - endX;
+                var moveY = top -endY;
+                $('body').unbind();
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                    $searchInput.val('');
+                    $('#filtrate').fadeIn(100);
+                }
+            });
         });
     });
 </script>

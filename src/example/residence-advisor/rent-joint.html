@@ -1,0 +1,128 @@
+<div class="page">
+    <img class="change-news" src="images/icon-edit.png" id="change"/>
+    <div class="nocard-title">
+        <div class="fire-header-left">嵩山路19号</div>
+        <div class="right-title" id="number-right">6人</div>
+    </div>
+    <div class="joint-box rent-list-box" id="joint-box"></div>
+    <div class="change-renter active" id="change-renter">
+        <div class="head-title">出租屋信息</div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label name-width">地址</label></div>
+            <div class="weui-cell__bd bd-right font-color" id="company-name">
+                红旗大街198号19栋1单元402门
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-img-padding">
+            <div class="weui-cell__hd"><label class="weui-label img-height-box">单元</label></div>
+            <div class="weui-cell__bd bd-right img-height-box font-color place-top" id="element">
+                <img src="images/icon1.png" class="detail-img">
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-img-padding">
+            <div class="weui-cell__hd"><label class="weui-label img-height-box">门牌</label></div>
+            <div class="weui-cell__bd bd-right img-height-box font-color place-top" id="doorplate">
+                <img src="images/icon10.png" class="detail-img">
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">社区</label></div>
+            <div class="weui-cell__bd bd-right font-color blur" id="community">建设社区</div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">楼长</label></div>
+            <div class="weui-cell__bd bd-right font-color blur" style="color: #000;" id="residence-advisor">请选择</div>
+            <div class="red-star">*</div>
+        </div>
+        <div class="btn-box" data-id="employee_list" id="look">
+            <div class="btn-box button-box" id="btnPanel">
+                <div class="imported-left none-style" id="cancel-left">取消</div>
+                <a class="btn-bg bg-style" href="javascript:" id="next-step" data-id="renter-news">下一步</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMasks" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheets">
+            <div class="weui-actionsheet__menu" id="choice-lists"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $iosActionsheets = $('#iosActionsheets');
+        var $iosMasks = $('#iosMasks');
+        function hideActionSheet() {
+            $iosActionsheets.removeClass('weui-actionsheet_toggle');
+            $iosMasks.fadeOut(200);
+        }
+        $iosMasks.on('click', hideActionSheet);
+        $('#iosActionsheetCancels').on('click', hideActionSheet);
+        $.ajax({
+            type: "POST",
+            url: "api/rentNew.json",
+            data:{},
+            success: function (data) {
+                for(var i = 0;i<data.list.length;i++){
+                    var list = data.list[i];
+                    $('#joint-box').append(
+                            '<div class="weui-cell bg-cell" data-id="rent-detail" data-tid="key1">'+
+                                '<div class="weui-cell__bd cell_bd_border"><div>'+
+                                '</div>'+
+                                    '<p class="left-cell">230105199307251225</p>'+
+                                    '<div class="weui-cell__ft cell_fs left-cell">'+
+                                        '<img src="images/icon-time.jpg" class="position-time">'+
+                                            '<span>2016-12-20 14:07:26</span>'+
+                                    '</div>'+
+                                '</div>'+
+                           ' </div>'
+//                            <!--' <div class="joint-border" data-id="rent-detail">'+list.card+'</div>'-->
+                    );
+                    $('.weui-cell').click(function(){
+                        var id = $(this).data('id');
+                        window.pageManager.go(id);
+                    });
+                }
+            },
+            error: function () {
+            }
+        });
+        $('#change').on('click',function(){
+            $('#change-renter').show();
+        });
+        $('#cancel-left').on('click',function(){
+            $('#change-renter').hide();
+        });
+        $('#next-step').on('click',function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        //选择楼长
+        $.ajax({
+            type: "POST",
+            url: "api/user/policeHadArea.json",
+            data: {userid: $('#userid').val()},
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('#choice-lists').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                }
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+        $('#residence-advisor').on('click',function(){
+            $iosActionsheets.addClass('weui-actionsheet_toggle');
+            $iosMasks.fadeIn(200);
+            $('.police-choice-name').on('click', function () {
+                $('#residence-advisor').html($(this).text());
+                var residenceAdvisorId = $(this).attr('id');
+                $('#container').data('data-add-policeId', residenceAdvisorId);
+                hideActionSheet();
+            });
+        });
+    });
+</script>
