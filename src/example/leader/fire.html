@@ -170,16 +170,20 @@
             isPage:false,
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
+                var undo = xhr.undo;
+                var done = xhr.done;
+                undo = undo==null?0:undo;
+                done = done==null?0:done;
                 $('#white-bottom').html(
                         '<div class="undone-num" data-id="undone-fire" id="undone">'+
                         '<dl class="num-center">'+
-                        '<dt>'+xhr.undo+'</dt>'+
+                        '<dt>'+undo+'</dt>'+
                         '<dd>未检查</dd>'+
                         '</dl>'+
                         '</div>'+
                         '<div class="done-num" id="done" data-id="done-fire">'+
                         '<dl class="num-center">'+
-                        '<dt>'+xhr.done+'</dt>'+
+                        '<dt>'+done+'</dt>'+
                         '<dd>已检查</dd>'+
                         '</dl>'+
                         '</div>'
