@@ -1,10 +1,12 @@
-<div class="page page-list police-rent">
-    <img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>
+<div class="page page-list">
     <div class="position-choice position-blue" id="choice-alert">
         <img src="images/Iconset.png" class="choice-img">
     </div>
     <div class="nocard-title" id="fire-choice-header">
-        <div class="fire-header-left">全部人数</div>
+        <div class="fire-header-left">
+            <img src="images/head.jpg" class="police-header-img">
+            <span class="fire-head-name">李春凤</span>
+        </div>
         <div class="right-title" id="number-right">45人</div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
@@ -26,21 +28,15 @@
             <div class="input-border">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的信息" required/>
                     <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
                 </div>
             </div>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
         <div class="btn-box" id="btnPanel" >
             <div class="imported-left" id="reset">重置</div>
             <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
         </div>
-    </div>
-    <div class="pop-add-box" id="pop-add-box">
-        <div class="rent-pop" id="add"></div>
-        <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
-        <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
     </div>
 </div>
 <script>
@@ -49,16 +45,8 @@
         var pagePanel = $('.page__bd');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
-        var container = $('#container');
         $searchClear.on('click',function(){
             $searchInput.val('');
-        });
-        $('#add').on('click',function(){
-            $('#pop-add-box').fadeOut(100);
-        });
-        $('#rent-add,#add-have-rent').click(function(){
-            var id = $(this).data('id');
-            window.pageManager.go(id);
         });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
@@ -117,57 +105,53 @@
         };
         var currDataList = window.dataList.newList(currDataListCfg);
         currDataList.first({});
-        function alertPop(id,tid){
-            $(id).on('mousedown',function(e){
+        $('#choice-alert').on('mousedown',function(e){
+            var _event = window.event||e;
+            var left = _event.offsetX;
+            var top = _event.offsetY;
+            var downX = _event.pageX;
+            var downY = _event.pageY;
+            _event.preventDefault();
+            $('body').on('mousemove',function(e){
                 var _event = window.event||e;
-                var left = _event.offsetX;
-                var top = _event.offsetY;
-                var downX = _event.pageX;
-                var downY = _event.pageY;
-                _event.preventDefault();
-                $('body').on('mousemove',function(e){
-                    var _event = window.event||e;
-                    var x = _event.clientX-left;
-                    var y = _event.clientY-top;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
-                });
-                $(id).on('mouseup',function(e){
-                    $('body').unbind();
-                    var upX = e.pageX;
-                    var upY = e.pageY;
-                    var moveX = downX - upX;
-                    var moveY = downY - upY;
-                    if(moveX==0&&moveY==0){
-                        $searchInput.val('');
-                        $(tid).fadeIn(100);
-                    }
-                });
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#choice-alert').css('left',x + "px");
+                $('#choice-alert').css('top',y + "px");
             });
-            $(id).on('touchstart',function(e){
-                var left = e.touches[0].pageX;
-                var top = e.touches[0].pageY;
-                e.preventDefault();
-                $('body').on('touchmove',function(e){
-                    var x = e.touches[0].clientX-25;
-                    var y = e.touches[0].clientY-25;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
-                });
-                $(id).on('touchend',function(e){
-                    var endX = e.changedTouches[0].pageX;
-                    var endY= e.changedTouches[0].pageY;
-                    var moveX = left - endX;
-                    var moveY = top -endY;
-                    $('body').unbind();
-                    if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                        $searchInput.val('');
-                        $(tid).fadeIn(100);
-                    }
-                });
+            $('#choice-alert').on('mouseup',function(e){
+                $('body').unbind();
+                var upX = e.pageX;
+                var upY = e.pageY;
+                var moveX = downX - upX;
+                var moveY = downY - upY;
+                if(moveX==0&&moveY==0){
+                    $searchInput.val('');
+                    $('#filtrate').fadeIn(100);
+                }
             });
-        }
-        alertPop('#add-new-rent','#pop-add-box,#add');
-        alertPop('#choice-alert','#filtrate');
+        });
+        $('#choice-alert').on('touchstart',function(e){
+            var left = e.touches[0].pageX;
+            var top = e.touches[0].pageY;
+            e.preventDefault();
+            $('body').on('touchmove',function(e){
+                var x = e.touches[0].clientX-25;
+                var y = e.touches[0].clientY-25;
+                $('#choice-alert').css('left',x + "px");
+                $('#choice-alert').css('top',y + "px");
+            });
+            $('#choice-alert').on('touchend',function(e){
+                var endX = e.changedTouches[0].pageX;
+                var endY= e.changedTouches[0].pageY;
+                var moveX = left - endX;
+                var moveY = top -endY;
+                $('body').unbind();
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                    $searchInput.val('');
+                    $('#filtrate').fadeIn(100);
+                }
+            });
+        });
     });
 </script>

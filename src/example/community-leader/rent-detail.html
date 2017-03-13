@@ -1,0 +1,130 @@
+<div class="page page-list">
+    <div id="error" class="error" style="display: none;">
+        <img src="images/error.png"/>
+        <span>当前网络不可用，请检查你的网络设置</span>
+    </div>
+    <div class="page__bd details cells-ajax rent-y"></div>
+    <div class="btn-box" id="btnPanel" data-id="rent-joint">
+        <a class="btn" href="javascript:">同屋租住人员（6）</a>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <img  class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        var $gallery = $("#gallery"),
+                $galleryImg = $("#galleryImg");
+        $.ajax({
+            type: "POST",
+            url: "api/employee/detail.json",
+            data:{id:$('#taskId').val(),userid:$('#userid').val()},
+            success: function (data) {
+                lists(data);
+            },
+            error: function (mes) {
+                $('#error').css("display","block");
+            }
+        });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+        function lists(data) {
+            var address = data.company.address;
+            address = address==null?'':address;
+            var company = data.company.name;
+            var police = data.company.police.name;
+            company = company==null?'':company;
+            var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
+                            '<div class="none-flex cell-top">'+
+                            '<div class="weui-cell__bd bd-center cell-unleft">'+
+                            '<img src="api/employee/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                            data.card+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">社&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                            '建设社区'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                            '嵩山路19号4单元307室'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin cell-img-padding">'+
+                            '<div class="weui-cell__hd"><label class="weui-label img-height-box">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;元</label></div>'+
+                            '<div class="weui-cell__bd bd-right img-height-box" >'+
+                            '<img src="images/icon1.png" class="detail-img"/> '+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin cell-img-padding">'+
+                            '<div class="weui-cell__hd"><label class="weui-label img-height-box">门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌</label></div>'+
+                            '<div class="weui-cell__bd bd-right img-height-box" >'+
+                            '<img src="images/icon4.png" class="detail-img"/> '+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                            '张三'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cell-margin">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">楼长电话</label></div>'+
+                            '<div class="weui-cell__bd bd-right" >'+
+                            data.user.mobile+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border" id="times">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">上报人员</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                            '于新刚'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border" id="times">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                            police+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="none-flex cell-border cells-margin" id="times">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                            '2017-02-28 18:32:56'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>';
+            $('.cells-ajax').append(html);
+            $('.head-img,.detail-img').on("click", function(){
+                inPop(function(){
+                    $gallery.fadeOut(100);
+                });
+                $galleryImg.attr("src", this.getAttribute("src"));
+                $gallery.fadeIn(100);
+            });
+            $gallery.on("click", function(){
+                outPop();
+                $gallery.fadeOut(100);
+            });
+        }
+        $('#btnPanel').on('click',function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+    })
+</script>
