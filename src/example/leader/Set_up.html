@@ -32,7 +32,7 @@
             $.ajax({
                 type: "POST",
                 url: "api/user/role.json",
-                data: {userid: $('#userid').val(), max: gPageSize, offset: offset,role:'4'},
+                data: {userid: $('#userid').val(), max: gPageSize, offset: offset,role:'dept_police'},
                 success: function (data) {
                     for(var j=0;j<data.length;j++){
                         if(data[j].avatar==null||data[j].avatar==''){
