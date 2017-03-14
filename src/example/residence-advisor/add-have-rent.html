@@ -1,0 +1,165 @@
+<div>
+    <div class="page-alert" id="alertbackground">
+        <div class="weui-search-bar" id="searchBar">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+        <div class="weui-cells  weui-cells_radio hotel-list" id="hotel-list">
+            <div id="box"></div>
+        </div>
+        <div class="btn-box" data-id="employee_list" id="look">
+            <a class="btn" href="javascript:" id="showToast" data-id="renter-news">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var container = $('#container');
+        var pagePanel = $('#hotel-list');
+        var $searchBar = $('#searchBar'),
+                $searchResult = $('#searchResult'),
+                $searchText = $('#searchText'),
+                $searchInput = $('#searchInput'),
+                $searchClear = $('#searchClear'),
+                $searchCancel = $('#searchCancel');
+        function hideSearchResult(){
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+        function cancelSearch(){
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function(){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchClear.on('click', function(){
+            hideSearchResult();
+            $searchInput.focus();
+            $('#list').show();
+        });
+        $searchCancel.on('click', function(){
+            cancelSearch();
+            $searchInput.blur();
+        });
+        var currDataListCfg = {
+            url:'api/hotel.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            xhrListKey:'',
+            itemsPanel:$('#box'),
+            xhrExternalProcess : function (params) {
+                $('#submit').on('click',function(){
+                    var rid,hotelName,hotelPlace;
+                    $('.weui-check').each(function(i,e){
+                        var oThis = $(e);
+                        if(oThis.prop('checked')){
+                            rid = oThis.attr('id');
+                            hotelName = oThis.parent().siblings('.hotel-news').find('.hotel-name').html();
+                            hotelPlace = oThis.parent().siblings('.hotel-news').find('.hotel-place').html();
+                            console.log(hotelName+'-'+hotelPlace);
+                        }
+                    });
+                    container.data('data-hotel-rid',rid);
+                    $('#hotel').html(hotelName+'<img src="images/icon-go.jpg" class="icon-go-width block"/> ');
+                    $('#hotel').addClass('right-padding');
+                    $('#red-star').html('');
+                    $('#alertbackground').fadeOut(100);
+                    outPop();
+                });
+            },
+            emptyCb : function () {
+                $('#hotel-list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items) {
+                return '<label class="weui-cell weui-check__label check-border-list hotel-list-height" for="'+items.id+'">'+
+                        '<div class="weui-cell__ft ft_width">'+
+                        '<div class="border-gray"></div>'+
+                        '<input type="radio" name="radio1" class="weui-check" id="'+items.id+'">'+
+                        '<span class="weui-icon-checked"></span>'+
+                        '</div>'+
+                        '<div class="hotel-news">'+
+                        '<div class="hotel-name">'+items.company+'</div>'+
+                        '<div class="hotel-place">'+items.address+'</div>'+
+                        '</div>'+
+                        '</label>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var typeIds = '';
+        var policeId = container.data('self-policeId');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        var val = container.data('data-list-val');
+        currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+        var search = function(){
+            var val=$searchInput.val();
+            container.data('data-list-val',val);
+            if(val != ""){
+                currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+            }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
+        });
+        var reset = function () {
+            val='';
+            container.data('data-list-val',val);
+            currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+        };
+        $searchCancel.on('click',function(){
+            reset();
+        });
+        $searchInput
+                .on('blur', function () {
+                    if(!this.value.length) {
+                        cancelSearch();
+                    }
+                    if(this.value.length==0){
+                        reset();
+                    }
+                })
+                .on('input', function(){
+                    if(this.value.length) {
+                        $searchResult.show();
+                    } else {
+                        $searchResult.hide();
+                    }
+                })
+        ;
+        if(val!=null){
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.val(val);
+        }
+        $('#showToast').on('click',function () {
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+    })
+</script>

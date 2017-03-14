@@ -1231,6 +1231,7 @@ body, .page {
 }
 .none-flex{
     display: flex;
+    position: relative;
 }
 .search-box{
     width: 100%;
@@ -2430,7 +2431,7 @@ body, .page {
     height: 60px;
     z-index: 9999;
     position: absolute;
-    top:30%;
+    top:46%;
     left: 15%;
     border:2px solid #FFFFFF;
     border-radius:100px;
@@ -2445,7 +2446,7 @@ body, .page {
     height: 60px;
     z-index: 9999;
     position: absolute;
-    top:46%;
+    top:30%;
     left: 15%;
     border:2px solid #FFFFFF;
     border-radius:100px;
@@ -2460,13 +2461,14 @@ body, .page {
     font: 18px '微软雅黑';
 }
 .address-input{
-    width:37%;
+    width:80%;
     border: none;
     border-bottom: 1px solid #cccccc;
     outline: none;
     color: #999;
-    text-align: center;
-    font-size: 14px;
+    float: left;
+    height: 30px;
+    font: 18px '微软雅黑';
 }
 .address-input-width{
     font-size: 14px;
@@ -2479,6 +2481,7 @@ body, .page {
 }
 .red{
     color: red;
+    float: right;
 }
 .rent-add-camera{
     width: 25px;
@@ -2507,7 +2510,7 @@ body, .page {
 }
 .dele-word{
     font-size: 14px;
-    right: 0;
+    right: 32px;
     top: 2px;
 }
 .change-renter{
@@ -2532,4 +2535,40 @@ body, .page {
         top:10px;
         left: -5px;
     }
+}
+.rent-address-title{
+    margin:0 30px;
+    padding: 10px 5px 0 5px;
+}
+.address-box{
+    padding: 0 0 18px 5px;
+    margin: 0 24px 0 30px;
+}
+.unit{
+    width: 50px;
+    float: right;
+}
+.input-place{
+    height: 50px;
+}
+.btn-blue{
+    width: 40%;
+    background: #55a3e7;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 微软雅黑;
+    text-align: center;
+}
+.input-text-right{
+    text-align: right;
+}
+.position-del-box{
+    position: relative;
+}
+.head-margin{
+    margin-bottom: 20px;
+}
+.btn-font{
+    font-size: 16px;
 }

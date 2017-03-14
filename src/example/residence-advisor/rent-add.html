@@ -1,0 +1,61 @@
+<div class="page page-rent">
+    <div class="head-title head-margin">房屋地址</div>
+    <div class="none-flex cell-margin address-box">
+        <form class="weui-cell__bd bd-right font-color" id="company-name">
+            <div class="input-place"><input type="text" class="address-input" id="road"/><div class="unit">街/路<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input" id="size"/><div class="unit">号<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input" id="ridgepole"/><div class="unit">栋<span class="red">&nbsp;</span></div></div>
+            <div class="input-place"><input type="text" class="address-input" id="element"/><div class="unit">单元<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input" id="door"/><div class="unit">门/室<span class="red">*</span></div></div>
+        </form>
+    </div>
+    <div class="btn-box" data-id="employee_list">
+        <div class="btn-box button-box" id="btnPanel">
+            <div class="imported-left btn-blue btn-font" id="cancel-left">保存</div>
+            <a class="btn-bg bg-style btn-font" href="javascript:" id="next-step" data-id="renter-news">保存并录入人员</a>
+        </div>
+    </div>
+    <div id="alert" class="prompt active"></div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">保存成功</p>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        //保存并录入人员
+        $('#next-step').on('click',function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        //保存
+        $('#cancel-left').click(function(){
+            var road = $('#road').val();
+            var size = $('#size').val();
+            var ridgepole = $('#ridgepole').val();
+            var element = $('#element').val();
+            var door = $('#door').val();
+            console.log(road+'-'+size+'-'+ridgepole+'-'+element+'-'+door);
+            if(road.length==0||size.length==0||element.length==0||door.length==0){
+                $('#alert').html("请输入必填项");
+                $('#alert').fadeIn(100);
+                setTimeout(function () {
+                    $('#alert').fadeOut(100);
+                }, 2000);
+            }else{
+                var $toast = $('#toast');
+                if ($toast.css('display') != 'none') return;
+                $toast.fadeIn(100);
+                setTimeout(function () {
+                    $toast.fadeOut(100);
+                    $('#road,#size,#ridgepole,#element,#door').val('');
+                    $('#road,#size,#ridgepole,#element,#door').blur();
+                }, 2000);
+            }
+        });
+    });
+
+</script>

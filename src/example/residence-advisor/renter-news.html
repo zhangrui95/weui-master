@@ -1,59 +1,23 @@
 <div class="page">
-    <div class="head-title">租住人员信息</div>
+    <div class="nocard-title">
+        <div class="fire-header-left">嵩山路19号</div>
+        <div class="right-title" id="number-right">4人</div>
+    </div>
     <div id="idCard-list">
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd card-val">203150199532025154</div>
+        <div class="position-del-box">
+            <div class="none-flex cell-border cell-margin" data-id="rent-detail">
+                <div class="weui-cell__hd card-val">203150199532025154</div>
+            </div>
             <div class="link-delete block dele-word">注销</div>
         </div>
-        <div>
-            <div class="none-flex cell-border cell-margin">
+        <div class="position-del-box">
+            <div class="none-flex cell-border cell-margin" data-id="rent-detail">
                 <div class="weui-cell__hd card-val">203150199532025154</div>
-                <div class="link-delete block dele-word">注销</div>
             </div>
+            <div class="link-delete block dele-word">注销</div>
         </div>
     </div>
-    <div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>
-    <div class="page-alert active" id="personbackground">
-        <div class="page__bd">
-            <div class="weui-cells weui-cells_form" style="margin-top: 0;">
-                <div class="weui-cell">
-                    <div class="weui-cell__bd cell-unleft">
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="uploaderFiles">
-                                </ul>
-                                <div class="weui-uploader__input-box file-img">
-                                    <input id="uploaderInput" class="weui-uploader__input" type="button" />
-                                    <p class="change-img">选择旅客照片</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="weui-cells">
-                <div class="weui-cell border-cell padding-cell">
-                    <div class="weui-cell__bd cell-unleft">
-                        <input id="card" class="weui-input input-margin" type="text" placeholder="旅客身份证号"/>
-                    </div>
-                    <span id="empty" class="active"><img src="images/empty.png" class="empty"/></span>
-                </div>
-            </div>
-            <div class="prompt active" id="idCard" style="opacity: 0; display: none;"></div>
-            <div class="weui-gallery" id="gallery">
-                <span class="weui-gallery__img" id="galleryImg"></span>
-                <div class="weui-gallery__opr">
-                    <a href="javascript:" class="weui-gallery__del">
-                        <i class="weui-icon-delete weui-icon_gallery-delete"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="button-box button-style">
-            <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="">取消</a>
-            <a class="btn-bg bg-style" href="javascript:" id="submit-img" data-id="">提交</a>
-        </div>
-    </div>
+    <div class="add-line" id="add-renter" data-id="add-renter"><span class="add">+</span>新增租住人员信息</div>
     <div class="js_dialog" id="androidDialog2" style="display: none;">
         <div class="weui-mask"></div>
         <div class="weui-dialog weui-skin_android">
@@ -64,168 +28,12 @@
             </div>
         </div>
     </div>
-    <div class="btn-box button-box">
-        <a class="btn" href="javascript:" id="save" data-id="rent">保存</a>
-    </div>
 </div>
 <script>
     $(function(){
-        $('#add-renter').click(function(){
-            inPop(function(){
-                $('#personbackground').hide();
-            });
-            $('#card').val('');
-            $('#personbackground').show();
-        });
-        $('#dis-none2').click(function(){
-            outPop();
-            $('#personbackground').hide();
-        });
-        function inPop(callback){
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
-        function outPop(){
-            pageManager.setBeforeHashchangeOnce(null)
-        }
-        var tmpl = '<li class="weui-uploader__file head-image" style="background-image:url(#url#)"></li>',
-                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
-                $uploaderInput = $("#uploaderInput"),
-                $uploaderFiles = $("#uploaderFiles"),
-                localId,
-                tag = false
-                ;
-        $uploaderInput.on("click", function(e){
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    localId = localIds[0];
-                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
-                    $(".weui-uploader__input-box").css("display","none");
-                    $('.weui-gallery__opr').click(function () {
-                        $uploaderFiles.html('');
-                        localId = '';
-                        $(".weui-uploader__input-box").css("display","block");
-                    })
-                },
-                fail:function(err){
-                    $('#idCard').html("选择照片失败！");
-                    $('#idCard').fadeIn(100);
-                    setTimeout(function () {
-                        $('#idCard').fadeOut(100);
-                    }, 2000);
-                }
-            });
-        });
-        $uploaderFiles.on("click", "li", function(){
-            inPop(function(){
-                $gallery.fadeOut(100);
-            });
-            $galleryImg.attr("style", this.getAttribute("style"));
-            $gallery.fadeIn(100);
-        });
-        $gallery.on("click", function(){
-            outPop();
-            $gallery.fadeOut(100);
-        });
-        var cardValid = function (value) {
-            var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
-            var pattern = new RegExp(ex);
-            if(!pattern.test(value)){
-                return false;
-            }
-            var params = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
-            var checks = [ 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ];
-            var id=value;
-            var sum = 0;
-            for (var i = 0; i < 17; i++) {
-                var tmp = id.charAt(i);
-                sum += params[i] * tmp;
-            }
-            sum %= 11;
-            var check;
-            if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
-                check = 10;
-            } else {
-                check = id.charAt(17);
-            }
-            return check == checks[sum];
-        };
-        $('#card').blur(function () {
-            $('#empty').css('display', 'none');
-            var value=$('#card').val();
-            if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-            } else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-                $('#empty').css('display', 'block');
-                return ;
-            }
-        });
-        $('#card').keyup(function(){
-            if(($('#card').val()+"").length>=1){
-                $('#empty').css('display', 'block');
-                $('#empty').click(function () {
-                    $('#card').val('');
-                    $('#empty').css('display', 'none');
-                })
-            }else {
-                $('#empty').css('display', 'none');
-            }
-        });
-        $('#submit-img').on('click',function(){
-//            if(localId==null||localId==''){
-//                $('#idCard').html("照片不能为空");
-//                $('#idCard').fadeIn(100);
-//                setTimeout(function () {
-//                    $('#idCard').fadeOut(100);
-//                }, 2000);
-//                return;
-//            }
-            var value=$('#card').val();
-            if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-                return ;
-            }else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-                $('#empty').css('display', 'block');
-                return ;
-            }else{
-                $('#idCard-list').append(
-                        '<div class="none-flex cell-border cell-margin">'+
-                        '<div class="weui-cell__hd card-val" data-img="'+localId+'">'+value+'</div>'+
-                        '<div class="link-delete block dele-word">注销</div>'+
-                        '</div>'
-                );
-                $('#personbackground').fadeOut(100);
-                del();
-            }
-            if(tag){
-                return;
-            }
-            tag = true;
-            $('#card').blur();
+        $('#add-renter,.cell-margin').click(function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
         });
         function del(){
             $('.dele-word').bind('click',function(){
@@ -242,11 +50,5 @@
             });
         }
         del();
-        //保存
-        $('#save').click(function(){
-            outPop();
-            var id = $(this).data('id');
-            window.pageManager.go(id);
-        });
     });
 </script>

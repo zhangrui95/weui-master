@@ -26,7 +26,7 @@
     </div>
     <div class="rent-pop" id="filtrate">
         <div class="filtrate-header rent-header">
-            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-left-top">搜索条件</div>
             <div class="fire-header-right" id="clear">取消</div>
             <div class="input-border">
                 <div class="weui-search-bar__box">
@@ -38,14 +38,13 @@
         </div>
         <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
         <div class="btn-box" id="btnPanel" >
-            <div class="imported-left" id="reset">重置</div>
-            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
+            <a class="btn" href="javascript:" id="query">查询</a>
         </div>
     </div>
     <div class="pop-add-box" id="pop-add-box">
         <div class="rent-pop" id="add"></div>
-        <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
-        <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
+        <input type="button" value="新建房屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
+        <input type="button" value="选择已有房屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
     </div>
 </div>
 <script type="text/javascript">
@@ -97,7 +96,7 @@
             templateProcess : function (item) {
                 var tag = currState=='0';
                 var html;
-                html = ' <div class="joint-border res-joint" data-id="rent-joint">' +
+                html = ' <div class="joint-border res-joint" data-id="renter-news">' +
                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
                         '<div class="head-name">嵩山路19-21号2单元407室</div>'+
                         '<div class="building-num">4人</div>'+
@@ -163,6 +162,10 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
+        $('#add-have-rent,#rent-add').click(function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
@@ -215,5 +218,10 @@
         }
         alertPop('#add-new-rent','#pop-add-box,#add');
         alertPop('#choice-alert','#filtrate');
+        $('#query').on('click',function(){
+            var search = $searchInput.val();
+            console.log(search);
+            $('#filtrate').fadeOut(100);
+        });
     });
 </script>

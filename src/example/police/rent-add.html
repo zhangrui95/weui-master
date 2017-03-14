@@ -1,36 +1,39 @@
 <div class="page page-rent">
     <div class="head-title">出租屋信息</div>
-    <div class="none-flex cell-border cell-margin">
-        <div class="weui-cell__hd"><label class="weui-label name-width">地址</label></div>
+    <div class="rent-address-title">地址</div>
+    <div class="none-flex cell-margin address-box">
         <div class="weui-cell__bd bd-right font-color" id="company-name">
-            <input type="text" class="address-input"/>街<span class="red">*</span><input type="text" class="address-input"/>号<span class="red">*</span></br>
-            <input type="text" class="address-input-width"/>栋<input type="text" class="address-input-width"/>单元<span class="red">*</span><input type="text" class="address-input-width"/>门<span class="red">*</span>
+            <div class="input-place"><input type="text" class="address-input"/><div class="unit">街/路<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input"/><div class="unit">号<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input"/><div class="unit">栋<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input"/><div class="unit">单元<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input"/><div class="unit">门/室<span class="red">*</span></div></div>
         </div>
     </div>
-    <div class="none-flex cell-border cell-margin cell-img-padding">
-        <div class="weui-cell__hd"><label class="weui-label img-height-box">单元</label></div>
-        <div class="weui-cell__bd bd-right font-color place-top" id="element">
-            <div class="weui-uploader__bd">
-                <ul class="weui-uploader__files" id="elementFiles"></ul>
-                <div class="weui-uploader__input-box input-box">
-                    <input id="elementInput" class="weui-uploader__input" type="button">
-                    <img src="images/photo.png" class="rent-add-camera">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="none-flex cell-border cell-margin cell-img-padding">
-        <div class="weui-cell__hd"><label class="weui-label img-height-box">门牌</label></div>
-        <div class="weui-cell__bd bd-right font-color place-top" id="doorplate">
-            <div class="weui-uploader__bd">
-                <ul class="weui-uploader__files" id="doorplatePerson"></ul>
-                <div class="weui-uploader__input-box input-box">
-                    <input id="doorplateInput" class="weui-uploader__input" type="button">
-                    <img src="images/photo.png" class="rent-add-camera">
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="none-flex cell-border cell-margin cell-img-padding">-->
+        <!--<div class="weui-cell__hd"><label class="weui-label img-height-box">单元</label></div>-->
+        <!--<div class="weui-cell__bd bd-right font-color place-top" id="element">-->
+            <!--<div class="weui-uploader__bd">-->
+                <!--<ul class="weui-uploader__files" id="elementFiles"></ul>-->
+                <!--<div class="weui-uploader__input-box input-box">-->
+                    <!--<input id="elementInput" class="weui-uploader__input" type="button">-->
+                    <!--<img src="images/photo.png" class="rent-add-camera">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="none-flex cell-border cell-margin cell-img-padding">-->
+        <!--<div class="weui-cell__hd"><label class="weui-label img-height-box">门牌</label></div>-->
+        <!--<div class="weui-cell__bd bd-right font-color place-top" id="doorplate">-->
+            <!--<div class="weui-uploader__bd">-->
+                <!--<ul class="weui-uploader__files" id="doorplatePerson"></ul>-->
+                <!--<div class="weui-uploader__input-box input-box">-->
+                    <!--<input id="doorplateInput" class="weui-uploader__input" type="button">-->
+                    <!--<img src="images/photo.png" class="rent-add-camera">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="none-flex cell-border cell-margin">
         <div class="weui-cell__hd"><label class="weui-label">社区</label></div>
         <div class="weui-cell__bd bd-right font-color blur" id="community">请选择</div>
