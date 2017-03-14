@@ -29,7 +29,7 @@
                 <span id="empty" class="active"><img src="images/empty.png" class="empty"/></span>
             </div>
         </div>
-        <div id="idCard" class="prompt"></div>
+        <div id="idCard" class="prompt active"></div>
         <div class="weui-gallery" id="gallery">
             <span class="weui-gallery__img" id="galleryImg"></span>
             <div class="weui-gallery__opr">
@@ -60,7 +60,6 @@
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     localId = localIds[0];
-                    $('#idCard').html("");
                     $uploaderFiles.append($(tmpl.replace('#url#', localId)));
                     $(".weui-uploader__input-box").css("display","none");
                     $('.weui-gallery__opr').click(function () {
@@ -71,6 +70,10 @@
                 },
                 fail:function(err){
                     $('#idCard').html("选择照片失败！");
+                    $('#idCard').fadeIn(100);
+                    setTimeout(function () {
+                        $('#idCard').fadeOut(100);
+                    }, 2000);
                 }
             });
         });
@@ -122,26 +125,27 @@
             $('#empty').css('display', 'none');
             var value=$('#card').val();
             if (value == '') {
-                $('#idCard').html("*身份证号码不能为空");
+                $('#idCard').html("身份证号码不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
             } else if(!cardValid(value)){
-                $('#idCard').html("*无效的身份证号码");
+                $('#idCard').html("无效的身份证号码");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 $('#empty').css('display', 'block');
                 return ;
             }
         });
-        $('#card').focus(function(){
-            $('#idCard').html("");
-        });
         $('#card').keyup(function(){
-            if(cardValid(($('#card').val()))){
-                $('#idCard').html("");
-            }
             if(($('#card').val()+"").length>=1){
                 $('#empty').css('display', 'block');
                 $('#empty').click(function () {
                     $('#card').val('');
                     $('#empty').css('display', 'none');
-                    $('#idCard').html("");
                 })
             }else {
                 $('#empty').css('display', 'none');
@@ -149,15 +153,27 @@
         });
         $('#showToast').on('click',function(){
             if(localId==null||localId==''){
-                $('#idCard').html("*照片不能为空");
+                $('#idCard').html("照片不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 return;
             }
             var value=$('#card').val();
             if (value == '') {
-                $('#idCard').html("*身份证号码不能为空");
+                $('#idCard').html("身份证号码不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 return ;
             } else if(!cardValid(value)){
-                $('#idCard').html("*无效的身份证号码");
+                $('#idCard').html("无效的身份证号码");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 $('#empty').css('display', 'block');
                 return ;
             }
@@ -181,7 +197,6 @@
             });
         });
         function idCard(value,serverId){
-            $('#idCard').html("");
             $('#empty').css('display','none');
             $.ajax({
                 type: "POST",
