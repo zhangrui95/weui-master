@@ -95,6 +95,8 @@
             },
             templateProcess : function (item) {
                 var tag = currState=='0';
+                var pholder = tag?'请输入租住地址':'请输入身份证号码'
+                $searchInput.attr('placeholder',pholder);
                 var html;
                 html = ' <div class="joint-border res-joint" data-id="renter-news">' +
                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
@@ -166,6 +168,14 @@
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
+        //搜索
+        $('#query').on('click',function(){
+            var search = $searchInput.val();
+            console.log(search);
+            $('#filtrate').hide();
+            currDataList.first({state:currState,val:search});
+        });
+        //拖拽
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
@@ -218,10 +228,5 @@
         }
         alertPop('#add-new-rent','#pop-add-box,#add');
         alertPop('#choice-alert','#filtrate');
-        $('#query').on('click',function(){
-            var search = $searchInput.val();
-            console.log(search);
-            $('#filtrate').fadeOut(100);
-        });
     });
 </script>

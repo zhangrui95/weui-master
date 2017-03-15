@@ -3,20 +3,7 @@
         <div class="fire-header-left">嵩山路19号</div>
         <div class="right-title" id="number-right">4人</div>
     </div>
-    <div id="idCard-list">
-        <div class="position-del-box">
-            <div class="none-flex cell-border cell-margin" data-id="rent-detail">
-                <div class="weui-cell__hd card-val">203150199532025154</div>
-            </div>
-            <div class="link-delete block dele-word">注销</div>
-        </div>
-        <div class="position-del-box">
-            <div class="none-flex cell-border cell-margin" data-id="rent-detail">
-                <div class="weui-cell__hd card-val">203150199532025154</div>
-            </div>
-            <div class="link-delete block dele-word">注销</div>
-        </div>
-    </div>
+    <div id="idCard-list"></div>
     <div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>
     <div class="js_dialog" id="androidDialog2" style="display: none;">
         <div class="weui-mask"></div>
@@ -84,10 +71,35 @@
 </div>
 <script>
     $(function(){
-        $('.cell-margin').click(function(){
-            var id = $(this).data('id');
-            window.pageManager.go(id);
+        //身份证列表
+        $.ajax({
+            type: "POST",
+            url: "api/employee/detail.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                list(data);
+            },
+            error: function (mes) {
+                $('#error').css("display","block");
+            }
         });
+        function list(data) {
+            for(var i = 0;i<4;i++){
+                $('#idCard-list').append(
+                        '<div class="position-del-box">'+
+                            '<div class="none-flex cell-border cell-margin" data-id="rent-detail">'+
+                                '<div class="weui-cell__hd card-val">20315019953202515'+i+'</div>'+
+                            '</div>'+
+                            '<div class="link-delete block dele-word">注销</div>'+
+                        '</div>'
+                );
+            }
+            del();
+            $('.cell-margin').click(function(){
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
+        }
         $('#add-renter').on('click',function(){
             inPop(function(){
                 $('#personbackground').hide();
