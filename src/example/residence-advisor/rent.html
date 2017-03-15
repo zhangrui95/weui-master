@@ -5,8 +5,8 @@
     </div>
     <div class="weui-tab">
         <div class="weui-navbar">
-            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">租住房屋<span id="number-left"></span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1">租住人数<span id="number-right"></span></div>
+            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0" data-url="api/floor/list.json">租住房屋<span id="number-left"></span></div>
+            <div class="weui-navbar__item" href="#tab2" data-state="1" data-url="api/employee.json">租住人数<span id="number-right"></span></div>
         </div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
@@ -54,20 +54,34 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
+        var url='api/floor/list.json';
         var currDataListCfg = {
-            url:'api/employee.json',
+            url:url,
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
+            xhrListKey:'',
             winPanel:container,
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                $('#number-left').html('('+data.undo+')');
-                $('#number-right').html('('+data.done+')');
-                $(".weui-cell").on('click',function () {
-                    var id = $(this).data('id');
-                    $('#container').data('detail-source','company-list');
-                    $('#taskId').val($(this).data('tid'));
-                    window.pageManager.go(id);
+                $.ajax({
+                    type: "POST",
+                    url: "api/floor/count.json",
+                    data: {userid: $('#userid').val()},
+                    success: function (data) {
+                        $('#number-left').html('('+data.count+')');
+                    },
+                    error: function (mes) {
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "api/tenant/count.json",
+                    data: {userid: $('#userid').val()},
+                    success: function (data) {
+                        $('#number-right').html('('+data.count+')');
+                    },
+                    error: function (mes) {
+                    }
                 });
                 $('.res-joint').click(function(){
                     var id = $(this).data('id');
@@ -78,8 +92,8 @@
                 var tag = currState=='0';
                 var tabPanel = tag?'tab1':'tab2';
                 var img = tag?'icon-ok.jpg':'icon-over.jpg';
-                var txt = tag?'好厉害！':'哎呦喂！';
-                var txt1 = tag?'已经没有未核查的信息了':'快去看看是否有未核查的信息';
+                var txt = tag?'对不起！':'对不起！';
+                var txt1 = tag?'暂无租住房屋信息':'暂无租住人员信息';
                 $('#'+tabPanel).html('<div class="empty-box">'+
                         '<img src="images/'+img+'" class="empty-img"/>'+
                         '<p class="null-word">'+txt+'</p>'+
@@ -91,32 +105,24 @@
                 $('.empty-box').hide();
             },
             getItemsPanel : function () {
-                return $('#'+(currState=='0'?'tab1':'tab2'));
+//                return $('#'+(currState=='0'?'tab1':'tab2'));
+                return $('#tab1')
             },
             templateProcess : function (item) {
                 var tag = currState=='0';
                 var pholder = tag?'请输入租住地址':'请输入身份证号码'
                 $searchInput.attr('placeholder',pholder);
                 var html;
-                html = ' <div class="joint-border res-joint" data-id="renter-news">' +
-                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                        '<div class="head-name">嵩山路19-21号2单元407室</div>'+
-                        '<div class="building-num">4人</div>'+
-                        '</div>'
-                if(currState!='0'){
-                   html = '<div class="weui-cell bg-cell"  data-id="rent-detail" data-tid="'+item.id+'">' +
-                        '<div class="weui-cell__bd cell_bd_border" >' +
-                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                        '<p class="left-cell">' +
-                        '230105199307251225' +
-                        '</p>' +
-                        '<div class="weui-cell__ft cell_fs left-cell">' +
-                        '<img src="images/icon-time.jpg" class="position-time"/>'+
-                        '<span>'+getLocalTime(item.createTime)+'</span>'  +
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
+                if(item.ridgepole==null||item.ridgepole.length==0){
+                    item.ridgepole = 0;
                 }
+                var place = item.street+item.num+'号'+item.ridgepole+'栋'+item.unit+'单元'+item.door+'门'
+                var renterNum = item.tenants.length;
+                html = ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
+                        '<div class="head-name">'+place+'</div>'+
+                        '<div class="building-num">'+renterNum+'人</div>'+
+                        '</div>'
                 return html;
             },
             before:function(){
@@ -136,17 +142,50 @@
 
         $(".weui-navbar div").click(function() {
             var state = $(this).data('state');
+            var urls = $(this).data('url');
             if(state != currState){
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
                 $(".weui-cells").hide();
                 $(activeTab).html('').fadeIn();
                 currState = state;
+                url = urls;
                 currDataList.first({state:state});
+                $.ajax({
+                    type: "POST",
+                    url: "api/tenant/list.json",
+                    data: {userid: $('#userid').val(),},
+                    success: function (data) {
+                        for(var i=0;i<data.length;i++){
+                            $('#tab2').append(
+                                    '<div class="weui-cell bg-cell"  data-id="rent-detail" data-tid="'+data[i].id+'">' +
+                                    '<div class="weui-cell__bd cell_bd_border" >' +
+                                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
+                                    '<p class="left-cell">' +
+                                        data[i].sfzh +
+                                    '</p>' +
+                                    '<div class="weui-cell__ft cell_fs left-cell">' +
+                                    '<img src="images/icon-time.jpg" class="position-time"/>'+
+                                    '<span>'+getLocalTime(data[i].date)+'</span>'  +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                            )
+                        }
+                        $(".weui-cell").on('click',function () {
+                            var id = $(this).data('id');
+                            $('#taskId').val($(this).data('tid'));
+                            window.pageManager.go(id);
+                        });
+
+                    },
+                    error: function (mes) {
+                        console.log("error");
+                    }
+                });
             }
             return false;
         });
-
         var detailSourceState = container.data('detail-source-state');
         if(detailSourceState && detailSourceState != currState){
             currState = detailSourceState;
