@@ -1,7 +1,23 @@
-<div class="page page-list police-rent">
+<div class="page page-list">
     <img class="change-news" src="images/icon-new.png" id="add-new-rent"/>
-    <div class="position-choice position-blue" id="choice-alert">
-        <img src="images/Iconset.png" class="choice-img"/>
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入搜索地址" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+        </form>
+    </div>
+    <div class="weui-search-bar active" id="cardBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="cardInput" placeholder="请输入搜索身份证号码" required="">
+                <a href="javascript:" class="weui-icon-clear" id="cardClear"></a>
+            </div>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="cardCancel">取消</a>
     </div>
     <div class="weui-tab">
         <div class="weui-navbar">
@@ -24,23 +40,6 @@
             </div>
         </div>
     </div>
-    <div class="rent-pop" id="filtrate">
-        <div class="filtrate-header rent-header">
-            <div class="fire-header-left-top">搜索条件</div>
-            <div class="fire-header-right" id="clear">取消</div>
-            <div class="input-border">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-                </div>
-            </div>
-        </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
-        <div class="btn-box" id="btnPanel" >
-            <a class="btn" href="javascript:" id="query">查询</a>
-        </div>
-    </div>
     <div class="pop-add-box" id="pop-add-box">
         <div class="rent-pop" id="add"></div>
         <input type="button" value="新建房屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
@@ -52,6 +51,8 @@
         var $container = $('#container');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
+        var $cardClear = $('#cardClear');
+        var $cardInput = $('#cardInput');
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
@@ -64,32 +65,21 @@
             winPanel:container,
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                $.ajax({
-                    type: "POST",
-                    url: "api/floor/count.json",
-                    data: {userid: $('#userid').val()},
-                    success: function (data) {
-                        $('#number-left').html('('+data.count+')');
-                    },
-                    error: function (mes) {
-                    }
-                });
-                $.ajax({
-                    type: "POST",
-                    url: "api/tenant/count.json",
-                    data: {userid: $('#userid').val()},
-                    success: function (data) {
-                        $('#number-right').html('('+data.count+')');
-                    },
-                    error: function (mes) {
-                    }
-                });
                 $('.res-joint').click(function(){
                     $container.data('data-floorid',$(this).attr('id'));
                     $container.data('data-floor-place',$(this).find('.head-name').html());
                     var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
+                var tag = currState=='0';
+                if(tag){
+                    $('#searchBar').show();
+                    $('#cardBar').hide();
+                }else{
+                    cardList();
+                    $('#searchBar').hide();
+                    $('#cardBar').show();
+                }
             },
             emptyCb : function () {
                 var tag = currState=='0';
@@ -112,8 +102,6 @@
             },
             templateProcess : function (item) {
                 var tag = currState=='0';
-                var pholder = tag?'请输入租住地址':'请输入身份证号码'
-                $searchInput.attr('placeholder',pholder);
                 var html;
                 var ridg = item.ridgepole+'栋'
                 var units = item.unit+'单元'
@@ -128,7 +116,7 @@
                 if(tag){
                     html = ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                            '<div class="head-name">'+place+'</div>'+
+                            '<div class="head-name ellipsis">'+place+'</div>'+
                             '<div class="building-num">'+renterNum+'人</div>'+
                             '</div>'
                 }
@@ -146,7 +134,6 @@
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
-
         $(".weui-navbar div").click(function() {
             var state = $(this).data('state');
             var urls = $(this).data('url');
@@ -157,16 +144,15 @@
                 $(activeTab).html('').fadeIn();
                 currState = state;
                 url = urls;
-                cardList();
                 currDataList.first({state:state});
             }
             return false;
         });
-        function cardList(){
+        function cardList(cardval){
             $.ajax({
                 type: "POST",
                 url: "api/tenant/list.json",
-                data: {userid: $('#userid').val(),},
+                data: {userid: $('#userid').val(),sfzh:cardval},
                 success: function (data) {
                     for(var i=0;i<data.length;i++){
                         $('#tab2').append(
@@ -196,6 +182,39 @@
                 }
             });
         }
+        fCount();
+        tCount();
+        function fCount(condition){
+            $.ajax({
+                type: "POST",
+                url: "api/floor/count.json",
+                data: {userid: $('#userid').val(),condition:condition},
+                success: function (data) {
+                    if(data.count==null){
+                        data.count=0;
+                    }
+                    $('#number-left').html('('+data.count+')');
+                },
+                error: function (mes) {
+                }
+            });
+        }
+        function tCount(sfzh){
+            $.ajax({
+                type: "POST",
+                url: "api/tenant/count.json",
+                data: {userid: $('#userid').val(),sfzh:sfzh},
+                success: function (data) {
+                    if(data.count==null){
+                        data.count=0;
+                    }
+                    $('#number-right').html('('+data.count+')');
+                },
+                error: function (mes) {
+                }
+            });
+        }
+
         var detailSourceState = container.data('detail-source-state');
         if(detailSourceState && detailSourceState != currState){
             currState = detailSourceState;
@@ -204,7 +223,7 @@
             cardList();
             $(target.attr("href")).fadeIn();
         }
-        currDataList.first({state:currState});
+        currDataList.first({});
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
@@ -213,17 +232,48 @@
         });
         $searchClear.on('click',function(){
             $searchInput.val('');
+            currDataList.first({condition:''});
+            fCount('');
+        });
+        $cardClear.on('click',function(){
+            $cardInput.val('');
+            cardList('');
+            tCount('');
         });
         $('#add-have-rent,#rent-add').click(function(){
             var id = $(this).data('id');
             window.pageManager.go(id);
+            $container.data('data-floorid','');
         });
-        //搜索
-        $('#query').on('click',function(){
-            var search = $searchInput.val();
-            console.log(search);
-            $('#filtrate').hide();
-            currDataList.first({state:currState,val:search});
+        //搜索地址
+        var search = function(){
+            var val=$searchInput.val();
+            container.data('data-list-val',val);
+            if(val != ""){
+                currDataList.first({condition:val});
+                fCount(val);
+            }else{
+                currDataList.first({condition:''});
+                fCount('');
+            }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
+        });
+        //搜索身份证号码
+        var cardsearch = function(){
+            var cardval=$cardInput.val();
+            container.data('data-list-cardval',cardval);
+            if(cardval != ""){
+                cardList(cardval);
+                tCount(cardval);
+            }else{
+                cardList('');
+                tCount('');
+            }
+        };
+        $cardInput.on('keyup',function(){
+            window.lazyRateProxy(cardsearch ,500);
         });
         //拖拽
         function alertPop(id,tid){

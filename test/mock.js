@@ -797,12 +797,21 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
-                    {id:'re1',date:1489551285959,floor:{id:'f1',community:{name:'红旗社区'},street:'红旗大街',num:18,ridgepole:4,unit:1,door:402},phone:13936003725,photo:'images/header.jpg',sfzh:'230105199804262325'}
+                    {id:'re1',date:1489551285959,floor:{id:'f1',community:{name:'红旗社区'},street:'嵩山路',num:18,ridgepole:4,unit:1,door:402},phone:13936003725,photo:'images/header.jpg',sfzh:'230105199804262325'}
             ));
         }
     },
     {
         route: "/example/api/tenant/cancel.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {state:'1'}
+            ));
+        }
+    },
+    {
+        route: "/example/api/tenant/search.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
