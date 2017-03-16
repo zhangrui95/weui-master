@@ -154,6 +154,7 @@
                 url: "api/tenant/list.json",
                 data: {userid: $('#userid').val(),sfzh:cardval},
                 success: function (data) {
+                    $('#tab2').html('');
                     for(var i=0;i<data.length;i++){
                         $('#tab2').append(
                                 '<div class="weui-cell bg-cell" id="'+data[i].id+'"  data-id="rent-detail">' +

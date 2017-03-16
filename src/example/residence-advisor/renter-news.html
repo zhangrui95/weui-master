@@ -96,7 +96,7 @@
             for(var i = 0;i<data.length;i++){
                 $('#idCard-list').append(
                         '<div class="position-del-box">'+
-                            '<div class="none-flex cell-border cell-margin" data-id="rent-detail">'+
+                            '<div class="none-flex cell-border cell-margin" data-rentid="'+data[i].id+'" data-id="rent-detail">'+
                                 '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
                             '</div>'+
                             '<div class="link-delete block dele-word" data-del="'+data[i].id+'">注销</div>'+
@@ -105,6 +105,8 @@
             }
             del();
             $('.cell-margin').click(function(){
+                var rid = $(this).data('rentid')
+                $container.data('data-renter-id',rid)
                 var id = $(this).data('id');
                 window.pageManager.go(id);
             });
