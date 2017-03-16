@@ -1,7 +1,7 @@
 <div class="page">
     <div class="nocard-title">
-        <div class="fire-header-left">嵩山路19号</div>
-        <div class="right-title" id="number-right">4人</div>
+        <div class="fire-header-left" id="rent-place-header"></div>
+        <div class="right-title" id="number-right"></div>
     </div>
     <div id="idCard-list"></div>
     <div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>
@@ -71,26 +71,35 @@
 </div>
 <script>
     $(function(){
+        var $container = $('#container');
+        var floorId = $container.data('data-floorid');
+        var place =$container.data('data-floor-place');
+        $('#rent-place-header').html(place);
         //身份证列表
-        $.ajax({
-            type: "POST",
-            url: "api/employee/detail.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                list(data);
-            },
-            error: function (mes) {
-                $('#error').css("display","block");
-            }
-        });
+        idCardList();
+        function idCardList() {
+            $.ajax({
+                type: "POST",
+                url: "api/tenant/list.json",
+                data:{userid:$('#userid').val(),floorid:floorId},
+                success: function (data) {
+                    list(data);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
+        }
         function list(data) {
-            for(var i = 0;i<4;i++){
+            $('#number-right').html(data.length+'人')
+            $('#idCard-list').html('');
+            for(var i = 0;i<data.length;i++){
                 $('#idCard-list').append(
                         '<div class="position-del-box">'+
                             '<div class="none-flex cell-border cell-margin" data-id="rent-detail">'+
-                                '<div class="weui-cell__hd card-val">20315019953202515'+i+'</div>'+
+                                '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
                             '</div>'+
-                            '<div class="link-delete block dele-word">注销</div>'+
+                            '<div class="link-delete block dele-word" data-del="'+data[i].id+'">注销</div>'+
                         '</div>'
                 );
             }
@@ -117,6 +126,19 @@
                 $('#primary').on('click',function(){
                     $('#androidDialog2').fadeOut(100);
                     _this.parent().remove();
+                    var delId = _this.data('del');
+                    console.log(delId)
+                    $.ajax({
+                        type: "POST",
+                        url: "api/tenant/cancel.json",
+                        data:{userid:$('#userid').val(),id:delId},
+                        success: function (data) {
+                            idCardList();
+                        },
+                        error: function (mes) {
+                            console.log('error');
+                        }
+                    });
                 });
             });
         }
@@ -282,7 +304,7 @@
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    idCard($('#card').val(),serverId);
+                    idCard($('#card').val(),serverId,$('#phone').val());
                 },
                 fail:function(err){
                     $('#error').css("display","block");
@@ -290,16 +312,16 @@
                 }
             });
         });
-        function idCard(value,serverId){
+        function idCard(value,serverId,phone){
             $('#empty').css('display','none');
             $.ajax({
                 type: "POST",
-                url: "api/task/save.json",
+                url: "api/tenant/save.json",
                 async: true,
-                data:{card:value,userid:$('#userid').val(),serverId:serverId},
+                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
                 success: function (card) {
-                    var id = $('#showToast').data('id');
-                    window.pageManager.go(id);
+                    $('#personbackground').hide();
+                    idCardList();
                 },
                 error: function () {
                     $('#error').css("display","block");

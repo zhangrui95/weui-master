@@ -49,6 +49,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
+        var $container = $('#container');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         var currState = '0';
@@ -84,6 +85,8 @@
                     }
                 });
                 $('.res-joint').click(function(){
+                    $container.data('data-floorid',$(this).attr('id'));
+                    $container.data('data-floor-place',$(this).find('.head-name').html());
                     var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
@@ -112,10 +115,15 @@
                 var pholder = tag?'请输入租住地址':'请输入身份证号码'
                 $searchInput.attr('placeholder',pholder);
                 var html;
+                var ridg = item.ridgepole+'栋'
+                var units = item.unit+'单元'
                 if(item.ridgepole==null||item.ridgepole.length==0){
-                    item.ridgepole = 0;
+                    ridg = '';
                 }
-                var place = item.street+item.num+'号'+item.ridgepole+'栋'+item.unit+'单元'+item.door+'门'
+                if(item.unit==null||item.unit.length==0){
+                    units = '';
+                }
+                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
                 var renterNum = item.tenants.length;
                 if(tag){
                     html = ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
@@ -162,7 +170,7 @@
                 success: function (data) {
                     for(var i=0;i<data.length;i++){
                         $('#tab2').append(
-                                '<div class="weui-cell bg-cell"  data-id="rent-detail" data-tid="'+data[i].id+'">' +
+                                '<div class="weui-cell bg-cell" id="'+data[i].id+'"  data-id="rent-detail">' +
                                 '<div class="weui-cell__bd cell_bd_border" >' +
                                 '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
                                 '<p class="left-cell">' +
@@ -178,7 +186,8 @@
                     }
                     $(".weui-cell").on('click',function () {
                         var id = $(this).data('id');
-                        $('#taskId').val($(this).data('tid'));
+                        var rid = $(this).attr('id');
+                        $container.data('data-renter-id',rid)
                         window.pageManager.go(id);
                     });
                 },

@@ -56,31 +56,14 @@
             $searchInput.blur();
         });
         var currDataListCfg = {
-            url:'api/hotel.json',
+            url:'api/floor/list.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
             xhrListKey:'',
             itemsPanel:$('#box'),
             xhrExternalProcess : function (params) {
-                $('#submit').on('click',function(){
-                    var rid,hotelName,hotelPlace;
-                    $('.weui-check').each(function(i,e){
-                        var oThis = $(e);
-                        if(oThis.prop('checked')){
-                            rid = oThis.attr('id');
-                            hotelName = oThis.parent().siblings('.hotel-news').find('.hotel-name').html();
-                            hotelPlace = oThis.parent().siblings('.hotel-news').find('.hotel-place').html();
-                            console.log(hotelName+'-'+hotelPlace);
-                        }
-                    });
-                    container.data('data-hotel-rid',rid);
-                    $('#hotel').html(hotelName+'<img src="images/icon-go.jpg" class="icon-go-width block"/> ');
-                    $('#hotel').addClass('right-padding');
-                    $('#red-star').html('');
-                    $('#alertbackground').fadeOut(100);
-                    outPop();
-                });
+                $('#'+container.data('data-floorid')).attr('checked','true');
             },
             emptyCb : function () {
                 $('#hotel-list').html('<div class="empty-box">'+
@@ -93,6 +76,15 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
+                var ridg = items.ridgepole+'栋'
+                var units = items.unit+'单元'
+                if(items.ridgepole==null||items.ridgepole.length==0){
+                    ridg = '';
+                }
+                if(items.unit==null||items.unit.length==0){
+                    units = '';
+                }
+                var place = items.street+items.num+'号'+ridg+units+items.door+'门'
                 return '<label class="weui-cell weui-check__label check-border-list hotel-list-height" for="'+items.id+'">'+
                         '<div class="weui-cell__ft ft_width">'+
                         '<div class="border-gray"></div>'+
@@ -100,8 +92,7 @@
                         '<span class="weui-icon-checked"></span>'+
                         '</div>'+
                         '<div class="hotel-news">'+
-                        '<div class="hotel-name">'+items.company+'</div>'+
-                        '<div class="hotel-place">'+items.address+'</div>'+
+                        '<div class="hotel-name">'+place+'</div>'+
                         '</div>'+
                         '</label>';
             },
@@ -158,6 +149,17 @@
             $searchInput.val(val);
         }
         $('#showToast').on('click',function () {
+            var floorId;
+            var place;
+            $('.weui-check').each(function(i,e){
+                var oThis = $(e);
+                if(oThis.prop('checked')){
+                    floorId = oThis.attr('id');
+                    place = oThis.parent().siblings().find('.hotel-name').html();
+                }
+            });
+            container.data('data-floorid',floorId)
+            container.data('data-floor-place',place)
             var id = $(this).data('id');
             window.pageManager.go(id);
         });

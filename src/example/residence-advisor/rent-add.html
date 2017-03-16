@@ -5,7 +5,7 @@
             <div class="input-place"><input type="text" class="address-input" id="road"/><div class="unit">街/路<span class="red">*</span></div></div>
             <div class="input-place"><input type="text" class="address-input" id="size"/><div class="unit">号<span class="red">*</span></div></div>
             <div class="input-place"><input type="text" class="address-input" id="ridgepole"/><div class="unit">栋<span class="red">&nbsp;</span></div></div>
-            <div class="input-place"><input type="text" class="address-input" id="element"/><div class="unit">单元<span class="red">*</span></div></div>
+            <div class="input-place"><input type="text" class="address-input" id="element"/><div class="unit">单元<span class="red">&nbsp;</span></div></div>
             <div class="input-place"><input type="text" class="address-input" id="door"/><div class="unit">门/室<span class="red">*</span></div></div>
         </form>
     </div>
@@ -26,22 +26,60 @@
 </div>
 <script>
     $(function(){
-        //保存
-        $('#cancel-left,#next-step').click(function(){
+        var $container = $('#container');
+//保存并添加人员
+        $('#next-step').click(function(){
             var road = $('#road').val();
             var size = $('#size').val();
             var ridgepole = $('#ridgepole').val();
             var element = $('#element').val();
             var door = $('#door').val();
-            if(road.length==0||size.length==0||element.length==0||door.length==0){
+            if(road.length==0||size.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
                     $('#alert').fadeOut(100);
                 }, 2000);
             }else{
-                var id = $(this).data('id');
-                window.pageManager.go(id);
+                $.ajax({
+                    type: "POST",
+                    url: "api/floor/save.json",
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door},
+                    success: function (data) {
+                        var id = $('#next-step').data('id');
+                        window.pageManager.go(id);
+                        var ridg = ridgepole+'栋';
+                        if(ridgepole.length==0||ridgepole==null){
+                            ridg = '';
+                        }
+                        var ele = element+'单元';
+                        if(element.length==0||element==null){
+                            ele = '';
+                        }
+                        $container.data('data-floorid',data.floorid);
+                        var place = road+size+'号'+ridg+ele+door+'门';
+                        $container.data('data-floor-place',place);
+                    },
+                    error: function (mes) {
+                        console.log("error");
+                    }
+                });
+            }
+        });
+//保存
+        $('#cancel-left').click(function(){
+            var road = $('#road').val();
+            var size = $('#size').val();
+            var ridgepole = $('#ridgepole').val();
+            var element = $('#element').val();
+            var door = $('#door').val();
+            if(road.length==0||size.length==0||door.length==0){
+                $('#alert').html("请输入必填项");
+                $('#alert').fadeIn(100);
+                setTimeout(function () {
+                    $('#alert').fadeOut(100);
+                }, 2000);
+            }else{
                 $.ajax({
                     type: "POST",
                     url: "api/floor/save.json",
