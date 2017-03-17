@@ -747,12 +747,12 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                [
-                   {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
-                   {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
-                   {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
-                   {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
-                   {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
-                   {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]},
+                   // {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
+                   // {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
+                   // {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
+                   // {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
+                   // {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
+                   // {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]},
                ]
             ));
         }
@@ -763,13 +763,13 @@ module.exports = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 [
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re1'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re2'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re3'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re4'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re5'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re6'},
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re7'}
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re1'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re2'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re3'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re4'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re5'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re6'},
+                    // {sfzh: "230105199632020201",date:1489551285959,id:'re7'}
                 ]
             ));
         }

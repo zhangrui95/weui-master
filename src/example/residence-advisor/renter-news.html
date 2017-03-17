@@ -129,7 +129,6 @@
                     $('#androidDialog2').fadeOut(100);
                     _this.parent().remove();
                     var delId = _this.data('del');
-                    console.log(delId)
                     $.ajax({
                         type: "POST",
                         url: "api/tenant/cancel.json",
@@ -146,7 +145,7 @@
         }
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
-                callback()
+                callback();
                 return false;
             })
         }

@@ -154,6 +154,14 @@
                 data: {userid: $('#userid').val(),sfzh:cardval},
                 success: function (data) {
                     $('#tab2').html('');
+                    if(data.length==0){
+                        $('#tab2').html(
+                                '<div class="empty-box">'+
+                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                                '<p class="null-word2">暂无租住人员信息</p>'+
+                                '</div>'
+                        );
+                    }
                     for(var i=0;i<data.length;i++){
                         $('#tab2').append(
                                 '<div class="weui-cell bg-cell" id="'+data[i].id+'"  data-id="rent-detail">' +
@@ -214,7 +222,6 @@
                 }
             });
         }
-
         var detailSourceState = container.data('detail-source-state');
         if(detailSourceState && detailSourceState != currState){
             currState = detailSourceState;
