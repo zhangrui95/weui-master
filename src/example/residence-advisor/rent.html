@@ -17,7 +17,6 @@
                 <a href="javascript:" class="weui-icon-clear" id="cardClear"></a>
             </div>
         </form>
-        <a href="javascript:" class="weui-search-bar__cancel-btn" id="cardCancel">取消</a>
     </div>
     <div class="weui-tab">
         <div class="weui-navbar">
@@ -73,10 +72,12 @@
                 });
                 var tag = currState=='0';
                 if(tag){
+                    $('#cardInput').val('');
                     $('#searchBar').show();
                     $('#cardBar').hide();
                 }else{
                     cardList();
+                    $('#searchInput').val('');
                     $('#searchBar').hide();
                     $('#cardBar').show();
                 }
@@ -85,11 +86,9 @@
                 var tag = currState=='0';
                 var tabPanel = tag?'tab1':'tab2';
                 var img = tag?'icon-ok.jpg':'icon-over.jpg';
-                var txt = tag?'对不起！':'对不起！';
                 var txt1 = tag?'暂无租住房屋信息':'暂无租住人员信息';
                 $('#'+tabPanel).html('<div class="empty-box">'+
                         '<img src="images/'+img+'" class="empty-img"/>'+
-                        '<p class="null-word">'+txt+'</p>'+
                         '<p class="null-word2">'+txt1+'</p>'+
                         '</div>');
             },
@@ -174,7 +173,7 @@
                     $(".weui-cell").on('click',function () {
                         var id = $(this).data('id');
                         var rid = $(this).attr('id');
-                        $container.data('data-renter-id',rid)
+                        $container.data('data-renter-id',rid);
                         window.pageManager.go(id);
                     });
                 },
