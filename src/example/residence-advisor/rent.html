@@ -245,6 +245,7 @@
             tCount('');
         });
         $('#add-have-rent,#rent-add').click(function(){
+            outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
             $container.data('data-floorid','');
@@ -280,8 +281,7 @@
             window.lazyRateProxy(cardsearch ,500);
         });
         //拖拽
-        function alertPop(id,tid){
-            $(id).on('mousedown',function(e){
+            $('#add-new-rent').on('mousedown',function(e){
                 var _event = window.event||e;
                 var left = _event.offsetX;
                 var top = _event.offsetY;
@@ -292,10 +292,10 @@
                     var _event = window.event||e;
                     var x = _event.clientX-left;
                     var y = _event.clientY-top;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
+                    $('#add-new-rent').css('left',x + "px");
+                    $('#add-new-rent').css('top',y + "px");
                 });
-                $(id).on('mouseup',function(e){
+                $('#add-new-rent').on('mouseup',function(e){
                     $('body').unbind();
                     var upX = e.pageX;
                     var upY = e.pageY;
@@ -303,21 +303,24 @@
                     var moveY = downY - upY;
                     if(moveX==0&&moveY==0){
                         $searchInput.val('');
-                        $(tid).fadeIn(100);
+                        inPop(function(){
+                            $('#pop-add-box,#add').fadeOut(100);
+                        });
+                        $('#pop-add-box,#add').fadeIn(100);
                     }
                 });
             });
-            $(id).on('touchstart',function(e){
+            $('#add-new-rent').on('touchstart',function(e){
                 var left = e.touches[0].pageX;
                 var top = e.touches[0].pageY;
                 e.preventDefault();
                 $('body').on('touchmove',function(e){
                     var x = e.touches[0].clientX-25;
                     var y = e.touches[0].clientY-25;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
+                    $('#add-new-rent').css('left',x + "px");
+                    $('#add-new-rent').css('top',y + "px");
                 });
-                $(id).on('touchend',function(e){
+                $('#add-new-rent').on('touchend',function(e){
                     var endX = e.changedTouches[0].pageX;
                     var endY= e.changedTouches[0].pageY;
                     var moveX = left - endX;
@@ -325,12 +328,13 @@
                     $('body').unbind();
                     if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                         $searchInput.val('');
-                        $(tid).fadeIn(100);
+                        inPop(function(){
+                            $('#pop-add-box,#add').fadeOut(100);
+                        });
+                        $('#pop-add-box,#add').fadeIn(100);
                     }
                 });
             });
-        }
-        alertPop('#add-new-rent','#pop-add-box,#add');
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();

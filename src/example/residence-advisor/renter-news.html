@@ -52,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            <div class="key-img-height active"></div>
             <div class="prompt active" id="idCard"></div>
             <div class="weui-gallery" id="gallery">
                 <span class="weui-gallery__img" id="galleryImg"></span>
@@ -329,5 +330,11 @@
                 }
             });
         }
+        $('input').focus(function () {
+            $('.key-img-height').show();
+        });
+        $('input').blur(function () {
+            $('.key-img-height').hide();
+        });
     });
 </script>
