@@ -231,9 +231,6 @@
             $(target.attr("href")).fadeIn();
         }
         currDataList.first({});
-        $('#clear').on('click',function () {
-            $('#filtrate').fadeOut(100);
-        });
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
@@ -334,6 +331,14 @@
             });
         }
         alertPop('#add-new-rent','#pop-add-box,#add');
-        alertPop('#choice-alert','#filtrate');
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
     });
 </script>
