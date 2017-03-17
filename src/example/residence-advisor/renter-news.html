@@ -127,14 +127,14 @@
                     $('#androidDialog2').fadeOut(100);
                 });
                 $('#primary').on('click',function(){
-                    $('#androidDialog2').fadeOut(100);
-                    _this.parent().remove();
                     var delId = _this.data('del');
                     $.ajax({
                         type: "POST",
                         url: "api/tenant/cancel.json",
                         data:{userid:$('#userid').val(),id:delId},
                         success: function (data) {
+                            $('#androidDialog2').fadeOut(100);
+                            _this.parent().remove();
                             idCardList();
                         },
                         error: function (mes) {
