@@ -37,7 +37,6 @@
         function lists(data) {
             var item= data.floor;
             var floornew = item.master
-            var police = item.police.name
             var ridg = item.ridgepole+'栋'
             var units = item.unit+'单元'
             if(item.ridgepole==null||item.ridgepole.length==0){
@@ -52,7 +51,7 @@
             if(floornew.mobile==null){
                 floornew.mobile='';
             }
-            if(police==null){
+            if(item.police==null||item.police.name==null){
                 police='';
             }
             var place = item.street+item.num+'号'+ridg+units+item.door+'门'
@@ -107,7 +106,7 @@
                     '<div class="none-flex cell-border" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    police+
+                    item.police.name+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cells-margin" id="times">'+
