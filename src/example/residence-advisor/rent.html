@@ -280,61 +280,60 @@
         $cardInput.on('keyup',function(){
             window.lazyRateProxy(cardsearch ,500);
         });
-        //拖拽
-            $('#add-new-rent').on('mousedown',function(e){
+        //PC端拖拽
+        var _event,left,top,downX,downY;
+        $('#add-new-rent').on('mousedown',function(e){
+            _event = window.event||e;
+            left = _event.offsetX;
+            top = _event.offsetY;
+            downX = _event.pageX;
+            downY = _event.pageY;
+            _event.preventDefault();
+            $('.page').on('mousemove',function(e){
                 var _event = window.event||e;
-                var left = _event.offsetX;
-                var top = _event.offsetY;
-                var downX = _event.pageX;
-                var downY = _event.pageY;
-                _event.preventDefault();
-                $('body').on('mousemove',function(e){
-                    var _event = window.event||e;
-                    var x = _event.clientX-left;
-                    var y = _event.clientY-top;
-                    $('#add-new-rent').css('left',x + "px");
-                    $('#add-new-rent').css('top',y + "px");
-                });
-                $('#add-new-rent').on('mouseup',function(e){
-                    $('body').unbind();
-                    var upX = e.pageX;
-                    var upY = e.pageY;
-                    var moveX = downX - upX;
-                    var moveY = downY - upY;
-                    if(moveX==0&&moveY==0){
-                        $searchInput.val('');
-                        inPop(function(){
-                            $('#pop-add-box,#add').fadeOut(100);
-                        });
-                        $('#pop-add-box,#add').fadeIn(100);
-                    }
-                });
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#add-new-rent').css('left',x + "px");
+                $('#add-new-rent').css('top',y + "px");
             });
-            $('#add-new-rent').on('touchstart',function(e){
-                var left = e.touches[0].pageX;
-                var top = e.touches[0].pageY;
-                e.preventDefault();
-                $('body').on('touchmove',function(e){
-                    var x = e.touches[0].clientX-25;
-                    var y = e.touches[0].clientY-25;
-                    $('#add-new-rent').css('left',x + "px");
-                    $('#add-new-rent').css('top',y + "px");
+        }) .on('mouseup',function(e){
+            $('.page').unbind();
+            var upX = e.pageX;
+            var upY = e.pageY;
+            var moveX = downX - upX;
+            var moveY = downY - upY;
+            if(moveX==0&&moveY==0){
+                $searchInput.val('');
+                inPop(function(){
+                    $('#pop-add-box,#add').fadeOut(100);
                 });
-                $('#add-new-rent').on('touchend',function(e){
-                    var endX = e.changedTouches[0].pageX;
-                    var endY= e.changedTouches[0].pageY;
-                    var moveX = left - endX;
-                    var moveY = top -endY;
-                    $('body').unbind();
-                    if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                        $searchInput.val('');
-                        inPop(function(){
-                            $('#pop-add-box,#add').fadeOut(100);
-                        });
-                        $('#pop-add-box,#add').fadeIn(100);
-                    }
+                $('#pop-add-box,#add').fadeIn(100);
+            }
+        });
+        //移动端拖拽
+        $('#add-new-rent').on('touchstart',function(e){
+            left = e.touches[0].pageX;
+            top = e.touches[0].pageY;
+            e.preventDefault();
+        }).on('touchmove',function(e){
+            var x = e.touches[0].clientX-25;
+            var y = e.touches[0].clientY-25;
+            $('#add-new-rent').css('left',x + "px");
+            $('#add-new-rent').css('top',y + "px");
+        }).on('touchend',function(e){
+            var endX = e.changedTouches[0].pageX;
+            var endY= e.changedTouches[0].pageY;
+            var moveX = left - endX;
+            var moveY = top -endY;
+            $('body').unbind();
+            if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                $searchInput.val('');
+                inPop(function(){
+                    $('#pop-add-box,#add').fadeOut(100);
                 });
-            });
+                $('#pop-add-box,#add').fadeIn(100);
+            }
+        });
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
