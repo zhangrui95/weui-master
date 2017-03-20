@@ -100,7 +100,7 @@
                             '<div class="none-flex cell-border cell-margin" data-rentid="'+data[i].id+'" data-id="rent-detail">'+
                                 '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
                             '</div>'+
-                            '<div class="link-delete block dele-word" data-del="'+data[i].id+'">注销</div>'+
+                            '<div class="link-delete block dele-word" id="'+data[i].id+'">注销</div>'+
                         '</div>'
                 );
             }
@@ -126,20 +126,22 @@
                 $('#default').on('click',function(){
                     $('#androidDialog2').fadeOut(100);
                 });
-                $('#primary').on('click',function(){
-                    var delId = _this.data('del');
-                    $.ajax({
-                        type: "POST",
-                        url: "api/tenant/cancel.json",
-                        data:{userid:$('#userid').val(),id:delId},
-                        success: function (data) {
-                            $('#androidDialog2').fadeOut(100);
-                            _this.parent().remove();
-                        },
-                        error: function (mes) {
-                            console.log('error');
-                        }
-                    });
+                var delId = _this.attr('id');
+                $container.data('dara-cancel-id',delId);
+            });
+            $('#primary').bind('click',function(){
+                var delId =  $container.data('dara-cancel-id');
+                $.ajax({
+                    type: "POST",
+                    url: "api/tenant/cancel.json",
+                    data:{userid:$('#userid').val(),id:delId},
+                    success: function (data) {
+                        $('#androidDialog2').fadeOut(100);
+                        $('#'+delId).parent().remove();
+                    },
+                    error: function (mes) {
+                        console.log('error');
+                    }
                 });
             });
         }
