@@ -92,7 +92,7 @@
             });
         }
         function list(data) {
-            $('#number-right').html(data.length+'人')
+            $('#number-right').html('<span id="num">'+data.length+'</span><span>人</span>');
             $('#idCard-list').html('');
             for(var i = 0;i<data.length;i++){
                 $('#idCard-list').append(
@@ -138,6 +138,9 @@
                     success: function (data) {
                         $('#androidDialog2').fadeOut(100);
                         $('#'+delId).parent().remove();
+                        var num = $('#num').html();
+                        var nums = num - 1;
+                        $('#num').html(nums);
                     },
                     error: function (mes) {
                         console.log('error');
@@ -262,14 +265,14 @@
             }
         });
         $('#showToast').on('click',function(){
-            if(localId==null||localId==''){
-                $('#idCard').html("照片不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-                return;
-            }
+//            if(localId==null||localId==''){
+//                $('#idCard').html("照片不能为空");
+//                $('#idCard').fadeIn(100);
+//                setTimeout(function () {
+//                    $('#idCard').fadeOut(100);
+//                }, 2000);
+//                return;
+//            }
             var phone = /^1[34578]\d{9}$/;
             var phonenum = $('#phone').val();
             if(phonenum != ''&&phone.test(phonenum)==false){
