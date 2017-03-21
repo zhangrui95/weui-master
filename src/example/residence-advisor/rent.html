@@ -224,8 +224,9 @@
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
             currDataLists.first({state:1});
             $(target.attr("href")).fadeIn();
+        }else{
+            currDataList.first({state:0});
         }
-        currDataList.first({});
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
