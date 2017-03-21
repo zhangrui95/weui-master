@@ -222,9 +222,12 @@
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            $('#tab1').hide();
+            $('#searchBar').hide();
+            $('#cardBar').show();
             currDataLists.first({});
             $(target.attr("href")).fadeIn();
-        }else if(detailSourceState==null||detailSourceState==undefined){
+        }else{
             currDataList.first({});
         }
         $('#add').on('click',function(){
