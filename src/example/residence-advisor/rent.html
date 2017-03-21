@@ -72,12 +72,10 @@
                 });
                 var tag = currState=='0';
                 if(tag){
-                    $('#cardInput').val('');
                     $('#searchBar').show();
                     $('#cardBar').hide();
                 }else{
                     cardList();
-                    $('#searchInput').val('');
                     $('#searchBar').hide();
                     $('#cardBar').show();
                 }
@@ -136,6 +134,8 @@
         $(".weui-navbar div").click(function() {
             var state = $(this).data('state');
             var urls = $(this).data('url');
+            $('#cardInput').val('');
+            $('#searchInput').val('');
             if(state != currState){
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
