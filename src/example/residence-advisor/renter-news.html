@@ -1,6 +1,7 @@
 <div class="page">
     <div class="nocard-title">
         <marquee scrollamount="5" class="fire-header-left" id="rent-place-header"></marquee>
+        <!--<div class="fire-header-left" id="rent-place-header"></div>-->
         <div class="right-title" id="number-right"></div>
     </div>
     <div id="idCard-list"></div>
@@ -117,6 +118,10 @@
                 $('#personbackground').hide();
             });
             $('#personbackground').show();
+            $('#card').val('');
+            $('#phone').val('');
+            $(".weui-uploader__input-box").css("display","block");
+            $uploaderFiles.html('');
         });
         function del(){
             $('.dele-word').bind('click',function(){
