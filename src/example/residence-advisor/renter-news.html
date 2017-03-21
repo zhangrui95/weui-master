@@ -113,16 +113,6 @@
                 window.pageManager.go(id);
             });
         }
-        $('#add-renter').on('click',function(){
-            inPop(function(){
-                $('#personbackground').hide();
-            });
-            $('#personbackground').show();
-            $('#card').val('');
-            $('#phone').val('');
-            $(".weui-uploader__input-box").css("display","block");
-            $uploaderFiles.html('');
-        });
         function del(){
             $('.dele-word').bind('click',function(){
                 var _this = $(this);
@@ -170,6 +160,17 @@
                 localId,
                 tag = false
                 ;
+        $('#add-renter').on('click',function(){
+            inPop(function(){
+                $('#personbackground').hide();
+            });
+            $('#personbackground').show();
+            $('#card').val('');
+            $('#phone').val('');
+            $uploaderFiles.html('');
+            localId = '';
+            $(".weui-uploader__input-box").css("display","block");
+        });
         $uploaderInput.on("click", function(e){
             wx.chooseImage({
                 count: 1, // 默认9
