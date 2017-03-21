@@ -20,7 +20,7 @@
     </div>
     <div class="weui-tab">
         <div class="weui-navbar">
-            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0" data-url="api/floor/list.json">租住房屋<span id="number-left"></span></div>
+            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">租住房屋<span id="number-left"></span></div>
             <div class="weui-navbar__item" href="#tab2" data-state="1" data-url="api/employee.json">租住人数<span id="number-right"></span></div>
         </div>
     </div>
@@ -222,10 +222,10 @@
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-            currDataLists.first({state:1});
+            currDataLists.first({});
             $(target.attr("href")).fadeIn();
-        }else{
-            currDataList.first({state:0});
+        }else if(detailSourceState==null||detailSourceState==undefined){
+            currDataList.first({});
         }
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
