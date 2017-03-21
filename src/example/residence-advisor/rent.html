@@ -55,9 +55,8 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
-        var url='api/floor/list.json';
         var currDataListCfg = {
-            url:url,
+            url:'api/floor/list.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             xhrListKey:'',
@@ -81,13 +80,9 @@
                 }
             },
             emptyCb : function () {
-                var tag = currState=='0';
-                var tabPanel = tag?'tab1':'tab2';
-                var img = tag?'icon-ok.jpg':'icon-over.jpg';
-                var txt1 = tag?'暂无租住房屋信息':'暂无租住人员信息';
-                $('#'+tabPanel).html('<div class="empty-box">'+
-                        '<img src="images/'+img+'" class="empty-img"/>'+
-                        '<p class="null-word2">'+txt1+'</p>'+
+                $('#tab1').html('<div class="empty-box">'+
+                        '<img src="images/icon-ok.jpg" class="empty-img"/>'+
+                        '<p class="null-word2">暂无租住房屋信息</p>'+
                         '</div>');
             },
             noMoreCb : function () {
@@ -95,8 +90,6 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item) {
-                var tag = currState=='0';
-                var html;
                 var ridg = item.ridgepole+'栋'
                 var units = item.unit+'单元'
                 if(item.ridgepole==null||item.ridgepole.length==0){
@@ -107,14 +100,12 @@
                 }
                 var place = item.street+item.num+'号'+ridg+units+item.door+'门'
                 var renterNum = item.tenants.length;
-                if(tag){
-                    html = ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
-                            '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                            '<div class="head-name ellipsis">'+place+'</div>'+
-                            '<div class="building-num">'+renterNum+'人</div>'+
-                            '</div>'
-                }
-                return html;
+                 return ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
+                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
+                         '<div class="head-name ellipsis">'+place+'</div>'+
+                         '<div class="building-num">'+renterNum+'人</div>'+
+                         '</div>'
+
             },
             before:function(){
                 $("#load").show();
@@ -125,6 +116,55 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
+        var currDataListCfgs = {
+            url:'api/tenant/list.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            xhrListKey:'',
+            winPanel:container,
+            itemsPanel:$('#tab2'),
+            xhrExternalProcess : function (params,xhr) {
+                var data = xhr;
+                $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    var rid = $(this).attr('id');
+                    $container.data('data-renter-id',rid);
+                    window.pageManager.go(id);
+                });
+            },
+            emptyCb : function () {
+                $('#tab2').html( '<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word2">暂无租住人员信息</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (item) {
+                return '<div class="weui-cell bg-cell" id="'+item.id+'"  data-id="rent-detail">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
+                        '<p class="left-cell">' +
+                        item.sfzh +
+                        '</p>' +
+                        '<div class="weui-cell__ft cell_fs left-cell">' +
+                        '<img src="images/icon-time.jpg" class="position-time"/>'+
+                        '<span>'+getLocalTime(item.date)+'</span>'  +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataLists = window.dataList.newList(currDataListCfgs);
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
         });
@@ -135,59 +175,16 @@
             $('#searchInput').val('');
             currDataList.first({state:state});
             if(state != currState){
+                currDataLists.first({state:state});
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
                 $(".weui-cells").hide();
                 $(activeTab).html('').fadeIn();
                 currState = state;
                 url = urls;
-                cardList();
             }
             return false;
         });
-        function cardList(cardval){
-            $.ajax({
-                type: "POST",
-                url: "api/tenant/list.json",
-                data: {userid: $('#userid').val(),sfzh:cardval},
-                success: function (data) {
-                    $('#tab2').html('');
-                    if(data.length==0){
-                        $('#tab2').html(
-                                '<div class="empty-box">'+
-                                '<img src="images/icon-over.jpg" class="empty-img"/>'+
-                                '<p class="null-word2">暂无租住人员信息</p>'+
-                                '</div>'
-                        );
-                    }
-                    for(var i=0;i<data.length;i++){
-                        $('#tab2').append(
-                                '<div class="weui-cell bg-cell" id="'+data[i].id+'"  data-id="rent-detail">' +
-                                '<div class="weui-cell__bd cell_bd_border" >' +
-                                '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                                '<p class="left-cell">' +
-                                data[i].sfzh +
-                                '</p>' +
-                                '<div class="weui-cell__ft cell_fs left-cell">' +
-                                '<img src="images/icon-time.jpg" class="position-time"/>'+
-                                '<span>'+getLocalTime(data[i].date)+'</span>'  +
-                                '</div>' +
-                                '</div>' +
-                                '</div>'
-                        )
-                    }
-                    $(".weui-cell").on('click',function () {
-                        var id = $(this).data('id');
-                        var rid = $(this).attr('id');
-                        $container.data('data-renter-id',rid);
-                        window.pageManager.go(id);
-                    });
-                },
-                error: function (mes) {
-                    console.log("error");
-                }
-            });
-        }
         fCount();
         tCount();
         function fCount(condition){
@@ -225,7 +222,7 @@
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-            cardList();
+            currDataLists.first({state:1});
             $(target.attr("href")).fadeIn();
         }
         currDataList.first({});
@@ -239,7 +236,7 @@
         });
         $cardClear.on('click',function(){
             $cardInput.val('');
-            cardList('');
+            currDataLists.first({sfzh:''});
             tCount('');
         });
         $('#add-have-rent,#rent-add').click(function(){
@@ -268,10 +265,10 @@
             var cardval=$cardInput.val().toUpperCase();
             container.data('data-list-cardval',cardval);
             if(cardval != ""){
-                cardList(cardval);
+                currDataLists.first({sfzh:cardval});
                 tCount(cardval);
             }else{
-                cardList('');
+                currDataLists.first({sfzh:''});
                 tCount('');
             }
         };
