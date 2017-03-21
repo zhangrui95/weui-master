@@ -267,7 +267,7 @@
         });
         //搜索身份证号码
         var cardsearch = function(){
-            var cardval=$cardInput.val();
+            var cardval=$cardInput.val().toLocaleUpperCase();
             container.data('data-list-cardval',cardval);
             if(cardval != ""){
                 cardList(cardval);

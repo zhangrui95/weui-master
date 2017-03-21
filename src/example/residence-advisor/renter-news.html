@@ -280,7 +280,7 @@
                 }, 2000);
                 return;
             }
-            var value=$('#card').val();
+            var value=$('#card').val().toLocaleUpperCase();
             if (value == '') {
                 $('#idCard').html("身份证号码不能为空");
                 $('#idCard').fadeIn(100);
