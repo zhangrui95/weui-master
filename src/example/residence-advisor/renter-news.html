@@ -135,8 +135,7 @@
                     success: function (data) {
                         $('#androidDialog2').fadeOut(100);
                         $('#'+delId).parent().remove();
-                        var num = $('#num').html();
-                        var nums = num - 1;
+                        var nums = $('.position-del-box').length;
                         $('#num').html(nums);
                     },
                     error: function (mes) {
