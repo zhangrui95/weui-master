@@ -62,6 +62,7 @@
             scrollPanel:pagePanel.find('#box'),
             xhrListKey:'',
             winPanel:container,
+            itemsPanel:$('#tab1'),
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
                 $('.res-joint').click(function(){
@@ -75,7 +76,6 @@
                     $('#searchBar').show();
                     $('#cardBar').hide();
                 }else{
-                    cardList();
                     $('#searchBar').hide();
                     $('#cardBar').show();
                 }
@@ -93,9 +93,6 @@
             noMoreCb : function () {
                 $('.weui-loadmore_line').show();
                 $('.empty-box').hide();
-            },
-            getItemsPanel : function () {
-                return $('#tab1')
             },
             templateProcess : function (item) {
                 var tag = currState=='0';
@@ -136,6 +133,7 @@
             var urls = $(this).data('url');
             $('#cardInput').val('');
             $('#searchInput').val('');
+            currDataList.first({state:state});
             if(state != currState){
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
@@ -143,7 +141,7 @@
                 $(activeTab).html('').fadeIn();
                 currState = state;
                 url = urls;
-                currDataList.first({state:state});
+                cardList();
             }
             return false;
         });
