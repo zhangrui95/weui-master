@@ -92,14 +92,14 @@
                             rota+
                         '</div>'+
                     '</div>';
-//            if(task.state=='1'){
-//                html += '<div class="none-flex cell-border bottom-cell">'+
-//                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
-//                            '<div class="weui-cell__bd bd-right">'+
-//                                task.doneUser.name+
-//                            '</div>'+
-//                        '</div>';
-//            }
+            if(task.state=='1'){
+                html += '<div class="none-flex cell-border bottom-cell">'+
+                            '<div class="weui-cell__hd"><label class="weui-label">操作人员</label></div>'+
+                            '<div class="weui-cell__bd bd-right">'+
+                                task.doneUser.name+
+                            '</div>'+
+                        '</div>';
+            }
             html += '</div>';
             $('.cells-ajax').append(html);
             $('.head-img').on("click", function(){
