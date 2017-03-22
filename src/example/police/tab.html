@@ -1,21 +1,17 @@
 <!--旅店信息-->
 <div class="page page-list">
-    <!--<div class="weui-tab">-->
-        <!--<div class="weui-navbar">-->
-            <!--<div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span id="num-left"></span></div>-->
-            <!--<div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right"></span></div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<img class="change-news" src="images/icon-new.png" id="add-live" data-id="add-live"/>-->
-    <div class="nocard-title">
-        <div class="fire-header-left">未带身份证入住</div>
-        <div class="right-title" id="number-right"></div>
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">未核查<span id="num-left"></span></div>
+            <div class="weui-navbar__item" href="#tab2" data-state="1">已核查<span id="number-right"></span></div>
+        </div>
     </div>
+    <!--<img class="change-news" src="images/icon-new.png" id="add-live" data-id="add-live"/>-->
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none">
                 <div class="weui-cells"  id="tab1" ></div>
-                <div class="weui-cells"  id="tab2"></div>
+                <div class="weui-cells active"  id="tab2"></div>
             </div>
             <div class="weui-loadmore-load" id="load">
                 <i class="weui-loading"></i>
@@ -29,7 +25,7 @@
 </div>
 <script type="text/javascript">
     $(function(){
-//        var currState = '0';
+        var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
         var currDataListCfg = {
@@ -39,8 +35,8 @@
             winPanel:container,
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                var num = data.undo + data.done;
-                $('#number-right').html(num);
+                $('#num-left').html('('+data.undo+')');
+                $('#number-right').html('('+data.done+')');
                 $(".weui-cell").on('click',function () {
                     var id = $(this).data('id');
                     $('#container').data('detail-source','tab');
@@ -48,18 +44,18 @@
                     window.pageManager.go(id);
                 });
             },
-//            emptyCb : function () {
-//                var tag = currState=='0';
-//                var tabPanel = tag?'tab1':'tab2';
-//                var img = tag?'icon-ok.jpg':'icon-over.jpg';
-//                var txt = tag?'很抱歉！':'哎呦喂！';
-//                var txt1 = tag?'没有相关信息哦':'快去看看是否有未核查的信息';
-//                $('#'+tabPanel).html('<div class="empty-box">'+
-//                        '<img src="images/'+img+'" class="empty-img"/>'+
-//                        '<p class="null-word">'+txt+'</p>'+
-//                        '<p class="null-word2">'+txt1+'</p>'+
-//                        '</div>');
-//            },
+            emptyCb : function () {
+                var tag = currState=='0';
+                var tabPanel = tag?'tab1':'tab2';
+                var img = tag?'icon-ok.jpg':'icon-over.jpg';
+                var txt = tag?'很抱歉！':'哎呦喂！';
+                var txt1 = tag?'没有相关信息哦':'快去看看是否有未核查的信息';
+                $('#'+tabPanel).html('<div class="empty-box">'+
+                        '<img src="images/'+img+'" class="empty-img"/>'+
+                        '<p class="null-word">'+txt+'</p>'+
+                        '<p class="null-word2">'+txt1+'</p>'+
+                        '</div>');
+            },
             emptyCb : function () {
                 $('.cell-y').html('<div class="empty-box">'+
                         '<img src="images/icon-ok.jpg" class="empty-img"/>'+
@@ -72,7 +68,7 @@
                 $('.empty-box').hide();
             },
             getItemsPanel : function () {
-                return $('#tab1,#tab2');
+                return $('#'+(currState=='0'?'tab1':'tab2'));
             },
             templateProcess : function (item) {
                 return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="'+item.id+'">' +
@@ -100,30 +96,30 @@
 
         var currDataList = window.dataList.newList(currDataListCfg);
 
-//        $('.weui-navbar__item').on('click', function () {
-//            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-//        });
+        $('.weui-navbar__item').on('click', function () {
+            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+        });
 
-//        $(".weui-navbar div").click(function() {
-//            var state = $(this).data('state');
-//            if(state != currState){
-//                $('#container').data('detail-source-state',state);
-//                var activeTab = $(this).attr("href");
-//                $(".weui-cells").hide();
-//                $(activeTab).html('').fadeIn();
-//                currState = state;
-//                currDataList.first({state:state});
-//            }
-//            return false;
-//        });
-//
-//        var detailSourceState = container.data('detail-source-state');
-//        if(detailSourceState && detailSourceState != currState){
-//            currState = detailSourceState;
-//            var target = $('.weui-navbar [data-state="1"]');
-//            target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-//            $(target.attr("href")).fadeIn();
-//        }
+        $(".weui-navbar div").click(function() {
+            var state = $(this).data('state');
+            if(state != currState){
+                $('#container').data('detail-source-state',state);
+                var activeTab = $(this).attr("href");
+                $(".weui-cells").hide();
+                $(activeTab).html('').fadeIn();
+                currState = state;
+                currDataList.first({state:state});
+            }
+            return false;
+        });
+
+        var detailSourceState = container.data('detail-source-state');
+        if(detailSourceState && detailSourceState != currState){
+            currState = detailSourceState;
+            var target = $('.weui-navbar [data-state="1"]');
+            target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            $(target.attr("href")).fadeIn();
+        }
         currDataList.first({});
         $('#add-live').on('click',function(){
             var id = $(this).data('id');
