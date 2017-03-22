@@ -55,13 +55,13 @@
                         '<p class="null-word2">'+txt1+'</p>'+
                         '</div>');
             },
-            emptyCb : function () {
-                $('.cell-y').html('<div class="empty-box">'+
-                        '<img src="images/icon-ok.jpg" class="empty-img"/>'+
-                        '<p class="null-word">很抱歉!</p>'+
-                        '<p class="null-word2">没有相关信息哦</p>'+
-                        '</div>');
-            },
+//            emptyCb : function () {
+//                $('.cell-y').html('<div class="empty-box">'+
+//                        '<img src="images/icon-ok.jpg" class="empty-img"/>'+
+//                        '<p class="null-word">很抱歉!</p>'+
+//                        '<p class="null-word2">没有相关信息哦</p>'+
+//                        '</div>');
+//            },
             noMoreCb : function () {
                 $('.weui-loadmore_line').show();
                 $('.empty-box').hide();
@@ -118,7 +118,7 @@
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
             $(target.attr("href")).fadeIn();
         }
-        currDataList.first({});
+        currDataList.first({state:currState});
 
     });
 
