@@ -40,7 +40,7 @@
             var task = data.task;
             var rota = data.rota;
             if(rota != null && rota.length > 0){
-                rota = rota[0].user.uid;
+                rota = rota[0].user.id;
             }
             var companyObj = data.company||{};
             var address = companyObj.address;
