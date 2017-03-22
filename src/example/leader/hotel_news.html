@@ -67,7 +67,7 @@
                 $('.empty-box').hide();
             },
             getItemsPanel : function () {
-                return $('#tab1,#tab2');
+                return $('#'+(currState=='0'?'tab1':'tab2'));
             },
             templateProcess : function (item) {
                 return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="'+item.id+'">' +
