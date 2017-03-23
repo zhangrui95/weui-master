@@ -788,6 +788,7 @@ body, .page {
     overflow-x: hidden;
     height:100%;
     margin-bottom:10%;
+    background: #FFFFFF;
 }
 .height-fixed{
     height: 30px;
@@ -1155,7 +1156,7 @@ body, .page {
 .size-new{
     font-size: 14px;
     color: #999;
-    width: 220px;
+    width: 202px;
 }
 .gray-color{
     color: #ccc;
@@ -1288,9 +1289,10 @@ body, .page {
     }
 }
 .weui-loadmore{
-    width: 65%;
+    width: 100%;
     height: 50px;
-    margin: 30px auto 0;
+    margin: 0;
+    padding: 30px 0 0 0;
     line-height: 1.6em;
     font-size: 14px;
     text-align: center;
@@ -1298,7 +1300,7 @@ body, .page {
 }
 .weui-loadmore-load{
     width: 65%;
-    height: 30px;
+    height: 50px;
     margin: 30px auto 0;
     line-height: 1.6em;
     font-size: 14px;
@@ -1356,6 +1358,7 @@ body, .page {
     height: 45px;
     margin: 10px 0 8px;
     outline: none;
+    cursor: pointer;
 }
 .fire-num-box-border{
     border:none;
@@ -1372,6 +1375,7 @@ body, .page {
     dd{
         font-size: 14px;
         font-family: "微软雅黑";
+        line-height: 26px;
     }
 }
 .fire-list{
@@ -1388,6 +1392,9 @@ body, .page {
 }
 .page-top{
     margin-top: 140px;
+}
+.choice-title-red{
+    color:#ff5a54 ;
 }
 .filtrate{
     width: 100%;
@@ -1874,6 +1881,7 @@ body, .page {
     z-index:5000;
     box-shadow: #ddd 0px 0px 10px;
     overflow: hidden;
+    cursor: pointer;
 }
 .input-change{
     width: 95%;
@@ -2252,9 +2260,15 @@ body, .page {
 .rent-box{
     width: 90%;
     margin: 0 auto;
-    height: 68%;
+    height: 67%;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+.cell_y{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 67%;
+    margin-bottom: 10%;
 }
 ::-webkit-scrollbar
 {
@@ -2278,6 +2292,7 @@ body, .page {
         width: 30%;
         text-align: center;
         line-height: 60px;
+        cursor: pointer;
     }
     .imgandname{
         float: left;
@@ -2323,7 +2338,7 @@ body, .page {
 .joint-box{
     width: 88%;
     overflow-y: scroll;
-    height: 89%;
+    height: 87%;
     margin: 0 auto;
 }
 .rent-list-box{
@@ -2339,8 +2354,6 @@ body, .page {
      width: 100%;
      height: 100%;
      background:rgba(255,255,255,0.94);
-     //background: rgba(0,0,0,0.8);
-    //background:#FFFFFF;
      position: absolute;
      top:0;
      left: 0;
@@ -2405,6 +2418,7 @@ body, .page {
         width: 40px;
         height: 40px;
         right: 10px;
+        cursor: pointer;
     }
 }
 .building-num{
@@ -2435,7 +2449,7 @@ body, .page {
 .already-have-rent{
     width: 70%;
     height: 60px;
-    z-index: 10000;
+    z-index: 100000;
     position: absolute;
     top:46%;
     left: 15%;
@@ -2443,13 +2457,14 @@ body, .page {
     border-radius:50px;
     background: #e50150;
     color: #FFFFFF;
-    font:20px/50px '微软雅黑';
+    font:20px/60px '微软雅黑';
     box-shadow: 0 0 10px #ccc;
+    text-align: center;
 }
 .add-rent-button{
     width: 70%;
     height: 60px;
-    z-index: 10000;
+    z-index: 100000;
     position: absolute;
     top:30%;
     left: 15%;
@@ -2457,8 +2472,9 @@ body, .page {
     border-radius:50px;
     background: #55a3e7;
     color: #FFFFFF;
-    font:20px/50px '微软雅黑';
+    font:20px/60px '微软雅黑';
     box-shadow: 0 0 10px #ccc;
+    text-align: center;
 }
 .name-width{
     width: 50px;
@@ -2590,4 +2606,17 @@ body, .page {
 .key-img-height{
     width: 100%;
     height:50%;
+}
+.float-right{
+    float: right;
+}
+.rent-sign{
+    padding: 2px 7px;
+    background: #ff5a54;
+    color:#FFFFFF;
+    font: 12px 微软雅黑;
+    border-radius: 30px;
+}
+.rent-sign-gray{
+    background: #cccccc;
 }

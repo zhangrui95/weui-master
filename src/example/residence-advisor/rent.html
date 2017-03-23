@@ -35,15 +35,13 @@
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
             <div class="weui-loadmore weui-loadmore_line active">
-                <span class="weui-loadmore__tips">暂无更多数据</span>
+                <span class="weui-loadmore__tips">———— 暂无更多数据 ————</span>
             </div>
         </div>
     </div>
-    <div class="pop-add-box" id="pop-add-box">
-        <div class="rent-pop" id="add"></div>
-        <input type="button" value="新建房屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
-        <input type="button" value="选择已有房屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
-    </div>
+    <div class="rent-pop" id="add"></div>
+    <div class="add-rent-button active" data-id="rent-add" id="rent-add">新建房屋</div>
+    <div class="already-have-rent active"  data-id="add-have-rent" id="add-have-rent">选择已有房屋</div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -231,7 +229,7 @@
             currDataList.first({});
         }
         $('#add').on('click',function(){
-            $('#pop-add-box').fadeOut(100);
+            $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
         });
         $searchClear.on('click',function(){
             $searchInput.val('');
@@ -304,9 +302,9 @@
             if(moveX==0&&moveY==0){
                 $searchInput.val('');
                 inPop(function(){
-                    $('#pop-add-box,#add').fadeOut(100);
+                    $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
                 });
-                $('#pop-add-box,#add').fadeIn(100);
+                $('#add,.add-rent-button,.already-have-rent').fadeIn(100);
             }
         });
         //移动端拖拽
@@ -328,9 +326,9 @@
             if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                 $searchInput.val('');
                 inPop(function(){
-                    $('#pop-add-box,#add').fadeOut(100);
+                    $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
                 });
-                $('#pop-add-box,#add').fadeIn(100);
+                $('#add,.add-rent-button,.already-have-rent').fadeIn(100);
             }
         });
         function inPop(callback){
