@@ -1,58 +1,12 @@
-<div class="page">
-    <div class="head-title">租住人员信息</div>
-    <div id="idCard-list">
-        <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd card-val">203150199532025154</div>
-            <div class="link-delete block dele-word">注销</div>
-        </div>
-        <div>
-            <div class="none-flex cell-border cell-margin">
-                <div class="weui-cell__hd card-val">203150199532025154</div>
-                <div class="link-delete block dele-word">注销</div>
-            </div>
-        </div>
+<div class="page page_renter">
+    <div class="nocard-title">
+        <marquee scrollamount="5" class="fire-header-left" id="rent-place-header"></marquee>
+        <!--<div class="fire-header-left" id="rent-place-header"></div>-->
+        <div class="right-title" id="number-right"></div>
     </div>
-    <div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>
-    <div class="page-alert active" id="personbackground">
-        <div class="page__bd">
-            <div class="weui-cells weui-cells_form" style="margin-top: 0;">
-                <div class="weui-cell">
-                    <div class="weui-cell__bd cell-unleft">
-                        <div class="weui-uploader">
-                            <div class="weui-uploader__bd">
-                                <ul class="weui-uploader__files" id="uploaderFiles">
-                                </ul>
-                                <div class="weui-uploader__input-box file-img">
-                                    <input id="uploaderInput" class="weui-uploader__input" type="button" />
-                                    <p class="change-img">选择旅客照片</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="weui-cells">
-                <div class="weui-cell border-cell padding-cell">
-                    <div class="weui-cell__bd cell-unleft">
-                        <input id="card" class="weui-input input-margin" type="text" placeholder="旅客身份证号"/>
-                    </div>
-                    <span id="empty" class="active"><img src="images/empty.png" class="empty"/></span>
-                </div>
-            </div>
-            <div class="prompt active" id="idCard" style="opacity: 0; display: none;"></div>
-            <div class="weui-gallery" id="gallery">
-                <span class="weui-gallery__img" id="galleryImg"></span>
-                <div class="weui-gallery__opr">
-                    <a href="javascript:" class="weui-gallery__del">
-                        <i class="weui-icon-delete weui-icon_gallery-delete"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="button-box button-style">
-            <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="">取消</a>
-            <a class="btn-bg bg-style" href="javascript:" id="submit-img" data-id="">提交</a>
-        </div>
+    <div class="page_y">
+        <div id="idCard-list"></div>
+        <!--<div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>-->
     </div>
     <div class="js_dialog" id="androidDialog2" style="display: none;">
         <div class="weui-mask"></div>
@@ -64,23 +18,132 @@
             </div>
         </div>
     </div>
-    <div class="btn-box button-box">
-        <a class="btn" href="javascript:" id="save" data-id="rent">保存</a>
+    <div class="page-alert active" id="personbackground">
+        <div class="page__bd page_y">
+            <div id="error" class="error" style="display: none;">
+                <img src="images/error.png"/>
+                <span>当前网络不可用，请检查你的网络设置</span>
+            </div>
+            <div class="weui-cells weui-cells_form" style="margin-top: 0;">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd cell-unleft">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="uploaderFiles">
+                                </ul>
+                                <div class="weui-uploader__input-box file-img">
+                                    <input id="uploaderInput" class="weui-uploader__input" type="button" />
+                                    <p class="change-img">拍摄租客照片</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="detail">
+                <div class="none-flex cell-border">
+                    <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+                    <div class="weui-cell__bd bd-right">
+                        <input id="card" class="weui-input input-text-right" type="text" placeholder="租客身份证号"/>
+                    </div>
+                    <div class="red-star">*</div>
+                </div>
+                <div class="none-flex cell-border">
+                    <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+                    <div class="weui-cell__bd bd-right">
+                        <input id="phone" class="weui-input input-text-right" type="text" placeholder="租客11位手机号码"/>
+                    </div>
+                </div>
+            </div>
+            <div class="key-img-height active"></div>
+            <div class="prompt active" id="idCard"></div>
+            <div class="weui-gallery" id="gallery">
+                <span class="weui-gallery__img" id="galleryImg"></span>
+                <div class="weui-gallery__opr">
+                    <a href="javascript:" class="weui-gallery__del">
+                        <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="btn-box" data-id="employee_list">
+            <div class="btn-box button-box">
+                <a class="btn" href="javascript:" id="showToast" data-id="renter-news">保存</a>
+            </div>
+        </div>
     </div>
 </div>
 <script>
     $(function(){
-        $('#add-renter').click(function(){
-            inPop(function(){
-                $('#personbackground').hide();
+        var $container = $('#container');
+        var floorId = $container.data('data-floorid');
+        var place =$container.data('data-floor-place');
+        $('#rent-place-header').html(place);
+        //身份证列表
+        idCardList();
+        function idCardList() {
+            $.ajax({
+                type: "POST",
+                url: "api/police/listtenant.json",
+                data:{userid:$('#userid').val(),floorid:floorId},
+                success: function (data) {
+                    list(data);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
             });
-            $('#card').val('');
-            $('#personbackground').show();
-        });
-        $('#dis-none2').click(function(){
-            outPop();
-            $('#personbackground').hide();
-        });
+        }
+        function list(data) {
+            $('#number-right').html('<span id="num">'+data.length+'</span><span>人</span>');
+            $('#idCard-list').html('');
+            for(var i = 0;i<data.length;i++){
+                $('#idCard-list').append(
+                        '<div class="position-del-box">'+
+                        '<div class="none-flex cell-border cell-margin" data-rentid="'+data[i].id+'" data-id="rent-detail">'+
+                        '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
+                        '</div>'+
+                        '<div class="link-delete block dele-word" id="'+data[i].id+'">注销</div>'+
+                        '</div>'
+                );
+            }
+            del();
+            $('.cell-margin').click(function(){
+                var rid = $(this).data('rentid')
+                $container.data('data-renter-id',rid)
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
+        }
+        function del(){
+            $('.dele-word').bind('click',function(){
+                var _this = $(this);
+                $('#androidDialog2').fadeIn(100);
+                $('#dialog').html('确定注销该租住人员信息？');
+                $('#default').on('click',function(){
+                    $('#androidDialog2').fadeOut(100);
+                });
+                var delId = _this.attr('id');
+                $container.data('dara-cancel-id',delId);
+            });
+            $('#primary').bind('click',function(){
+                var delId =  $container.data('dara-cancel-id');
+                $.ajax({
+                    type: "POST",
+                    url: "api/police/cancel.json",
+                    data:{userid:$('#userid').val(),id:delId},
+                    success: function (data) {
+                        $('#androidDialog2').fadeOut(100);
+                        $('#'+delId).parent().remove();
+                        var nums = $('.position-del-box').length;
+                        $('#num').html(nums);
+                    },
+                    error: function (mes) {
+                        console.log('error');
+                    }
+                });
+            });
+        }
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
@@ -90,20 +153,34 @@
         function outPop(){
             pageManager.setBeforeHashchangeOnce(null)
         }
+        //弹出添加新人员信息
         var tmpl = '<li class="weui-uploader__file head-image" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles"),
                 localId,
+                localIds,
                 tag = false
                 ;
+        $('#add-renter').on('click',function(){
+            inPop(function(){
+                $('#personbackground').hide();
+            });
+            $('#personbackground').show();
+            $('#card').val('');
+            $('#phone').val('');
+            $uploaderFiles.html('');
+            localId = '';
+            localIds = '';
+            $(".weui-uploader__input-box").css("display","block");
+        });
         $uploaderInput.on("click", function(e){
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     localId = localIds[0];
                     $uploaderFiles.append($(tmpl.replace('#url#', localId)));
                     $(".weui-uploader__input-box").css("display","none");
@@ -122,6 +199,16 @@
                 }
             });
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
         $uploaderFiles.on("click", "li", function(){
             inPop(function(){
                 $gallery.fadeOut(100);
@@ -186,16 +273,16 @@
                 $('#empty').css('display', 'none');
             }
         });
-        $('#submit-img').on('click',function(){
-//            if(localId==null||localId==''){
-//                $('#idCard').html("照片不能为空");
-//                $('#idCard').fadeIn(100);
-//                setTimeout(function () {
-//                    $('#idCard').fadeOut(100);
-//                }, 2000);
-//                return;
-//            }
-            var value=$('#card').val();
+        $('#showToast').on('click',function(){
+            if(localId==null||localId==''){
+                $('#idCard').html("照片不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
+                return;
+            }
+            var value=$('#card').val().toUpperCase();
             if (value == '') {
                 $('#idCard').html("身份证号码不能为空");
                 $('#idCard').fadeIn(100);
@@ -203,7 +290,7 @@
                     $('#idCard').fadeOut(100);
                 }, 2000);
                 return ;
-            }else if(!cardValid(value)){
+            } else if(!cardValid(value)){
                 $('#idCard').html("无效的身份证号码");
                 $('#idCard').fadeIn(100);
                 setTimeout(function () {
@@ -211,42 +298,55 @@
                 }, 2000);
                 $('#empty').css('display', 'block');
                 return ;
-            }else{
-                $('#idCard-list').append(
-                        '<div class="none-flex cell-border cell-margin">'+
-                        '<div class="weui-cell__hd card-val" data-img="'+localId+'">'+value+'</div>'+
-                        '<div class="link-delete block dele-word">注销</div>'+
-                        '</div>'
-                );
-                $('#personbackground').fadeOut(100);
-                del();
             }
-            if(tag){
-                return;
+            var phone = /^1[34578]\d{9}$/;
+            var phonenum = $('#phone').val();
+            if(phonenum!=''){
+                if(phone.test(phonenum)==false){
+                    $('#idCard').html("手机号码不正确");
+                    $('#idCard').fadeIn(100);
+                    setTimeout(function () {
+                        $('#idCard').fadeOut(100);
+                    }, 2000);
+                    return;
+                }
             }
-            tag = true;
             $('#card').blur();
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1,// 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    idCard($('#card').val().toUpperCase(),serverId,$('#phone').val());
+                },
+                fail:function(err){
+                    $('#error').css("display","block");
+                    tag = false;
+                }
+            });
         });
-        function del(){
-            $('.dele-word').bind('click',function(){
-                var _this = $(this);
-                $('#androidDialog2').fadeIn(100);
-                $('#dialog').html('确定注销该租住人员信息？');
-                $('#default').on('click',function(){
-                    $('#androidDialog2').fadeOut(100);
-                });
-                $('#primary').on('click',function(){
-                    $('#androidDialog2').fadeOut(100);
-                    _this.parent().remove();
-                });
+        function idCard(value,serverId,phone){
+            $('#empty').css('display','none');
+            $.ajax({
+                type: "POST",
+                url: "api/tenant/save.json",
+                async: true,
+                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
+                success: function (card) {
+                    $('#personbackground').hide();
+                    idCardList();
+                },
+                error: function () {
+                    $('#error').css("display","block");
+                    tag = false;
+                }
             });
         }
-        del();
-        //保存
-        $('#save').click(function(){
-            outPop();
-            var id = $(this).data('id');
-            window.pageManager.go(id);
+        $('input').focus(function () {
+            $('.key-img-height').show();
+        });
+        $('input').blur(function () {
+            $('.key-img-height').hide();
         });
     });
 </script>

@@ -1,21 +1,24 @@
-<div class="page page-list police-rent">
-    <img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>
+<div class="page page-list">
+    <!--<img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>-->
     <div class="nocard-title rent-head-height">
-        <div class="fire-header-left">
-            <img src="images/head.jpg" class="police-header-img">
-            <span class="fire-head-name">于新刚</span>
-        </div>
+        <div class="fire-header-left"></div>
         <div class="white-position" id="white-position">
-            <div class="rent-num-box" id="all-rent-building" data-id="all-rent-building">
-                <dl class="num-center">
-                    <dt>29</dt>
-                    <dd>租住房屋</dd>
+            <div class="fire-num-box" id="all-rent-building" data-id="all-rent-building">
+            <dl class="num-center">
+                <dt id="all-build-num"></dt>
+                <dd>租住房屋</dd>
+            </dl>
+            </div>
+            <div class="fire-num-box rent-num" data-id="rent-undone-num">
+            <dl class="num-center">
+                <dt id="uncheck-num" class="choice-title-red"></dt>
+                <dd>未核查</dd>
                 </dl>
             </div>
-            <div class="rent-num-box rent-num-box-border" id="rent-num" data-id="rent-num">
-                <dl class="num-center">
-                    <dt>40</dt>
-                    <dd>租住人数</dd>
+            <div class="fire-num-box fire-num-box-border rent-num" data-id="rent-num">
+            <dl class="num-center">
+                <dt id="all-renter-num"></dt>
+                <dd>租住人数</dd>
                 </dl>
             </div>
         </div>
@@ -25,9 +28,17 @@
         <div class="gray-num">租住房屋</div>
         <div class="gray-rent">租住人数</div>
     </div>
-    <div class="rent-box" id="rent-box"></div>
-    <div class="position-choice position-blue" id="choice-alert">
-        <img src="images/Iconset.png" class="choice-img"/>
+    <div class="page__bd cell_y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="rent-box" id="rent-box"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
     </div>
     <div class="rent-pop" id="filtrate">
     <div class="filtrate-header rent-header">
@@ -59,6 +70,7 @@
         var $searchInput = $('#searchInput');
         var width = document.body.clientWidth;
         var container = $('#container');
+        var policeId = container.data('self-policeId');
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
@@ -70,32 +82,90 @@
         });
         $.ajax({
             type: "POST",
-            url: "api/firePlanItem/groupByUser.json",
-            data:{},
+            url: "api/user/me.json",
+            data:{userid:$('#userid').val()},
             success: function (data) {
-                for(var i = 0;i<data.list.length;i++){
-                    $('#rent-box').append(
-                            '<div class="rent-news">'+
-                            '<div class="imgandname">'+
-                            '<div class="imgname">'+
-                            '<img src="images/head.jpg" class="header-img">'+
-                            '<p>李春凤</p>'+
-                            '</div>'+
-                            '</div>'+
-                            '<div class="num-width rent-build" data-id="builder-rent">10</div>'+
-                            '<div class="num-width rent-person" data-id="builder-person-num">23</div>'+
-                            '</div>'
-                    );
-                    $('.rent-build,.rent-person').on('click',function(){
+                if(data.avatar==null||data.avatar==''){
+                    data.avatar = 'images/head.jpg';
+                }else{
+                    data.avatar += '64'
+                }
+                choice(data);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        function choice(data){
+            $('.fire-header-left').html(
+                    '<img src="'+data.avatar+'" class="police-header-img">'+
+                    '<span class="fire-head-name">'+data.name+'</span>'
+            );
+        }
+        var pagePanel = $('.page__bd');
+        var currDataListCfg = {
+            url:'api/police/list.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            xhrListKey:'',
+            itemsPanel:$('#rent-box'),
+            xhrExternalProcess : function (params,xhr) {
+                $('.rent-build,.rent-person').on('click',function(){
                         var id = $(this).data('id');
                         window.pageManager.go(id);
-                    });
-                };
+                });
+                $('.rent-news').on('click',function(){
+                    var masterid = $(this).attr('id');
+                    container.data('data-builder-name',$(this).find('.imgandname').html());
+                    container.data('data-masterid',masterid);
+                });
+            },
+            emptyCb : function () {
+                $('#rent-box').html('<div class="empty-box empty-box-fire">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (item,i) {
+                return '<div class="rent-news" id="'+i+'">'+
+                        '<div class="imgandname">'+
+                        item[0]+
+                        '</div>'+
+                        '<div class="num-width rent-build" data-id="builder-rent">'+item[1]+'</div>'+
+                        '<div class="num-width rent-person" data-id="builder-person-num"><span class="choice-title-red">' +item[2]+
+                        '</span>/<span>' +item[3]+
+                        '</span></div>'+
+                        '</div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({userid:$('#userid').val(),policeId:policeId});
+        $.ajax({
+            type: "POST",
+            url: "api/police/total.json",
+            data:{userid:$('#userid').val(),policeId:policeId},
+            success: function (data) {
+               $('#all-build-num').html(data.floor);
+                $('#uncheck-num').html(data.uncheck);
+                $('#all-renter-num').html(data.total);
             },
             error: function () {
             }
         });
-        $('#rent-num,#all-rent-building,#rent-add,#add-have-rent').click(function(){
+        $('.rent-num,#all-rent-building,#rent-add,#add-have-rent').click(function(){
+            outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
@@ -122,6 +192,9 @@
                     var moveY = downY - upY;
                     if(moveX==0&&moveY==0){
                         $searchInput.val('');
+                        inPop(function(){
+                            $(tid).fadeOut(100);
+                        });
                         $(tid).fadeIn(100);
                     }
                 });
@@ -144,13 +217,24 @@
                     $('body').unbind();
                     if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                         $searchInput.val('');
+                        inPop(function(){
+                            $(tid).fadeOut(100);
+                        });
                         $(tid).fadeIn(100);
                     }
                 });
             });
-        }
+        };
         alertPop('#add-new-rent','#pop-add-box,#add');
-        alertPop('#choice-alert','#filtrate');
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
     });
 
 </script>

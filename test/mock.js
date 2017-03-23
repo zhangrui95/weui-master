@@ -752,6 +752,12 @@ module.exports = [
                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
+                   {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]},
+                   {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
+                   {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
+                   {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
+                   {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
+                   {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]}
                ]
             ));
@@ -804,7 +810,7 @@ module.exports = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
-                    {id:'re1',date:1489551285959,floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},police:{name:'李洋'},id:'f1',community:{name:'红旗社区'},street:'嵩山路',num:18,ridgepole:4,unit:1,door:402},photo:'images/header.jpg',sfzh:'230105199804262325'}
+                    {id:'re1',date:1489551285959,tenants:[],floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},police:{name:'李洋'},id:'f1',community:{name:'红旗社区'},street:'嵩山路',num:18,ridgepole:4,unit:1,door:402},photo:'images/header.jpg',sfzh:'230105199804262325'}
             ));
         }
     },
@@ -819,6 +825,126 @@ module.exports = [
     },
     {
         route: "/example/api/tenant/search.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {state:'1'}
+            ));
+        }
+    },
+    {
+        route: "/example/api/tenant/save.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {state:'1'}
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/list.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    'rrer': ['张三', '25', '9', '30'],
+                    'userfs': ['李四', '25', '9', '30'],
+                    'userIds': ['王二', '25', '9', '30'],
+                    'rrerss': ['张三', '25', '9', '30'],
+                    'userfss': ['李四', '25', '9', '30'],
+                    'userIdss': ['王二', '25', '9', '30'],
+                    'rrer222': ['张三', '25', '9', '30'],
+                    'userf333': ['李四', '25', '9', '30'],
+                    'userId444': ['王二', '25', '9', '30'],
+                    'rrer55': ['张三', '25', '9', '30'],
+                    'userf66': ['李四', '25', '9', '30'],
+                    'userId77': ['王二', '25', '9', '30'],
+                    'rrer000': ['张三', '25', '9', '30'],
+                    'userft56': ['李四', '25', '9', '30'],
+                    'userId99ee': ['王二', '25', '9', '30']
+                }
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/total.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    'floor':'96',
+                    'uncheck':'15',
+                    'total':'192',
+                }
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/listfloor.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
+                    {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
+                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
+                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
+                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
+                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]},
+                    {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
+                    {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
+                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
+                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
+                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
+                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]}
+                ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/countfloor.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {count:'33'}
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/listtenant.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {uncheck:'1',sfzh: "230105199632020201",date:1489551285959,id:'re1',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re2',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re3',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re4',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re5',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {uncheck:'1',sfzh: "230105199632020201",date:1489551285959,id:'re6',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re7',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re1',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re2',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re3',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re4',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re5',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re6',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re7',floor:{user:{name:'王春芳'},master:{name:'王春芳',mobile:'15663641658'},id:'f1',community:{name:'红旗社区'}}}
+                ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/counttenant.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {count:'3'}
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/cancel.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(

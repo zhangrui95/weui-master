@@ -4,8 +4,18 @@
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
     <div class="page__bd details cells-ajax rent-y"></div>
-    <div class="btn-box" id="btnPanel" data-id="rent-joint">
-        <a class="btn" href="javascript:">同屋租住人员（6）</a>
+    <div class="btn-box" id="btnPanel" data-id="renter-news">
+        <a class="btn" href="javascript:" id="btn-num"></a>
+    </div>
+    <div class="btn-box" id="inspect" data-id="renter-news">
+        <a class="btn" href="javascript:">核查完毕</a>
+    </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已核查</p>
+        </div>
     </div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
@@ -14,13 +24,52 @@
 <script type="text/javascript">
     $(function(){
         var $gallery = $("#gallery"),
-                $galleryImg = $("#galleryImg");
+            $galleryImg = $("#galleryImg"),
+            $container = $('#container');
+            var id = $('#container').data('data-renter-id');
         $.ajax({
             type: "POST",
-            url: "api/employee/detail.json",
-            data:{id:$('#taskId').val(),userid:$('#userid').val()},
+            url: "api/police/listtenant.json",
+            data:{userid:$('#userid').val(),id:id},
+            success: function (data) {
+                if(data.uncheck==null||data.uncheck==''){
+                    $('#inspect').hide();
+                }else{
+                    $('#inspect').show();
+                }
+            },
+            error: function (mes) {
+                console.log('error');
+            }
+        });
+        $('#inspect').on('click',function(){
+            $.ajax({
+                type: "POST",
+                url: "api/police/listtenant.json",
+                data:{userid:$('#userid').val(),id:id,uncheck:''},
+                success: function (data) {
+                    var $toast = $('#toast');
+                    if ($toast.css('display') != 'none') return;
+                    $toast.fadeIn(100);
+                    setTimeout(function () {
+                        $toast.fadeOut(100);
+                        $('#road,#size,#ridgepole,#element,#door').val('');
+                        $('#road,#size,#ridgepole,#element,#door').blur();
+                        $('#inspect').hide();
+                    }, 2000);
+                },
+                error: function (mes) {
+                    console.log('error');
+                }
+            });
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/tenant/find.json",
+            data:{userid:$('#userid').val(),id:id},
             success: function (data) {
                 lists(data);
+                $('#btn-num').html('同屋租住人员('+data.tenants.length+')');
             },
             error: function (mes) {
                 $('#error').css("display","block");
@@ -37,75 +86,87 @@
             pageManager.setBeforeHashchangeOnce(null)
         }
         function lists(data) {
-            var address = data.company.address;
-            address = address==null?'':address;
-            var company = data.company.name;
-            var police = data.company.police.name;
-            company = company==null?'':company;
+            var item= data.floor;
+            var floornew = item.master
+            var ridg = item.ridgepole+'栋'
+            var units = item.unit+'单元'
+            if(item.ridgepole==null||item.ridgepole.length==0){
+                ridg = '';
+            }
+            if(item.unit==null||item.unit.length==0){
+                units = '';
+            }
+            if(floornew.name==null){
+                floornew.name='';
+            }
+            if(floornew.mobile==null){
+                floornew.mobile='';
+            }
+            if(item.police==null||item.police.name==null){
+                item.police.name='';
+            }
+            if(data.phone==null){
+                data.phone='';
+            }
+            var place = item.street+item.num+'号'+ridg+units+item.door+'门';
             var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                     '<div class="none-flex cell-top">'+
                     '<div class="weui-cell__bd bd-center cell-unleft">'+
-                    '<img src="api/employee/photo?id='+data.id+'&userid='+$('#userid').val()+'" alt="" class="head-img">'+
+                    '<img src="api/tenant/photo?id='+data.id+'" alt="" class="head-img">'+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border">'+
                     '<div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    data.card+
+                    data.sfzh+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
-                    '<div class="weui-cell__hd"><label class="weui-label">社&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区</label></div>'+
+                    '<div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>'+
                     '<div class="weui-cell__bd bd-right" >'+
-                    '建设社区'+
+                    data.phone+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
-                    '<div class="weui-cell__hd"><label class="weui-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label></div>'+
+                    '<div class="weui-cell__hd"><label class="weui-label">所属社区</label></div>'+
                     '<div class="weui-cell__bd bd-right" >'+
-                    '嵩山路19号4单元307室'+
-                    '</div>'+
-                    '</div>'+
-                    '<div class="none-flex cell-border cell-margin cell-img-padding">'+
-                    '<div class="weui-cell__hd"><label class="weui-label img-height-box">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;元</label></div>'+
-                    '<div class="weui-cell__bd bd-right img-height-box" >'+
-                    '<img src="images/icon1.png" class="detail-img"/> '+
-                    '</div>'+
-                    '</div>'+
-                    '<div class="none-flex cell-border cell-margin cell-img-padding">'+
-                    '<div class="weui-cell__hd"><label class="weui-label img-height-box">门&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;牌</label></div>'+
-                    '<div class="weui-cell__bd bd-right img-height-box" >'+
-                    '<img src="images/icon4.png" class="detail-img"/> '+
+                    data.floor.community.name+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
-                    '<div class="weui-cell__hd"><label class="weui-label">楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长</label></div>'+
+                    '<div class="weui-cell__hd"><label class="weui-label">房屋地址</label></div>'+
                     '<div class="weui-cell__bd bd-right" >'+
-                    '张三'+
+                    place+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="none-flex cell-border cell-margin">'+
+                    '<div class="weui-cell__hd"><label class="weui-label">楼长姓名</label></div>'+
+                    '<div class="weui-cell__bd bd-right" >'+
+                    floornew.name+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">楼长电话</label></div>'+
                     '<div class="weui-cell__bd bd-right" >'+
-                    data.user.mobile+
+                    floornew.mobile+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">上报人员</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    '于新刚'+
+                    item.user.name+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    police+
+                    item.police.name+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cells-margin" id="times">'+
                     '<div class="weui-cell__hd"><label class="weui-label">上传时间</label></div>'+
                     '<div class="weui-cell__bd bd-right">'+
-                    '2017-02-28 18:32:56'+
+                    getLocalTime(data.date)+
                     '</div>'+
                     '</div>'+
                     '</div>';
@@ -121,10 +182,23 @@
                 outPop();
                 $gallery.fadeOut(100);
             });
+            $('#btnPanel').on('click',function(){
+                $container.data('data-floorid',item.floorid);
+                $container.data('data-floor-place',place);
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+            });
         }
-        $('#btnPanel').on('click',function(){
-            var id = $(this).data('id');
-            window.pageManager.go(id);
+        $('#inspect').on('click',function(){
+            var $toast = $('#toast');
+            if ($toast.css('display') != 'none') return;
+            $toast.fadeIn(100);
+            setTimeout(function () {
+                $toast.fadeOut(100);
+                $('#road,#size,#ridgepole,#element,#door').val('');
+                $('#road,#size,#ridgepole,#element,#door').blur();
+                $('#inspect').hide();
+            }, 2000);
         });
     })
 </script>

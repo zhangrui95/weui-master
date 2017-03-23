@@ -351,6 +351,7 @@
             $(this).siblings().removeClass('choice-after');
         });
         $('#showToast').on('click',function(){
+            outPop();
             var years = [];
             var policeIds= [];
             var texts = [];
@@ -491,10 +492,22 @@
                 if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                     $searchInput.val('');
                     $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+                    inPop(function(){
+                        $('#filtrate').fadeOut(100);
+                    });
                     $('#filtrate').fadeIn(100);
                 }
             });
         });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
     })
 </script>
 

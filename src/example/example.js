@@ -267,8 +267,8 @@ $(function () {
                 }
             });
         },
-        templateProcess : function (item) {
-            return '<div>' + JSON.stringify(item)+'</div>'
+        templateProcess : function (item,i) {
+            return '<div>' + JSON.stringify(item,i)+'</div>'
         },
         getItemsPanel : function () {
             return this.itemsPanel
@@ -276,12 +276,12 @@ $(function () {
         getUrl : function () {
             return this.url
         },
-        itemProcess : function (item) {
-            this.getItemsPanel().append(this.templateProcess(item));
+        itemProcess : function (item,i) {
+            this.getItemsPanel().append(this.templateProcess(item,i));
         },
         listProcess : function (list) {
             for(var i in list) {
-                this.itemProcess(list[i])
+                this.itemProcess(list[i],i)
             }
         },
         emptyCb : function () {},
