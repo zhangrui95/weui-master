@@ -35,7 +35,7 @@
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
             <div class="weui-loadmore weui-loadmore_line active">
-                <span class="weui-loadmore__tips">———— 暂无更多数据 ————</span>
+                <span class="weui-loadmore__tips">暂无更多数据</span>
             </div>
         </div>
     </div>
@@ -302,9 +302,9 @@
             if(moveX==0&&moveY==0){
                 $searchInput.val('');
                 inPop(function(){
-                    $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
+                    $('#add,.add-rent-button,.already-have-rent').hide();
                 });
-                $('#add,.add-rent-button,.already-have-rent').fadeIn(100);
+                $('#add,.add-rent-button,.already-have-rent').show();
             }
         });
         //移动端拖拽
@@ -326,9 +326,9 @@
             if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                 $searchInput.val('');
                 inPop(function(){
-                    $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
+                    $('.add-rent-button,#add,.already-have-rent').hide();
                 });
-                $('#add,.add-rent-button,.already-have-rent').fadeIn(100);
+                $('#add,.add-rent-button,.already-have-rent').show();
             }
         });
         function inPop(callback){
