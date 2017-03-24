@@ -11,7 +11,7 @@
     </div>
     <div class="search-results" id="search-results">
         <span class="result-name">租住人数</span>
-        <span class="float-right"></span>
+        <span class="float-right"><span class="type-red"></span>/<span id="num-all-renter"></span></span>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -152,7 +152,7 @@
                 url: "api/police/counttenant.json",
                 data:{userid:$('#userid').val(),sfzh:sfzh},
                 success: function (data) {
-                    $('.float-right').html('<span class="type-red"></span>/'+data.count+'');
+                    $('#num-all-renter').html(data.count);
                 },
                 error: function () {
                 }
