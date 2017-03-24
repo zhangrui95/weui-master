@@ -295,7 +295,11 @@ $(function () {
                 list = xhr[this.xhrListKey];
             }
             if(list!=null && list.length != 0){
-                this.offset += list.length;
+                var listLength = 0;
+                for(var i in list){
+                    listLength++;
+                }
+                this.offset += listLength;
                 this.listProcess(list);
             }
             if(this.offset==0){
