@@ -131,7 +131,7 @@
             fCount('');
         });
         var search = function(){
-            var val=$searchInput.val();
+            var val=$searchInput.val().toUpperCase();
             container.data('data-list-val',val);
             if(val != ""){
                 currDataList.first({sfzh:val});
