@@ -1,0 +1,241 @@
+<div class="page page-list company-list js_show">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title" id="work_company"></div>
+                <div class="top-operator"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd widt-mid">  <div class="red-star red-left">*</div><label class="weui-label">检查现场</label></div>
+                <div class="weui-cell__bd bd-right font-color blur" id="work_list_check">
+                    <img class="change-upload" src="assets/icon_pho.jpg" id="checkUploader"/>
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd widt-mid"><label class="weui-label">法律文书</label></div>
+                <div class="weui-cell__bd bd-right font-color blur" id="legalInstrumentDiv">
+                    <img class="change-upload" src="assets/icon_pho.jpg" id="legalInstrument"/></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd widt-mid"><label class="weui-label">企业负责人</label></div>
+                <div class="weui-cell__bd bd-right font-color blur"  id="personLiableDiv">
+                    <img class="change-upload" src="assets/icon_pho.jpg" id="personLiable"/></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd widt-mid"><label class="weui-label">备注</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top widt-mid">
+                    <input id="work_value_advice" class="input-change fire-num-box-border font-color" type="text" placeholder="请输入处理意见" value="" >
+                </div>
+            </div>
+            <div class="btn-box" data-id="hotel_news">
+                <a class="btn" href="javascript:" id="showToast" data-id="leader_news">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="js_dialog" id="iosDialog2" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd">请上传现场检查</div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="iknow">知道了</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var container = $('#container');
+        var workId = container.data("work_id");
+        var userid = $("#userid").val();
+        $('#work_company').text(container.data("work_company"));
+        var addWorkForm = $('#addWorkForm');
+        var addFormElement = function (name, val) {
+            var input = addWorkForm.find('input[name="' + name + '"]');
+            if (input.length > 0) {
+                input.val(val);
+            } else {
+                addWorkForm.append('<input type="hidden" name="' + name + '" value="' + val + '">');
+            }
+        }
+        addFormElement('userid',userid);
+        var checkUploader = $("#checkUploader");
+        var legalInstrument = $("#legalInstrument");
+        var personLiable = $("#personLiable");
+        var addCheck = function (localId ,fatherDiv) {
+            fatherDiv.prepend('<img class="change-upload" src="' + localId + '" ' +
+                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
+                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+                    '</div>');
+        }
+        addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
+            addCheck($(this).val());
+        });
+        function uploudImg(type,fatherDiv) {
+            wx.chooseImage({
+                count: 100, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    for (var i = 0; i < localIds.length; i++) {
+                        var localId = localIds[i];
+                        var index = (addWorkForm.find('input[name^="work_list_checks"]').length);
+                        addWorkForm.append('<input type="hidden" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
+                        addCheck(localId ,fatherDiv);
+                        addFormElement('checks['+index+'].type',type);
+                    }
+                },
+                fail: function (err) {
+                }
+            });
+        }
+        checkUploader.on("click", function (e) {
+            uploudImg(1,$('#work_list_check'));
+        });
+        legalInstrument.on("click", function (e) {
+            uploudImg(2,$('#legalInstrumentDiv'));
+        });
+        personLiable.on("click", function (e) {
+            uploudImg(3,$('#personLiableDiv'));
+        });
+        /** 图片处理 start*/
+        $(document).on('click', '[photo]', function () {
+            var photo = JSON.parse($(this).attr('photo'));
+            var gallery = $(photo["gallery"]);
+            var galleryImg = $(photo["galleryImg"]);
+            inPop(function () {
+                gallery.fadeOut(100);
+            });
+            galleryImg.attr("src", this.getAttribute("src"));
+            gallery.fadeIn(100);
+        });
+
+        $(document).on("click", '.weui-gallery', function () {
+            outPop();
+            $(this).fadeOut(100);
+        });
+
+        function inPop(callback) {
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop() {
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        /* 图片处理 end*/
+
+        /** 保存start*/
+        $('#showToast').on('click', function () {
+            addFormElement('workMain', workId);
+            addFormElement('reply', $('#work_value_advice').val());
+            if(checkWorkList()){
+                save();
+            }
+        });
+        var checkWorkList = function(){ //校验检查现场
+            var workImg = $("#work_list_check img");
+            if(workImg.length <= 1){
+                $("#iosDialog2").fadeIn(200);  //弹出提示窗
+                $("#iknow").click(function(){
+                    $("#iosDialog2").fadeOut(200);
+                    return false;
+                });
+            }else{
+                return true;
+            }
+        }
+        var save = function(){
+            var localIds = [];
+            addWorkForm.find('input').each(function () {
+                var tmp = $(this).attr('name');
+                if (tmp.indexOf('work_value_') > -1) {
+                    $(this).attr('name', name2name(tmp.substr(11)));
+                } else if (tmp.indexOf('work_list_') > -1) {
+                    $(this).attr('name', name2name(tmp.substr(10)));
+                    if (tmp.substr(tmp.length - 'photo'.length) == 'photo') {
+                        localIds.push({name: name2name(tmp.substr(10)), localId: $(this).val()});
+                    }
+                } else if (tmp.indexOf('work_view_') > -1) {
+                    $(this).attr('name', null);
+                    $(this).val(null);
+                }
+            });
+            recursionUploadImg(localIds);
+        }
+
+        var name2name = function (name) {
+            return name.replace(/\-(\w)/g, function (all, letter) {
+                return letter.toUpperCase();
+            }).replace(/\_(\w)/g, function (all, letter) {
+                return letter.toUpperCase();
+            });
+        }
+
+        var recursionUploadImg = function (localIds) {
+            var tmp = localIds.pop();
+            var localId = tmp.localId;
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1,// 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    addWorkForm.find('input[name="' + tmp.name + '"]').val(serverId);
+                    if (localIds.length > 0) {
+                        recursionUploadImg(localIds);
+                    } else {
+                        postData();
+                    }
+                },
+                fail: function (err) {
+                    $('#error').css("display", "block");
+                    tag = false;
+                }
+            });
+        };
+
+        var postData = function () {
+            $.ajax({
+                type: "POST",
+                url: "api/workReply/save.json",
+                async: true,
+                data: addWorkForm.serialize(),
+                success: function (card) {
+                    updateState(workId,3);
+                    addWorkForm.after('<form id="addWorkForm"></form>');
+                    addWorkForm.remove();
+                    //       $("#iosDialog2").fadeIn(200);  //弹出提示窗
+//                    $("#iknow").click(function(){
+//                        window.pageManager.go('work-detail');
+//                    });
+
+                },
+                error: function () {
+                    $('#error').css("display", "block");
+                    tag = false;
+                }
+            });
+        }
+
+        /** 保存end*/
+        /*修改反馈状态*/
+        function updateState(id,readState) {
+            $.ajax({
+                type: "POST",
+                url: "api/workMain/updateReadState.json",
+                data: {id: id, userid: $("#userid").val(), readState: readState},
+                success: function (data) {
+                    window.pageManager.go('police-dynamic');
+                },
+                error: function () {
+                    console.log("update state error!");
+                }
+            });
+        }
+    });
+</script>

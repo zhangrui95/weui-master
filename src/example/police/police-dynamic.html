@@ -1,0 +1,173 @@
+<!--旅店信息-->
+<div class="page page-list">
+
+    <div class="weui-tab p-tab weui-namenu">
+        <div class="weui-navbar ">
+            <div class="weui-navbar__item weui-namenu__item_on" href="#tab1" data-state="0">未完成<span
+                    id="number-left"></span></div>
+            <div class="weui-navbar__item" href="#tab2" data-state="1">已完成<span id="number-center"></span></div>
+            <div class="weui-navbar__item" href="#tab3" data-state="2">领导动态<span id="number-right"></span></div>
+        </div>
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel">
+                <div class="weui-cells" id="tab1" style="opacity: 1;"></div>
+                <div class="weui-cells active" id="tab2" style="opacity: 2; display: none;"></div>
+                <div class="weui-cells active" id="tab3" style="opacity: 3; display: none;"></div>
+            </div>
+            <div class="weui-loadmore" id="load" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active" id="empty-box" style="display: none;">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var currState = '0';
+        var container = $('#container');
+        var pagePanel = container.find('.page .page__bd');
+        var currDataListCfg = {
+            url: 'api/workMain/policeIndex.json',
+            pagePanel: pagePanel,
+            scrollPanel: pagePanel.find('#box'),
+            winPanel: container,
+            xhrExternalProcess: function (params, xhr) {
+                var data = xhr;
+                $('.weui-media-box').on('click', function () {
+                    var id = $(this).data('id');
+                    var value = $(this).data('value');
+                    if($(this).children("input").val() == 2) {
+                        updateState(value, 1);
+                    }
+                    container.data("work_id",value);
+                    window.pageManager.go(id);
+                });
+            },
+            emptyCb: function () {
+                $(".weui-loading").hide();
+                var img = 'icon-ok.jpg';
+                var text1 = '很抱歉';
+                var text2 = '没有相关的工作了';
+                $("#empty-box").removeClass("weui-loadmore_line");
+                $("#empty-box").html('<div class="empty-box empty-box-fire">' +
+                        '<img src="assets/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word">' + text1 + '</p>' +
+                        '<p class="null-word2">' + text2 + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {  //没有更多的数据
+                $("#empty-box").html('<span class="weui-loadmore__tips">暂无更多数据</span>');
+                $('.empty-box').show();
+            },
+            getItemsPanel: function () {
+                return $('#' + (currState == '0' ? 'tab1' : currState == '1' ? 'tab2' : 'tab3'));
+                //   return $('#' + (currState == '0' ? 'tab1' : ''));
+            },
+            templateProcess: function (item) {
+                item = nullToEmpty(item);
+                var state = container.data('police_state');
+                if(state == 0){
+                    container.data('data-work-reply-no',1);
+                    container.data('data-work-name',item.company.name);
+                    var tpi = item.readState == '1' ? "tip-red" : item.readState == '2' ? "tip-red" : item.readState == '3' ? "tip-orange" : "tip-green";
+                    var stateName = item.readState == '1' ? "待处理" : item.readState == '2' ? "待处理" : item.readState == '3' ? "未读" :"已读";
+                    return '<a  class="weui-media-box weui-media-box_appmsg box-rel weui-bl" href="javascript:" data-id="work-detail" data-value="'+item.id+'">'
+                            +'<input type="hidden"  value = "'+ item.readState + '"/>'
+                            + '<div class="tiptop"><span class="weui-badge '+tpi+'">'+stateName+'</span></div>'
+                            + '<div class="weui-media-box__bd" >'
+                            + ' <h4 class="weui-media-box__title p-width">检查工作：' + item.company.name + '</h4>'
+                            + ' <div class="p-slip clearfix">'
+                            + ' <div class="p-time">' + getLocalTime(item.createTime) + '</div>'
+                            + ' <div class="p-title">负责领导：' + item.creator.name + '</div>'
+                            + '</div>'
+                            + ' </div>'
+                            + '</a>';
+                }else if(state == 1){
+                    container.data('data-work-reply-no',1);
+                    return '<a  class="weui-media-box weui-media-box_appmsg box-rel weui-bl" href="javascript:" data-id="work-detail" data-value="'+item.id+'">'
+                            + '<div class="weui-media-box__bd" >'
+                            + ' <h4 class="weui-media-box__title p-width">检查工作：' + item.company.name + '</h4>'
+                            + ' <div class="p-slip clearfix">'
+                            + ' <div class="p-time">' + getLocalTime(item.createTime) + '</div>'
+                            + ' <div class="p-title">负责领导：' + item.creator.name + '</div>'
+                            + '</div>'
+                            + ' </div>'
+                            + '</a>';
+                }
+                else if(state == 2){
+                    container.data('data-work-reply-no',0);
+                    return '<a  class="weui-media-box weui-media-box_appmsg box-rel weui-bl" href="javascript:" data-id="work-detail" data-value="'+item.id+'">'
+                            + '<div class="weui-media-box__bd" >'
+                            + ' <h4 class="weui-media-box__title">'+item.creator.name+ '对' + item.company.name + '进行了检查</h4>'
+                            + ' <div class="p-slip clearfix">'
+                            + ' <div class="p-time">' + getLocalDate(item.createTime) + '</div>'
+//                            + ' <div class="p-title">辖区民警：' + item.company.police.name + '</div>'
+                            + '</div>'
+                            + ' </div>'
+                            + '</a>';
+                }
+            },
+            before: function () {
+                // $("#load").show();
+                $("#empty-box").html('<span class="weui-loadmore__tips">暂无更多数据</span>');
+                $("#empty-box").show();
+            },
+            after: function () {
+                $("#load").hide();
+                $("#empty-box").show();
+            }
+        };
+        function updateState(id,readState) {
+            $.ajax({
+                type: "POST",
+                url: "api/workMain/updateReadState.json",
+                data: {id: id, userid: $("#userid").val(), readState: readState},
+                success: function (data) {
+                },
+                error: function () {
+                    console.log("update state error!");
+                }
+            });
+        }
+        var currDataList = window.dataList.newList(currDataListCfg);
+        $(".weui-navbar div").click(function () {
+            $(this).addClass('weui-namenu__item_on').siblings('.weui-namenu__item_on').removeClass('weui-namenu__item_on');
+            var state = $(this).data('state');
+            container.data('police_state',state);
+            container.data('detail-source-state', state);
+            var activeTab = $(this).attr("href");
+            $(".weui-cells").hide();
+            $(activeTab).html('').fadeIn();
+            currState = state;
+            if(currState == 2){
+                currDataList.first({userid:$("#userid").val()});
+            }else{
+                currDataList.first({state:currState,userid:$("#userid").val()});
+            }
+            return false;
+        });
+        var onloadPage = function(){
+            var state = container.data('police_state');
+            if(state == "" || state == null || state == undefined){
+                container.data('police_state',0);
+                currDataList.first({state:0,userid:$("#userid").val()});
+            }else {
+                $("div[data-state='"+state+"']").addClass('weui-namenu__item_on').siblings('.weui-namenu__item_on').removeClass('weui-namenu__item_on');
+                if(state == 2){
+                    currDataList.first({userid: $("#userid").val()});
+                }else {
+                    currDataList.first({state: state, userid: $("#userid").val()});
+                }
+            }
+        }
+        onloadPage();
+    });
+
+</script>
+
+

@@ -1,0 +1,323 @@
+<div class="page page-list company-list js_show">
+    <img class="change-replay" src="assets/icon-reply.png" id="work-reply" data-id="work-reply" style="display: none">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title" id="work_main_value_company.name"></div>
+            </div>
+            <div class="feedback-content" id="work_reply_list_reply">
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">所领导</label></div>
+                <div class="weui-cell__bd bd-right font-color" id="work_main_value_creator.name">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_main_value_company.address">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_main_value_company.police.name">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>
+                <div class="weui-cell__bd bd-right font-color blur" id="work_main_list_checks">
+                </div>
+            </div>
+            <div class="cell-border cell-margin">
+                <div class="weui-cell__hd p-left"><label class="weui-label-one">未带身份证入住</label></div>
+
+                <div style="clear: both"></div>
+                <div class="weui-flex__item" id="work_main_list_tasks">
+                </div>
+            </div>
+            <div class=" cell-border cell-margin">
+                <div class="weui-cell__hd "><label class="weui-label">从业人员</label></div>
+                <div style="clear: both"></div>
+                <div class="weui-flex__item" id="work_main_list_employees">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">处理期限</label></div>
+                <div class="weui-cell__bd bd-right font-color" id="work_main_date_endTime">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">处理意见</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_main_value_advice">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">提交时间</label></div>
+                <div class="weui-cell__bd bd-right font-color" id="work_main_time_createTime">
+                </div>
+            </div>
+            <div class="btn-box" data-id="work-feedback">
+                <a class="btn" href="javascript:" id="showToast" data-id="work-feedback">反馈</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+
+        var id = container.data('work_id');
+
+        var hasReply = container.data('data-work-reply-no');
+
+        var policeState = container.data('police_state');
+
+        var initMain = function () {
+
+            $.ajax({
+                type: "POST",
+                url: "api/workMain/detail.json",
+                data: {id: id, hasReply: hasReply, userid: $('#userid').val()},
+                success: function (data) {
+                    data = nullToEmpty(data);
+                    initValue(data);
+                    initList(data);
+                    if (data.replys != null && data.replys.length > 0) {
+                        initReply(data.replys);
+                    }
+                    if (data.state == 0) {
+                        $('#feedBack').show();
+                        //$('#work-reply').show();
+                    } else if (data.state == 1) {
+                        $('#feedBack').hide();
+                        // $('#work-reply').hide();
+                    }
+                    if(policeState != 0){
+                        $("#showToast").hide();
+                    }
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
+
+            var getValue = function (data, name) {
+                var names = name.split(".");
+                var tmp = data;
+                for (var i = 0; i < names.length; i++) {
+                    tmp = tmp[names[i]];
+                    if (tmp == null) {
+                        tmp = '';
+                        break;
+                    }
+                }
+                return tmp;
+            }
+
+            var initValue = function (data) {
+                $('[id^="work_main_value_"]').each(function () {
+                    var name = $(this).attr('id').substr(16);
+                    var val = getValue(data, name);
+                    $(this).text(val);
+                });
+                $('[id^="work_main_time_"]').each(function () {
+                    var name = $(this).attr('id').substr(15);
+                    var val = getLocalTime(getValue(data, name));
+                    $(this).text(val);
+                });
+                $('[id^="work_main_date_"]').each(function () {
+                    var name = $(this).attr('id').substr(15);
+                    var val = getLocalDate(getValue(data, name));
+                    $(this).text(val);
+                });
+            }
+
+            var initList = function (data) {
+                var addChecks = function (item) {
+                    $('#work_main_list_checks').prepend('<img class="change-upload" src="' + item.photo + '" ' +
+                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            '</div>');
+                }
+
+                var addTasks = function (item) {
+                    $('#work_main_list_tasks').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '<div class="weui-cell__hd">' +
+                            '<img class="change-upload" src="' + item.photo + '" ' +
+                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="weui-cell__bd weui-cell_primary">' +
+                            '<p>' + item.card + '</p>' +
+                            '</div>' +
+                            '</a>');
+                }
+
+                var addEmployees = function (item) {
+                    $('#work_main_list_employees').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '<div class="weui-cell__hd">' +
+                            '<img class="change-upload" src="' + item.photo + '" ' +
+                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="weui-cell__bd weui-cell_primary">' +
+                            '<p>' + item.card + '</p>' +
+                            '</div>' +
+                            '</a>');
+                }
+
+                $('[id^="work_main_list_"]').each(function () {
+                    var name = $(this).attr('id').substr(15);
+                    var val = getValue(data, name);
+                    for (var i = 0; i < val.length; i++) {
+                        eval('add' + name.replace(/^\S/, function (s) {
+                                    return s.toUpperCase();
+                                }) + '(val[i])');
+                    }
+                });
+            }
+
+            var initReply = function (replys) {
+
+                var addLeaderReply = function (item) {
+                    $('#work_reply_list_reply').append('<div class="feedback-box reply-bg">' +
+                            '<div class="none-flex cell-border ">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">' + item.creator.name + '</label></div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">处理意见</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color place-top">' + item.reply + '</div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">提交时间</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color place-top">' + getLocalTime(item.createTime) + '</div>' +
+                            '</div>' +
+                            '</div>');
+                }
+
+                var getImagesHtml = function (items) {
+                    if (items == null) {
+                        return '';
+                    }
+                    var html = '';
+                    for (var i = 0; i < items.length; i++) {
+                        html += '<a href="javascript:;"><img class="change-upload" src="' + items[i].photo + '" ' +
+                                'photo=\'{"gallery":"#gallery_' + items[i].id + '","galleryImg":"#galleryImg_' + items[i].id + '"}\'/>' +
+                                '<div class="weui-gallery" id="gallery_' + items[i].id + '">' +
+                                '<img  class="weui-gallery__img center-img" id="galleryImg_' + items[i].id + '"/>' +
+                                '</div></a>';
+                    }
+                    return html;
+                }
+
+                var addPoliceReply = function (item) {
+                    var checks = [];
+                    var papers = [];
+                    var charger = [];
+                    for (var i = 0; i < item.checks.length; i++) {
+                        switch (item.checks[i].type) {
+                            case 1 :
+                                checks.push(item.checks[i]);
+                                break;
+                            case 2 :
+                                papers.push(item.checks[i]);
+                                break;
+                            case 3 :
+                                charger.push(item.checks[i]);
+                                break;
+                        }
+                    }
+                    $('#work_reply_list_reply').append('<div class="feedback-box reply-bg">' +
+                            '<div class="none-flex cell-border ">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">' + item.creator.name + '</label></div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(checks) + '</div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">法律文书</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(papers) + '</div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">企业负责人</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(charger) + '</div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">备注</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color place-top">' + item.reply + '</div>' +
+                            '</div>' +
+                            '<div class="none-flex cell-border">' +
+                            '<div class="weui-cell__hd"><label class="weui-label">提交时间</label></div>' +
+                            '<div class="weui-cell__bd bd-right font-color place-top">' + getLocalTime(item.createTime) + '</div>' +
+                            '</div>');
+                }
+
+                var addReply = function (item) {
+                    if (item.checks == null || item.checks.length == 0) {
+                        addLeaderReply(item);
+                    } else {
+                        addPoliceReply(item);
+                    }
+                }
+                replys.sort(function (o1, o2) {
+                    return o2.createTime - o1.createTime;
+                });
+                for (var i = 0; i < replys.length; i++) {
+                    addReply(replys[i]);
+                }
+
+            }
+        }
+
+        $('#work-reply').on('click', function () {
+            container.data("work_company",$('#work_main_value_company.name').text());
+            window.pageManager.go('work-reply');
+        });
+
+        $("#showToast").click(function (){
+            container.data("work_company",$('[id="work_main_value_company.name"]').text());
+            var id = $(this).data("id");
+            window.pageManager.go(id);
+        });
+
+        initMain();
+
+        /** 图片处理 start*/
+        $(document).on('click', '[photo]', function () {
+            var photo = JSON.parse($(this).attr('photo'));
+            var gallery = $(photo["gallery"]);
+            var galleryImg = $(photo["galleryImg"]);
+            inPop(function () {
+                gallery.fadeOut(100);
+            });
+            galleryImg.attr("src", this.getAttribute("src"));
+            gallery.fadeIn(100);
+        });
+
+        $(document).on("click", '.weui-gallery', function () {
+            outPop();
+            $(this).fadeOut(100);
+        });
+
+        function inPop(callback) {
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop() {
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        /* 图片处理 end*/
+
+    });
+
+</script>

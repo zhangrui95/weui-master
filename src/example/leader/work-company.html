@@ -1,0 +1,191 @@
+<div class="page page-list">
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="list"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="alert" id="alert"><p>操作失败，请重试！</p></div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var $searchBar = $('#searchBar'),
+                $searchResult = $('#searchResult'),
+                $searchText = $('#searchText'),
+                $searchInput = $('#searchInput'),
+                $searchClear = $('#searchClear'),
+                $searchCancel = $('#searchCancel');
+
+        function hideSearchResult() {
+            $searchResult.hide();
+            $searchInput.val('');
+        }
+
+        function cancelSearch() {
+            hideSearchResult();
+            $searchBar.removeClass('weui-search-bar_focusing');
+            $searchText.show();
+        }
+
+        $searchText.on('click', function () {
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.focus();
+        });
+        $searchClear.on('click', function () {
+            hideSearchResult();
+            $searchInput.focus();
+            $('#list').show();
+        });
+        $searchCancel.on('click', function () {
+            cancelSearch();
+            $searchInput.blur();
+        });
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+
+        function result(data) {
+            var text = container.data('data-choice');
+            $('#search-results').html('<span class="result-name">查询结果</span><span class="result-news">' + '</span><span class="result-num"><span class="type-blue">' + data.count + '</span></span>');
+        }
+
+        $('#default').on('click', function () {
+            $('#androidDialog2').fadeOut(200);
+        });
+
+        var currDataListCfg = {
+            url: 'api/company.json',
+            pagePanel: pagePanel,
+            scrollPanel: pagePanel.find('#box'),
+            winPanel: container,
+            itemsPanel: $('#list'),
+            xhrExternalProcess: function (params, xhr) {
+                result(xhr);
+
+                var addFormElement = function (name, val) {
+                    var addWorkForm = $('#addWorkForm');
+                    var input = addWorkForm.find('input[name="' + name + '"]');
+                    if (input.length > 0) {
+                        input.val(val);
+                    } else {
+                        addWorkForm.append('<input type="hidden" name="' + name + '" value="' + val + '">');
+                    }
+                }
+
+                $('.weui-cell').on('click', function (e) {
+                    addFormElement('work_value_company', $(this).data('cid'));
+                    addFormElement('work_view_company_name', $(this).data('cname'));
+                    addFormElement('work_view_address', $(this).data('caddress'));
+                    addFormElement('work_view_worker_name', $(this).data('pname'));
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
+                });
+
+            },
+            emptyCb: function () {
+                $('#list').html('<div class="empty-box">' +
+                        '<img src="images/icon-over.jpg" class="empty-img"/>' +
+                        '<p class="null-word">暂无数据</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess: function (items) {
+                return '<div class="label-relative">' +
+                        '<label class="weui-cell weui-check__label check-border employee_lis" data-id="work-add" data-cid="' + items.id + '" data-cname="' + items.name + '" data-caddress="' + items.address + '" data-pname="' + items.police.name + '">' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>' +
+                        '<div class="weui-cell__bd size-width">' +
+                        '<div><span class="item-width">' + items.name + '</span></div>' +
+                        '<div class="size-new">' + items.address + '、' + items.police.name + '</div>' +
+                        '</div>' +
+                        '</label>' +
+                        '</div>';
+            },
+            before: function () {
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after: function () {
+                $("#load").hide();
+            }
+        };
+        var typeIds = container.data('data-choice-type-ids');
+        var policeIds = container.data('data-choice-police-ids');
+        var group = container.data('data-rost-group');
+        var currDataList = window.dataList.newList(currDataListCfg);
+        var val = container.data('data-list-val');
+//        console.log(group);
+        currDataList.first({typeIds: typeIds, policeIds: policeIds, name: val});
+        var search = function () {
+            var val = $searchInput.val();
+            container.data('data-list-val', val);
+            if (val != "") {
+                currDataList.first({typeIds: typeIds, policeIds: policeIds, name: val});
+            }
+        };
+        $searchInput.on('keyup', function () {
+            window.lazyRateProxy(search, 500);
+        });
+        var reset = function () {
+            val = '';
+            container.data('data-list-val', val);
+            currDataList.first({typeIds: typeIds, policeIds: policeIds, name: val});
+        };
+        $searchCancel.on('click', function () {
+            reset();
+        });
+        $searchInput
+                .on('blur', function () {
+                    if (!this.value.length) {
+                        cancelSearch();
+                    }
+                    if (this.value.length == 0) {
+                        reset();
+                    }
+                })
+                .on('input', function () {
+                    if (this.value.length) {
+                        $searchResult.show();
+                    } else {
+                        $searchResult.hide();
+                    }
+                })
+        ;
+        if (val != null) {
+            $searchBar.addClass('weui-search-bar_focusing');
+            $searchInput.val(val);
+        }
+    });
+</script>

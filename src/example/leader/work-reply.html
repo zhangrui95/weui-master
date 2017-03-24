@@ -1,0 +1,55 @@
+<div class="page page-list company-list js_show">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">处理意见</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top">
+                    <input id="reply-value-reply" class="input-change fire-num-box-border font-color" type="text"
+                           placeholder="请输入处理意见"
+                           value="">
+                </div>
+            </div>
+            <div class="btn-box" data-id="hotel_news">
+                <a class="btn" href="javascript:" id="showToast" data-id="leader_news">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        $('#showToast').on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: "api/workReply/save.json",
+                async: true,
+                data: {
+                    reply: $('#reply-value-reply').val(),
+                    workMain: $('#container').data('data-work-id'),
+                    userid: $('#userid').val()
+                },
+                success: function (card) {
+                    $.ajax({
+                        type: "POST",
+                        url: "api/workMain/updateReadState.json",
+                        async: true,
+                        data: {id: $('#container').data('data-work-id'), readState: 2, userid: $('#userid').val()},
+                        success: function (card) {
+                        },
+                        error: function () {
+                            $('#error').css("display", "block");
+                            tag = false;
+                        }
+                    });
+                    window.pageManager.go('work-detail');
+                },
+                error: function () {
+                    $('#error').css("display", "block");
+                    tag = false;
+                }
+            });
+        });
+
+    });
+
+</script>

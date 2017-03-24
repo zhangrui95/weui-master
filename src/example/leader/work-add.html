@@ -1,0 +1,340 @@
+<div class="page page-list company-list js_show">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title">新建</div>
+                <div class="top-operator"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <input type="hidden" value="" id="work_value_company">
+                <div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+                <div class="weui-cell__bd bd-right font-color" id="work_view_company_name">
+                    请选择企业
+                </div>
+                <div class="red-star">*</div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_view_address">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_view_worker_name">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>
+                <div class="weui-cell__bd bd-right font-color blur" id="work_list_check">
+                    <img class="change-upload" src="images/icon_pho.jpg" id="checkUploader"/>
+                </div>
+            </div>
+            <div class="cell-border cell-margin">
+                <div class="weui-cell__hd p-left"><label class="weui-label-one">未带身份证入住</label></div>
+                <div class="weui-cell__bd bd-right p-right">
+                    <img class="change-upload" src="images/icon_pho.jpg" id="hotel-add"/>
+                </div>
+                <div class="cls"></div>
+                <div class="weui-flex__item" id="hotel">
+                </div>
+            </div>
+            <div class="cell-border cell-margin">
+                <div class="weui-cell__hd p-left"><label class="weui-label">从业人员</label></div>
+                <div class="weui-cell__bd bd-right p-right">
+                    <img class="change-upload" src="images/icon_pho.jpg" id="employee-report-add"/>
+                </div>
+                <div class="cls"></div>
+                <div class="weui-flex__item" id="employee-report">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">处理期限</label></div>
+                <div class="weui-cell__bd bd-right font-color">
+                    <input id="work_value_end_time" class="input-change fire-num-box-border font-color" type="text"
+                           placeholder="请选择处理期限"
+                           value="">
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">处理意见</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top">
+                    <input id="work_value_advice" class="input-change fire-num-box-border font-color" type="text"
+                           placeholder="请输入处理意见"
+                           value="">
+                </div>
+            </div>
+            <div class="prompt active" id="notNull">请填选必填项</div>
+            <div class="btn-box" data-id="hotel_news">
+                <a class="btn" href="javascript:" id="showToast" data-id="leader_news">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var addWorkForm = $('#addWorkForm');
+
+        var addFormElement = function (name, val) {
+            var addWorkForm = $('#addWorkForm');
+            var input = addWorkForm.find('input[name="' + name + '"]');
+            if (input.length > 0) {
+                input.val(val);
+            } else {
+                addWorkForm.append('<input type="hidden" name="' + name + '" value="' + val + '">');
+            }
+        }
+
+        addWorkForm.find('input').each(function () {
+            var tmp = $(this).attr('name');
+            if (tmp.indexOf('work_value_') > -1 || tmp.indexOf('work_view_') > -1) {
+                if ($('#' + tmp).is('div')) {
+                    $('#' + tmp).text($(this).val());
+                } else if ($('#' + tmp).is('input')) {
+                    $('#' + tmp).val($(this).val());
+                }
+            }
+        });
+
+        /** 企业名称 start*/
+        $('#work_view_company_name').on('click', function (e) {
+            window.pageManager.go('work-company');
+        });
+        /** 企业名称 end*/
+
+        /** 现场检查 start*/
+        var checkUploader = $("#checkUploader");
+        var addChecks = function (localId) {
+            $('#work_list_check').prepend('<img class="change-upload" src="' + localId + '" ' +
+                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
+                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+                    '</div>');
+        }
+
+        addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
+            addChecks($(this).val());
+        });
+
+        checkUploader.on("click", function (e) {
+            wx.chooseImage({
+                count: 100, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    for (var i = 0; i < localIds.length; i++) {
+                        var localId = localIds[i];
+                        var index = (addWorkForm.find('input[name^="work_list_checks"]').length);
+                        addWorkForm.append('<input type="hidden" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
+                        addChecks(localId);
+                    }
+                },
+                fail: function (err) {
+                }
+            });
+        });
+        /** 现场检查 end*/
+
+        /** 未带身份证 start*/
+        var addTasks = function (id, localId) {
+            $('#hotel').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                    '<div class="weui-cell__hd">' +
+                    '<img class="change-upload" src="' + localId + '" ' +
+                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
+                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="weui-cell__bd weui-cell_primary">' +
+                    '<p>' + id + '</p>' +
+                    '</div>' +
+                    '</a>');
+        }
+
+        addWorkForm.find('input[name^="work_list_tasks"][name$="card"]').each(function () {
+            var card = $(this).val();
+            var tmp = $(this).attr('name');
+            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]').val();
+            addTasks(card, photo);
+        });
+
+        var hotel = $('#hotel-add');
+        hotel.on('click', function (e) {
+            window.pageManager.go('work-hotel');
+        })
+        /** 未带身份证 end*/
+
+        /** 从业人员 start*/
+        var addEmployees = function (id, localId) {
+            $('#employee-report').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                    '<div class="weui-cell__hd">' +
+                    '<img class="change-upload" src="' + localId + '" ' +
+                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
+                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="weui-cell__bd weui-cell_primary">' +
+                    '<p>' + id + '</p>' +
+                    '</div>' +
+                    '</a>');
+        }
+
+        addWorkForm.find('input[name^="work_list_employees"][name$="card"]').each(function () {
+            var card = $(this).val();
+            var tmp = $(this).attr('name');
+            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]').val();
+            addEmployees(card, photo);
+        });
+
+        var employeeReport = $('#employee-report-add');
+        employeeReport.on('click', function (e) {
+            window.pageManager.go('work-employee-report');
+        })
+        /** 未带身份证 end*/
+
+        /** 处理期限 start*/
+        $('#work_value_end_time').on('click', function () {
+            weui.datePicker({
+                onConfirm: function (result) {
+                    var year = result[0];
+                    var month = parseInt(result[1]) + 1;
+                    month = month < 10 ? '0' + month : month;
+                    var day = result[2];
+                    day = day < 10 ? '0' + day : day;
+                    $('#work_value_end_time').val(year + '-' + month + '-' + day);
+                    addFormElement('work_value_end_time', $('#work_value_end_time').val());
+                }
+            });
+        });
+        /** 处理期限 end*/
+
+        /** 处理意见 start*/
+        $('#work_value_advice').change(function () {
+            addFormElement('work_value_advice', $('#work_value_advice').val());
+        });
+        /** 处理意见 end*/
+
+        /** 图片处理 start*/
+        $(document).on('click', '[photo]', function () {
+            var photo = JSON.parse($(this).attr('photo'));
+            var gallery = $(photo["gallery"]);
+            var galleryImg = $(photo["galleryImg"]);
+            inPop(function () {
+                gallery.fadeOut(100);
+            });
+            galleryImg.attr("src", this.getAttribute("src"));
+            gallery.fadeIn(100);
+        });
+
+        $(document).on("click", '.weui-gallery', function () {
+            outPop();
+            $(this).fadeOut(100);
+        });
+
+        function inPop(callback) {
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop() {
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        /* 图片处理 end*/
+
+        /** 保存start*/
+        $('#showToast').on('click', function () {
+            function hint(hints) {
+                $('#notNull').html(hints);
+                $('#notNull').fadeIn(100);
+                setTimeout(function () {
+                    $('#notNull').fadeOut(100);
+                }, 2000);
+            }
+
+            if ($('#work_view_company_name').text().trim() == '请选择企业') {
+                hint('请选择企业');
+            } else {
+                save();
+            }
+        });
+
+        var save = function () {
+            var localIds = [];
+            addWorkForm.find('input').each(function () {
+                var tmp = $(this).attr('name');
+                if (tmp.indexOf('work_value_') > -1) {
+                    $(this).attr('name', name2name(tmp.substr(11)));
+                } else if (tmp.indexOf('work_list_') > -1) {
+                    $(this).attr('name', name2name(tmp.substr(10)));
+                    if (tmp.substr(tmp.length - 'photo'.length) == 'photo') {
+                        localIds.push({name: name2name(tmp.substr(10)), localId: $(this).val()});
+                    }
+                } else if (tmp.indexOf('work_view_') > -1) {
+                    $(this).attr('name', null);
+                    $(this).val(null);
+                }
+            });
+            addWorkForm.append('<input type="hidden" name="userid" value="' + $('#userid').val() + '">');
+            if (localIds.length > 0) {
+                recursionUploadImg(localIds);
+            } else {
+                postData();
+            }
+        }
+
+        var name2name = function (name) {
+            return name.replace(/\-(\w)/g, function (all, letter) {
+                return letter.toUpperCase();
+            }).replace(/\_(\w)/g, function (all, letter) {
+                return letter.toUpperCase();
+            });
+        }
+
+        var recursionUploadImg = function (localIds) {
+            var tmp = localIds.pop();
+            var localId = tmp.localId;
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1,// 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    addWorkForm.find('input[name="' + tmp.name + '"]').val(serverId);
+                    if (localIds.length > 0) {
+                        recursionUploadImg(localIds);
+                    } else {
+                        postData();
+                    }
+                },
+                fail: function (err) {
+                    $('#error').css("display", "block");
+                    tag = false;
+                }
+            });
+        };
+
+        var postData = function () {
+            $.ajax({
+                type: "POST",
+                url: "api/workMain/save.json",
+                async: true,
+                data: addWorkForm.serialize(),
+                success: function (card) {
+                    addWorkForm.after('<form id="addWorkForm"></form>');
+                    addWorkForm.remove();
+                    window.pageManager.go('work');
+                },
+                error: function () {
+                    $('#error').css("display", "block");
+                    tag = false;
+                }
+            });
+        }
+
+        /** 保存end*/
+
+    });
+</script>

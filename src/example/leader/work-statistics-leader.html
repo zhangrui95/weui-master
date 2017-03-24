@@ -1,0 +1,252 @@
+<div class="page page_box page-list">
+    <div class="state-head-one">
+        <div class="state-bg-one">
+            <div class="states-title" id="work_statistics_value_police_name"></div>
+        </div>
+        <div class="state-position-one">
+            <div id="white-top">
+                <div class="fire-num-box" href="#tab1">
+                    <dl class="num-center">
+                        <dt class="p-blue" id="work_statistics_value_all"></dt>
+                        <dd>全部</dd>
+                    </dl>
+                </div>
+                <div class="fire-num-box" href="#tab2">
+                    <dl class="num-center">
+                        <dt class="p-bold" id="work_statistics_value_doing"></dt>
+                        <dd>未完成</dd>
+                    </dl>
+                </div>
+                <div class="fire-num-box fire-num-box-border" href="#tab3">
+                    <dl class="num-center">
+                        <dt class="p-bold" id="work_statistics_value_done"></dt>
+                        <dd>已完成</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page__bd bg-page bottom-cell top-margin">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel">
+                <div class="weui-cells p-height" id="tab1" style="opacity: 1;">
+                    <div class="panel_none">
+                    </div>
+                    <div class="weui-loadmore" id="load1"
+                         style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <div class="weui-loadmore weui-loadmore_line active" id="loadmore1" style="display: none;">
+                        <span class="weui-loadmore__tips">暂无更多数据</span>
+                    </div>
+                </div>
+                <div class="weui-cells p-height active" id="tab2" style="opacity: 1; display: none;">
+                    <div class="panel_none">
+                    </div>
+                    <div class="weui-loadmore" id="load2"
+                         style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <div class="weui-loadmore weui-loadmore_line active" id="loadmore2" style="display: none;">
+                        <span class="weui-loadmore__tips">暂无更多数据</span>
+                    </div>
+                </div>
+                <div class="weui-cells p-height active" id="tab3" style="opacity: 1; display: none;">
+                    <div class="panel_none">
+                    </div>
+                    <div class="weui-loadmore" id="load3"
+                         style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <div class="weui-loadmore weui-loadmore_line active" id="loadmore3" style="display: none;">
+                        <span class="weui-loadmore__tips">暂无更多数据</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+
+        var policeId = container.data('data-work-police-id');
+
+        $('#work_statistics_value_police_name').text(container.data('data-work-police-name'));
+        $('#work_statistics_value_all').text(container.data('data-work-all'));
+        $('#work_statistics_value_doing').text(container.data('data-work-doing'));
+        $('#work_statistics_value_done').text(container.data('data-work-done'));
+
+        /** 多页签 start */
+        var tabFunc = function (_$) {
+            _$.find('dt').removeClass('p-bold').addClass('p-blue');
+            _$.siblings().find('dt').removeClass('p-blue').addClass('p-bold');
+            var activeTab = _$.attr("href");
+            container.data('tab-work-work-statistics-leader', activeTab);
+            $(activeTab).siblings('.weui-cells').hide();
+            $(activeTab).fadeIn();
+        }
+        var href = container.data('tab-work-work-statistics-leader');
+        tabFunc($('.fire-num-box[href="' + href + '"]'));
+        $('.fire-num-box').on('click', function () {
+            tabFunc($(this));
+        });
+        /** 多页签 end */
+
+        /** 全部&已完成&未完成 start */
+        var allDataListCfg = {
+            url: 'api/workMain.json',
+            pagePanel: $('#tab1'),
+            scrollPanel: $('#tab1>.panel_none'),
+            winPanel: container.find('.page_box'),
+            xhrExternalProcess: function (params, xhr) {
+            },
+            emptyCb: function () {
+                var tabPanel = 'tab1';
+                var img = 'icon-ok.jpg';
+                var text = '没有工作了';
+                $('#' + tabPanel).html('<div class="empty-box empty-box-fire">' +
+                        '<img src="images/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word2">' + text + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('#loadmore1').show();
+                $('#tab1>.empty-box').hide();
+            },
+            getItemsPanel: function () {
+                return $('#tab1>.panel_none');
+            },
+            templateProcess: function (item) {
+                return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '">' +
+                        '<div class="weui-media-box__bd">' +
+                        '<h4 class="weui-media-box__title">检查工作：' + item.company.name + '</h4>' +
+                        '<div class="p-slip clearfix">' +
+                        '<div class="p-time">' + getLocalTime(item.createTime) + '</div>' +
+                        '<div class="p-title">辖区民警：' + item.company.police.name + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>';
+            },
+            before: function () {
+                $("#load1").show();
+                $("#loadmore1").hide();
+            },
+            after: function () {
+                $("#load1").hide();
+            }
+        };
+
+        var allDataList = window.dataList.newList(allDataListCfg);
+
+        var noFinishDataListCfg = {
+            url: 'api/workMain.json',
+            pagePanel: $('#tab2'),
+            scrollPanel: $('#tab2>.panel_none'),
+            winPanel: container.find('.page_box'),
+            xhrExternalProcess: function (params, xhr) {
+            },
+            emptyCb: function () {
+                var tabPanel = 'tab2';
+                var img = 'icon-ok.jpg';
+                var text = '已经没有未完成的工作了';
+                $('#' + tabPanel).html('<div class="empty-box empty-box-fire">' +
+                        '<img src="images/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word2">' + text + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('#loadmore2').show();
+                $('#tab2>.empty-box').hide();
+            },
+            getItemsPanel: function () {
+                return $('#tab2>.panel_none');
+            },
+            templateProcess: function (item) {
+                return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '">' +
+                        '<div class="weui-media-box__bd">' +
+                        '<h4 class="weui-media-box__title">检查工作：' + item.company.name + '</h4>' +
+                        '<div class="p-slip clearfix">' +
+                        '<div class="p-time">' + getLocalTime(item.createTime) + '</div>' +
+                        '<div class="p-title">辖区民警：' + item.company.police.name + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>';
+            },
+            before: function () {
+                $("#load2").show();
+                $("#loadmore2").hide();
+            },
+            after: function () {
+                $("#load2").hide();
+            }
+        };
+
+        var noFinishDataList = window.dataList.newList(noFinishDataListCfg);
+
+        var finishedDataListCfg = {
+            url: 'api/workMain.json',
+            pagePanel: $('#tab3'),
+            scrollPanel: $('#tab3>.panel_none'),
+            winPanel: container.find('.page_box'),
+            xhrExternalProcess: function (params, xhr) {
+            },
+            emptyCb: function () {
+                var tabPanel = 'tab3';
+                var img = 'icon-ok.jpg';
+                var text = '没有已完成的工作了';
+                $('#' + tabPanel).html('<div class="empty-box empty-box-fire">' +
+                        '<img src="images/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word2">' + text + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('#loadmore3').show();
+                $('#tab3>.empty-box').hide();
+            },
+            getItemsPanel: function () {
+                return $('#tab3>.panel_none');
+            },
+            templateProcess: function (item) {
+                return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '">' +
+                        '<div class="weui-media-box__bd">' +
+                        '<h4 class="weui-media-box__title">检查工作：' + item.company.name + '</h4>' +
+                        '<div class="p-slip clearfix">' +
+                        '<div class="p-time">' + getLocalTime(item.createTime) + '</div>' +
+                        '<div class="p-title">辖区民警：' + item.company.police.name + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>';
+            },
+            before: function () {
+                $("#load3").show();
+                $("#loadmore3").hide();
+            },
+            after: function () {
+                $("#load3").hide();
+            }
+        };
+
+        var finishedDataList = window.dataList.newList(finishedDataListCfg);
+
+        $('#tab1,#tab2,#tab3').each(function () {
+            $(this).on('click', '.weui-media-box', function () {
+                var id = $(this).data('id');
+                container.data('data-work-id', id);
+                container.data('data-work-reply-no', 0);
+                container.data('data-work-delete-no', 0);
+                window.pageManager.go('work-detail');
+            })
+        });
+
+        allDataList.first({creator: policeId});
+        noFinishDataList.first({creator: policeId, state: 0});
+        finishedDataList.first({creator: policeId, state: 1});
+        /** 全部&已完成&未完成 end */
+
+    });
+</script>
