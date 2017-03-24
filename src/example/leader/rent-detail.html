@@ -151,16 +151,5 @@
                 window.pageManager.go(id);
             });
         }
-        $('#inspect').on('click',function(){
-            var $toast = $('#toast');
-            if ($toast.css('display') != 'none') return;
-            $toast.fadeIn(100);
-            setTimeout(function () {
-                $toast.fadeOut(100);
-                $('#road,#size,#ridgepole,#element,#door').val('');
-                $('#road,#size,#ridgepole,#element,#door').blur();
-                $('#inspect').hide();
-            }, 2000);
-        });
     })
 </script>
