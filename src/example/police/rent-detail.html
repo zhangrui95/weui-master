@@ -27,6 +27,7 @@
             $galleryImg = $("#galleryImg"),
             $container = $('#container');
             var id = $('#container').data('data-renter-id');
+            var floorId = $container.data('data-floorid');
         $.ajax({
             type: "POST",
             url: "api/police/listtenant.json",
@@ -183,7 +184,7 @@
                 $gallery.fadeOut(100);
             });
             $('#btnPanel').on('click',function(){
-                $container.data('data-floorid',item.floorid);
+                $container.data('data-floorid',floorId);
                 $container.data('data-floor-place',place);
                 var id = $(this).data('id');
                 window.pageManager.go(id);

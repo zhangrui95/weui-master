@@ -10,8 +10,8 @@
         </form>
     </div>
     <div class="search-results" id="search-results">
-        <span class="result-name"></span>
-        <span class="float-right"><span class="type-red">2</span>/23</span>
+        <span class="result-name">未核查人数</span>
+        <span class="float-right"></span>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -38,12 +38,6 @@
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         var container = $('#container');
-        var policeSrc = container.data('data-police-header-img');
-        var policeName = container.data('data-police-name');
-        var masterid = container.data('data-masterid');
-        $searchClear.on('click',function(){
-            $searchInput.val('');
-        });
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
@@ -59,8 +53,8 @@
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
-            xhrListKey:'',
             itemsPanel:$('#list'),
+            xhrListKey:'',
             xhrExternalProcess : function (params) {
                 $(".weui-cell").on('click',function () {
                     var rid = $(this).data('rentid')
@@ -68,7 +62,6 @@
                     var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
-                $('.result-name').html('<img src="'+policeSrc+'" class="policesrc"/><div class="float-left">'+policeName+'</div>');
             },
             emptyCb : function () {
                 $('#list').html('<div class="empty-box">'+
@@ -83,13 +76,12 @@
             templateProcess : function (items) {
                 var tag = items.uncheck=='1';
                 var checked = tag?'active':'';
-                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="rent-detail" data-rentid="'+items.id+'" id="'+items.id+'">'+
+                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-rentid="'+items.id+'" data-id="rent-detail" id="'+items.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
                         '<div><span class="item-width" id="company-names">'+items.sfzh+'</span></div>'+
                         '<div class="size-new">'+items.floor.community.name+'、'+items.floor.user.name+'</div>'+
                         '</div>'+
-                        '<div class="rent-sign '+checked+'">未核查</div>'+
                         '</label>';
             },
             before:function(){
@@ -101,50 +93,7 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val(),policeid:masterid});
-        fCount();
-        function fCount(sfzh){
-            $.ajax({
-                type: "POST",
-                url: "api/sheriff/counttenant.json",
-                data:{userid:$('#userid').val(),sfzh:sfzh,policeid:masterid},
-                success: function (data) {
-                    $('.float-right').html('<span class="type-red"></span>/'+data.count+'');
-                },
-                error: function () {
-                }
-            });
-            $.ajax({
-                type: "POST",
-                url: "api/sheriff/counttenant.json",
-                data:{userid:$('#userid').val(),sfzh:sfzh,policeid:masterid,uncheck:'1'},
-                success: function (data) {
-                    $('.type-red').html(data.count);
-                },
-                error: function () {
-                }
-            });
-        }
-        //搜索身份证
-        $searchClear.on('click',function(){
-            $searchInput.val('');
-            currDataList.first({sfzh:''});
-            fCount('');
-        });
-        var search = function(){
-            var val=$searchInput.val();
-            container.data('data-list-val',val);
-            if(val != ""){
-                currDataList.first({sfzh:val});
-                fCount(val);
-            }else{
-                currDataList.first({sfzh:''});
-                fCount('');
-            }
-        };
-        $searchInput.on('keyup',function(){
-            window.lazyRateProxy(search,500);
-        });
+        currDataList.first({uncheck:'1'});
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
@@ -195,6 +144,39 @@
                 });
             });
         }
+        fCount();
+        function fCount(sfzh){
+            $.ajax({
+                type: "POST",
+                url: "api/sheriff/counttenant.json",
+                data:{userid:$('#userid').val(),sfzh:sfzh,unchecked:'1'},
+                success: function (data) {
+                    $('.float-right').html('<span class="type-red">'+data.count+'</span>');
+                },
+                error: function () {
+                }
+            });
+        }
+        //搜索身份证
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+            currDataList.first({sfzh:'',unchecked:'1'});
+            fCount('');
+        });
+        var search = function(){
+            var val=$searchInput.val();
+            container.data('data-list-val',val);
+            if(val != ""){
+                currDataList.first({sfzh:val,uncheck:'1'});
+                fCount(val);
+            }else{
+                currDataList.first({sfzh:'',uncheck:'1'});
+                fCount('');
+            }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
+        });
         alertPop('#add-new-rent','#pop-add-box,#add');
         alertPop('#choice-alert','#filtrate');
     });

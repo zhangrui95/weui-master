@@ -78,6 +78,7 @@
         var $container = $('#container');
         var floorId = $container.data('data-floorid');
         var place =$container.data('data-floor-place');
+        $container.data('data-floorid',floorId);
         $('#rent-place-header').html(place);
         //身份证列表
         idCardList();

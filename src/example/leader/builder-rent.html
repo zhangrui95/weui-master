@@ -1,33 +1,28 @@
 <div class="page page-list">
-    <div class="position-choice position-blue" id="choice-alert">
-        <img src="images/Iconset.png" class="choice-img">
-    </div>
-    <div class="nocard-title">
-        <div class="fire-header-left">
-            <div class="fire-header-left">
-                <img src="images/head.jpg" class="police-header-img">
-                <span class="fire-head-name">于新刚</span>
+    <!--<img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>-->
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入搜索地址" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
             </div>
-        </div>
-        <div class="right-title" id="number-right">4间</div>
+        </form>
     </div>
-    <div class="joint-box" id="joint-box"></div>
-    <div class="rent-pop" id="filtrate">
-        <div class="filtrate-header rent-header">
-            <div class="fire-header-left-top">搜索条件</div>
-            <div class="fire-header-right" id="clear">取消</div>
-            <div class="input-border">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="身份证号/租住地址" required/>
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-                </div>
+    <div class="search-results" id="search-results">
+        <span class="result-name"></span>
+        <span class="float-right"></span>
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="joint-box" id="joint-box"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
             </div>
-        </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类</p></div>
-        <div class="btn-box" id="btnPanel" >
-            <div class="imported-left" id="reset">重置</div>
-            <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
         </div>
     </div>
     <div class="pop-add-box" id="pop-add-box">
@@ -40,16 +35,11 @@
     $(function(){
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
-        var width = document.body.clientWidth;
-        var container = $('#container');
-        var typedis=container.data('data-choice-type-ids');
-        $searchClear.on('click',function(){
-            $searchInput.val('');
-        });
-        $('#add-new-rent').on('click',function(){
-            $('#pop-add-box').fadeIn(100);
-            $('#add').fadeIn(100);
-        });
+        var $container = $('#container');
+        var pagePanel = $('.page__bd');
+        var masterid = $container.data('data-masterid');
+        var policeSrc = $container.data('data-police-header-img');
+        var policeName = $container.data('data-police-name');
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
@@ -57,78 +47,145 @@
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
-        $.ajax({
-            type: "POST",
-            url: "api/rentNew.json",
-            data:{},
-            success: function (data) {
-                for(var i = 0;i<data.list.length;i++){
-                    var list = data.list[i];
-                    $('#joint-box').append(
-                            ' <div class="joint-border" data-id="rent-joint">' +
-                            '<div class="head-name">嵩山路19-21号2单元407室</div>'+
-                            '<div class="building-num">4人</div>'+
-                            '</div>'
-                    );
-                    $('.joint-border').click(function(){
-                        var id = $(this).data('id');
-                        window.pageManager.go(id);
-                    });
-                }
+        var currDataListCfg = {
+            url:'api/sheriff/listfloor.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:$container,
+            xhrListKey:'',
+            itemsPanel:$('#joint-box'),
+            xhrExternalProcess : function (params,xhr) {
+                $('.joint-border').click(function(){
+                    $container.data('data-floorid',$(this).attr('id'));
+                    $container.data('data-floor-place',$(this).find('.head-name').html());
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
+                });
+                $('.result-name').html('<img src="'+policeSrc+'" class="policesrc"/><div class="float-left">'+policeName+'</div>');
             },
-            error: function () {
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (item) {
+                var ridg = item.ridgepole+'栋'
+                var units = item.unit+'单元'
+                if(item.ridgepole==null||item.ridgepole.length==0){
+                    ridg = '';
+                }
+                if(item.unit==null||item.unit.length==0){
+                    units = '';
+                }
+                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
+                var renterNum = item.tenants.length;
+                return ' <div class="joint-border" data-id="renter-news" id="'+item.id+'">' +
+                        '<div class="head-name ">' +place+
+                        '</div>'+
+                        '<div class="building-num">' +renterNum+
+                        '人</div>'+
+                        '</div>';
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
             }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({userid:$('#userid').val(),policeid:masterid});
+        //搜索地址
+        var search = function(){
+            var val=$searchInput.val();
+            $container.data('data-list-val',val);
+            if(val != ""){
+                currDataList.first({condition:val});
+                fCount(val);
+            }else{
+                currDataList.first({condition:''});
+                fCount('');
+            }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
         });
-        $('#choice-alert').on('mousedown',function(e){
-            var _event = window.event||e;
-            var left = _event.offsetX;
-            var top = _event.offsetY;
-            var downX = _event.pageX;
-            var downY = _event.pageY;
-            _event.preventDefault();
-            $('body').on('mousemove',function(e){
+        fCount();
+        function fCount(condition){
+            $.ajax({
+                type: "POST",
+                url: "api/sheriff/countfloor.json",
+                data:{userid:$('#userid').val(),condition:condition,policeid:masterid},
+                success: function (data) {
+                    $('.float-right').html(data.count+'间');
+                },
+                error: function () {
+                }
+            });
+        };
+        function alertPop(id,tid){
+            $(id).on('mousedown',function(e){
                 var _event = window.event||e;
-                var x = _event.clientX-left;
-                var y = _event.clientY-top;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
+                var left = _event.offsetX;
+                var top = _event.offsetY;
+                var downX = _event.pageX;
+                var downY = _event.pageY;
+                _event.preventDefault();
+                $('body').on('mousemove',function(e){
+                    var _event = window.event||e;
+                    var x = _event.clientX-left;
+                    var y = _event.clientY-top;
+                    $(id).css('left',x + "px");
+                    $(id).css('top',y + "px");
+                });
+                $(id).on('mouseup',function(e){
+                    $('body').unbind();
+                    var upX = e.pageX;
+                    var upY = e.pageY;
+                    var moveX = downX - upX;
+                    var moveY = downY - upY;
+                    if(moveX==0&&moveY==0){
+                        $searchInput.val('');
+                        $(tid).fadeIn(100);
+                    }
+                });
             });
-            $('#choice-alert').on('mouseup',function(e){
-                $('body').unbind();
-                var upX = e.pageX;
-                var upY = e.pageY;
-                var moveX = downX - upX;
-                var moveY = downY - upY;
-                if(moveX==0&&moveY==0){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
+            $(id).on('touchstart',function(e){
+                var left = e.touches[0].pageX;
+                var top = e.touches[0].pageY;
+                e.preventDefault();
+                $('body').on('touchmove',function(e){
+                    var x = e.touches[0].clientX-25;
+                    var y = e.touches[0].clientY-25;
+                    $(id).css('left',x + "px");
+                    $(id).css('top',y + "px");
+                });
+                $(id).on('touchend',function(e){
+                    var endX = e.changedTouches[0].pageX;
+                    var endY= e.changedTouches[0].pageY;
+                    var moveX = left - endX;
+                    var moveY = top -endY;
+                    $('body').unbind();
+                    if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                        $searchInput.val('');
+                        $(tid).fadeIn(100);
+                    }
+                });
             });
-        });
-        $('#choice-alert').on('touchstart',function(e){
-            var left = e.touches[0].pageX;
-            var top = e.touches[0].pageY;
-            e.preventDefault();
-            $('body').on('touchmove',function(e){
-                var x = e.touches[0].clientX-25;
-                var y = e.touches[0].clientY-25;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('touchend',function(e){
-                var endX = e.changedTouches[0].pageX;
-                var endY= e.changedTouches[0].pageY;
-                var moveX = left - endX;
-                var moveY = top -endY;
-                $('body').unbind();
-                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
-        });
+        }
+        alertPop('#add-new-rent','#pop-add-box,#add');
+        alertPop('#choice-alert','#filtrate');
     });
 </script>
