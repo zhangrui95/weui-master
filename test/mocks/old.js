@@ -117,7 +117,7 @@ var routes = [
         route: "/example/api/task/photo",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','image/png');
-            res.end(fs.readFileSync(__dirname+'/../dist/example/images/header.jpg'));
+            res.end(fs.readFileSync(__dirname+'/../../dist/example/images/header.jpg'));
         }
     },
     {
@@ -245,7 +245,7 @@ var routes = [
         route: "/example/api/employee/photo",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','image/png');
-            res.end(fs.readFileSync(__dirname+'/../dist/example/images/header.jpg'));
+            res.end(fs.readFileSync(__dirname+'/../../dist/example/images/header.jpg'));
         }
     },
     {

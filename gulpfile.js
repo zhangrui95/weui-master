@@ -106,7 +106,9 @@ gulp.task('build:gsp:assets', function (){
 });
 
 gulp.task('build:example:assets', function (){
-    gulp.src('src/example/**/*.?(png|jpg|gif|js)', option)
+    gulp.src('src/example/**/*.?(png|jpg|gif)', option)
+        .pipe(gulp.dest(dist));
+    gulp.src('src/example/**/*.?(js)', option)
         .pipe(gulp.dest(dist))
         .pipe(browserSync.reload({stream: true}));
 });
