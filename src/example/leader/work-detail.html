@@ -147,7 +147,7 @@
 
             var initList = function (data) {
                 var addChecks = function (item) {
-                    $('#work_main_list_checks').prepend('<img class="change-upload" src="' + item.photo + '" ' +
+                    $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" ' +
                             'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
                             '<div class="weui-gallery" id="gallery_' + item.id + '">' +
                             '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
@@ -157,7 +157,7 @@
                 var addTasks = function (item) {
                     $('#work_main_list_tasks').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
                             '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="' + item.photo + '" ' +
+                            '<img class="change-upload" src="api/task/photo?id=' + item.id + '" ' +
                             'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
                             '<div class="weui-gallery" id="gallery_' + item.id + '">' +
                             '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
@@ -172,7 +172,7 @@
                 var addEmployees = function (item) {
                     $('#work_main_list_employees').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
                             '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="' + item.photo + '" ' +
+                            '<img class="change-upload" src="api/employee/photo?id=' + item.id + '" ' +
                             'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
                             '<div class="weui-gallery" id="gallery_' + item.id + '">' +
                             '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
@@ -213,13 +213,13 @@
                             '</div>');
                 }
 
-                var getImagesHtml = function (items) {
+                var getImagesHtml = function (items,type) {
                     if (items == null) {
                         return '';
                     }
                     var html = '';
                     for (var i = 0; i < items.length; i++) {
-                        html += '<a href="javascript:;"><img class="change-upload" src="' + items[i].photo + '" ' +
+                        html += '<a href="javascript:;"><img class="change-upload" src="api/'+type+'/photo?id=' + items[i].id + '" ' +
                                 'photo=\'{"gallery":"#gallery_' + items[i].id + '","galleryImg":"#galleryImg_' + items[i].id + '"}\'/>' +
                                 '<div class="weui-gallery" id="gallery_' + items[i].id + '">' +
                                 '<img  class="weui-gallery__img center-img" id="galleryImg_' + items[i].id + '"/>' +
@@ -251,15 +251,15 @@
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(checks) + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(checks,'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">法律文书</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(papers) + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(papers,'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">企业负责人</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(charger) + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(charger,'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">备注</label></div>' +
