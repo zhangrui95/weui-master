@@ -108,7 +108,7 @@ $(function () {
         },
         _back: function (config) {
             this._pageIndex --;
-            
+
             var title = config.title;
             if(title!=null&&title!=''){
                 document.title = title;
@@ -582,6 +582,18 @@ function getLocalTime(nS) {
     second = second<10?('0'+second):second;
     return date.getFullYear()+'-'+month+'-'+day + ' '+hours+':'+min+':'+second
 };
+
+function getLocalDate(nS) {
+    if (nS == null || nS == '') {
+        return '';
+    }
+    var date = new Date(nS);
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    month = month < 10 ? ('0' + month) : month;
+    day = day < 10 ? ('0' + day) : day;
+    return date.getFullYear() + '-' + month + '-' + day
+};
 //从0到总数动画效果
 function animates(){
     $.fn.countTo = function (options) {
@@ -668,4 +680,25 @@ function animates(){
         options = $.extend({}, options || {}, $this.data('countToOptions') || {});
         $this.countTo(options);
     }
+}
+
+/**
+ * 将对象中所有的null转变为''
+ * @param obj 源对象
+ * @returns {*} 处理后的对象
+ */
+var nullToEmpty = function (obj) {
+    if (obj == null) {
+        obj = '';
+    }
+    if ((typeof obj == 'object') && obj.constructor == Array) {
+        for (var i = 0; i < obj.length; i++) {
+            obj[i] = nullToEmpty(obj[i]);
+        }
+    } else if ((typeof obj == 'object') && obj.constructor == Object) {
+        for (var key in obj) {
+            obj[key] = nullToEmpty(obj[key]);
+        }
+    }
+    return obj;
 }
