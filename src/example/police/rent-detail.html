@@ -30,32 +30,32 @@
             var floorId = $container.data('data-floorid');
         $.ajax({
             type: "POST",
-            url: "api/police/listtenant.json",
+            url: "api/tenant/find.json",
             data:{userid:$('#userid').val(),id:id},
             success: function (data) {
-                if(data.uncheck==null||data.uncheck==''){
-                    $('#inspect').hide();
-                }else{
+                lists(data);
+                if(data.ischeck==null||data.ischeck==''){
                     $('#inspect').show();
+                }else{
+                    $('#inspect').hide();
                 }
+                $('#btn-num').html('同屋租住人员('+data.tenants.length+')');
             },
             error: function (mes) {
-                console.log('error');
+                $('#error').css("display","block");
             }
         });
         $('#inspect').on('click',function(){
             $.ajax({
                 type: "POST",
-                url: "api/police/listtenant.json",
-                data:{userid:$('#userid').val(),id:id,uncheck:''},
+                url: "api/tenant/find.json",
+                data:{userid:$('#userid').val(),id:id,ischeck:'check'},
                 success: function (data) {
                     var $toast = $('#toast');
                     if ($toast.css('display') != 'none') return;
                     $toast.fadeIn(100);
                     setTimeout(function () {
                         $toast.fadeOut(100);
-                        $('#road,#size,#ridgepole,#element,#door').val('');
-                        $('#road,#size,#ridgepole,#element,#door').blur();
                         $('#inspect').hide();
                     }, 2000);
                 },
@@ -63,18 +63,6 @@
                     console.log('error');
                 }
             });
-        });
-        $.ajax({
-            type: "POST",
-            url: "api/tenant/find.json",
-            data:{userid:$('#userid').val(),id:id},
-            success: function (data) {
-                lists(data);
-                $('#btn-num').html('同屋租住人员('+data.tenants.length+')');
-            },
-            error: function (mes) {
-                $('#error').css("display","block");
-            }
         });
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
@@ -190,16 +178,5 @@
                 window.pageManager.go(id);
             });
         }
-        $('#inspect').on('click',function(){
-            var $toast = $('#toast');
-            if ($toast.css('display') != 'none') return;
-            $toast.fadeIn(100);
-            setTimeout(function () {
-                $toast.fadeOut(100);
-                $('#road,#size,#ridgepole,#element,#door').val('');
-                $('#road,#size,#ridgepole,#element,#door').blur();
-                $('#inspect').hide();
-            }, 2000);
-        });
     })
 </script>
