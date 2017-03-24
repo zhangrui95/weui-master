@@ -5,7 +5,7 @@
     </div>
     <div class="page__bd details cells-ajax rent-y"></div>
     <div class="btn-box" id="btnPanel" data-id="renter-news">
-        <a class="btn" href="javascript:" id="btn-num"></a>
+        <a class="btn" href="javascript:" id="btn-num">同屋租住人员(<span id="count-renter"></span>)</a>
     </div>
     <div class="btn-box" id="inspect" data-id="renter-news">
         <a class="btn" href="javascript:">核查完毕</a>
@@ -39,7 +39,18 @@
                 }else{
                     $('#inspect').hide();
                 }
-                $('#btn-num').html('同屋租住人员('+data.tenants.length+')');
+            },
+            error: function (mes) {
+                $('#error').css("display","block");
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/tenant/counttenant.json",
+            data:{userid:$('#userid').val(),floorid:floorId},
+            success: function (data) {
+                var count = data.count - 1;
+                $('#count-renter').html(count);
             },
             error: function (mes) {
                 $('#error').css("display","block");
@@ -48,8 +59,8 @@
         $('#inspect').on('click',function(){
             $.ajax({
                 type: "POST",
-                url: "api/tenant/find.json",
-                data:{userid:$('#userid').val(),id:id,ischeck:'check'},
+                url: "api/police/cancel.json",
+                data:{userid:$('#userid').val(),id:id},
                 success: function (data) {
                     var $toast = $('#toast');
                     if ($toast.css('display') != 'none') return;

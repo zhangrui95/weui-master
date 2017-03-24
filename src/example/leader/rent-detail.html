@@ -5,7 +5,7 @@
     </div>
     <div class="page__bd details cells-ajax rent-y"></div>
     <div class="btn-box" id="btnPanel" data-id="renter-news">
-        <a class="btn" href="javascript:" id="btn-num"></a>
+        <a class="btn" href="javascript:" id="btn-num">同屋租住人员(<span id="count-renter"></span>)</a>
     </div>
     <div id="toast" style="display: none;">
         <div class="weui-mask_transparent"></div>
@@ -31,7 +31,18 @@
             data:{userid:$('#userid').val(),id:id},
             success: function (data) {
                 lists(data);
-                $('#btn-num').html('同屋租住人员('+data.tenants.length+')');
+            },
+            error: function (mes) {
+                $('#error').css("display","block");
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/tenant/counttenant.json",
+            data:{userid:$('#userid').val(),floorid:floorId},
+            success: function (data) {
+                var count = data.count - 1;
+                $('#count-renter').html(count);
             },
             error: function (mes) {
                 $('#error').css("display","block");

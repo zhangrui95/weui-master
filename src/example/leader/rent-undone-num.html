@@ -74,8 +74,6 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                var tag = items.uncheck=='1';
-                var checked = tag?'active':'';
                 return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-rentid="'+items.id+'" data-id="rent-detail" id="'+items.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+

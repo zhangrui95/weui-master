@@ -283,7 +283,16 @@ var routes = [
                 {state:'1'}
             ));
         }
-    }
+    },
+    {
+        route: "/example/api/tenant/counttenant.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {count:'3'}
+            ));
+        }
+    },
 ];
 
 module.exports = routes;
