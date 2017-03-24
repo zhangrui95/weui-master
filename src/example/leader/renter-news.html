@@ -78,7 +78,7 @@
         function idCardList() {
             $.ajax({
                 type: "POST",
-                url: "api/tenant/list.json",
+                url: "api/tenant/listtenant.json",
                 data:{userid:$('#userid').val(),floorid:floorId},
                 success: function (data) {
                     list(data);

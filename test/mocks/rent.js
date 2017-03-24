@@ -293,6 +293,30 @@ var routes = [
             ));
         }
     },
+    {
+        route: "/example/api/tenant/listtenant.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re1'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re2'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re3'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re4'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re5'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re6'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re7'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re1'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re2'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re3'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re4'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re5'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re6'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re7'}
+                ]
+            ));
+        }
+    },
 ];
 
 module.exports = routes;
