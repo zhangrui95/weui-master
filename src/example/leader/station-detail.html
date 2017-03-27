@@ -1,0 +1,155 @@
+﻿<div class="page page-list company-list js_show">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title">详情</div>
+                <div class="top-operator"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">采购人照片</label></div>
+                <div class="weui-cell__bd bd-right font-color blur">
+                    <img class="change-upload" id="work_station_img_photo" src=""
+                         photo='{"gallery":"#gallery","galleryImg":"#galleryImg"}'/>
+                    <div class="weui-gallery" id="gallery">
+                        <img class="weui-gallery__img center-img" id="galleryImg"/>
+                    </div>
+                </div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_card"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">购油用途</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_purpose"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">购买量（L）</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_amount"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">油品类型</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_type"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">购买类别</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_cat"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">加油站名称</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_company.name"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">加油站地址</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top"
+                     id="work_station_value_company.address"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">上报人员</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_creator.name"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">上报电话</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top"
+                     id="work_station_value_creator.mobile"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top"
+                     id="work_station_value_company.police.name"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">上报时间</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_time_createTime"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+
+        var id = container.data('data-station-id');
+
+        $.ajax({
+            type: "POST",
+            url: "api/bulkOil/detail.json",
+            data: {id: id, userid: $('#userid').val()},
+            success: function (data) {
+                data = nullToEmpty(data);
+                initValue(data);
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+
+        var getValue = function (data, name) {
+            var names = name.split(".");
+            var tmp = data;
+            for (var i = 0; i < names.length; i++) {
+                tmp = tmp[names[i]];
+                if (tmp == null) {
+                    tmp = '';
+                    break;
+                }
+            }
+            return tmp;
+        }
+
+        var initValue = function (data) {
+            $('[id^="work_station_value_"]').each(function () {
+                var name = $(this).attr('id').substr(19);
+                var val = getValue(data, name);
+                $(this).text(val);
+            });
+            $('[id^="work_station_time_"]').each(function () {
+                var name = $(this).attr('id').substr(18);
+                var val = getLocalTime(getValue(data, name));
+                $(this).text(val);
+            });
+            $('[id^="work_station_date_"]').each(function () {
+                var name = $(this).attr('id').substr(18);
+                var val = getLocalDate(getValue(data, name));
+                $(this).text(val);
+            });
+            $('[id^="work_station_img_"]').each(function () {
+                var name = $(this).attr('id').substr(17);
+                var val = getValue(data, name);
+                $(this).attr('src', val);
+            });
+        }
+
+        /** 图片处理 start*/
+        $(document).on('click', '[photo]', function () {
+            var photo = JSON.parse($(this).attr('photo'));
+            var gallery = $(photo["gallery"]);
+            var galleryImg = $(photo["galleryImg"]);
+            inPop(function () {
+                gallery.fadeOut(100);
+            });
+            galleryImg.attr("src", this.getAttribute("src"));
+            gallery.fadeIn(100);
+        });
+
+        $(document).on("click", '.weui-gallery', function () {
+            outPop();
+            $(this).fadeOut(100);
+        });
+
+        function inPop(callback) {
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop() {
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        /* 图片处理 end*/
+
+    })
+</script>
