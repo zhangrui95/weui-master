@@ -183,7 +183,7 @@
                 $gallery.fadeOut(100);
             });
             $('#btnPanel').on('click',function(){
-                $container.data('data-floorid',floorId);
+                $container.data('data-floorid',data.floor.id);
                 $container.data('data-floor-place',place);
                 var id = $(this).data('id');
                 window.pageManager.go(id);
