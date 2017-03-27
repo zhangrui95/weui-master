@@ -146,6 +146,7 @@
             });
         }
         fCount();
+        fCounts();
         function fCount(sfzh){
             $.ajax({
                 type: "POST",
@@ -157,6 +158,8 @@
                 error: function () {
                 }
             });
+        }
+        function fCounts(sfzh){
             $.ajax({
                 type: "POST",
                 url: "api/sheriff/counttenant.json",
@@ -173,6 +176,7 @@
             $searchInput.val('');
             currDataList.first({sfzh:''});
             fCount('');
+            fCounts('');
         });
         var search = function(){
             var val=$searchInput.val().toUpperCase();
@@ -180,9 +184,11 @@
             if(val != ""){
                 currDataList.first({sfzh:val});
                 fCount(val);
+                fCounts(val);
             }else{
                 currDataList.first({sfzh:''});
                 fCount('');
+                fCounts('');
             }
         };
         $searchInput.on('keyup',function(){
