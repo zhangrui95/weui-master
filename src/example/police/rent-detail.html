@@ -25,15 +25,18 @@
     $(function(){
         var $gallery = $("#gallery"),
             $galleryImg = $("#galleryImg"),
-            $container = $('#container');
+            $container = $('#container'),
+            floorId;
             var id = $('#container').data('data-renter-id');
-            var floorId = $container.data('data-floorid');
         $.ajax({
             type: "POST",
             url: "api/tenant/find.json",
             data:{userid:$('#userid').val(),id:id},
             success: function (data) {
                 lists(data);
+                $container.data('data-floorid',data.floor.id);
+                floorId = $container.data('data-floorid');
+                count(floorId);
                 if(data.ischeck==null||data.ischeck==''){
                     $('#inspect').show();
                 }else{
@@ -44,18 +47,20 @@
                 $('#error').css("display","block");
             }
         });
-        $.ajax({
-            type: "POST",
-            url: "api/tenant/counttenant.json",
-            data:{userid:$('#userid').val(),floorid:floorId},
-            success: function (data) {
-                var count = data.count - 1;
-                $('#count-renter').html(count);
-            },
-            error: function (mes) {
-                $('#error').css("display","block");
-            }
-        });
+        function count(floorId){
+            $.ajax({
+                type: "POST",
+                url: "api/tenant/counttenant.json",
+                data:{userid:$('#userid').val(),floorid:floorId},
+                success: function (data) {
+                    var count = data.count - 1;
+                    $('#count-renter').html(count);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
+        }
         $('#inspect').on('click',function(){
             $.ajax({
                 type: "POST",

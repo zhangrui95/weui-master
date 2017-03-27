@@ -22,8 +22,8 @@
     $(function(){
         var $gallery = $("#gallery"),
                 $galleryImg = $("#galleryImg"),
+                floorId,
                 $container = $('#container');
-        var floorId = $container.data('data-floorid');
         var id = $('#container').data('data-renter-id');
         $.ajax({
             type: "POST",
@@ -31,23 +31,28 @@
             data:{userid:$('#userid').val(),id:id},
             success: function (data) {
                 lists(data);
+                $container.data('data-floorid',data.floor.id);
+                floorId = $container.data('data-floorid');
+                count(floorId);
             },
             error: function (mes) {
                 $('#error').css("display","block");
             }
         });
-        $.ajax({
-            type: "POST",
-            url: "api/tenant/counttenant.json",
-            data:{userid:$('#userid').val(),floorid:floorId},
-            success: function (data) {
-                var count = data.count - 1;
-                $('#count-renter').html(count);
-            },
-            error: function (mes) {
-                $('#error').css("display","block");
-            }
-        });
+        function count(floorId){
+            $.ajax({
+                type: "POST",
+                url: "api/tenant/counttenant.json",
+                data:{userid:$('#userid').val(),floorid:floorId},
+                success: function (data) {
+                    var count = data.count - 1;
+                    $('#count-renter').html(count);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
+        }
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
