@@ -299,7 +299,7 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 [
-                    {sfzh: "230105199632020201",date:1489551285959,id:'re1'},
+                    {sfzh: "230105199632020201",date:1489551285959,id:'re1',ischeck:'ischeck'},
                     {sfzh: "230105199632020201",date:1489551285959,id:'re2'},
                     {sfzh: "230105199632020201",date:1489551285959,id:'re3'},
                     {sfzh: "230105199632020201",date:1489551285959,id:'re4'},
@@ -314,6 +314,48 @@ var routes = [
                     {sfzh: "230105199632020201",date:1489551285959,id:'re6'},
                     {sfzh: "230105199632020201",date:1489551285959,id:'re7'}
                 ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/community.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {id:'1',community:{id:'sq1',data:1489551285959,name:'金河社区',user:{id:'user1'}},policeid:'p1'},
+                    {id:'2',community:{id:'sq2',data:1489551285959,name:'红红社区',user:{id:'user1'}},policeid:'p2'},
+                    {id:'3',community:{id:'sq3',data:1489551285959,name:'太平社区',user:{id:'user1'}},policeid:'p3'},
+                    {id:'4',community:{id:'sq4',data:1489551285959,name:'岸上社区',user:{id:'user1'}},policeid:'p4'},
+                    {id:'5',community:{id:'sq5',data:1489551285959,name:'红旗社区',user:{id:'user1'}},policeid:'p5'},
+                    {id:'6',community:{id:'sq6',data:1489551285959,name:'建设社区',user:{id:'user1'}},policeid:'p6'},
+                ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/master.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                [
+                    {id:'m1',aid:'a1',name:'李静',communityid:'sq1'},
+                    {id:'m2',aid:'a2',name:'张三',communityid:'sq2'},
+                    {id:'m3',aid:'a3',name:'王二',communityid:'sq3'},
+                    {id:'m4',aid:'a4',name:'李四',communityid:'sq4'},
+                    {id:'m5',aid:'a5',name:'卢霞',communityid:'sq5'},
+                    {id:'m6',aid:'a6',name:'李金凤',communityid:'sq6'},
+                    {id:'m7',aid:'a7',name:'张鑫',communityid:'sq7'}
+                ]
+            ));
+        }
+    },
+    {
+        route: "/example/api/police/save.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {state:'1'}
             ));
         }
     },

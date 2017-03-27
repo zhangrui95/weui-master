@@ -99,11 +99,15 @@
             $('#number-right').html('<span id="num">'+data.length+'</span><span>人</span>');
             $('#idCard-list').html('');
             for(var i = 0;i<data.length;i++){
+                var tag = data[i].ischeck==null;
+                var checked = tag?'':'active';
                 $('#idCard-list').append(
                         '<div class="position-del-box">'+
+                        '<img src="images/list-left.jpg" class="border-right-img-rent">'+
                         '<div class="none-flex cell-border cell-margin" data-rentid="'+data[i].id+'" data-id="rent-detail">'+
                         '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
                         '</div>'+
+                        '<div class="rent-right-sign '+checked+'">未核查</div>'+
 //                        '<div class="link-delete block dele-word" id="'+data[i].id+'">注销</div>'+
                         '</div>'
                 );
