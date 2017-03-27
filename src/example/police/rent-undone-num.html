@@ -147,7 +147,7 @@
             $.ajax({
                 type: "POST",
                 url: "api/police/counttenant.json",
-                data:{userid:$('#userid').val(),sfzh:sfzh,unchecked:'1'},
+                data:{userid:$('#userid').val(),sfzh:sfzh,uncheck:'1'},
                 success: function (data) {
                     $('.float-right').html('<span class="type-red">'+data.count+'</span>');
                 },
@@ -158,7 +158,7 @@
         //搜索身份证
         $searchClear.on('click',function(){
             $searchInput.val('');
-            currDataList.first({sfzh:'',unchecked:'1'});
+            currDataList.first({sfzh:'',uncheck:'1'});
             fCount('');
         });
         var search = function(){
