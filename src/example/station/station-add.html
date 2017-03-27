@@ -1,0 +1,266 @@
+<div class="page page-list company-list js_show">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title">散装油交易登记</div>
+                <div class="top-operator"></div>
+            </div>
+            <form id="form">
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">采购人照片</label><label class="weui-label-two">(本人照片并持身份证)</label>
+                    </div>
+                    <div class="weui-cell__bd bd-right font-color blur">
+                        <input type="hidden" name="photo">
+                        <img class="change-upload" src="" photo='{"gallery":"#gallery","galleryImg":"#galleryImg"}'
+                             style="display: none"/>
+                        <div class="weui-gallery" id="gallery">
+                            <img class="weui-gallery__img center-img" id="galleryImg"/>
+                        </div>
+                        <img id="uploader" class="change-upload" src="images/icon_pho.jpg"/>
+                    </div>
+                </div>
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+                    <div class="weui-cell__bd bd-right font-color place-top">
+                        <input class="input-change fire-num-box-border font-color" type="text" name="card"
+                               placeholder="请输入身份证号">
+                    </div>
+                </div>
+                <div class="cell-border cell-margin">
+                    <div class="weui-cell__hd p-left"><label class="weui-label">购油用途</label></div>
+                    <div class="weui-cell__bd bd-right font-color place-top-two p-right">
+                        <input id="purpose" class="input-change fire-num-box-border font-color" type="text"
+                               placeholder="请选择购油用途" readonly>
+                    </div>
+                    <div class="cls"></div>
+                    <div class="weui-cell__bd bd-right font-color place-top-one" style="display: none">
+                        <textarea class="weui-textarea p-textarea" name="purpose" placeholder="请输入购油用途"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">购买量</label></div>
+                    <div class="weui-cell__bd bd-right font-color place-top" id="company-place">
+                        <input class="input-change fire-num-box-border font-color" type="text" name="amount"
+                               placeholder="请输入购买量（单位：L）">
+                    </div>
+                </div>
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">油品类型</label></div>
+                    <div class="weui-cell__bd bd-right font-color place-top">
+                        <input id="type" class="input-change fire-num-box-border font-color" type="text" name="type"
+                               placeholder="请选择油品类型" readonly>
+                    </div>
+                </div>
+                <div class="none-flex cell-border cell-margin">
+                    <div class="weui-cell__hd"><label class="weui-label">购买类别</label></div>
+                    <div class="weui-cell__bd bd-right font-color place-top" id="company-building">
+                        <input id="cat" class="input-change fire-num-box-border font-color" type="text" name="cat"
+                               placeholder="请选择购买类别" readonly>
+                    </div>
+                </div>
+            </form>
+            <div class="prompt active" id="notNull">请填选必填项</div>
+            <div class="btn-box" data-id="hotel_news">
+                <a class="btn" href="javascript:" id="showToast">提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+
+        $("#uploader").on("click", function (e) {
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var tmp = $('#form').find('[name="photo"]');
+                    tmp.val(localId);
+                    tmp.next().show().attr('src', localId);
+                },
+                fail: function (err) {
+                }
+            });
+        });
+
+        $('#purpose').on('click', function () {
+            weui.picker([{
+                label: '摩托车',
+                value: '摩托车'
+            }, {
+                label: '维修、装修、清洗',
+                value: '维修、装修、清洗'
+            }, {
+                label: '园林绿化、发电机',
+                value: '园林绿化、发电机'
+            }, {
+                label: '厨房、汽车抛锚',
+                value: '厨房、汽车抛锚'
+            }, {
+                label: '其他',
+                value: '其他'
+            }], {
+                onConfirm: function (result) {
+                    $('#purpose').val(result);
+                    if (result == '其他') {
+                        $('textarea[name="purpose"]').parent().show();
+                        $('textarea[name="purpose"]').val('');
+                    } else {
+                        $('textarea[name="purpose"]').parent().hide();
+                        $('textarea[name="purpose"]').val(result[0]);
+                    }
+                }
+            });
+        });
+
+        $('#type').on('click', function () {
+            weui.picker([{
+                label: '柴油',
+                value: '柴油'
+            }, {
+                label: '汽油',
+                value: '汽油'
+            }], {
+                onConfirm: function (result) {
+                    $('#type').val(result);
+                }
+            });
+        });
+
+        $('#cat').on('click', function () {
+            weui.picker([{
+                label: '个人',
+                value: '个人'
+            }, {
+                label: '单位',
+                value: '单位'
+            }], {
+                onConfirm: function (result) {
+                    $('#cat').val(result);
+                }
+            });
+        });
+
+        $('#showToast').on('click', function () {
+
+            function hint(hints) {
+                $('#notNull').html(hints);
+                $('#notNull').fadeIn(100);
+                setTimeout(function () {
+                    $('#notNull').fadeOut(100);
+                }, 2000);
+            }
+
+            var save = function () {
+                wx.uploadImage({
+                    localId: $('#form').find('[name="photo"]').val(), // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1,// 默认为1，显示进度提示
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        $('#form').find('[name="photo"]').val(serverId);
+                        $('#form').append('<input type="hidden" name="userid" value="' + $('#userid').val() + '">');
+                        $.ajax({
+                            type: "POST",
+                            url: "api/bulkOil/save.json",
+                            async: true,
+                            data: $('#form').serialize(),
+                            success: function (card) {
+                                wx.closeWindow();
+                            },
+                            error: function () {
+                                $('#error').css("display", "block");
+                                tag = false;
+                            }
+                        });
+                    },
+                    fail: function (err) {
+                        $('#error').css("display", "block");
+                        tag = false;
+                    }
+                });
+            }
+
+            var cardValid = function (value) {
+                var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
+                var pattern = new RegExp(ex);
+                if (!pattern.test(value)) {
+                    return false;
+                }
+                var params = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+                var checks = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+                var id = value;
+                var sum = 0;
+                for (var i = 0; i < 17; i++) {
+                    var tmp = id.charAt(i);
+                    sum += params[i] * tmp;
+                }
+                sum %= 11;
+                var check;
+                if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
+                    check = 10;
+                } else {
+                    check = id.charAt(17);
+                }
+                return check == checks[sum];
+            };
+
+            var numberValid = function (value) {
+                var pattern = new RegExp('^[0-9]+(\\.[0-9]{1,4})?$');
+                return pattern.test(value);
+            }
+
+            if ($('#form').find('[name="photo"]').val() == '') {
+                hint('请上传采购人照片');
+            } else if ($('#form').find('[name="card"]').val() == null || !cardValid($('#form').find('[name="card"]').val())) {
+                hint('输入正确的身份证号');
+            } else if ($('#form').find('[name="purpose"]').val() == '') {
+                hint('请' + ($('#purpose').val() == '其他' ? '输入' : '选择') + '购油用途');
+            } else if ($('#form').find('[name="amount"]').val() == '' || !numberValid($('#form').find('[name="amount"]').val())) {
+                hint('请输入正确的购买量');
+            } else if ($('#form').find('[name="type"]').val() == '') {
+                hint('请选择油品类型');
+            } else if ($('#form').find('[name="cat"]').val() == '') {
+                hint('请选择购买类别');
+            } else {
+                save();
+            }
+        });
+
+
+        /** 图片处理 start*/
+        $(document).on('click', '[photo]', function () {
+            var photo = JSON.parse($(this).attr('photo'));
+            var gallery = $(photo["gallery"]);
+            var galleryImg = $(photo["galleryImg"]);
+            inPop(function () {
+                gallery.fadeOut(100);
+            });
+            galleryImg.attr("src", this.getAttribute("src"));
+            gallery.fadeIn(100);
+        });
+
+        $(document).on("click", '.weui-gallery', function () {
+            outPop();
+            $(this).fadeOut(100);
+        });
+
+        function inPop(callback) {
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop() {
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        /* 图片处理 end*/
+
+    })
+</script>
