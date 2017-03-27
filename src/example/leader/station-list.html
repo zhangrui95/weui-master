@@ -1,0 +1,88 @@
+﻿<div class="page page-list">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title">采购列表</div>
+                <div class="top-digital" id="station-company-count"></div>
+            </div>
+            <div id="box" class="bg-box">
+                <div class="weui-tab__panel panel_none" id="list">
+                </div>
+            </div>
+            <div class="weui-loadmore" id="load"
+                 style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active" style="display: none;">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+
+        $('#station-company-count').text(container.data('data-station-company-num') + '次');
+
+        var currDataListCfg = {
+            url: 'api/bulkOil/page.json',
+            pagePanel: pagePanel,
+            scrollPanel: pagePanel.find('#box'),
+            winPanel: container,
+            xhrExternalProcess: function (params, xhr) {
+            },
+            emptyCb: function () {
+                var img = 'icon-ok.jpg';
+                var text = '没有散装油登记';
+                $('#box').html('<div class="empty-box empty-box-fire">' +
+                        '<img src="images/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word2">' + text + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            getItemsPanel: function () {
+                return $('#box>.panel_none');
+            },
+            templateProcess: function (item) {
+                return '<div class="label-relative">' +
+                        '<label class="weui-cell weui-check__label check-border employee_lis" data-id="' + item.id + '">' +
+                        '<div class="weui-cell__bd size-width">' +
+                        '<div>' +
+                        '<span class="item-width">' + item.card + '</span>' +
+                        '</div>' +
+                        '<div class="size-new">上报时间：' + getLocalTime(item.createTime) + '</div>' +
+                        '</div>' +
+                        '</label>' +
+                        '</div>';
+            },
+            before: function () {
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after: function () {
+                $("#load").hide();
+            }
+        };
+
+        var currDataList = window.dataList.newList(currDataListCfg);
+
+        currDataList.first({company: container.data('data-station-company-id')});
+
+        $('#box').each(function () {
+            $(this).on('click', '.weui-cell', function () {
+                var id = $(this).data('id');
+                container.data('data-station-id', id);
+                window.pageManager.go('station-detail');
+            })
+        });
+
+    });
+</script>

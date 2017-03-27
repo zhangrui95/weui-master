@@ -1,0 +1,88 @@
+﻿<div class="page page-list">
+    <div class="page__bd details cells-ajax page_y">
+        <div id="news-change">
+            <div class="top-bg clearfix">
+                <div class="top-title">散装油交易监管</div>
+                <div class="top-digital" id="station-count"></div>
+            </div>
+            <div id="box" class="bg-box">
+                <div class="weui-panel__bd">
+                </div>
+            </div>
+            <div class="weui-loadmore" id="load"
+                 style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active" style="display: none;">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+
+        var container = $('#container');
+        var pagePanel = $('.page__bd');
+
+        $.post('api/bulkOil/indexCount.json', {userid: $('#userid').val()}, function (xhr) {
+            $('#station-count').text(xhr.count + '次');
+        });
+
+        var currDataListCfg = {
+            url: 'api/bulkOil/indexList.json',
+            pagePanel: pagePanel,
+            scrollPanel: pagePanel.find('#box'),
+            winPanel: container,
+            xhrExternalProcess: function (params, xhr) {
+            },
+            emptyCb: function () {
+                var img = 'icon-ok.jpg';
+                var text = '没有散装油登记';
+                $('#box').html('<div class="empty-box empty-box-fire">' +
+                        '<img src="images/' + img + '" class="empty-img"/>' +
+                        '<p class="null-word2">' + text + '</p>' +
+                        '</div>');
+            },
+            noMoreCb: function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            getItemsPanel: function () {
+                return $('#box>.weui-panel__bd');
+            },
+            templateProcess: function (item) {
+                return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '" data-num="' + item.num + '">' +
+                        '<div class="weui-media-box__bd stat-media-box__bd">' +
+                        '<h4 class="stat-media-box__title">' + item.name + '</h4>' +
+                        '<div class="stat-slip clearfix">' + item.num + '次</div>' +
+                        '</div>' +
+                        '</a>'
+            },
+            before: function () {
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after: function () {
+                $("#load").hide();
+            }
+        };
+
+        var currDataList = window.dataList.newList(currDataListCfg);
+
+        currDataList.first();
+
+        $('#box').each(function () {
+            $(this).on('click', '.weui-media-box', function () {
+                var id = $(this).data('id');
+                var num = $(this).data('num');
+                container.data('data-station-company-id', id);
+                container.data('data-station-company-num', num);
+                window.pageManager.go('station-list');
+            })
+        });
+
+    });
+</script>
