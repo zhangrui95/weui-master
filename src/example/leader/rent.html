@@ -94,7 +94,7 @@
                         }else{
                             data.avatar += '64'
                         }
-                        $('.police-box-src').html('<img src="'+data.avatar+'" class="header-img">');
+                        $('#'+i).find('.police-box-src').html('<img src="'+data.avatar+'" class="header-img">');
 
                     },
                     error: function () {
