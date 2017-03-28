@@ -58,8 +58,8 @@
             xhrListKey:'',
             xhrExternalProcess : function (params) {
                 $(".weui-cell").on('click',function () {
-                    var rid = $(this).data('rentid')
-                    container.data('data-renter-id',rid)
+                    var rid = $(this).data('rentid');
+                    container.data('data-renter-id',rid);
                     var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
