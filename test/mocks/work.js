@@ -316,19 +316,41 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 {
-                    'rrer': ['张三', '25', '9', '30'],
-                    'userfs': ['李四', '25', '9', '30'],
-                    'userIds': ['王二', '25', '9', '30'],
-                    'rrerss': ['张三', '25', '9', '30'],
-                    'userfss': ['李四', '25', '9', '30'],
-                    'userIdss': ['王二', '25', '9', '30'],
-                    'rrer222': ['张三', '25', '9', '30'],
-                    'userf333': ['李四', '25', '9', '30'],
-                    'userId444': ['王二', '25', '9', '30'],
-                    'rrer55': ['张三', '25', '9', '30'],
-                    'userf66': ['李四', '25', '9', '30'],
-                    'userId77': ['王二', '25', '9', '30'],
-                    'rrer000': ['张三', '25', '9', '30']
+                    "4028b881592a5e4401592a5e5b40002e": [
+                        "柴彦光",
+                        "0",
+                        "0",
+                        "0",
+                        "http://shp.qpic.cn/bizmp/kdMzzVpfw0biaYeDhsyKicjJBOia0PicsySCjtR51wFkiatx5UHQzWeIopg/"
+                    ],
+                    "4028b881592a5e4401592a5e5a020002": [
+                        "戴喜文",
+                        "0",
+                        "0",
+                        "0",
+                        "http://shp.qpic.cn/bizmp/kdMzzVpfw0biaYeDhsyKicjJBOia0PicsySCA16s1ibOVPshmD9RfiacgJ3Q/"
+                    ],
+                    "4028b881592a5e4401592a5e5a400009": [
+                        "单战",
+                        "0",
+                        "0",
+                        "0",
+                        "http://shp.qpic.cn/bizmp/kdMzzVpfw0aCvh2kMlVlxN1kcdIlOWpP67vT9yhJibx7TkCc7rK5riag/"
+                    ],
+                    "4028b881592a5e4401592a5e5b590033": [
+                        "付博涵",
+                        "0",
+                        "0",
+                        "0",
+                        "http://shp.qpic.cn/bizmp/kdMzzVpfw0ZdlgOXABCHB5ER7icFHoG2wohZ1YXrgia1WHmoUyQ0zNzg/"
+                    ],
+                    "4028b881592a5e4401592a5e5a62000e": [
+                        "谷利国",
+                        "0",
+                        "0",
+                        "0",
+                        "http://shp.qpic.cn/bizmp/kdMzzVpfw0aCvh2kMlVlxN1kcdIlOWpPG5icWrUPmFT7Q9TjvMnT46A/"
+                    ]
                 }
             ));
         }

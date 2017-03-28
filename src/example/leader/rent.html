@@ -84,26 +84,11 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item,i) {
-                $.ajax({
-                    type: "POST",
-                    url: "api/user/me.json",
-                    data:{userid:i},
-                    success: function (data) {
-                        if(data.avatar==null||data.avatar==''){
-                            data.avatar = 'images/head.jpg';
-                        }else{
-                            data.avatar += '64'
-                        }
-                        $('#'+i).find('.police-box-src').html('<img src="'+data.avatar+'" class="header-img">');
-
-                    },
-                    error: function () {
-                    }
-                });
                 return '<div class="rent-news"  id="'+i+'">'+
                         '<div class="imgandname">'+
                         '<div class="imgname">'+
                         '<div class="police-box-src">' +
+                        '<img src="'+item[4]+'" class="header-img">'+
                         '</div>'+
                         '<p class="float-left word-name-rent">' + item[0]+ '</p>'+
                         '</div>'+
