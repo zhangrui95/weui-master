@@ -61,6 +61,7 @@
         var $iosMask = $('#iosMask');
         var $iosActionsheets = $('#iosActionsheets');
         var $iosMasks = $('#iosMasks');
+        var $container = $('#container');
         function hideActionSheet() {
             $iosActionsheet.removeClass('weui-actionsheet_toggle');
             $iosMask.fadeOut(200);
@@ -76,11 +77,11 @@
             $('#choice-list').html('');
             $.ajax({
                 type: "POST",
-                url: "api/community.json",
+                url: "api/police/community.json",
                 data:{userid:$('#userid').val()},
                 success: function (data) {
                     for(var i = 0;i<data.length;i++){
-                        $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                        $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].community.id+'>'+data[i].community.name+'</div>');
                     }
                     $iosActionsheet.addClass('weui-actionsheet_toggle');
                     $iosMask.fadeIn(200);
@@ -88,6 +89,7 @@
                         $('#community').html($(this).text());
                         var communityId = $(this).attr('id');
                         $('#container').data('data-add-typeId',communityId);
+                        master(communityId);
                         hideActionSheet();
                     });
                 },
@@ -97,28 +99,39 @@
             });
         });
         //选择楼长
-        $.ajax({
-            type: "POST",
-            url: "api/user/policeHadArea.json",
-            data: {userid: $('#userid').val()},
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    $('#choice-lists').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+        function master(communityId){
+            $.ajax({
+                type: "POST",
+                url: "api/police/master.json",
+                data: {userid: $('#userid').val(),commnuityid:communityId},
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#choice-lists').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                    }
+                },
+                error: function () {
+                    console.log("error");
                 }
-            },
-            error: function () {
-                console.log("error");
-            }
-        });
-        $('#residence-advisor').on('click',function(){
-            $iosActionsheets.addClass('weui-actionsheet_toggle');
-            $iosMasks.fadeIn(200);
-            $('.police-choice-name').on('click', function () {
-                $('#residence-advisor').html($(this).text());
-                var residenceAdvisorId = $(this).attr('id');
-                $('#container').data('data-add-policeId', residenceAdvisorId);
-                hideActionSheet();
             });
+        }
+
+        $('#residence-advisor').on('click',function(){
+            if($('#community').html()=='请选择'){
+                $('#alert').html("请选择社区");
+                $('#alert').fadeIn(100);
+                setTimeout(function () {
+                    $('#alert').fadeOut(100);
+                }, 2000);
+            }else{
+                $iosActionsheets.addClass('weui-actionsheet_toggle');
+                $iosMasks.fadeIn(200);
+                $('.police-choice-name').on('click', function () {
+                    $('#residence-advisor').html($(this).text());
+                    var residenceAdvisorId = $(this).attr('id');
+                    $('#container').data('data-add-master', residenceAdvisorId);
+                    hideActionSheet();
+                });
+            }
         });
         //保存并添加人员
         $('#next-step').click(function(){
@@ -127,7 +140,9 @@
             var ridgepole = $('#ridgepole').val();
             var element = $('#element').val();
             var door = $('#door').val();
-            if(road.length==0||size.length==0||door.length==0){
+            var commnuityid = $('#container').data('data-add-typeId');
+            var masterid = $('#container').data('data-add-master');
+            if(road.length==0||size.length==0||door.length==0||commnuityid==null||masterid==null||commnuityid==''||masterid==''){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
@@ -137,7 +152,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/floor/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door},
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,commnuityid:commnuityid,masterid:masterid},
                     success: function (data) {
                         var id = $('#next-step').data('id');
                         window.pageManager.go(id);
@@ -166,7 +181,9 @@
             var ridgepole = $('#ridgepole').val();
             var element = $('#element').val();
             var door = $('#door').val();
-            if(road.length==0||size.length==0||door.length==0){
+            var commnuityid = $('#container').data('data-add-typeId');
+            var masterid = $('#container').data('data-add-master');
+            if(road.length==0||size.length==0||door.length==0||commnuityid==null||masterid==null||commnuityid==''||masterid==''){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
@@ -175,8 +192,8 @@
             }else{
                 $.ajax({
                     type: "POST",
-                    url: "api/floor/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door},
+                    url: "api/police/save.json",
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,commnuityid:commnuityid,masterid:masterid},
                     success: function (data) {
                         var $toast = $('#toast');
                         if ($toast.css('display') != 'none') return;
@@ -185,6 +202,10 @@
                             $toast.fadeOut(100);
                             $('#road,#size,#ridgepole,#element,#door').val('');
                             $('#road,#size,#ridgepole,#element,#door').blur();
+                            $('#container').data('data-add-typeId','');
+                            $('#container').data('data-add-master','');
+                            $('#community').html('请选择');
+                            $('#residence-advisor').html('请选择')
                         }, 2000);
                     },
                     error: function (mes) {

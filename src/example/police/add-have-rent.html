@@ -4,23 +4,19 @@
             <form class="weui-search-bar__form">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入搜索地址" required="">
                     <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
                 </div>
-                <label class="weui-search-bar__label" id="searchText">
-                    <i class="weui-icon-search"></i>
-                    <span>搜索</span>
-                </label>
             </form>
-            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
         </div>
         <div class="weui-cells  weui-cells_radio hotel-list" id="hotel-list">
             <div id="box"></div>
         </div>
-        <div class="btn-box" data-id="employee_list" id="look">
+        <div class="btn-box" data-id="employee_list">
             <a class="btn" href="javascript:" id="showToast" data-id="renter-news">确定</a>
         </div>
     </div>
+    <div class="prompt active" id="prompt"></div>
 </div>
 <script>
     $(function () {
@@ -30,8 +26,7 @@
                 $searchResult = $('#searchResult'),
                 $searchText = $('#searchText'),
                 $searchInput = $('#searchInput'),
-                $searchClear = $('#searchClear'),
-                $searchCancel = $('#searchCancel');
+                $searchClear = $('#searchClear');
         function hideSearchResult(){
             $searchResult.hide();
             $searchInput.val('');
@@ -41,7 +36,6 @@
             $searchBar.removeClass('weui-search-bar_focusing');
             $searchText.show();
         }
-
         $searchText.on('click', function(){
             $searchBar.addClass('weui-search-bar_focusing');
             $searchInput.focus();
@@ -50,37 +44,17 @@
             hideSearchResult();
             $searchInput.focus();
             $('#list').show();
-        });
-        $searchCancel.on('click', function(){
-            cancelSearch();
-            $searchInput.blur();
+            currDataList.first({condition:''});
         });
         var currDataListCfg = {
-            url:'api/hotel.json',
+            url:'api/police/listfloor.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
             xhrListKey:'',
             itemsPanel:$('#box'),
             xhrExternalProcess : function (params) {
-                $('#submit').on('click',function(){
-                    var rid,hotelName,hotelPlace;
-                    $('.weui-check').each(function(i,e){
-                        var oThis = $(e);
-                        if(oThis.prop('checked')){
-                            rid = oThis.attr('id');
-                            hotelName = oThis.parent().siblings('.hotel-news').find('.hotel-name').html();
-                            hotelPlace = oThis.parent().siblings('.hotel-news').find('.hotel-place').html();
-                            console.log(hotelName+'-'+hotelPlace);
-                        }
-                    });
-                    container.data('data-hotel-rid',rid);
-                    $('#hotel').html(hotelName+'<img src="images/icon-go.jpg" class="icon-go-width block"/> ');
-                    $('#hotel').addClass('right-padding');
-                    $('#red-star').html('');
-                    $('#alertbackground').fadeOut(100);
-                    outPop();
-                });
+                $('#'+container.data('data-floorid')).attr('checked','true');
             },
             emptyCb : function () {
                 $('#hotel-list').html('<div class="empty-box">'+
@@ -93,6 +67,15 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
+                var ridg = items.ridgepole+'栋';
+                var units = items.unit+'单元';
+                if(items.ridgepole==null||items.ridgepole.length==0){
+                    ridg = '';
+                }
+                if(items.unit==null||items.unit.length==0){
+                    units = '';
+                }
+                var place = items.street+items.num+'号'+ridg+units+items.door+'门'
                 return '<label class="weui-cell weui-check__label check-border-list hotel-list-height" for="'+items.id+'">'+
                         '<div class="weui-cell__ft ft_width">'+
                         '<div class="border-gray"></div>'+
@@ -100,8 +83,7 @@
                         '<span class="weui-icon-checked"></span>'+
                         '</div>'+
                         '<div class="hotel-news">'+
-                        '<div class="hotel-name">'+items.company+'</div>'+
-                        '<div class="hotel-place">'+items.address+'</div>'+
+                        '<div class="hotel-name">'+place+'</div>'+
                         '</div>'+
                         '</label>';
             },
@@ -113,36 +95,26 @@
                 $("#load").hide();
             }
         };
-        var typeIds = '';
         var policeId = container.data('self-policeId');
         var currDataList = window.dataList.newList(currDataListCfg);
-        var val = container.data('data-list-val');
-        currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+//        var val = container.data('data-list-val');
+        currDataList.first({});
         var search = function(){
             var val=$searchInput.val();
-            container.data('data-list-val',val);
+//            container.data('data-list-val',val);
             if(val != ""){
-                currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+                currDataList.first({condition:val});
+            }else{
+                currDataList.first({condition:''});
             }
         };
         $searchInput.on('keyup',function(){
             window.lazyRateProxy(search,500);
         });
-        var reset = function () {
-            val='';
-            container.data('data-list-val',val);
-            currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
-        };
-        $searchCancel.on('click',function(){
-            reset();
-        });
         $searchInput
                 .on('blur', function () {
                     if(!this.value.length) {
                         cancelSearch();
-                    }
-                    if(this.value.length==0){
-                        reset();
                     }
                 })
                 .on('input', function(){
@@ -153,13 +125,30 @@
                     }
                 })
         ;
-        if(val!=null){
-            $searchBar.addClass('weui-search-bar_focusing');
-            $searchInput.val(val);
-        }
+//        if(val!=null){
+//            $searchBar.addClass('weui-search-bar_focusing');
+//            $searchInput.val(val);
+//        }
         $('#showToast').on('click',function () {
-            var id = $(this).data('id');
-            window.pageManager.go(id);
+            var floorId;
+            var place;
+            $('.weui-check').each(function(i,e){
+                var oThis = $(e);
+                if(oThis.prop('checked')){
+                    floorId = oThis.attr('id');
+                    place = oThis.parent().siblings().find('.hotel-name').html();
+                    var id = $('#showToast').data('id');
+                    window.pageManager.go(id);
+                }else{
+                    $('#prompt').html("请选择已有房屋");
+                    $('#prompt').fadeIn(100);
+                    setTimeout(function () {
+                        $('#prompt').fadeOut(100);
+                    }, 2000);
+                }
+            });
+            container.data('data-floorid',floorId);
+            container.data('data-floor-place',place);
         });
     })
 </script>

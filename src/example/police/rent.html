@@ -1,5 +1,5 @@
 <div class="page page-list">
-    <!--<img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>-->
+    <img class="change-news" src="images/icon-new.png" id="add-new-rent"/>
     <div class="nocard-title rent-head-height">
         <div class="fire-header-left"></div>
         <div class="white-position" id="white-position">
@@ -24,9 +24,9 @@
         </div>
     </div>
     <div class="grayness-box">
-        <div class="gray-area">上报人员</div>
-        <div class="gray-num">租住房屋</div>
-        <div class="gray-rent">租住人数</div>
+        <div class="gray-area width-rent-box">上报人员</div>
+        <div class="gray-num width-rent-box">租住房屋</div>
+        <div class="gray-rent width-rent-box">租住人数</div>
     </div>
     <div class="page__bd cell_y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -133,11 +133,11 @@
             },
             templateProcess : function (item,i) {
                 return '<div class="rent-news" id="'+i+'">'+
-                        '<div class="imgandname">'+
+                        '<div class="imgandname width-rent-box">'+
                         item[0]+
                         '</div>'+
-                        '<div class="num-width rent-build" data-id="builder-rent">'+item[1]+'</div>'+
-                        '<div class="num-width rent-person" data-id="builder-person-num"><span class="choice-title-red">' +item[2]+
+                        '<div class="num-width width-rent-box rent-build" data-id="builder-rent">'+item[1]+'</div>'+
+                        '<div class="num-width width-rent-box rent-person" data-id="builder-person-num"><span class="choice-title-red">' +item[2]+
                         '</span>/<span>' +item[3]+
                         '</span></div>'+
                         '</div>'
@@ -193,9 +193,9 @@
                     if(moveX==0&&moveY==0){
                         $searchInput.val('');
                         inPop(function(){
-                            $(tid).fadeOut(100);
+                            $(tid).hide();
                         });
-                        $(tid).fadeIn(100);
+                        $(tid).show();
                     }
                 });
             });
@@ -218,9 +218,9 @@
                     if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                         $searchInput.val('');
                         inPop(function(){
-                            $(tid).fadeOut(100);
+                            $(tid).hide();
                         });
-                        $(tid).fadeIn(100);
+                        $(tid).show();
                     }
                 });
             });

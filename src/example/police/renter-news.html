@@ -6,7 +6,7 @@
     </div>
     <div class="page_y">
         <div id="idCard-list"></div>
-        <!--<div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>-->
+        <div class="add-line" id="add-renter"><span class="add">+</span>新增租住人员信息</div>
     </div>
     <div class="js_dialog" id="androidDialog2" style="display: none;">
         <div class="weui-mask"></div>
@@ -103,16 +103,16 @@
                 var checked = tag?'':'active';
                 $('#idCard-list').append(
                         '<div class="position-del-box">'+
-                        '<img src="images/list-left.jpg" class="border-right-img-rent">'+
+//                        '<img src="images/list-left.jpg" class="border-right-img-rent">'+
                         '<div class="none-flex cell-border cell-margin" data-rentid="'+data[i].id+'" data-id="rent-detail">'+
                         '<div class="weui-cell__hd card-val">'+data[i].sfzh+'</div>'+
                         '</div>'+
-                        '<div class="rent-right-sign '+checked+'">未核查</div>'+
-//                        '<div class="link-delete block dele-word" id="'+data[i].id+'">注销</div>'+
+//                        '<div class="rent-right-sign '+checked+'">未核查</div>'+
+                        '<div class="link-delete block dele-word" id="'+data[i].id+'">注销</div>'+
                         '</div>'
                 );
             }
-//            del();
+            del();
             $('.cell-margin').click(function(){
                 var rid = $(this).data('rentid')
                 $container.data('data-renter-id',rid)
@@ -120,35 +120,35 @@
                 window.pageManager.go(id);
             });
         }
-//        function del(){
-//            $('.dele-word').bind('click',function(){
-//                var _this = $(this);
-//                $('#androidDialog2').fadeIn(100);
-//                $('#dialog').html('确定注销该租住人员信息？');
-//                $('#default').on('click',function(){
-//                    $('#androidDialog2').fadeOut(100);
-//                });
-//                var delId = _this.attr('id');
-//                $container.data('dara-cancel-id',delId);
-//            });
-//            $('#primary').bind('click',function(){
-//                var delId =  $container.data('dara-cancel-id');
-//                $.ajax({
-//                    type: "POST",
-//                    url: "api/police/cancel.json",
-//                    data:{userid:$('#userid').val(),id:delId},
-//                    success: function (data) {
-//                        $('#androidDialog2').fadeOut(100);
-//                        $('#'+delId).parent().remove();
-//                        var nums = $('.position-del-box').length;
-//                        $('#num').html(nums);
-//                    },
-//                    error: function (mes) {
-//                        console.log('error');
-//                    }
-//                });
-//            });
-//        }
+        function del(){
+            $('.dele-word').bind('click',function(){
+                var _this = $(this);
+                $('#androidDialog2').fadeIn(100);
+                $('#dialog').html('确定注销该租住人员信息？');
+                $('#default').on('click',function(){
+                    $('#androidDialog2').fadeOut(100);
+                });
+                var delId = _this.attr('id');
+                $container.data('dara-cancel-id',delId);
+            });
+            $('#primary').bind('click',function(){
+                var delId =  $container.data('dara-cancel-id');
+                $.ajax({
+                    type: "POST",
+                    url: "api/police/cancel.json",
+                    data:{userid:$('#userid').val(),id:delId},
+                    success: function (data) {
+                        $('#androidDialog2').fadeOut(100);
+                        $('#'+delId).parent().remove();
+                        var nums = $('.position-del-box').length;
+                        $('#num').html(nums);
+                    },
+                    error: function (mes) {
+                        console.log('error');
+                    }
+                });
+            });
+        }
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();

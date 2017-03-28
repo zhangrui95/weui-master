@@ -1,5 +1,5 @@
 <div class="page page-list">
-    <!--<img class="change-news" src="images/icon-new.png" id="add-new-rent" data-id="add-company"/>-->
+    <img class="change-news" src="images/icon-new.png" id="add-new-rent"/>
     <div class="weui-search-bar" id="searchBar">
         <form class="weui-search-bar__form">
             <div class="weui-search-bar__box">
@@ -41,6 +41,7 @@
             $('#pop-add-box').fadeOut(100);
         });
         $('#rent-add,#add-have-rent').click(function(){
+            outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
         });
@@ -124,7 +125,10 @@
                     var moveY = downY - upY;
                     if(moveX==0&&moveY==0){
                         $searchInput.val('');
-                        $(tid).fadeIn(100);
+                        inPop(function(){
+                            $(tid).hide();
+                        });
+                        $(tid).show();
                     }
                 });
             });
@@ -146,10 +150,22 @@
                     $('body').unbind();
                     if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
                         $searchInput.val('');
-                        $(tid).fadeIn(100);
+                        inPop(function(){
+                            $(tid).hide();
+                        });
+                        $(tid).show();
                     }
                 });
             });
+        }
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
         }
         $searchClear.on('click',function(){
             $searchInput.val('');
