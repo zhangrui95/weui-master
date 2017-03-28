@@ -144,7 +144,7 @@
         var reset = function () {
             val='';
             container.data('data-list-employee-val',val);
-            currDataList.first({typeIds:typeIds,policeId:policeId,name:val});
+            currDataList.first({cid:cid,card:val});
         };
         $searchCancel.on('click',function(){
             reset();
