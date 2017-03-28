@@ -134,20 +134,22 @@
 
             var initList = function (data) {
                 var addChecks = function (item) {
+                    var uuid = generateUUID();
                     $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
                             '</div>');
                 }
 
                 var addTasks = function (item) {
+                    var uuid = generateUUID();
                     $('#work_main_list_tasks').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
                             '<div class="weui-cell__hd">' +
                             '<img class="change-upload" src="api/task/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
                             '</div>' +
                             '</div>' +
                             '<div class="weui-cell__bd weui-cell_primary">' +
@@ -157,12 +159,13 @@
                 }
 
                 var addEmployees = function (item) {
+                    var uuid = generateUUID();
                     $('#work_main_list_employees').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
                             '<div class="weui-cell__hd">' +
                             '<img class="change-upload" src="api/employee/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + item.id + '","galleryImg":"#galleryImg_' + item.id + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + item.id + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + item.id + '"/>' +
+                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
                             '</div>' +
                             '</div>' +
                             '<div class="weui-cell__bd weui-cell_primary">' +
@@ -206,10 +209,11 @@
                     }
                     var html = '';
                     for (var i = 0; i < items.length; i++) {
+                        var uuid = generateUUID();
                         html += '<a href="javascript:;"><img class="change-upload" src="api/'+type+'/photo?id=' + items[i].id + '" ' +
-                                'photo=\'{"gallery":"#gallery_' + items[i].id + '","galleryImg":"#galleryImg_' + items[i].id + '"}\'/>' +
-                                '<div class="weui-gallery" id="gallery_' + items[i].id + '">' +
-                                '<img  class="weui-gallery__img center-img" id="galleryImg_' + items[i].id + '"/>' +
+                                'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                                '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                                '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
                                 '</div></a>';
                     }
                     return html;
