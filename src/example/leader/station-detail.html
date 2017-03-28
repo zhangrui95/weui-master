@@ -1,4 +1,4 @@
-﻿<div class="page page-list company-list js_show">
+﻿<div id="station-detail" class="page page-list company-list js_show">
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
@@ -24,7 +24,7 @@
                 <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_purpose"></div>
             </div>
             <div class="none-flex cell-border cell-margin">
-                <div class="weui-cell__hd"><label class="weui-label">购买量（L）</label></div>
+                <div class="weui-cell__hd"><label class="weui-label-three">购买量(L)</label></div>
                 <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_amount"></div>
             </div>
             <div class="none-flex cell-border cell-margin">
@@ -121,7 +121,7 @@
         }
 
         /** 图片处理 start*/
-        $(document).on('click', '[photo]', function () {
+        $('#station-detail').on('click', '[photo]', function () {
             var photo = JSON.parse($(this).attr('photo'));
             var gallery = $(photo["gallery"]);
             var galleryImg = $(photo["galleryImg"]);
@@ -132,7 +132,7 @@
             gallery.fadeIn(100);
         });
 
-        $(document).on("click", '.weui-gallery', function () {
+        $('#station-detail').on("click", '.weui-gallery', function () {
             outPop();
             $(this).fadeOut(100);
         });

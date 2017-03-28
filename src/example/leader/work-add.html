@@ -1,4 +1,4 @@
-<div class="page page-list company-list js_show">
+<div id="work-add" class="page page-list company-list js_show">
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
@@ -103,12 +103,27 @@
 
         /** 现场检查 start*/
         var checkUploader = $("#checkUploader");
+
         var addChecks = function (localId) {
-            $('#work_list_check').prepend('<img class="change-upload" src="' + localId + '" ' +
-                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
-                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
-                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+            var uuid = generateUUID();
+            $('#work_list_check').prepend(
+                    '<img class="change-upload" src="' + localId + '" ' +
+                    'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                    '   <img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
+                    '   <div class="weui-gallery__opr" data-callback="delChecks" data-id="' + localId + '">' +
+                    '       <a href="javascript:" class="weui-gallery__del">' +
+                    '           <i class="weui-icon-delete weui-icon_gallery-delete"></i>' +
+                    '       </a>' +
+                    '   </div>' +
                     '</div>');
+        }
+
+        var delChecks = function (localId) {
+            var img = $('#work_list_check').find('img[src="' + localId + '"].change-upload');
+            img.next().remove();
+            img.remove()
+            addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]').remove();
         }
 
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
@@ -124,8 +139,14 @@
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     for (var i = 0; i < localIds.length; i++) {
                         var localId = localIds[i];
-                        var index = (addWorkForm.find('input[name^="work_list_checks"]').length);
-                        addWorkForm.append('<input type="hidden" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
+                        var index = 0;
+                        addWorkForm.find('input[name^="work_list_checks"]').each(function () {
+                            var i = parseInt($(this).attr('index'));
+                            if (i >= index) {
+                                index = i + 1;
+                            }
+                        });
+                        addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
                         addChecks(localId);
                     }
                 },
@@ -137,18 +158,35 @@
 
         /** 未带身份证 start*/
         var addTasks = function (id, localId) {
-            $('#hotel').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                    '<div class="weui-cell__hd">' +
-                    '<img class="change-upload" src="' + localId + '" ' +
-                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
-                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
-                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="weui-cell__bd weui-cell_primary">' +
-                    '<p>' + id + '</p>' +
-                    '</div>' +
-                    '</a>');
+            var uuid = generateUUID();
+            $('#hotel').append(
+                    '<div class="weui-cell weui-cell_access" href="javascript:;">' +
+                    '   <div class="weui-cell__hd">' +
+                    '       <img class="change-upload" src="' + localId + '" ' +
+                    '       photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                    '       <div class="weui-gallery" id="gallery_' + uuid + '">' +
+                    '           <img class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
+                    '           <div class="weui-gallery__opr" data-callback="delTasks" data-id="' + localId + '">' +
+                    '               <a href="javascript:" class="weui-gallery__del">' +
+                    '                   <i class="weui-icon-delete weui-icon_gallery-delete"></i>' +
+                    '               </a>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '   </div>' +
+                    '   <div class="weui-cell__bd weui-cell_primary">' +
+                    '       <p>' + id + '</p>' +
+                    '   </div>' +
+                    '</div>');
+        }
+
+        var delTasks = function (localId) {
+            var img = $('#hotel').find('img[src="' + localId + '"].change-upload');
+            img.parent().parent().remove();
+            var photo = addWorkForm.find('input[name^="work_list_tasks"][name$="photo"][value="' + localId + '"]');
+            var tmp = photo.attr('name');
+            var card = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'card' + '"]');
+            photo.remove();
+            card.remove();
         }
 
         addWorkForm.find('input[name^="work_list_tasks"][name$="card"]').each(function () {
@@ -166,18 +204,35 @@
 
         /** 从业人员 start*/
         var addEmployees = function (id, localId) {
-            $('#employee-report').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                    '<div class="weui-cell__hd">' +
-                    '<img class="change-upload" src="' + localId + '" ' +
-                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
-                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
-                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="weui-cell__bd weui-cell_primary">' +
-                    '<p>' + id + '</p>' +
-                    '</div>' +
-                    '</a>');
+            var uuid = generateUUID();
+            $('#employee-report').append(
+                    '<div class="weui-cell weui-cell_access" href="javascript:;">' +
+                    '   <div class="weui-cell__hd">' +
+                    '       <img class="change-upload" src="' + localId + '" ' +
+                    '       photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                    '       <div class="weui-gallery" id="gallery_' + uuid + '">' +
+                    '           <img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
+                    '           <div class="weui-gallery__opr" data-callback="delEmployees" data-id="' + localId + '">' +
+                    '               <a href="javascript:" class="weui-gallery__del">' +
+                    '                   <i class="weui-icon-delete weui-icon_gallery-delete"></i>' +
+                    '               </a>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '   </div>' +
+                    '   <div class="weui-cell__bd weui-cell_primary">' +
+                    '       <p>' + id + '</p>' +
+                    '   </div>' +
+                    '</div>');
+        }
+
+        var delEmployees = function (localId) {
+            var img = $('#employee-report').find('img[src="' + localId + '"].change-upload');
+            img.parent().parent().remove();
+            var photo = addWorkForm.find('input[name^="work_list_employees"][name$="photo"][value="' + localId + '"]');
+            var tmp = photo.attr('name');
+            var card = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'card' + '"]');
+            photo.remove();
+            card.remove();
         }
 
         addWorkForm.find('input[name^="work_list_employees"][name$="card"]').each(function () {
@@ -216,7 +271,8 @@
         /** 处理意见 end*/
 
         /** 图片处理 start*/
-        $(document).on('click', '[photo]', function () {
+
+        $('#work-add').on('click', '[photo]', function () {
             var photo = JSON.parse($(this).attr('photo'));
             var gallery = $(photo["gallery"]);
             var galleryImg = $(photo["galleryImg"]);
@@ -227,9 +283,15 @@
             gallery.fadeIn(100);
         });
 
-        $(document).on("click", '.weui-gallery', function () {
+        $('#work-add').on("click", '.weui-gallery', function () {
             outPop();
             $(this).fadeOut(100);
+        });
+
+        $('#work-add').on("click", '.weui-gallery__opr', function () {
+            var id = $(this).data('id');
+            var callback = $(this).data('callback');
+            eval(callback + '("' + id + '")');
         });
 
         function inPop(callback) {
@@ -336,5 +398,6 @@
 
         /** 保存end*/
 
-    });
+    })
+    ;
 </script>

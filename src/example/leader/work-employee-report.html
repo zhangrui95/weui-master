@@ -175,9 +175,15 @@
             $('#empty').css('display', 'none');
             window.pageManager.go('work-add');
             var addWorkForm = $('#addWorkForm');
-            var index = (addWorkForm.find('input[name^="work_list_employees"]').length) / 2;
-            addWorkForm.append('<input type="hidden" name="work_list_employees[' + index + '].card" value="' + value + '">');
-            addWorkForm.append('<input type="hidden" name="work_list_employees[' + index + '].photo" value="' + localId + '">');
+            var index = 0;
+            addWorkForm.find('input[name^="work_list_employees"]').each(function () {
+                var i = parseInt($(this).attr('index'));
+                if (i >= index) {
+                    index = i + 1;
+                }
+            });
+            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].card" value="' + value + '">');
+            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].photo" value="' + localId + '">');
         }
 
     });
