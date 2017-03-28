@@ -84,6 +84,11 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item,i) {
+                if(item[4]==null||item[4]==''){
+                    item[4] = 'images/head.jpg';
+                 }else{
+                    item[4] += '64'
+                 }
                 return '<div class="rent-news"  id="'+i+'">'+
                         '<div class="imgandname">'+
                         '<div class="imgname">'+
