@@ -1,4 +1,4 @@
-<div class="page page-list company-list js_show">
+<div id="feedback" class="page page-list company-list js_show">
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
@@ -6,7 +6,9 @@
                 <div class="top-operator"></div>
             </div>
             <div class="none-flex cell-border cell-margin">
-                <div class="weui-cell__hd widt-mid">  <div class="red-star red-left">*</div><label class="weui-label">检查现场</label></div>
+                <div class="weui-cell__hd widt-mid">
+                    <div class="red-star red-left">*</div>
+                    <label class="weui-label">检查现场</label></div>
                 <div class="weui-cell__bd bd-right font-color blur" id="work_list_check">
                     <img class="change-upload" src="assets/icon_pho.jpg" id="checkUploader"/>
                 </div>
@@ -18,13 +20,14 @@
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd widt-mid"><label class="weui-label">企业负责人</label></div>
-                <div class="weui-cell__bd bd-right font-color blur"  id="personLiableDiv">
+                <div class="weui-cell__bd bd-right font-color blur" id="personLiableDiv">
                     <img class="change-upload" src="assets/icon_pho.jpg" id="personLiable"/></div>
             </div>
             <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd widt-mid"><label class="weui-label">备注</label></div>
                 <div class="weui-cell__bd bd-right font-color place-top widt-mid">
-                    <input id="work_value_advice" class="input-change fire-num-box-border font-color" type="text" placeholder="请输入处理意见" value="" >
+                    <input id="work_value_advice" class="input-change fire-num-box-border font-color" type="text"
+                           placeholder="请输入处理意见" value="">
                 </div>
             </div>
             <div class="btn-box" data-id="hotel_news">
@@ -58,21 +61,40 @@
                 addWorkForm.append('<input type="hidden" name="' + name + '" value="' + val + '">');
             }
         }
-        addFormElement('userid',userid);
+        addFormElement('userid', userid);
         var checkUploader = $("#checkUploader");
         var legalInstrument = $("#legalInstrument");
         var personLiable = $("#personLiable");
-        var addCheck = function (localId ,fatherDiv) {
+        var addCheck = function (localId, fatherDiv) {
+            var uuid = generateUUID();
             fatherDiv.prepend('<img class="change-upload" src="' + localId + '" ' +
-                    'photo=\'{"gallery":"#gallery_' + localId + '","galleryImg":"#galleryImg_' + localId + '"}\'/>' +
-                    '<div class="weui-gallery" id="gallery_' + localId + '">' +
-                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + localId + '"/>' +
+                    'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
+                    '<div class="weui-gallery" id="gallery_' + uuid + '">' +
+                    '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
+                    '   <div class="weui-gallery__opr" data-callback="delChecks" data-father="' + fatherDiv.attr('id') + '" data-id="' + localId + '">' +
+                    '       <a href="javascript:" class="weui-gallery__del">' +
+                    '           <i class="weui-icon-delete weui-icon_gallery-delete"></i>' +
+                    '       </a>' +
+                    '   </div>' +
                     '</div>');
         }
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
             addCheck($(this).val());
         });
-        function uploudImg(type,fatherDiv) {
+        var delChecks = function (fatherDiv, localId) {
+            var img = $("#" + fatherDiv).find('img[src="' + localId + '"].change-upload');
+            img.next().remove();
+            img.remove();
+            var photo = addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]');
+            var tmp = photo.attr('name');
+            console.log(tmp);
+            console.log('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'type' + '"]')
+            var type = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'type' + '"]');
+            photo.remove();
+            type.remove();
+        }
+
+        function uploudImg(type, fatherDiv) {
             wx.chooseImage({
                 count: 100, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -81,27 +103,34 @@
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     for (var i = 0; i < localIds.length; i++) {
                         var localId = localIds[i];
-                        var index = (addWorkForm.find('input[name^="work_list_checks"]').length);
-                        addWorkForm.append('<input type="hidden" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
-                        addCheck(localId ,fatherDiv);
-                        addFormElement('checks['+index+'].type',type);
+                        var index = 0;
+                        addWorkForm.find('input[name^="work_list_checks"]').each(function () {
+                            var i = parseInt($(this).attr('index'));
+                            if (i >= index) {
+                                index = i + 1;
+                            }
+                        });
+                        addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
+                        addCheck(localId, fatherDiv);
+                        addFormElement('work_list_checks[' + index + '].type', type);
                     }
                 },
                 fail: function (err) {
                 }
             });
         }
+
         checkUploader.on("click", function (e) {
-            uploudImg(1,$('#work_list_check'));
+            uploudImg(1, $('#work_list_check'));
         });
         legalInstrument.on("click", function (e) {
-            uploudImg(2,$('#legalInstrumentDiv'));
+            uploudImg(2, $('#legalInstrumentDiv'));
         });
         personLiable.on("click", function (e) {
-            uploudImg(3,$('#personLiableDiv'));
+            uploudImg(3, $('#personLiableDiv'));
         });
         /** 图片处理 start*/
-        $(document).on('click', '[photo]', function () {
+        $('#feedback').on('click', '[photo]', function () {
             var photo = JSON.parse($(this).attr('photo'));
             var gallery = $(photo["gallery"]);
             var galleryImg = $(photo["galleryImg"]);
@@ -112,11 +141,16 @@
             gallery.fadeIn(100);
         });
 
-        $(document).on("click", '.weui-gallery', function () {
+        $('#feedback').on("click", '.weui-gallery', function () {
             outPop();
             $(this).fadeOut(100);
         });
-
+        $('#feedback').on("click", '.weui-gallery__opr', function () {
+            var id = $(this).data('id');
+            var father = $(this).data('father');
+            var callback = $(this).data('callback');
+            eval(delChecks(father, id));
+        });
         function inPop(callback) {
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
@@ -134,23 +168,23 @@
         $('#showToast').on('click', function () {
             addFormElement('workMain', workId);
             addFormElement('reply', $('#work_value_advice').val());
-            if(checkWorkList()){
+            if (checkWorkList()) {
                 save();
             }
         });
-        var checkWorkList = function(){ //校验检查现场
+        var checkWorkList = function () { //校验检查现场
             var workImg = $("#work_list_check img");
-            if(workImg.length <= 1){
+            if (workImg.length <= 1) {
                 $("#iosDialog2").fadeIn(200);  //弹出提示窗
-                $("#iknow").click(function(){
+                $("#iknow").click(function () {
                     $("#iosDialog2").fadeOut(200);
                     return false;
                 });
-            }else{
+            } else {
                 return true;
             }
         }
-        var save = function(){
+        var save = function () {
             var localIds = [];
             addWorkForm.find('input').each(function () {
                 var tmp = $(this).attr('name');
@@ -206,7 +240,7 @@
                 async: true,
                 data: addWorkForm.serialize(),
                 success: function (card) {
-                    updateState(workId,3);
+                    updateState(workId, 3);
                     addWorkForm.after('<form id="addWorkForm"></form>');
                     addWorkForm.remove();
                     //       $("#iosDialog2").fadeIn(200);  //弹出提示窗
@@ -224,7 +258,7 @@
 
         /** 保存end*/
         /*修改反馈状态*/
-        function updateState(id,readState) {
+        function updateState(id, readState) {
             $.ajax({
                 type: "POST",
                 url: "api/workMain/updateReadState.json",
