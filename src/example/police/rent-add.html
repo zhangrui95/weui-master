@@ -103,7 +103,7 @@
             $.ajax({
                 type: "POST",
                 url: "api/police/master.json",
-                data: {userid: $('#userid').val(),commnuityid:communityId},
+                data: {userid: $('#userid').val(),communityid:communityId},
                 success: function (data) {
                     for (var i = 0; i < data.length; i++) {
                         $('#choice-lists').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
@@ -140,9 +140,9 @@
             var ridgepole = $('#ridgepole').val();
             var element = $('#element').val();
             var door = $('#door').val();
-            var commnuityid = $('#container').data('data-add-typeId');
+            var communityid = $('#container').data('data-add-typeId');
             var masterid = $('#container').data('data-add-master');
-            if(road.length==0||size.length==0||door.length==0||commnuityid==null||masterid==null||commnuityid==''||masterid==''){
+            if(road.length==0||size.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
@@ -152,7 +152,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/floor/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,commnuityid:commnuityid,masterid:masterid},
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,communityid:communityid,masterid:masterid},
                     success: function (data) {
                         var id = $('#next-step').data('id');
                         window.pageManager.go(id);
@@ -181,9 +181,9 @@
             var ridgepole = $('#ridgepole').val();
             var element = $('#element').val();
             var door = $('#door').val();
-            var commnuityid = $('#container').data('data-add-typeId');
+            var communityid = $('#container').data('data-add-typeId');
             var masterid = $('#container').data('data-add-master');
-            if(road.length==0||size.length==0||door.length==0||commnuityid==null||masterid==null||commnuityid==''||masterid==''){
+            if(road.length==0||size.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
@@ -193,7 +193,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/police/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,commnuityid:commnuityid,masterid:masterid},
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,communityid:communityid,masterid:masterid},
                     success: function (data) {
                         var $toast = $('#toast');
                         if ($toast.css('display') != 'none') return;
