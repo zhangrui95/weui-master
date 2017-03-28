@@ -1,4 +1,4 @@
-<div class="page page-list company-list js_show">
+<div id="station-add" class="page page-list company-list js_show">
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
@@ -15,6 +15,11 @@
                              style="display: none"/>
                         <div class="weui-gallery" id="gallery">
                             <img class="weui-gallery__img center-img" id="galleryImg"/>
+                            <div class="weui-gallery__opr" data-callback="delPhoto">
+                                <a href="javascript:" class="weui-gallery__del">
+                                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                                </a>
+                            </div>
                         </div>
                         <img id="uploader" class="change-upload" src="images/icon_pho.jpg"/>
                     </div>
@@ -81,12 +86,21 @@
                     var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     var tmp = $('#form').find('[name="photo"]');
                     tmp.val(localId);
+                    tmp.next().next().find('.weui-gallery__opr').data('id', localId);
                     tmp.next().show().attr('src', localId);
                 },
                 fail: function (err) {
                 }
             });
         });
+
+        var delPhoto = function () {
+            var tmp = $('#form').find('[name="photo"]');
+            tmp.val(null);
+            tmp.next().hide().attr('src', null);
+            tmp.next().next().find('img').attr('src', null);
+            tmp.next().next().find('.weui-gallery__opr').data('id', null);
+        }
 
         $('#purpose').on('click', function () {
             weui.picker([{
@@ -233,7 +247,7 @@
 
 
         /** 图片处理 start*/
-        $(document).on('click', '[photo]', function () {
+        $('#station-add').on('click', '[photo]', function () {
             var photo = JSON.parse($(this).attr('photo'));
             var gallery = $(photo["gallery"]);
             var galleryImg = $(photo["galleryImg"]);
@@ -244,9 +258,15 @@
             gallery.fadeIn(100);
         });
 
-        $(document).on("click", '.weui-gallery', function () {
+        $('#station-add').on("click", '.weui-gallery', function () {
             outPop();
             $(this).fadeOut(100);
+        });
+
+        $('#station-add').on("click", '.weui-gallery__opr', function () {
+            var id = $(this).data('id');
+            var callback = $(this).data('callback');
+            eval(callback + '("' + id + '")');
         });
 
         function inPop(callback) {
