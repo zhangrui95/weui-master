@@ -168,7 +168,7 @@
             }else{
                 $.ajax({
                     type: "POST",
-                    url: "api/floor/save.json",
+                    url: "api/police/save.json",
                     data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,communityid:communityid,masterid:masterid},
                     success: function (data) {
                         var id = $('#next-step').data('id');
