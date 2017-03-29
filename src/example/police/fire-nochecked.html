@@ -170,6 +170,8 @@
                 var trash = $('.weui-gallery__opr');
                 trash.data('curr-media-id',null);
                 trash.data('curr-media-type',null);
+                $('#fire-nochecked').show();
+                $('#btnPanel').show();
                 $gallery.fadeOut(100);
             });
             $galleryImg.attr("style", target.getAttribute("style"));
@@ -179,15 +181,23 @@
             $gallery.fadeIn(100);
         };
         $uploaderFiles.on("click", "li", function(){
+            $('#fire-nochecked').hide();
+            $('#btnPanel').hide();
             preview(this,'check');
         });
         $uploaderBooks.on("click", "li", function(){
+            $('#fire-nochecked').hide();
+            $('#btnPanel').hide();
             preview(this,'legal');
         });
         $uploaderPerson.on("click", "li", function(){
+            $('#fire-nochecked').hide();
+            $('#btnPanel').hide();
             preview(this,'fire');
         });
         $gallery.on("click", function(){
+            $('#fire-nochecked').show();
+            $('#btnPanel').show();
             outPop();
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',null);
