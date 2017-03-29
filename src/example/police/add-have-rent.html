@@ -27,6 +27,8 @@
                 $searchText = $('#searchText'),
                 $searchInput = $('#searchInput'),
                 $searchClear = $('#searchClear');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
         function hideSearchResult(){
             $searchResult.hide();
             $searchInput.val('');
@@ -97,11 +99,10 @@
         };
         var policeId = container.data('self-policeId');
         var currDataList = window.dataList.newList(currDataListCfg);
-//        var val = container.data('data-list-val');
-        currDataList.first({});
+        currDataList.first({condition:value});
         var search = function(){
             var val=$searchInput.val();
-//            container.data('data-list-val',val);
+            container.data('data-list-val',val);
             if(val != ""){
                 currDataList.first({condition:val});
             }else{
@@ -125,10 +126,6 @@
                     }
                 })
         ;
-//        if(val!=null){
-//            $searchBar.addClass('weui-search-bar_focusing');
-//            $searchInput.val(val);
-//        }
         $('#showToast').on('click',function () {
             var floorId;
             var place;

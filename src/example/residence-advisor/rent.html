@@ -245,6 +245,7 @@
             tCount('');
         });
         $('#add-have-rent,#rent-add').click(function(){
+            container.data('data-list-val','');
             outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
