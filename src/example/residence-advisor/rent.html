@@ -53,6 +53,9 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
+        $cardInput.val(value);
         var currDataListCfg = {
             url:'api/floor/list.json',
             pagePanel:pagePanel,
@@ -171,9 +174,9 @@
             var urls = $(this).data('url');
             $('#cardInput').val('');
             $('#searchInput').val('');
-            currDataList.first({state:state});
+            currDataList.first({state:state,condition:''});
             if(state != currState){
-                currDataLists.first({state:state});
+                currDataLists.first({state:state,sfzh:''});
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
                 $(".weui-cells").hide();
@@ -183,8 +186,8 @@
             }
             return false;
         });
-        fCount();
-        tCount();
+        fCount(value);
+        tCount(value);
         function fCount(condition){
             $.ajax({
                 type: "POST",
@@ -223,10 +226,10 @@
             $('#tab1').hide();
             $('#searchBar').hide();
             $('#cardBar').show();
-            currDataLists.first({});
+            currDataLists.first({sfzh:value});
             $(target.attr("href")).fadeIn();
         }else{
-            currDataList.first({});
+            currDataList.first({condition:value});
         }
         $('#add').on('click',function(){
             $('#add,.add-rent-button,.already-have-rent').fadeOut(100);

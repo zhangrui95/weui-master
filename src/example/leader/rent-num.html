@@ -38,6 +38,8 @@
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         var container = $('#container');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
@@ -94,7 +96,7 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({});
+        currDataList.first({sfzh:value});
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
@@ -145,8 +147,8 @@
                 });
             });
         }
-        fCount();
-        fCounts();
+        fCount(value);
+        fCounts(value);
         function fCount(sfzh){
             $.ajax({
                 type: "POST",
@@ -173,6 +175,7 @@
         }
         //搜索身份证
         $searchClear.on('click',function(){
+            container.data('data-list-val','');
             $searchInput.val('');
             currDataList.first({sfzh:''});
             fCount('');

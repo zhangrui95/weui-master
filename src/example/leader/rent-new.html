@@ -41,6 +41,8 @@
         var policeSrc = container.data('data-police-header-img');
         var policeName = container.data('data-police-name');
         var masterid = container.data('data-masterid');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
@@ -101,9 +103,9 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val(),policeid:masterid});
-        fCount();
-        fCounts();
+        currDataList.first({userid:$('#userid').val(),policeid:masterid,sfzh:value});
+        fCount(value);
+        fCounts(value);
         function fCount(sfzh){
             $.ajax({
                 type: "POST",

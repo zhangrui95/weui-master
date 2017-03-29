@@ -39,6 +39,8 @@
         var pagePanel = $('.page__bd');
         var masterid = $container.data('data-masterid');
         var builderName = $container.data('data-builder-name');
+        var value = $container.data('data-list-val');
+        $searchInput.val(value);
         $('#add').on('click',function(){
             $('#pop-add-box').fadeOut(100);
         });
@@ -49,6 +51,9 @@
         });
         $searchClear.on('click',function(){
             $searchInput.val('');
+            $container.data('data-list-val','');
+            currDataList.first({condition:''});
+            fCount('');
         });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
@@ -107,7 +112,7 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val(),masterid:masterid});
+        currDataList.first({userid:$('#userid').val(),masterid:masterid,condition:value});
         //搜索地址
         var search = function(){
             var val=$searchInput.val();
@@ -123,7 +128,7 @@
         $searchInput.on('keyup',function(){
             window.lazyRateProxy(search,500);
         });
-        fCount();
+        fCount(value);
         function fCount(condition){
             $.ajax({
                 type: "POST",

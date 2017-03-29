@@ -61,6 +61,7 @@
             itemsPanel:$('#rent-box'),
             xhrExternalProcess : function (params,xhr) {
                    $('.rent-person-num,.builder-rent,#all-rent-building,.rent-num,.rent-build,.rent-person').on('click',function(){
+                       $container.data('data-list-val','');
                         var id = $(this).data('id');
                         window.pageManager.go(id);
                     });

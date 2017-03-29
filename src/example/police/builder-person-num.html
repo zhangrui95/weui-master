@@ -40,6 +40,8 @@
         var container = $('#container');
         var masterid = container.data('data-masterid');
         var builderName = container.data('data-builder-name');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
@@ -101,8 +103,8 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val(),masterid:masterid});
-        fCount();
+        currDataList.first({userid:$('#userid').val(),masterid:masterid,sfzh:value});
+        fCount(value);
         function fCount(sfzh){
             $.ajax({
                 type: "POST",
@@ -128,6 +130,7 @@
         //搜索身份证
         $searchClear.on('click',function(){
             $searchInput.val('');
+            container.data('data-list-val','');
             currDataList.first({sfzh:''});
             fCount('');
         });

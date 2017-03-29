@@ -112,6 +112,7 @@
             itemsPanel:$('#rent-box'),
             xhrExternalProcess : function (params,xhr) {
                 $('.rent-build,.rent-person').on('click',function(){
+                        container.data('data-list-val','');
                         var id = $(this).data('id');
                         window.pageManager.go(id);
                 });
@@ -165,6 +166,7 @@
             }
         });
         $('.rent-num,#all-rent-building,#rent-add,#add-have-rent').click(function(){
+            container.data('data-list-val','');
             outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
