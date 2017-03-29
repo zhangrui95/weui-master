@@ -75,6 +75,7 @@
         //选择社区
         $('#community').on('click',function(){
             $('#choice-list').html('');
+            $('input').blur();
             $.ajax({
                 type: "POST",
                 url: "api/police/community.json",
@@ -106,6 +107,9 @@
             });
         });
         //选择楼长
+        $('#residence-advisor').click(function(){
+            $('input').blur();
+        });
         function master(communityId){
             $('#choice-lists').html('');
             $.ajax({
