@@ -53,7 +53,7 @@
         var currState = '0';
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
-        var value = container.data('data-list-val');
+        var value = container.data('data-list-vals');
         var cardvalue = container.data('data-list-cardval');
         $searchInput.val(value);
         $cardInput.val(cardvalue);
@@ -178,7 +178,7 @@
             currDataList.first({state:state,condition:''});
             container.data('data-list-cardval','');
             if(state != currState){
-                container.data('data-list-val','');
+                container.data('data-list-vals','');
                 currDataLists.first({state:state,sfzh:''});
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
@@ -249,7 +249,7 @@
             tCount('');
         });
         $('#add-have-rent,#rent-add').click(function(){
-            container.data('data-list-val','');
+            container.data('data-list-vals','');
             outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
@@ -258,7 +258,7 @@
         //搜索地址
         var search = function(){
             var val=$searchInput.val();
-            container.data('data-list-val',val);
+            container.data('data-list-vals',val);
             if(val != ""){
                 currDataList.first({condition:val});
                 fCount(val);
