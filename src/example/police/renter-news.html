@@ -135,7 +135,7 @@
                 var delId =  $container.data('dara-cancel-id');
                 $.ajax({
                     type: "POST",
-                    url: "api/police/cancel.json",
+                    url: "api/tenant/cancel.json",
                     data:{userid:$('#userid').val(),id:delId},
                     success: function (data) {
                         $('#androidDialog2').fadeOut(100);
