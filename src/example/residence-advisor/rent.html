@@ -175,6 +175,8 @@
             var urls = $(this).data('url');
             $('#cardInput').val('');
             $('#searchInput').val('');
+            fCount('');
+            tCount('');
             currDataList.first({state:state,condition:''});
             container.data('data-list-cardval','');
             if(state != currState){
