@@ -21,7 +21,7 @@
     <div class="weui-tab">
         <div class="weui-navbar">
             <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">租住房屋<span id="number-left"></span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1" data-url="api/employee.json">租住人数<span id="number-right"></span></div>
+            <div class="weui-navbar__item" href="#tab2" data-state="1">租住人数<span id="number-right"></span></div>
         </div>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
@@ -54,8 +54,9 @@
         var container = $('#container');
         var pagePanel = container.find('.page .page__bd');
         var value = container.data('data-list-val');
+        var cardvalue = container.data('data-list-cardval');
         $searchInput.val(value);
-        $cardInput.val(value);
+        $cardInput.val(cardvalue);
         var currDataListCfg = {
             url:'api/floor/list.json',
             pagePanel:pagePanel,
@@ -175,7 +176,9 @@
             $('#cardInput').val('');
             $('#searchInput').val('');
             currDataList.first({state:state,condition:''});
+            container.data('data-list-cardval','');
             if(state != currState){
+                container.data('data-list-val','');
                 currDataLists.first({state:state,sfzh:''});
                 $('#container').data('detail-source-state',state);
                 var activeTab = $(this).attr("href");
@@ -187,7 +190,7 @@
             return false;
         });
         fCount(value);
-        tCount(value);
+        tCount(cardvalue);
         function fCount(condition){
             $.ajax({
                 type: "POST",
@@ -223,10 +226,11 @@
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            $cardInput.val(cardvalue);
             $('#tab1').hide();
             $('#searchBar').hide();
             $('#cardBar').show();
-            currDataLists.first({sfzh:value});
+            currDataLists.first({sfzh:cardvalue});
             $(target.attr("href")).fadeIn();
         }else{
             currDataList.first({condition:value});
