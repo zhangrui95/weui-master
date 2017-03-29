@@ -169,7 +169,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/police/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,communityid:communityid,masterid:masterid},
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
                     success: function (data) {
                         var id = $('#next-step').data('id');
                         window.pageManager.go(id);
@@ -210,7 +210,7 @@
                 $.ajax({
                     type: "POST",
                     url: "api/police/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,communityid:communityid,masterid:masterid},
+                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
                     success: function (data) {
                         var $toast = $('#toast');
                         if ($toast.css('display') != 'none') return;
