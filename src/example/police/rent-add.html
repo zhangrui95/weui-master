@@ -171,8 +171,6 @@
                     url: "api/police/save.json",
                     data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
                     success: function (data) {
-                        var id = $('#next-step').data('id');
-                        window.pageManager.go(id);
                         var ridg = ridgepole+'栋';
                         if(ridgepole.length==0||ridgepole==null){
                             ridg = '';
@@ -181,7 +179,17 @@
                         if(element.length==0||element==null){
                             ele = '';
                         }
-                        $container.data('data-floorid',data.floorid);
+                        if(data.floorid==null){
+                            $('#alert').html("保存失败！");
+                            $('#alert').fadeIn(100);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            var id = $('#next-step').data('id');
+                            window.pageManager.go(id);
+                            $container.data('data-floorid',data.floorid);
+                        }
                         var place = road+size+'号'+ridg+ele+door+'门';
                         $container.data('data-floor-place',place);
                     },
@@ -212,18 +220,27 @@
                     url: "api/police/save.json",
                     data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
                     success: function (data) {
-                        var $toast = $('#toast');
-                        if ($toast.css('display') != 'none') return;
-                        $toast.fadeIn(100);
-                        setTimeout(function () {
-                            $toast.fadeOut(100);
-                            $('#road,#size,#ridgepole,#element,#door').val('');
-                            $('#road,#size,#ridgepole,#element,#door').blur();
-                            $('#container').data('data-add-typeId','');
-                            $('#container').data('data-add-master','');
-                            $('#community').html('请选择');
-                            $('#residence-advisor').html('请选择')
-                        }, 2000);
+                        if(data.floorid==null){
+                            $('#alert').html("保存失败！");
+                            $('#alert').fadeIn(100);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            var $toast = $('#toast');
+                            if ($toast.css('display') != 'none') return;
+                            $toast.fadeIn(100);
+                            setTimeout(function () {
+                                $toast.fadeOut(100);
+                                $('#road,#size,#ridgepole,#element,#door').val('');
+                                $('#road,#size,#ridgepole,#element,#door').blur();
+                                $('#container').data('data-add-typeId','');
+                                $('#container').data('data-add-master','');
+                                $('#community').html('请选择');
+                                $('#residence-advisor').html('请选择')
+                            }, 2000);
+                            $container.data('data-floorid',data.floorid);
+                        }
                     },
                     error: function (mes) {
                         console.log("error");
