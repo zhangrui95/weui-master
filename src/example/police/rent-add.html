@@ -39,7 +39,7 @@
     <div>
         <div class="weui-mask" id="iosMask" style="display: none"></div>
         <div class="weui-actionsheet" id="iosActionsheet">
-            <div class="weui-actionsheet__menu" id="choice-list"></div>
+            <div class="weui-actionsheet__menu menu" id="choice-list"></div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
             </div>
@@ -48,7 +48,7 @@
     <div>
         <div class="weui-mask" id="iosMasks" style="display: none"></div>
         <div class="weui-actionsheet" id="iosActionsheets">
-            <div class="weui-actionsheet__menu" id="choice-lists"></div>
+            <div class="weui-actionsheet__menu menus" id="choice-lists"></div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
             </div>
@@ -83,6 +83,11 @@
                     for(var i = 0;i<data.length;i++){
                         $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].community.id+'>'+data[i].community.name+'</div>');
                     }
+                    if(data.length<4){
+                        $('.menu').css('height','auto');
+                    }else{
+                        $('.menu').css('height','193px');
+                    }
                     $iosActionsheet.addClass('weui-actionsheet_toggle');
                     $iosMask.fadeIn(200);
                     $('.type-choice-name').on('click',function(){
@@ -90,6 +95,8 @@
                         var communityId = $(this).attr('id');
                         $('#container').data('data-add-typeId',communityId);
                         master(communityId);
+                        $('#residence-advisor').html('请选择');
+                        $('#container').data('data-add-master','');
                         hideActionSheet();
                     });
                 },
@@ -100,11 +107,17 @@
         });
         //选择楼长
         function master(communityId){
+            $('#choice-lists').html('');
             $.ajax({
                 type: "POST",
                 url: "api/police/master.json",
                 data: {userid: $('#userid').val(),communityid:communityId},
                 success: function (data) {
+                    if(data.length<4){
+                        $('.menus').css('height','auto');
+                    }else{
+                        $('.menus').css('height','193px');
+                    }
                     for (var i = 0; i < data.length; i++) {
                         $('#choice-lists').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
                     }
