@@ -279,14 +279,14 @@
             }
         });
         $('#showToast').on('click',function(){
-            if(localId==null||localId==''){
-                $('#idCard').html("照片不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
-                return;
-            }
+//            if(localId==null||localId==''){
+//                $('#idCard').html("照片不能为空");
+//                $('#idCard').fadeIn(100);
+//                setTimeout(function () {
+//                    $('#idCard').fadeOut(100);
+//                }, 2000);
+//                return;
+//            }
             var value=$('#card').val().toUpperCase();
             if (value == '') {
                 $('#idCard').html("身份证号码不能为空");
@@ -337,9 +337,25 @@
                 url: "api/tenant/save.json",
                 async: true,
                 data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
-                success: function (card) {
-                    $('#personbackground').hide();
-                    idCardList();
+                success: function (card,xhr) {
+                    if(xhr.state == 1){
+                        $('#personbackground').hide();
+                        idCardList();
+                    }else if(xhr.state == 0){
+                        $('#idCard').html("保存失败");
+                        $('#idCard').fadeIn(100);
+                        setTimeout(function () {
+                            $('#idCard').fadeOut(100);
+                        }, 2000);
+                        return;
+                    }else if(xhr.state == -1){
+                        $('#idCard').html("保存失败，已有该人员信息");
+                        $('#idCard').fadeIn(100);
+                        setTimeout(function () {
+                            $('#idCard').fadeOut(100);
+                        }, 2000);
+                        return;
+                    }
                 },
                 error: function () {
                     $('#error').css("display","block");
