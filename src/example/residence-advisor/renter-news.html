@@ -332,9 +332,25 @@
                 url: "api/tenant/save.json",
                 async: true,
                 data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
-                success: function (card) {
-                    $('#personbackground').hide();
-                    idCardList();
+                success: function (card,data) {
+                    if(data.state == 1){
+                        $('#personbackground').hide();
+                        idCardList();
+                    }else if(data.state == 0){
+                        $('#idCard').html("保存失败");
+                        $('#idCard').fadeIn(100);
+                        setTimeout(function () {
+                            $('#idCard').fadeOut(100);
+                        }, 2000);
+                        return;
+                    }else if(data.state == -1){
+                        $('#idCard').html("保存失败，已有该人员信息");
+                        $('#idCard').fadeIn(100);
+                        setTimeout(function () {
+                            $('#idCard').fadeOut(100);
+                        }, 2000);
+                        return;
+                    }
                 },
                 error: function () {
                     $('#error').css("display","block");
