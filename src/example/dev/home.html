@@ -1,27 +1,27 @@
 <div style="width: 80%;margin: 0 auto;">
     <!-- build:[data-href] hotel -->
-    <button class="js_item1" data-href="hotel.html" style="width: 100%;height: 30px;margin-top: 20px;">旅店入口</button>
+    <button class="js_item1" data-href="hotel.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">旅店入口</button>
     <!-- /build -->
     <!-- build:[data-href] company -->
-    <button class="js_item2" data-href="company.html" style="width: 100%;height: 30px;margin-top: 20px;">企业从业人员上报入口</button>
+    <button class="js_item2" data-href="company.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">企业从业人员上报入口</button>
     <!-- /build -->
     <!-- build:[data-href] police -->
-    <button class="js_item3" data-href="police.html" style="width: 100%;height: 30px;margin-top: 20px;">民警入口</button>
+    <button class="js_item3" data-href="police.html" data-menu="police" style="width: 100%;height: 30px;margin-top: 20px;">民警入口</button>
     <!-- /build -->
     <!-- build:[data-href] leader -->
-    <button class="js_item4" data-href="leader.html" style="width: 100%;height: 30px;margin-top: 20px;">所长入口</button>
+    <button class="js_item4" data-href="leader.html" data-menu="leader" style="width: 100%;height: 30px;margin-top: 20px;">所长入口</button>
     <!-- /build -->
     <!-- build:[data-href] residence-advisor -->
-    <button class="js_item5" data-href="residence-advisor.html" style="width: 100%;height: 30px;margin-top: 20px;">社区楼长入口</button>
+    <button class="js_item5" data-href="residence-advisor.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">社区楼长入口</button>
     <!-- /build -->
      <!--build:[data-href] community-->
-    <button class="js_item6" data-href="community.html" style="width: 100%;height: 30px;margin-top: 20px;">社区领导入口</button>
+    <button class="js_item6" data-href="community.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">社区领导入口</button>
      <!--/build-->
     <!-- build:[data-href] station -->
-    <button class="js_item4" data-href="station.html" style="width: 100%;height: 30px;margin-top: 20px;">散装油交易登记</button>
+    <button class="js_item4" data-href="station.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">散装油交易登记</button>
     <!-- /build -->
     <!-- build:remove -->
-    <button class="js_item7" data-href="index.html" style="width: 100%;height: 30px;margin-top: 20px;">Demo</button>
+    <button class="js_item7" data-href="index.html" data-menu="company" style="width: 100%;height: 30px;margin-top: 20px;">Demo</button>
     <!-- /build -->
 </div>
 
@@ -29,7 +29,8 @@
     $(function () {
         $('[data-href]').on('click', function() {
             var url = $(this).attr('data-href');
-            window.location.href = url+'?userid='+$('#userid').val();
+            var menu = $(this).attr('data-menu');
+            window.location.href = url+'?userid='+$('#userid').val() +'&menu=dept_'+menu;
         });
     })
 </script>
