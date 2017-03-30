@@ -332,7 +332,7 @@
                 url: "api/tenant/save.json",
                 async: true,
                 data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
-                success: function (card,data) {
+                success: function (data) {
                     if(data.state == 1){
                         $('#personbackground').hide();
                         idCardList();
@@ -344,7 +344,7 @@
                         }, 2000);
                         return;
                     }else if(data.state == -1){
-                        $('#idCard').html("保存失败，已有该人员信息");
+                        $('#idCard').html("保存失败，此房已有该人员信息!");
                         $('#idCard').fadeIn(100);
                         setTimeout(function () {
                             $('#idCard').fadeOut(100);
