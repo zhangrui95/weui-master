@@ -4,42 +4,33 @@
         <div class="white-position" id="white-position">
             <div class="rent-num-box" id="all-rent-building" data-id="all-rent-building">
                 <dl class="num-center">
-                    <dt>29</dt>
+                    <dt id="all-build-num"></dt>
                     <dd>租住房屋</dd>
                 </dl>
             </div>
             <div class="rent-num-box rent-num-box-border" id="rent-num" data-id="rent-num">
                 <dl class="num-center">
-                    <dt>40</dt>
+                    <dt id="all-renter-num"></dt>
                     <dd>租住人数</dd>
                 </dl>
             </div>
         </div>
     </div>
     <div class="grayness-box">
-        <div class="gray-area">上报人员</div>
-        <div class="gray-num">租住房屋</div>
-        <div class="gray-rent">租住人数</div>
+        <div class="gray-area width-rent-box">上报人员</div>
+        <div class="gray-num width-rent-box">租住房屋</div>
+        <div class="gray-rent width-rent-box">租住人数</div>
     </div>
-    <div class="rent-box" id="rent-box"></div>
-    <div class="position-choice position-blue" id="choice-alert">
-        <img src="images/Iconset.png" class="choice-img"/>
-    </div>
-    <div class="rent-pop" id="filtrate">
-        <div class="filtrate-header rent-header">
-            <div class="fire-header-left-top">搜索条件</div>
-            <div class="fire-header-right" id="clear">取消</div>
-            <div class="input-border">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的信息" required/>
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-                </div>
+    <div class="page__bd cell_y bg-page bottom-cell-pad">
+        <div id="box" class="bg-box">
+            <div class="rent-box" id="rent-box"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
             </div>
-        </div>
-        <div class="btn-box" id="btnPanel" >
-            <!--<div class="imported-left" id="reset">重置</div>-->
-            <a class="btn" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
         </div>
     </div>
 </div>
@@ -47,86 +38,73 @@
     $(function(){
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
+        var container = $('#container');
         $searchClear.on('click',function(){
             $searchInput.val('');
         });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
+        var pagePanel = $('.page__bd');
+        var currDataListCfg = {
+            url:'api/communityLeader/list.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            xhrListKey:'',
+            itemsPanel:$('#rent-box'),
+            xhrExternalProcess : function (params,xhr) {
+                $('.rent-build,.rent-person,.rent-num-box').on('click',function(){
+                    container.data('data-list-val','');
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
+                });
+                $('.rent-news').on('click',function(){
+                    var masterid = $(this).attr('id');
+                    container.data('data-builder-name',$(this).find('.imgandname').html());
+                    container.data('data-masterid',masterid);
+                });
+            },
+            emptyCb : function () {
+                $('#rent-box').html('<div class="empty-box empty-box-fire">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (item,i) {
+                return '<div class="rent-news" id="'+i+'">'+
+                        '<div class="imgandname width-rent-box">'+
+                        item[0]+
+                        '</div>'+
+                        '<div class="num-width width-rent-box rent-build" data-id="builder-rent">'+item[1]+'</div>'+
+                        '<div class="num-width width-rent-box rent-person" data-id="rent-new"><span>' +item[2]+
+                        '</span></div>'+
+                        '</div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({userid:$('#userid').val()});
         $.ajax({
             type: "POST",
-            url: "api/firePlanItem/groupByUser.json",
-            data:{},
+            url: "api/communityLeader/total.json",
+            data:{userid:$('#userid').val()},
             success: function (data) {
-                for(var i = 0;i<data.list.length;i++){
-                    $('#rent-box').append(
-                            '<div class="rent-news">'+
-                            '<div class="imgandname">'+
-                            '<div class="imgname">'+
-                            '<img src="images/head.jpg" class="header-img">'+
-                            '<p>李春凤</p>'+
-                            '</div>'+
-                            '</div>'+
-                            '<div class="num-width builder-rent" data-id="builder-rent">4</div>'+
-                            '<div class="num-width rent-person-num" data-id="rent-new">12</div>'+
-                            '</div>'
-                    );
-                    $('.rent-person-num,.builder-rent,#all-rent-building,#rent-num').on('click',function(){
-                        var id = $(this).data('id');
-                        window.pageManager.go(id);
-                    });
-                };
+                $('#all-build-num').html(data.floor);
+                $('#all-renter-num').html(data.total);
             },
             error: function () {
             }
-        });
-        $('#choice-alert').on('mousedown',function(e){
-            var _event = window.event||e;
-            var left = _event.offsetX;
-            var top = _event.offsetY;
-            var downX = _event.pageX;
-            var downY = _event.pageY;
-            _event.preventDefault();
-            $('body').on('mousemove',function(e){
-                var _event = window.event||e;
-                var x = _event.clientX-left;
-                var y = _event.clientY-top;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('mouseup',function(e){
-                $('body').unbind();
-                var upX = e.pageX;
-                var upY = e.pageY;
-                var moveX = downX - upX;
-                var moveY = downY - upY;
-                if(moveX==0&&moveY==0){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
-        });
-        $('#choice-alert').on('touchstart',function(e){
-            var left = e.touches[0].pageX;
-            var top = e.touches[0].pageY;
-            e.preventDefault();
-            $('body').on('touchmove',function(e){
-                var x = e.touches[0].clientX-25;
-                var y = e.touches[0].clientY-25;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('touchend',function(e){
-                var endX = e.changedTouches[0].pageX;
-                var endY= e.changedTouches[0].pageY;
-                var moveX = left - endX;
-                var moveY = top -endY;
-                $('body').unbind();
-                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
         });
     });
 
