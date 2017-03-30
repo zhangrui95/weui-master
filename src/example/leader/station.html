@@ -2,7 +2,7 @@
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
-                <div class="top-title">散装油交易监管</div>
+                <div class="top-title pestp">散装油交易监管</div>
                 <div class="top-digital" id="station-count"></div>
             </div>
             <div id="box" class="bg-box">
@@ -55,9 +55,9 @@
             },
             templateProcess: function (item) {
                 return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '" data-num="' + item.num + '">' +
-                        '<div class="weui-media-box__bd stat-media-box__bd">' +
-                        '<h4 class="stat-media-box__title">' + item.name + '</h4>' +
-                        '<div class="stat-slip clearfix">' + item.num + '次</div>' +
+                        '<div class="weui-media-box__bd">' +
+                        '<h4 class="weui-media-box__title p-width">' + item.name + '</h4>' +
+                        '<div class="tiptop clearfix">' + item.num + '次</div>' +
                         '</div>' +
                         '</a>'
             },

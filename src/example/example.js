@@ -807,3 +807,24 @@ var generateUUID = function () {
     });
     return uuid;
 };
+
+/** 图片处理 start*/
+$('body').on('click', '[picture]', function () {
+    var _$ = $(this);
+    var picture = {};
+    if (_$.attr('picture') != '') {
+        picture = JSON.parse(_$.attr('picture'));
+    }
+    var gallery = weui.gallery(_$.attr('src'));
+    var onDelete = picture["onDelete"];
+    if (onDelete) {
+        $('.weui-gallery__del').on('click', function () {
+            var id = _$.attr('src');
+            eval(onDelete + '("' + id + '")');
+            gallery.hide();
+        })
+    }else{
+        $('.weui-gallery__del').hide();
+    }
+});
+/* 图片处理 end*/

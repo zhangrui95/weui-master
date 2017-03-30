@@ -93,7 +93,7 @@
                         $('#feedBack').hide();
                         // $('#work-reply').hide();
                     }
-                    if(policeState != 0){
+                    if (policeState != 0) {
                         $("#showToast").hide();
                     }
                 },
@@ -135,43 +135,30 @@
 
             var initList = function (data) {
                 var addChecks = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>');
+                    $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" picture/>');
                 }
 
                 var addTasks = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_tasks').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                            '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="api/task/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell__bd weui-cell_primary">' +
-                            '<p>' + item.card + '</p>' +
-                            '</div>' +
+                    $('#work_main_list_tasks').append(
+                            '   <a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '   <div class="weui-cell__hd">' +
+                            '       <img class="change-upload" src="api/task/photo?id=' + item.id + '" picture/>' +
+                            '   </div>' +
+                            '   <div class="weui-cell__bd weui-cell_primary">' +
+                            '       <p>' + item.card + '</p>' +
+                            '   </div>' +
                             '</a>');
                 }
 
                 var addEmployees = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_employees').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                            '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="api/employee/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell__bd weui-cell_primary">' +
-                            '<p>' + item.card + '</p>' +
-                            '</div>' +
+                    $('#work_main_list_employees').append(
+                            '<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '   <div class="weui-cell__hd">' +
+                            '       <img class="change-upload" src="api/employee/photo?id=' + item.id + '" picture/>' +
+                            '   </div>' +
+                            '   <div class="weui-cell__bd weui-cell_primary">' +
+                            '       <p>' + item.card + '</p>' +
+                            '   </div>' +
                             '</a>');
                 }
 
@@ -204,18 +191,15 @@
                             '</div>');
                 }
 
-                var getImagesHtml = function (items,type) {
+                var getImagesHtml = function (items, type) {
                     if (items == null) {
                         return '';
                     }
                     var html = '';
                     for (var i = 0; i < items.length; i++) {
-                        var uuid = generateUUID();
-                        html += '<a href="javascript:;"><img class="change-upload" src="api/'+type+'/photo?id=' + items[i].id + '" ' +
-                                'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                                '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                                '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                                '</div></a>';
+                        html += '<a href="javascript:;">' +
+                                '   <img class="change-upload" src="api/' + type + '/photo?id=' + items[i].id + '" picture/>' +
+                                '</a>';
                     }
                     return html;
                 }
@@ -243,15 +227,15 @@
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">检查现场</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(checks,'workMain') + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(checks, 'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">法律文书</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(papers,'workMain') + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(papers, 'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">企业负责人</label></div>' +
-                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(charger,'workMain') + '</div>' +
+                            '<div class="weui-cell__bd bd-right font-color blur">' + getImagesHtml(charger, 'workMain') + '</div>' +
                             '</div>' +
                             '<div class="none-flex cell-border">' +
                             '<div class="weui-cell__hd"><label class="weui-label">备注</label></div>' +
@@ -281,47 +265,17 @@
         }
 
         $('#work-reply').on('click', function () {
-            container.data("work_company",$('#work_main_value_company.name').text());
+            container.data("work_company", $('#work_main_value_company.name').text());
             window.pageManager.go('work-reply');
         });
 
-        $("#showToast").click(function (){
-            container.data("work_company",$('[id="work_main_value_company.name"]').text());
+        $("#showToast").click(function () {
+            container.data("work_company", $('[id="work_main_value_company.name"]').text());
             var id = $(this).data("id");
             window.pageManager.go(id);
         });
 
         initMain();
-
-        /** 图片处理 start*/
-        $(document).on('click', '[photo]', function () {
-            var photo = JSON.parse($(this).attr('photo'));
-            var gallery = $(photo["gallery"]);
-            var galleryImg = $(photo["galleryImg"]);
-            inPop(function () {
-                gallery.fadeOut(100);
-            });
-            galleryImg.attr("src", this.getAttribute("src"));
-            gallery.fadeIn(100);
-        });
-
-        $(document).on("click", '.weui-gallery', function () {
-            outPop();
-            $(this).fadeOut(100);
-        });
-
-        function inPop(callback) {
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
-
-        function outPop() {
-            pageManager.setBeforeHashchangeOnce(null)
-        }
-
-        /* 图片处理 end*/
 
     });
 

@@ -3,7 +3,7 @@
     <div class="page__bd details cells-ajax page_y">
         <div id="news-change">
             <div class="top-bg clearfix">
-                <div class="top-title" id="work_main_value_company.name"></div>
+                <div class="top-title pestp" id="work_main_value_company.name"></div>
                 <div class="top-operator"><a href="javascript:;" class="btn-blue" id="work_main_pass"
                                              style="display: none">通过</a></div>
             </div>
@@ -148,43 +148,30 @@
 
             var initList = function (data) {
                 var addChecks = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>');
+                    $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" picture/>');
                 }
 
                 var addTasks = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_tasks').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                            '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="api/task/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell__bd weui-cell_primary">' +
-                            '<p>' + item.card + '</p>' +
-                            '</div>' +
+                    $('#work_main_list_tasks').append(
+                            '   <a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '   <div class="weui-cell__hd">' +
+                            '       <img class="change-upload" src="api/task/photo?id=' + item.id + '" picture/>' +
+                            '   </div>' +
+                            '   <div class="weui-cell__bd weui-cell_primary">' +
+                            '       <p>' + item.card + '</p>' +
+                            '   </div>' +
                             '</a>');
                 }
 
                 var addEmployees = function (item) {
-                    var uuid = generateUUID();
-                    $('#work_main_list_employees').append('<a class="weui-cell weui-cell_access" href="javascript:;">' +
-                            '<div class="weui-cell__hd">' +
-                            '<img class="change-upload" src="api/employee/photo?id=' + item.id + '" ' +
-                            'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                            '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                            '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="weui-cell__bd weui-cell_primary">' +
-                            '<p>' + item.card + '</p>' +
-                            '</div>' +
+                    $('#work_main_list_employees').append(
+                            '<a class="weui-cell weui-cell_access" href="javascript:;">' +
+                            '   <div class="weui-cell__hd">' +
+                            '       <img class="change-upload" src="api/employee/photo?id=' + item.id + '" picture/>' +
+                            '   </div>' +
+                            '   <div class="weui-cell__bd weui-cell_primary">' +
+                            '       <p>' + item.card + '</p>' +
+                            '   </div>' +
                             '</a>');
                 }
 
@@ -221,14 +208,11 @@
                     if (items == null) {
                         return '';
                     }
-                    var uuid = generateUUID();
                     var html = '';
                     for (var i = 0; i < items.length; i++) {
-                        html += '<a href="javascript:;"><img class="change-upload" src="api/' + type + '/photo?id=' + items[i].id + '" ' +
-                                'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
-                                '<div class="weui-gallery" id="gallery_' + uuid + '">' +
-                                '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
-                                '</div></a>';
+                        html += '<a href="javascript:;">' +
+                                '   <img class="change-upload" src="api/' + type + '/photo?id=' + items[i].id + '" picture/>' +
+                                '</a>';
                     }
                     return html;
                 }
@@ -343,36 +327,6 @@
         });
 
         initMain();
-
-        /** 图片处理 start*/
-        $('#work-detail').on('click', '[photo]', function () {
-            var photo = JSON.parse($(this).attr('photo'));
-            var gallery = $(photo["gallery"]);
-            var galleryImg = $(photo["galleryImg"]);
-            inPop(function () {
-                gallery.fadeOut(100);
-            });
-            galleryImg.attr("src", this.getAttribute("src"));
-            gallery.fadeIn(100);
-        });
-
-        $('#work-detail').on("click", '.weui-gallery', function () {
-            outPop();
-            $(this).fadeOut(100);
-        });
-
-        function inPop(callback) {
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
-
-        function outPop() {
-            pageManager.setBeforeHashchangeOnce(null)
-        }
-
-        /* 图片处理 end*/
 
     });
 

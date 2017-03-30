@@ -11,16 +11,7 @@
                     </div>
                     <div class="weui-cell__bd bd-right font-color blur">
                         <input type="hidden" name="photo">
-                        <img class="change-upload" src="" photo='{"gallery":"#gallery","galleryImg":"#galleryImg"}'
-                             style="display: none"/>
-                        <div class="weui-gallery" id="gallery">
-                            <img class="weui-gallery__img center-img" id="galleryImg"/>
-                            <div class="weui-gallery__opr" data-callback="delPhoto">
-                                <a href="javascript:" class="weui-gallery__del">
-                                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <img class="change-upload" src="" picture='{"onDelete":"delPhoto"}' style="display: none"/>
                         <img id="uploader" class="change-upload" src="images/icon_pho.jpg"/>
                     </div>
                 </div>
@@ -44,10 +35,10 @@
                     </div>
                 </div>
                 <div class="none-flex cell-border cell-margin">
-                    <div class="weui-cell__hd"><label class="weui-label">购买量</label></div>
+                    <div class="weui-cell__hd"><label class="weui-label">购买量(L)</label></div>
                     <div class="weui-cell__bd bd-right font-color place-top" id="company-place">
                         <input class="input-change fire-num-box-border font-color" type="text" name="amount"
-                               placeholder="请输入购买量（单位：L）">
+                               placeholder="请输入购买量">
                     </div>
                 </div>
                 <div class="none-flex cell-border cell-margin">
@@ -86,7 +77,6 @@
                     var localId = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     var tmp = $('#form').find('[name="photo"]');
                     tmp.val(localId);
-                    tmp.next().next().find('.weui-gallery__opr').data('id', localId);
                     tmp.next().show().attr('src', localId);
                 },
                 fail: function (err) {
@@ -98,8 +88,6 @@
             var tmp = $('#form').find('[name="photo"]');
             tmp.val(null);
             tmp.next().hide().attr('src', null);
-            tmp.next().next().find('img').attr('src', null);
-            tmp.next().next().find('.weui-gallery__opr').data('id', null);
         }
 
         $('#purpose').on('click', function () {
@@ -247,39 +235,7 @@
 
 
         /** 图片处理 start*/
-        $('#station-add').on('click', '[photo]', function () {
-            var photo = JSON.parse($(this).attr('photo'));
-            var gallery = $(photo["gallery"]);
-            var galleryImg = $(photo["galleryImg"]);
-            inPop(function () {
-                gallery.fadeOut(100);
-            });
-            galleryImg.attr("src", this.getAttribute("src"));
-            gallery.fadeIn(100);
-        });
-
-        $('#station-add').on("click", '.weui-gallery', function () {
-            outPop();
-            $(this).fadeOut(100);
-        });
-
-        $('#station-add').on("click", '.weui-gallery__opr', function () {
-            var id = $(this).data('id');
-            var callback = $(this).data('callback');
-            eval(callback + '("' + id + '")');
-        });
-
-        function inPop(callback) {
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
-
-        function outPop() {
-            pageManager.setBeforeHashchangeOnce(null)
-        }
-
+        window["delPhoto"] = delPhoto;
         /* 图片处理 end*/
 
     })

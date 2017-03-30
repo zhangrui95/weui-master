@@ -115,8 +115,9 @@
                 $(this).text(val);
             });
             $('[id^="work_station_img_"]').each(function () {
-                var val = getValue(data, 'id');
-                $(this).attr('src', 'api/bulkOil/photo?id='+val);
+                var name = $(this).attr('id').substr(17);
+                var val = getValue(data, name);
+                $(this).attr('src', val);
             });
         }
 
