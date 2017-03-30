@@ -102,7 +102,7 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({condition:value});
+        currDataList.first({userid:$('#userid').val(),condition:value});
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
