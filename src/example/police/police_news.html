@@ -3,11 +3,12 @@
     <div id="menu" class="weui-grids"></div>
 </div>
 <script>
-
+    var target = $('#userPost').val();
+    target = target == null || target == '' ? 'police' : target;
     var menuOpt = {
         row:4,
         col:3,
-        target:'police',//police 民警 policeRAdmin 值班管理员 policeCAdmin企业管理员
+        target:target,//police 民警 policeRAdmin 值班管理员 policeCAdmin企业管理员
         beforePageChange : function (hash) {
             if (hash == 'police-clear-company' || hash == 'police-employee') {
                 var $container = $('#container');

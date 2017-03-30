@@ -3,10 +3,12 @@
     <div id="menu" class="weui-grids"></div>
 </div>
 <script>
+    var target = $('#userPost').val();
+    target = target == null || target == '' ? 'leader' : target;
     var menuOpt = {
         row:4,
         col:3,
-        target:'leader',
+        target:target,
         beforePageChange : function (hash) {
             if (hash == 'clear_data' || hash == 'employee') {
                 var $container = $('#container');
