@@ -15,15 +15,29 @@
 <body ontouchstart="">
 <!-- build:remove -->
 <input type="hidden" id="userid" value=""/>
+<input type="hidden" id="userPost" value=""/>
 <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
 <div class="container" id="container"></div>
 <!-- /build -->
 <link rel="import" href="./company/home.html">
-<link rel="import" href="company/employee-report.html">
+<link rel="import" href="./company/menu.html">
+<link rel="import" href="./company/employee-report.html">
 <!-- build:remove -->
 <script src="./zepto.min.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="./weui.min.js"></script>
+<script>
+    var href = window.location.href;
+    var idx = href.indexOf('menu=')
+    if(idx!=-1){
+        href = href.substring(idx+5);
+        idx = href.indexOf('&')
+        if(idx!=-1){
+            href = href.substring(0,idx);
+        }
+        $('#userPost').val(href)
+    }
+</script>
 <script src="./example.js"></script>
 <!-- /build -->
 </body>
