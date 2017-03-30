@@ -1,13 +1,16 @@
-<div class="page page-list">
-    <div class="position-choice position-blue" id="choice-alert">
-        <img src="images/Iconset.png" class="choice-img">
+<div class="page page-list police-rent">
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入搜索身份证号码" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+        </form>
     </div>
-    <div class="nocard-title" id="fire-choice-header">
-        <div class="fire-header-left">
-            <img src="images/head.jpg" class="police-header-img">
-            <span class="fire-head-name">李春凤</span>
-        </div>
-        <div class="right-title" id="number-right">45人</div>
+    <div class="search-results" id="search-results">
+        <span class="result-name"></span>
+        <span class="float-right"><span id="num-all-renter"></span>人</span>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -21,22 +24,10 @@
             </div>
         </div>
     </div>
-    <div class="rent-pop" id="filtrate">
-        <div class="filtrate-header rent-header">
-            <div class="fire-header-left-top">搜索条件</div>
-            <div class="fire-header-right" id="clear">取消</div>
-            <div class="input-border">
-                <div class="weui-search-bar__box">
-                    <i class="weui-icon-search"></i>
-                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的信息" required/>
-                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box" id="btnPanel" >
-            <!--<div class="imported-left" id="reset">重置</div>-->
-            <a class="btn" href="javascript:" id="showToast" data-id="fire-choice-list">查询</a>
-        </div>
+    <div class="pop-add-box" id="pop-add-box">
+        <div class="rent-pop" id="add"></div>
+        <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
+        <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
     </div>
 </div>
 <script>
@@ -45,36 +36,39 @@
         var pagePanel = $('.page__bd');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
+        var container = $('#container');
+        var builderName = container.data('data-builder-name');
+        var masterid = container.data('data-masterid');
+        var value = container.data('data-list-val');
+        $searchInput.val(value);
         $searchClear.on('click',function(){
             $searchInput.val('');
+        });
+        $('#add').on('click',function(){
+            $('#pop-add-box').fadeOut(100);
+        });
+        $('#rent-add,#add-have-rent').click(function(){
+            var id = $(this).data('id');
+            window.pageManager.go(id);
         });
         $('#clear').on('click',function () {
             $('#filtrate').fadeOut(100);
         });
         var currDataListCfg = {
-            url:'api/rentNew.json',
+            url:'api/communityLeader/listtenant.json',
             pagePanel:pagePanel,
             scrollPanel:pagePanel.find('#box'),
             winPanel:container,
+            xhrListKey:'',
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params) {
                 $(".weui-cell").on('click',function () {
-                    $('#container').data('data-list-employee-val',null);
-                    var allnum=$(this).find('.num-right .type-blue').text();
-                    if(allnum==0){
-                        $searchInput.blur();
-                        $('#alert').fadeIn(100);
-                        setTimeout(function () {
-                            $('#alert').fadeOut(100);
-                        }, 2000);
-                    }else{
-                        var cid = $(this).attr('id');
-                        container.data('data-company-name-cid',cid);
-                        var id = $('.weui-cell').data('id');
-                        $('#taskId').val($(this).data('tid'));
-                        window.pageManager.go(id);
-                    }
+                    var rid = $(this).data('rentid')
+                    container.data('data-renter-id',rid)
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
                 });
+                $('.result-name').html(builderName);
             },
             emptyCb : function () {
                 $('#list').html('<div class="empty-box">'+
@@ -87,11 +81,11 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (items) {
-                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="rent-detail" id="'+items.id+'">'+
+                return '<label class="weui-cell bg-cell weui-check__label check-border employee_lis" data-id="rent-detail" data-rentid="'+items.id+'" id="'+items.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
-                        '<div><span class="item-width" id="company-names">'+items.card+'</span></div>'+
-                        '<div class="size-new">'+items.community.name+'、'+items.community.advisor+'</div>'+
+                        '<div><span class="item-width" id="company-names">'+items.sfzh+'</span></div>'+
+                        '<div class="size-new">'+items.floor.community.name+'、'+items.floor.user.name+'</div>'+
                         '</div>'+
                         '</label>';
             },
@@ -104,54 +98,91 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({});
-        $('#choice-alert').on('mousedown',function(e){
-            var _event = window.event||e;
-            var left = _event.offsetX;
-            var top = _event.offsetY;
-            var downX = _event.pageX;
-            var downY = _event.pageY;
-            _event.preventDefault();
-            $('body').on('mousemove',function(e){
+        currDataList.first({userid:$('#userid').val(),masterid:masterid,sfzh:value});
+        fCount(value);
+        function fCount(sfzh){
+            $.ajax({
+                type: "POST",
+                url: "api/communityLeader/counttenant.json",
+                data:{userid:$('#userid').val(),sfzh:sfzh,masterid:masterid},
+                success: function (data) {
+                    $('#num-all-renter').html(data.count);
+                },
+                error: function () {
+                }
+            });
+        }
+        //搜索身份证
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+            currDataList.first({sfzh:'',userid:$('#userid').val(),masterid:masterid});
+            fCount('');
+        });
+        var search = function(){
+            var val=$searchInput.val().toUpperCase();
+            container.data('data-list-val',val);
+            if(val != ""){
+                currDataList.first({sfzh:val,userid:$('#userid').val(),masterid:masterid});
+                fCount(val);
+            }else{
+                currDataList.first({sfzh:'',userid:$('#userid').val(),masterid:masterid});
+                fCount('');
+            }
+        };
+        $searchInput.on('keyup',function(){
+            window.lazyRateProxy(search,500);
+        });
+        function alertPop(id,tid){
+            $(id).on('mousedown',function(e){
                 var _event = window.event||e;
-                var x = _event.clientX-left;
-                var y = _event.clientY-top;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
+                var left = _event.offsetX;
+                var top = _event.offsetY;
+                var downX = _event.pageX;
+                var downY = _event.pageY;
+                _event.preventDefault();
+                $('body').on('mousemove',function(e){
+                    var _event = window.event||e;
+                    var x = _event.clientX-left;
+                    var y = _event.clientY-top;
+                    $(id).css('left',x + "px");
+                    $(id).css('top',y + "px");
+                });
+                $(id).on('mouseup',function(e){
+                    $('body').unbind();
+                    var upX = e.pageX;
+                    var upY = e.pageY;
+                    var moveX = downX - upX;
+                    var moveY = downY - upY;
+                    if(moveX==0&&moveY==0){
+                        $searchInput.val('');
+                        $(tid).fadeIn(100);
+                    }
+                });
             });
-            $('#choice-alert').on('mouseup',function(e){
-                $('body').unbind();
-                var upX = e.pageX;
-                var upY = e.pageY;
-                var moveX = downX - upX;
-                var moveY = downY - upY;
-                if(moveX==0&&moveY==0){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
+            $(id).on('touchstart',function(e){
+                var left = e.touches[0].pageX;
+                var top = e.touches[0].pageY;
+                e.preventDefault();
+                $('body').on('touchmove',function(e){
+                    var x = e.touches[0].clientX-25;
+                    var y = e.touches[0].clientY-25;
+                    $(id).css('left',x + "px");
+                    $(id).css('top',y + "px");
+                });
+                $(id).on('touchend',function(e){
+                    var endX = e.changedTouches[0].pageX;
+                    var endY= e.changedTouches[0].pageY;
+                    var moveX = left - endX;
+                    var moveY = top -endY;
+                    $('body').unbind();
+                    if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                        $searchInput.val('');
+                        $(tid).fadeIn(100);
+                    }
+                });
             });
-        });
-        $('#choice-alert').on('touchstart',function(e){
-            var left = e.touches[0].pageX;
-            var top = e.touches[0].pageY;
-            e.preventDefault();
-            $('body').on('touchmove',function(e){
-                var x = e.touches[0].clientX-25;
-                var y = e.touches[0].clientY-25;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('touchend',function(e){
-                var endX = e.changedTouches[0].pageX;
-                var endY= e.changedTouches[0].pageY;
-                var moveX = left - endX;
-                var moveY = top -endY;
-                $('body').unbind();
-                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                    $searchInput.val('');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
-        });
+        }
+        alertPop('#add-new-rent','#pop-add-box,#add');
+        alertPop('#choice-alert','#filtrate');
     });
 </script>
