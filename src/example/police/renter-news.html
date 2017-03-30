@@ -279,14 +279,14 @@
             }
         });
         $('#showToast').on('click',function(){
-//            if(localId==null||localId==''){
-//                $('#idCard').html("照片不能为空");
-//                $('#idCard').fadeIn(100);
-//                setTimeout(function () {
-//                    $('#idCard').fadeOut(100);
-//                }, 2000);
-//                return;
-//            }
+            if(localId==null||localId==''){
+                $('#idCard').html("照片不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
+                return;
+            }
             var value=$('#card').val().toUpperCase();
             if (value == '') {
                 $('#idCard').html("身份证号码不能为空");
@@ -338,6 +338,7 @@
                 async: true,
                 data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
                 success: function (card,data) {
+                    console.log(data.state);
                     if(data.state == 1){
                         $('#personbackground').hide();
                         idCardList();
