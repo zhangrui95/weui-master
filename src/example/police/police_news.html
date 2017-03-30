@@ -1,78 +1,35 @@
 <div class="page">
     <div class="header-bg" id="imgandname"></div>
-    <div  class="weui-grids">
-        <!-- build:[data-href] leader -->
-        <a href="javascript:;" class="weui-grid" data-href="leader.html" data-id="police-clear-company" id="police-clear">
-            <!-- /build -->
-            <div class="weui-grid__icon">
-                <img src="images/icon9.png" alt="" class="radius">
-            </div>
-            <p class="weui-grid__label">企业管理</p>
-        </a>
-        <a href="javascript:;" class="weui-grid" data-id="tab">
-            <div class="weui-grid__icon">
-                <img src="images/icon2.png" alt=""  class="radius">
-                <span class="weui-badge" style="position: absolute;top: -0.8em;left: 2.2em;" id="count"></span>
-            </div>
-            <p class="weui-grid__label">未带身份证入住</p>
-        </a>
-        <a href="javascript:;" class="weui-grid" data-id="company-list" id="employ">
-            <div class="weui-grid__icon">
-                <img src="images/icon3.png" alt=""  class="radius">
-                <span class="weui-badge" style="position: absolute;top: -0.8em;left: 2.2em;" id="employes"></span>
-            </div>
-            <p class="weui-grid__label">从业人员上报</p>
-        </a>
-        <a href="javascript:;" class="weui-grid" data-id="police-employee"  id="clear">
-            <div class="weui-grid__icon">
-                <img src="images/icon8.png" alt=""  class="radius">
-            </div>
-            <p class="weui-grid__label">从业人员统计</p>
-        </a>
-        <a href="javascript:;" class="weui-grid"  data-id="fire">
-            <div class="weui-grid__icon">
-                <img src="images/icon10.png" alt=""  class="radius">
-            </div>
-            <p class="weui-grid__label">消防安全</p>
-        </a>
-        <a href="javascript:;" class="weui-grid"  data-id="rent">
-            <div class="weui-grid__icon">
-                <img src="images/icon7.png" alt=""  class="radius">
-            </div>
-            <p class="weui-grid__label">出租房管理</p>
-        </a>
-        <a href="javascript:;" class="weui-grid"  data-id="police-dynamic">
-            <div class="weui-grid__icon">
-                <img src="images/icon11.png" alt=""  class="radius">
-            </div>
-            <p class="weui-grid__label">所内工作</p>
-        </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
-        <a href="javascript:;" class="weui-grid">
-        </a>
-    </div>
+    <div id="menu" class="weui-grids"></div>
 </div>
 <script>
-    $('#clear,#police-clear').on('click',function(){
-        $('#container').data('data-choice-type-ids','');
-        $('#container').data('data-choice-police-ids','');
-        $('#container').data('data-groupId','');
-    });
-    var post = $('#userPost').val()
-    $.ajax({
-        type: "POST",
-        url: "api/user/policeInfo.json",
-        data:{userid:$('#userid').val()},
-        success: function (data) {
-            $("#count").html(data.count);
-            $('#employes').html(data.employes);
+
+    var menuOpt = {
+        row:4,
+        col:3,
+        target:'police',//police 民警 policeRAdmin 值班管理员 policeCAdmin企业管理员
+        beforePageChange : function (hash) {
+            if (hash == 'police-clear-company' || hash == 'police-employee') {
+                var $container = $('#container');
+                $container.data('data-choice-type-ids', '');
+                $container.data('data-choice-police-ids', '');
+                $container.data('data-groupId', '');
+            }
+        },
+        processMenuItem: function (item) {
+            var data = (item||{}).data||{};
+            var rota = data.rota;
+            if(rota ==　null ||　rota.length < 1){
+                return;
+            }
+            var first = rota[0];
+            $('#container').data('today-rota-id',first.user.id);
+            $('#imgandname').html('今日值班民警：<span>'+first.user.name+'</span>');
+        },
+        processExData:function (data) {
+            if(data==null){
+                return;
+            }
             if(data.avatar==null||data.avatar==''){
                 data.avatar = 'images/head.jpg'
             }else{
@@ -80,17 +37,10 @@
             }
             $('#imgandname').html('<img src="'+data.avatar+'" class="police-header-img" /><span class="head-name">'+data.name+'</span>');
             $('#container').data('self-policeId',data.policeId);
-            $('.weui-grid').on('click', function(){
-                var id = $(this).data('id');
-                if(id == 'police-clear-company' && post == '企业管理员'){
-                    var url = $(this).data('href');
-                    window.location.href = url+'?userid='+$('#userid').val()+'#clear_data';
-                }else{
-                    window.pageManager.go(id);
-                }
-            });
         },
-        error: function (mes) {
+        error:function (err) {
+            console.log(err)
         }
-    });
+    };
+    initMenu(menuOpt);
 </script>

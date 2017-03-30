@@ -331,6 +331,92 @@ $(function () {
         }
     };
 
+    var menuOpt = {
+        url:'api/menu.json',
+        target:undefined,
+        menu:'#menu',
+        row:0,
+        col:1,
+        processExData:function (data) {},
+        processMenuItem:function (item) {},
+        beforePageChange:function (hash,url) {},
+        error:function (err) {}
+    };
+
+    var maxLen = function (menu, option) {
+        var len = menu.length, setLen = option.col * option.row;
+        if (len > setLen) {
+            var off = len % option.col;
+            len = off == 0 ? len : (len + option.col - off)
+        } else {
+            len = setLen;
+        }
+        return len;
+    };
+    var renderMenuItem = function (item) {
+        var html = '';
+        if(item == null){
+            html += '<a href="javascript:;" class="weui-grid"></a>';
+        }else{
+            var dataIdAttr = item.hash==null||item.hash==''?'':('data-id="'+item.hash+'"');
+            var dataHrefAttr = item.href==null||item.href==''?'':('data-href="'+item.href+'"');
+            html += '<a href="javascript:;" class="weui-grid" '+dataHrefAttr+' '+dataIdAttr+'>' +
+                '<div class="weui-grid__icon">' +
+                '<img src="'+item.icon+'" alt="" class="radius">';
+            if(item.num != null){
+                html += '<span class="weui-badge" style="position: absolute;top: -0.8em;left: 2.2em;">'+item.num+'</span>';
+            }
+            html += '</div><p class="weui-grid__label">'+item.name+'</p></a>';
+        }
+        return html;
+    };
+    var renderMenu = function (option, menu) {
+        var len = maxLen(menu, option);
+        var html = '';
+        for (var i = 0; i < len; i++) {
+            option.processMenuItem(menu[i]);
+            html += renderMenuItem(menu[i]);
+        }
+        $(option.menu).html(html);
+    };
+    var bindMenuItemHandler = function (option) {
+        $('.weui-grid').on('click', function () {
+            var oThis = $(this);
+            var id = oThis.data('id');
+            var url = oThis.data('href');
+            option.beforePageChange(id,url);
+            if(url==null||url==''){
+                window.pageManager.go(id);
+            }else{
+                var hashSuffix = id==null||id==''?'':('#'+id);
+                window.location.href = url+'?userid='+$('#userid').val()+hashSuffix;
+            }
+        });
+    };
+    var initMenu = function (opt) {
+        var option = $.extend({},menuOpt,opt);
+        $.ajax({
+            type: "POST",
+            url: option.url,
+            data:{userid:$('#userid').val(),target:option.target},
+            success: function (xhr) {
+                if(xhr == null){
+                    return
+                }
+                option.processExData(xhr.data);
+                var menu = xhr.menu;
+                if(menu == null || menu.length == null || menu.length == 0){
+                    return
+                }
+                renderMenu(option, menu);
+                bindMenuItemHandler(option);
+            },
+            error: function (err) {
+                option.error(err)
+            }
+        });
+    };
+
     var webMoveCfg = {
         startEventName : 'mousedown',
         endEventName : 'mouseup',
@@ -555,6 +641,7 @@ $(function () {
         swipe();
         androidInputBugFix();
         setJSAPI();
+        window.initMenu = initMenu;
         window.dataList = dataList;
         window.lazyRateProxy = lazyRateProxy;
 
