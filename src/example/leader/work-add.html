@@ -111,7 +111,6 @@
 
         var delChecks = function (localId) {
             var img = $('#work_list_check').find('img[src="' + localId + '"].change-upload');
-            img.next().remove();
             img.remove();
             addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]').remove();
         };
