@@ -202,10 +202,10 @@
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',null);
             trash.data('curr-media-type',null);
-            $gallery.hide();
+            $gallery.fadeOut(100);
         });
         $('.weui-gallery__opr').click(function () {
-            $androidDialog2.show();
+            $androidDialog2.fadeIn(100);
             var oThis = $(this);
             var curr = oThis.data('curr-media-id');
             var type = oThis.data('curr-media-type');
@@ -221,10 +221,10 @@
                 if(imgList){
                     imgList.find('[data-media-id="'+curr+'"]').remove();
                 }
-                $androidDialog2.hide();
+                $androidDialog2.fadeOut(100);
             });
             $('#cancel').on('click',function(){
-                $androidDialog2.hide();
+                $androidDialog2.fadeOut(100);
             });
         });
         function addImg(checkIds,legalIds,fireIds){
