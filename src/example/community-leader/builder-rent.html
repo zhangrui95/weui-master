@@ -92,7 +92,7 @@
                 if(item.unit==null||item.unit.length==0){
                     units = '';
                 }
-                var place = item.street+'路/街'+item.num+'号'+ridg+units+item.door+'门'
+                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
                 var renterNum = item.tenants.length;
                 return ' <div class="joint-border position-del-box" data-id="renter-news" id="'+item.id+'">' +
                         '<img src="images/list-left.jpg" class="rent-img-list">'+

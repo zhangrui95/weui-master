@@ -39,6 +39,13 @@
             </div>
         </div>
     </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">上传成功</p>
+        </div>
+    </div>
     <div class="weui-btn-area">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
     </div>
@@ -204,6 +211,12 @@
                 async: true,
                 data:{card:value,userid:$('#userid').val(),serverId:serverId},
                 success: function (card) {
+                    var $toast = $('#toast');
+                    if ($toast.css('display') != 'none') return;
+                    $toast.fadeIn(100);
+                    setTimeout(function () {
+                        $toast.fadeOut(100);
+                    }, 2000);
                     wx.closeWindow();
                 },
                 error: function () {
