@@ -1,9 +1,14 @@
 <div class="page page-list company-list js_show">
     <img class="change-replay" src="assets/icon-reply.png" id="work-reply" data-id="work-reply" style="display: none">
-    <div class="page__bd details cells-ajax page_y">
+    <div class="page__bd details cells-ajax page_y page-height">
         <div id="news-change">
             <div class="top-bg clearfix">
-                <div class="top-title" id="work_main_value_company.name"></div>
+                <div class="top-title pestp" id="work_main_value_company.name"></div>
+                <div class="top-operator">
+                    <div data-id="work-feedback">
+                        <a class="btn-blue" href="javascript:" id="showToast" data-id="work-feedback">反馈</a>
+                    </div>
+                </div>
             </div>
             <div class="feedback-content" id="work_reply_list_reply">
             </div>
@@ -58,9 +63,7 @@
 
         </div>
     </div>
-    <div class="btn-box btn-box-pro" data-id="work-feedback">
-        <a class="btn" href="javascript:" id="showToast" data-id="work-feedback">反馈</a>
-    </div>
+
 </div>
 <script type="text/javascript">
     $(function () {
