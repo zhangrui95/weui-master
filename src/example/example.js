@@ -421,10 +421,10 @@ $(function () {
                 if(menu == null || menu.length == null || menu.length == 0){
                     return
                 }
-                if(menu.length == 1){
-                    redirectOneItem(option, menu[0]);
-                    return;
-                }
+                // if(menu.length == 1){
+                //     redirectOneItem(option, menu[0]);
+                //     return;
+                // }
                 renderMenu(option, menu);
                 bindMenuItemHandler(option);
             },
