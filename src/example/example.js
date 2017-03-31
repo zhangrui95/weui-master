@@ -386,7 +386,7 @@ $(function () {
             var url = oThis.data('href');
             option.beforePageChange(id,url);
             if(url==null||url==''){
-                if(id==null||id==''){
+                if(id!=null&& id!=''){
                     window.pageManager.go(id);
                 }
             }else{
