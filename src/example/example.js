@@ -386,7 +386,9 @@ $(function () {
             var url = oThis.data('href');
             option.beforePageChange(id,url);
             if(url==null||url==''){
-                window.pageManager.go(id);
+                if(id==null||id==''){
+                    window.pageManager.go(id);
+                }
             }else{
                 var hashSuffix = id==null||id==''?'':('#'+id);
                 window.location.href = url+'?userid='+$('#userid').val()+hashSuffix;
