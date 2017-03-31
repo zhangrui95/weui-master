@@ -172,13 +172,13 @@
                 trash.data('curr-media-type',null);
                 $('#fire-nochecked').show();
                 $('#btnPanel').show();
-                $gallery.fadeOut(100);
+                $gallery.hide();
             });
             $galleryImg.attr("style", target.getAttribute("style"));
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',$(target).data('media-id'));
             trash.data('curr-media-type',type);
-            $gallery.fadeIn(100);
+            $gallery.show();
         };
         $uploaderFiles.on("click", "li", function(){
             $('#fire-nochecked').hide();
@@ -202,10 +202,10 @@
             var trash = $('.weui-gallery__opr');
             trash.data('curr-media-id',null);
             trash.data('curr-media-type',null);
-            $gallery.fadeOut(100);
+            $gallery.hide();
         });
         $('.weui-gallery__opr').click(function () {
-            $androidDialog2.fadeIn(100);
+            $androidDialog2.show();
             var oThis = $(this);
             var curr = oThis.data('curr-media-id');
             var type = oThis.data('curr-media-type');
@@ -221,10 +221,10 @@
                 if(imgList){
                     imgList.find('[data-media-id="'+curr+'"]').remove();
                 }
-                $androidDialog2.fadeOut(100);
+                $androidDialog2.hide();
             });
             $('#cancel').on('click',function(){
-                $androidDialog2.fadeOut(100);
+                $androidDialog2.hide();
             });
         });
         function addImg(checkIds,legalIds,fireIds){
