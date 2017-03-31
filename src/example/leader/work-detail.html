@@ -126,7 +126,7 @@
                     }
                 }
                 return tmp;
-            }
+            };
 
             var initValue = function (data) {
                 $('[id^="work_main_value_"]').each(function () {
@@ -144,12 +144,12 @@
                     var val = getLocalDate(getValue(data, name));
                     $(this).text(val);
                 });
-            }
+            };
 
             var initList = function (data) {
                 var addChecks = function (item) {
                     $('#work_main_list_checks').prepend('<img class="change-upload" src="api/workMain/photo?id=' + item.id + '" picture/>');
-                }
+                };
 
                 var addTasks = function (item) {
                     $('#work_main_list_tasks').append(
@@ -161,7 +161,7 @@
                             '       <p>' + item.card + '</p>' +
                             '   </div>' +
                             '</a>');
-                }
+                };
 
                 var addEmployees = function (item) {
                     $('#work_main_list_employees').append(
@@ -173,7 +173,7 @@
                             '       <p>' + item.card + '</p>' +
                             '   </div>' +
                             '</a>');
-                }
+                };
 
                 $('[id^="work_main_list_"]').each(function () {
                     var name = $(this).attr('id').substr(15);
@@ -184,7 +184,7 @@
                                 }) + '(val[i])');
                     }
                 });
-            }
+            };
 
             var initReply = function (replys) {
 
@@ -202,7 +202,7 @@
                             '<div class="weui-cell__bd bd-right font-color place-top">' + getLocalTime(item.createTime) + '</div>' +
                             '</div>' +
                             '</div>');
-                }
+                };
 
                 var getImagesHtml = function (items, type) {
                     if (items == null) {
@@ -215,7 +215,7 @@
                                 '</a>';
                     }
                     return html;
-                }
+                };
 
                 var addPoliceReply = function (item) {
                     var checks = [];
@@ -258,7 +258,7 @@
                             '<div class="weui-cell__hd"><label class="weui-label">提交时间</label></div>' +
                             '<div class="weui-cell__bd bd-right font-color place-top">' + getLocalTime(item.createTime) + '</div>' +
                             '</div>');
-                }
+                };
 
                 var addReply = function (item) {
                     if (item.checks == null || item.checks.length == 0) {
@@ -266,7 +266,7 @@
                     } else {
                         addPoliceReply(item);
                     }
-                }
+                };
 
                 replys.sort(function (o1, o2) {
                     return o2.createTime - o1.createTime;
@@ -276,24 +276,26 @@
                 }
 
             }
-        }
+        };
 
         $('#work-reply').on('click', function () {
             window.pageManager.go('work-reply');
         });
 
         $('#work_main_pass').on('click', function () {
-            $.ajax({
-                type: "POST",
-                url: "api/workMain/updateState.json",
-                data: {id: id, state: 1, userid: $('#userid').val()},
-                success: function (data) {
-                    $('#work_main_pass').hide();
-                    $('#work-reply').hide();
-                },
-                error: function (mes) {
-                    console.log("error");
-                }
+            confirmDialog('确定通过该工作？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "api/workMain/updateState.json",
+                    data: {id: id, state: 1, userid: $('#userid').val()},
+                    success: function (data) {
+                        $('#work_main_pass').hide();
+                        $('#work-reply').hide();
+                    },
+                    error: function (mes) {
+                        console.log("error");
+                    }
+                });
             });
         });
 
@@ -327,6 +329,12 @@
         });
 
         initMain();
+
+        /** 图片处理 start*/
+        $('#work-detail').on('click', '[picture]', function () {
+            picturePreview($(this));
+        });
+        /* 图片处理 end*/
 
     });
 
