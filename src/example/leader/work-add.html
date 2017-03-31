@@ -83,7 +83,7 @@
             } else {
                 addWorkForm.append('<input type="hidden" name="' + name + '" value="' + val + '">');
             }
-        }
+        };
 
         addWorkForm.find('input').each(function () {
             var tmp = $(this).attr('name');
@@ -106,18 +106,15 @@
         var checkUploader = $("#checkUploader");
 
         var addChecks = function (localId) {
-            var element = $('<img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delChecks"}\'/>').prependTo('#work_list_check');
-            element.on('click', function () {
-                picturePreview($(this));
-            });
-        }
+            $('#work_list_check').prepend('<img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delChecks"}\'/>');
+        };
 
         var delChecks = function (localId) {
             var img = $('#work_list_check').find('img[src="' + localId + '"].change-upload');
             img.next().remove();
-            img.remove()
+            img.remove();
             addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]').remove();
-        }
+        };
 
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
             addChecks($(this).val());
@@ -151,7 +148,7 @@
 
         /** 未带身份证 start*/
         var addTasks = function (id, localId) {
-            var element = $(
+            $('#hotel').append(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
                     '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delTasks"}\'/>' +
@@ -159,12 +156,9 @@
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
                     '   </div>' +
-                    '</div>')
-                    .appendTo('#hotel');
-            element.find('.change-upload').on('click', function () {
-                picturePreview($(this));
-            });
-        }
+                    '</div>'
+            );
+        };
 
         var delTasks = function (localId) {
             var img = $('#hotel').find('img[src="' + localId + '"].change-upload');
@@ -174,7 +168,7 @@
             var card = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'card' + '"]');
             photo.remove();
             card.remove();
-        }
+        };
 
         addWorkForm.find('input[name^="work_list_tasks"][name$="card"]').each(function () {
             var card = $(this).val();
@@ -186,12 +180,12 @@
         var hotel = $('#hotel-add');
         hotel.on('click', function (e) {
             window.pageManager.go('work-hotel');
-        })
+        });
         /** 未带身份证 end*/
 
         /** 从业人员 start*/
         var addEmployees = function (id, localId) {
-            var element = $(
+            $('#employee-report').append(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
                     '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delEmployees"}\'/>' +
@@ -199,11 +193,9 @@
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
                     '   </div>' +
-                    '</div>').appendTo('#employee-report');
-            element.find('.change-upload').on('click', function () {
-                picturePreview($(this));
-            });
-        }
+                    '</div>'
+            );
+        };
 
         var delEmployees = function (localId) {
             var img = $('#employee-report').find('img[src="' + localId + '"].change-upload');
@@ -213,7 +205,7 @@
             var card = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'card' + '"]');
             photo.remove();
             card.remove();
-        }
+        };
 
         addWorkForm.find('input[name^="work_list_employees"][name$="card"]').each(function () {
             var card = $(this).val();
@@ -225,7 +217,7 @@
         var employeeReport = $('#employee-report-add');
         employeeReport.on('click', function (e) {
             window.pageManager.go('work-employee-report');
-        })
+        });
         /** 未带身份证 end*/
 
         /** 处理期限 start*/
@@ -243,12 +235,6 @@
             });
         });
         /** 处理期限 end*/
-
-        /** 处理意见 start*/
-        $('#work_value_advice').change(function () {
-            addFormElement('work_value_advice', $('#work_value_advice').val());
-        });
-        /** 处理意见 end*/
 
         /** 保存start*/
         $('#showToast').on('click', function () {
@@ -269,6 +255,11 @@
 
         var save = function () {
             var localIds = [];
+
+            /** 处理意见 start*/
+            addFormElement('work_value_advice', $('#work_value_advice').val());
+            /** 处理意见 end*/
+
             addWorkForm.find('input').each(function () {
                 var tmp = $(this).attr('name');
                 if (tmp.indexOf('work_value_') > -1) {
@@ -289,7 +280,7 @@
             } else {
                 postData();
             }
-        }
+        };
 
         var name2name = function (name) {
             return name.replace(/\-(\w)/g, function (all, letter) {
@@ -297,7 +288,7 @@
             }).replace(/\_(\w)/g, function (all, letter) {
                 return letter.toUpperCase();
             });
-        }
+        };
 
         var recursionUploadImg = function (localIds) {
             var tmp = localIds.pop();
@@ -337,11 +328,14 @@
                     tag = false;
                 }
             });
-        }
+        };
 
         /** 保存end*/
 
         /** 图片处理 start*/
+        $('#work-add').on('click', '[picture]', function () {
+            picturePreview($(this));
+        });
         window["delChecks"] = delChecks;
         window["delTasks"] = delTasks;
         window["delEmployees"] = delEmployees;

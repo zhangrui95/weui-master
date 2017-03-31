@@ -89,7 +89,7 @@
             var tmp = $('#form').find('[name="photo"]');
             tmp.val(null);
             tmp.next().hide().attr('src', null);
-        }
+        };
 
         $('#purpose').on('click', function () {
             weui.picker([{
@@ -236,6 +236,9 @@
 
 
         /** 图片处理 start*/
+        $('#station-add').on('click', '[picture]', function () {
+            picturePreview($(this));
+        });
         window["delPhoto"] = delPhoto;
         /* 图片处理 end*/
 

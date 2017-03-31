@@ -834,14 +834,11 @@ var picturePreview = function($selector){
     if ($selector.attr('picture') != '') {
         picture = JSON.parse($selector.attr('picture'));
     }
-    $('#work_list_check').append(JSON.stringify(picture));
     var gallery = weui.gallery($selector.attr('src'));
     var onDelete = picture["onDelete"];
-    $('#work_list_check').append(onDelete);
     if (onDelete) {
         $('.weui-gallery__del').on('click', function () {
             var id = $selector.attr('src');
-            $('#work_list_check').append(onDelete + '("' + id + '")');
             eval(onDelete + '("' + id + '")');
             gallery.hide();
         })
@@ -849,7 +846,3 @@ var picturePreview = function($selector){
         $('.weui-gallery__del').hide();
     }
 };
-
-$('body').on('click', '[picture]', function () {
-    picturePreview($(this));
-});

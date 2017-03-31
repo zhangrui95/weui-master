@@ -123,26 +123,27 @@
             $('#empty').css('display', 'none');
             var value = $('#card').val();
             if (value == '') {
-                $('#idCard').html("*身份证号码不能为空");
+                $('#idCard').html("身份证号码不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
             } else if (!cardValid(value)) {
-                $('#idCard').html("*无效的身份证号码");
+                $('#idCard').html("无效的身份证号码");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 $('#empty').css('display', 'block');
                 return;
             }
         });
-        $('#card').focus(function () {
-            $('#idCard').html("");
-        });
         $('#card').keyup(function () {
-            if (cardValid(($('#card').val()))) {
-                $('#idCard').html("");
-            }
             if (($('#card').val() + "").length >= 1) {
                 $('#empty').css('display', 'block');
                 $('#empty').click(function () {
                     $('#card').val('');
                     $('#empty').css('display', 'none');
-                    $('#idCard').html("");
                 })
             } else {
                 $('#empty').css('display', 'none');
@@ -150,15 +151,27 @@
         });
         $('#showToast').on('click', function () {
             if (localId == null || localId == '') {
-                $('#idCard').html("*照片不能为空");
+                $('#idCard').html("照片不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 return;
             }
             var value = $('#card').val();
             if (value == '') {
-                $('#idCard').html("*身份证号码不能为空");
+                $('#idCard').html("身份证号码不能为空");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 return;
             } else if (!cardValid(value)) {
-                $('#idCard').html("*无效的身份证号码");
+                $('#idCard').html("无效的身份证号码");
+                $('#idCard').fadeIn(100);
+                setTimeout(function () {
+                    $('#idCard').fadeOut(100);
+                }, 2000);
                 $('#empty').css('display', 'block');
                 return;
             }

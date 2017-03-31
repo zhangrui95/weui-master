@@ -1,4 +1,4 @@
-<div class="page page-list company-list js_show">
+<div id="work-detail" class="page page-list company-list js_show">
     <img class="change-replay" src="assets/icon-reply.png" id="work-reply" data-id="work-reply" style="display: none">
     <div class="page__bd details cells-ajax page_y page-height">
         <div id="news-change">
@@ -279,6 +279,12 @@
         });
 
         initMain();
+
+        /** 图片处理 start*/
+        $('#work-detail').on('click', '[picture]', function () {
+            picturePreview($(this));
+        });
+        /* 图片处理 end*/
 
     });
 
