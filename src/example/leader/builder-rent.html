@@ -52,7 +52,7 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
             $container.data('data-list-val','');
-            currDataList.first({condition:''});
+            currDataList.first({userid:$('#userid').val(),policeid:masterid,condition:''});
             fCount('');
         });
         $('#clear').on('click',function () {
@@ -118,10 +118,10 @@
             var val=$searchInput.val();
             $container.data('data-list-val',val);
             if(val != ""){
-                currDataList.first({condition:val});
+                currDataList.first({userid:$('#userid').val(),policeid:masterid,condition:val});
                 fCount(val);
             }else{
-                currDataList.first({condition:''});
+                currDataList.first({userid:$('#userid').val(),policeid:masterid,condition:''});
                 fCount('');
             }
         };
