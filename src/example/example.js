@@ -658,6 +658,7 @@ $(function () {
         swipe();
         androidInputBugFix();
         setJSAPI();
+        window.initMenu = initMenu;
         window.dataList = dataList;
         window.lazyRateProxy = lazyRateProxy;
 
