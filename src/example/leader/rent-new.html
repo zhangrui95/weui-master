@@ -133,7 +133,7 @@
         //搜索身份证
         $searchClear.on('click',function(){
             $searchInput.val('');
-            currDataList.first({sfzh:''});
+            currDataList.first({userid:$('#userid').val(),policeid:masterid,sfzh:''});
             fCount('');
             fCounts('');
         });
@@ -141,11 +141,11 @@
             var val=$searchInput.val().toUpperCase();
             container.data('data-list-val',val);
             if(val != ""){
-                currDataList.first({sfzh:val});
+                currDataList.first({userid:$('#userid').val(),policeid:masterid,sfzh:val});
                 fCount(val);
                 fCounts(val);
             }else{
-                currDataList.first({sfzh:''});
+                currDataList.first({userid:$('#userid').val(),policeid:masterid,sfzh:''});
                 fCount('');
                 fCounts('');
             }

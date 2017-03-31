@@ -131,17 +131,17 @@
         $searchClear.on('click',function(){
             $searchInput.val('');
             container.data('data-list-val','');
-            currDataList.first({sfzh:''});
+            currDataList.first({userid:$('#userid').val(),masterid:masterid,sfzh:''});
             fCount('');
         });
         var search = function(){
             var val=$searchInput.val().toUpperCase();
             container.data('data-list-val',val);
             if(val != ""){
-                currDataList.first({sfzh:val});
+                currDataList.first({userid:$('#userid').val(),masterid:masterid,sfzh:val});
                 fCount(val);
             }else{
-                currDataList.first({sfzh:''});
+                currDataList.first({userid:$('#userid').val(),masterid:masterid,sfzh:''});
                 fCount('');
             }
         };
