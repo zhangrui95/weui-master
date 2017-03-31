@@ -1,5 +1,5 @@
 <div id="work-add" class="page page-list company-list js_show">
-    <div class="page__bd details cells-ajax page_y">
+    <div class="page__bd details cells-ajax page_y page-height">
         <div id="news-change">
             <div class="top-bg clearfix">
                 <div class="top-title">新建</div>
@@ -64,12 +64,12 @@
                 </div>
             </div>
             <div class="prompt active" id="notNull">请填选必填项</div>
-
+            <div class="btn-box-pro" data-id="hotel_news">
+                <a class="btn" href="javascript:" id="showToast" data-id="leader_news">提交</a>
+            </div>
         </div>
     </div>
-    <div class="btn-box btn-box-pro" data-id="hotel_news">
-        <a class="btn" href="javascript:" id="showToast" data-id="leader_news">提交</a>
-    </div>
+
 </div>
 <script type="text/javascript">
     $(function () {
@@ -106,7 +106,10 @@
         var checkUploader = $("#checkUploader");
 
         var addChecks = function (localId) {
-            $('#work_list_check').prepend('<img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delChecks"}\'/>');
+            var element = $('<img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delChecks"}\'/>').prependTo('#work_list_check');
+            element.on('click', function () {
+                picturePreview($(this));
+            });
         }
 
         var delChecks = function (localId) {
@@ -148,7 +151,7 @@
 
         /** 未带身份证 start*/
         var addTasks = function (id, localId) {
-            $('#hotel').append(
+            var element = $(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
                     '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delTasks"}\'/>' +
@@ -156,7 +159,11 @@
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
                     '   </div>' +
-                    '</div>');
+                    '</div>')
+                    .appendTo('#hotel');
+            element.find('.change-upload').on('click', function () {
+                picturePreview($(this));
+            });
         }
 
         var delTasks = function (localId) {
@@ -184,7 +191,7 @@
 
         /** 从业人员 start*/
         var addEmployees = function (id, localId) {
-            $('#employee-report').append(
+            var element = $(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
                     '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delEmployees"}\'/>' +
@@ -192,7 +199,10 @@
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
                     '   </div>' +
-                    '</div>');
+                    '</div>').appendTo('#employee-report');
+            element.find('.change-upload').on('click', function () {
+                picturePreview($(this));
+            });
         }
 
         var delEmployees = function (localId) {
