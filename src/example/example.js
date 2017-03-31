@@ -658,7 +658,6 @@ $(function () {
         swipe();
         androidInputBugFix();
         setJSAPI();
-        window.initMenu = initMenu;
         window.dataList = dataList;
         window.lazyRateProxy = lazyRateProxy;
 
@@ -825,23 +824,31 @@ var generateUUID = function () {
     return uuid;
 };
 
-/** 图片处理 start*/
-$('body').on('click', '[picture]', function () {
-    var _$ = $(this);
+/**
+ * 图片处理
+ * @param $selector
+ */
+var picturePreview = function($selector){
     var picture = {};
-    if (_$.attr('picture') != '') {
-        picture = JSON.parse(_$.attr('picture'));
+    if ($selector.attr('picture') != '') {
+        picture = JSON.parse($selector.attr('picture'));
     }
-    var gallery = weui.gallery(_$.attr('src'));
+    $('#work_list_check').append(JSON.stringify(picture));
+    var gallery = weui.gallery($selector.attr('src'));
     var onDelete = picture["onDelete"];
+    $('#work_list_check').append(onDelete);
     if (onDelete) {
         $('.weui-gallery__del').on('click', function () {
-            var id = _$.attr('src');
+            var id = $selector.attr('src');
+            $('#work_list_check').append(onDelete + '("' + id + '")');
             eval(onDelete + '("' + id + '")');
             gallery.hide();
         })
     }else{
         $('.weui-gallery__del').hide();
     }
+};
+
+$('body').on('click', '[picture]', function () {
+    picturePreview($(this));
 });
-/* 图片处理 end*/
