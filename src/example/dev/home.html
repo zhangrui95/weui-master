@@ -40,7 +40,7 @@
             var menu = $(this).attr('data-menu');
             var role = $(this).attr('data-role');
             var roleVal = $('#'+role).val();
-            roleVal = roleVal==null||roleVal==''?'':('|'+roleVal);
+            roleVal = roleVal==null||roleVal==''?'':('-'+roleVal);
             window.location.href = url+'?userid='+$('#userid').val() +'&menu=dept_'+menu+roleVal;
         });
     })
