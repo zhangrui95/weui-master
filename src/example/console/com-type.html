@@ -7,7 +7,6 @@
         添加：
         <ul id="add" >
             <li>名称：<input type="text" name="name"/></li>
-            <li>wxDeptId：<input type="text" name="wxDeptId"/></li>
             <li><button id="add-save">添加</button></li>
         </ul>
     </div>
@@ -21,7 +20,7 @@
             $.ajax({
                 type: "POST",
                 url: 'api/companyType/save.json',
-                data:{userid:$('#userid').val(),name:$add.find('[name="name"]').val(),wxDeptId:$add.find('[name="wxDeptId"]').val()},
+                data:{userid:$('#userid').val(),name:$add.find('[name="name"]').val()},
                 success: function (xhr) {
                     $('#result').html(JSON.stringify(xhr));
                     list();
@@ -37,7 +36,7 @@
             $.ajax({
                 type: "POST",
                 url: 'api/companyType/update.json',
-                data:{userid:$('#userid').val(),id:li.attr('data-ctype-id'),name:li.find('[name="name"]').val(),wxDeptId:li.find('[name="wxDeptId"]').val()},
+                data:{userid:$('#userid').val(),id:li.attr('data-ctype-id'),name:li.find('[name="name"]').val()},
                 success: function (xhr) {
                     $('#result').html(JSON.stringify(xhr));
                     list();
@@ -73,8 +72,7 @@
                     for(var i in xhr){
                         item = xhr[i];
                         html += '<li data-ctype-id="'+item.id+'">' +
-                                '<input type="text" name="name" value="'+item.name+'"/> -> ' +
-                                '<input type="text" name="wxDeptId" value="'+item.wxDeptId+'"/>' +
+                                '<input type="text" name="name" value="'+item.name+'"/> -> ' + item.wxDeptId+
                                 '<button style="margin: 0 5px 0 5px" data-action="save">修改</button><button data-action="del">删除</button></li>'
                     }
                     var $list = $('#list');
