@@ -81,7 +81,7 @@
                     $list.find('[data-action="del"]').on('click',del);
                 },
                 error: function (err) {
-                    console.error(err)
+                    $('#result').html(JSON.stringify(err));
                 }
             });
         };
