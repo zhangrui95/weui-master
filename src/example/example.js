@@ -334,6 +334,7 @@ $(function () {
     var menuOpt = {
         url:'api/menu.json',
         target:undefined,
+        data:undefined,
         menu:'#menu',
         row:0,
         col:1,
@@ -408,32 +409,45 @@ $(function () {
         }
     };
 
-    var initMenu = function (opt) {
-        var option = $.extend({},menuOpt,opt);
+    var remoteMenu = function (option,callback) {
         $.ajax({
             type: "POST",
             url: option.url,
             data:{userid:$('#userid').val(),target:option.target},
             success: function (xhr) {
-                if(xhr == null){
-                    return
-                }
-                option.processExData(xhr.data);
-                var menu = xhr.menu;
-                if(menu == null || menu.length == null || menu.length == 0){
-                    return
-                }
-                // if(menu.length == 1){
-                //     redirectOneItem(option, menu[0]);
-                //     return;
-                // }
-                renderMenu(option, menu);
-                bindMenuItemHandler(option);
+                callback(option, xhr);
             },
             error: function (err) {
                 option.error(err)
             }
         });
+    };
+
+    var callback = function (option, xhr) {
+        if(xhr == null){
+            return
+        }
+        option.processExData(xhr.data);
+        var menu = xhr.menu;
+        if(menu == null || menu.length == null || menu.length == 0){
+            return
+        }
+        // if(menu.length == 1){
+        //     redirectOneItem(option, menu[0]);
+        //     return;
+        // }
+        renderMenu(option, menu);
+        bindMenuItemHandler(option);
+    };
+
+    var initMenu = function (opt) {
+        var option = $.extend({},menuOpt,opt);
+        if(option.data == null){
+            remoteMenu(option,callback);
+        }else{
+            callback(option, option.data);
+        }
+
     };
 
     var webMoveCfg = {

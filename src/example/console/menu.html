@@ -1,0 +1,16 @@
+<div class="page">
+    <div id="menu" class="weui-grids"></div>
+</div>
+<script>
+    var menuOpt = {
+        row:4,
+        col:3,
+        data:{menu:[
+            {name:"企业类型",hash:"com-type",icon:"images/icon8.png"}
+        ]},
+        error:function (err) {
+            console.log(err)
+        }
+    };
+    initMenu(menuOpt);
+</script>

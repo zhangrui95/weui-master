@@ -646,21 +646,6 @@ var routes = [
         }
     },
     {
-        route: "/example/api/companyType.json",
-        handle: function (req, res, next) {
-            res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify( [
-                {id:'t1',name:'饭店'},
-                {id:'t2',name:'幼儿园'},
-                {id:'t3',name:'医疗'},
-                {id:'t4',name:'洗浴'},
-                {id:'t5',name:'旅店'},
-                {id:'t6',name:'汽配'},
-                {id:'t7',name:'律师事务所'},
-            ]));
-        }
-    },
-    {
         route: "/example/api/hotel.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
