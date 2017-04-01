@@ -1,0 +1,30 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>重载：</div>
+        <ul id="list" >
+            <li><button data-action="api/apiRequest/reload.json">重载比对重发任务</button></li>
+            <li><button data-action="api/apiRequest/reset.json">重置比对重发次数</button></li>
+            <li><button data-action="api/app/reload.json">重载用户微信配置</button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+        var func = function () {
+            var url = $(this).attr('data-action');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{userid:$('#userid').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+        $('#list').find('[data-action]').on('click',func);
+    });
+</script>
