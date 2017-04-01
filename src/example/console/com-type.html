@@ -65,7 +65,7 @@
         var list = function () {
             $.ajax({
                 type: "POST",
-                url: 'api/companyType.json',
+                url: 'api/companyType/list.json',
                 data:{userid:$('#userid').val()},
                 success: function (xhr) {
                     var html = '',item;
