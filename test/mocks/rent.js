@@ -617,7 +617,7 @@ var routes = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
-                {state:'1',floorid:'tt1'}
+                {state:'1'}
             ));
         }
     },
