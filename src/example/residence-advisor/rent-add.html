@@ -32,11 +32,11 @@
         var $container = $('#container');
 //保存并添加人员
         $('#next-step').click(function(){
-            var road = $('#road').val();
-            var size = $('#size').val();
-            var ridgepole = $('#ridgepole').val();
-            var element = $('#element').val();
-            var door = $('#door').val();
+            var road = $('#road').val().trim();
+            var size = $('#size').val().trim();
+            var ridgepole = $('#ridgepole').val().trim();
+            var element = $('#element').val().trim();
+            var door = $('#door').val().trim();
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
@@ -71,11 +71,11 @@
         });
 //保存
         $('#cancel-left').click(function(){
-            var road = $('#road').val();
-            var size = $('#size').val();
-            var ridgepole = $('#ridgepole').val();
-            var element = $('#element').val();
-            var door = $('#door').val();
+            var road = $('#road').val().trim();
+            var size = $('#size').val().trim();
+            var ridgepole = $('#ridgepole').val().trim();
+            var element = $('#element').val().trim();
+            var door = $('#door').val().trim();
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);

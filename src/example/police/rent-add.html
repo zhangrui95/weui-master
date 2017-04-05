@@ -155,11 +155,11 @@
         });
         //保存并添加人员
         $('#next-step').click(function(){
-            var road = $('#road').val();
-            var size = $('#size').val();
-            var ridgepole = $('#ridgepole').val();
-            var element = $('#element').val();
-            var door = $('#door').val();
+            var road = $('#road').val().trim();
+            var size = $('#size').val().trim();
+            var ridgepole = $('#ridgepole').val().trim();
+            var element = $('#element').val().trim();
+            var door = $('#door').val().trim();
             var communityid = $('#container').data('data-add-typeId');
             var masterid = $('#container').data('data-add-master');
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
@@ -204,11 +204,11 @@
         });
 //保存
         $('#cancel-left').click(function(){
-            var road = $('#road').val();
-            var size = $('#size').val();
-            var ridgepole = $('#ridgepole').val();
-            var element = $('#element').val();
-            var door = $('#door').val();
+            var road = $('#road').val().trim();
+            var size = $('#size').val().trim();
+            var ridgepole = $('#ridgepole').val().trim();
+            var element = $('#element').val().trim();
+            var door = $('#door').val().trim();
             var communityid = $('#container').data('data-add-typeId');
             var masterid = $('#container').data('data-add-master');
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
