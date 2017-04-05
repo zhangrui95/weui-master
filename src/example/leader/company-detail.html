@@ -387,7 +387,7 @@
                     $('#alert,#alertbackground').fadeOut(100);
                 });
             });
-            $('#news-change').after(
+            $('#add-box-show').html(
                     '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>'+
                     '<div class="height-fixed"></div>'
             );
@@ -699,7 +699,7 @@
                                     '</div>'
                                 }
                                 html += '</div>';
-                html += '</div>';
+                html += '<div id="add-box-show"></div></div>';
             $('.cells-ajax').append(html);
             if($('#mobile-num').text()==''){
                 $('#symbol').hide();

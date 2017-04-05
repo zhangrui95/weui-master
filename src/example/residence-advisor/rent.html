@@ -270,7 +270,7 @@
                 fCount('');
             }
         };
-        $searchInput.on('keyup',function(){
+        $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
         //搜索身份证号码
@@ -285,7 +285,7 @@
                 tCount('');
             }
         };
-        $cardInput.on('keyup',function(){
+        $cardInput.on('input',function(){
             window.lazyRateProxy(cardsearch ,500);
         });
         //PC端拖拽

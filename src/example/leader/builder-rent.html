@@ -125,7 +125,7 @@
                 fCount('');
             }
         };
-        $searchInput.on('keyup',function(){
+        $searchInput.on('input',function(e){
             window.lazyRateProxy(search,500);
         });
         fCount(value);
