@@ -15,7 +15,7 @@
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
-            <div class="joint-box" id="joint-box"></div>
+            <div id="joint-box"></div>
             <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
@@ -30,6 +30,17 @@
         <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
         <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
     </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="alert" id="alert"><p>操作失败，请重试！</p></div>
 </div>
 <script>
     $(function(){
@@ -45,6 +56,7 @@
             $('#pop-add-box').fadeOut(100);
         });
         $('#rent-add,#add-have-rent').click(function(){
+            $container.data('data-floor-change','');
             outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);
@@ -66,11 +78,28 @@
             xhrListKey:'',
             itemsPanel:$('#joint-box'),
             xhrExternalProcess : function (params,xhr) {
-                $('.joint-border').click(function(){
-                    $container.data('data-floorid',$(this).attr('id'));
-                    $container.data('data-floor-place',$(this).find('.head-name').html());
-                    var id = $(this).data('id');
-                    window.pageManager.go(id);
+                $('.icon-delete').each(function(){
+                    var _this = $(this);
+                    var id = _this.siblings('.weui-cell').attr('id');
+                    Delete(id,_this);
+                    Change(id,_this);
+                }).on('click',function(){
+                    showCellAction($(this).siblings('.weui-cell'));
+                });
+                $('.weui-cell').on('swipeLeft',function(e){
+                    showCellAction($(this));
+                }).on('swipeRight',function(e){
+                    hideCellAction($(this));
+                }).on('click',function (e) {
+                    if(isCellEditModel){
+                        hideAllCellAction($(this));
+                    }else{
+                        $container.data('data-floorid',$(this).attr('id'));
+                        $container.data('data-floor-place',$(this).find('div .item-width').html());
+                        var id = $('.weui-cell').data('id');
+                        $('#taskId').val($(this).data('tid'));
+                        window.pageManager.go(id);
+                    }
                 });
                 $('.result-name').html(builderName);
             },
@@ -85,22 +114,31 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item) {
-                var ridg = item.ridgepole+'栋'
-                var units = item.unit+'单元'
-                if(item.ridgepole==null||item.ridgepole.length==0){
-                    ridg = '';
-                }
-                if(item.unit==null||item.unit.length==0){
-                    units = '';
-                }
-                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
                 var renterNum = item.tenants.length;
-                return ' <div class="joint-border position-del-box" data-id="renter-news" id="'+item.id+'">' +
-                        '<img src="images/list-left.jpg" class="rent-img-list">'+
-                        '<div class="head-name ellipsis word-img-left">' +place+
+                var count = 0 ;
+                for(var i in item.tenants){
+                    if(item.tenants[i].status == null){
+                        count++;
+                    }
+                }
+                var statusNum = renterNum - count;
+                var cBaackground = 'r-delete';
+                if(statusNum==0&&renterNum==0){
+                    cBaackground = 'r-background';
+                }
+                return '<div class="label-relative">'+
+                        '<label class="weui-cell weui-check__label check-border employee_lis" data-id="renter-news" id="'+item.id+'" data-community="'+item.community.id+'" data-master="'+item.master.id+'" data-community-name="'+item.community.name+'" data-master-name="'+item.master.name+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width"><span id="street">'+item.street+'</span><span id="num">'+item.num+'</span>号<span id="ridgepole">'+item.ridgepole+'</span>栋<span id="unit">'+item.unit+'</span>单元<span id="door">'+item.door+'</span>门</span></div>'+
+                        '<div class="size-new">上报人员:'+item.user.name+'、租住人数:'+count+'人</div>'+
                         '</div>'+
-                        '<div class="building-num">' +renterNum+
-                        '人</div>'+
+                        '</label>'+
+                        '<img class="icon-go icon-delete" src="images/icon-delete.png">'+
+                        '<div class="delete-box">'+
+                        '<div class="delete '+cBaackground+'">删除</div>'+
+                        '<div class="logout" data-id="rent-add" id="change">修改</div>'+
+                        '</div>'+
                         '</div>';
             },
             before:function(){
@@ -141,6 +179,85 @@
                 }
             });
         };
+        var isCellEditModel = false;
+        $('#default').on('click',function(){
+            $('#androidDialog2').fadeOut(200);
+        });
+        function confirmDialog(msg,callback){
+            $('#androidDialog2').fadeIn(200);
+            $('#dialog').html(msg);
+            $('#primary').unbind().on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+                callback();
+            });
+        }
+        function Delete(id,_this) {
+            _this.siblings('.delete-box').find('.r-delete').on('click',function(){
+                confirmDialog('确定删除该房屋？',function(){
+                    $.ajax({
+                        type: "delete",
+                        url: "api/police/delete.json",
+                        data:{id:id},
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 1){
+                                var val=$searchInput.val();
+                                _this.parent().remove();
+                                fCount(val);
+                            }else{
+                                $('#alert').fadeIn(200);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(200);
+                                }, 2000);
+                            }
+                        },
+                        error: function () {
+                            $('#alert').fadeIn(200);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(200);
+                            }, 2000);
+                        }
+                    });
+                });
+            });
+        }
+        function  Change(id,_this){
+            _this.siblings('.delete-box').find('.logout').on('click',function(){
+                $container.data('data-street',_this.siblings().find('div .item-width #street').html());
+                $container.data('data-num',_this.siblings().find('div .item-width #num').html());
+                $container.data('data-ridgepole',_this.siblings().find('div .item-width #ridgepole').html());
+                $container.data('data-unit',_this.siblings().find('div .item-width #unit').html());
+                $container.data('data-door',_this.siblings().find('div .item-width #door').html());
+                $container.data('change-id',_this.siblings('.weui-cell').attr('id'));
+                $container.data('data-add-typeId',_this.siblings('.weui-cell').data('community'));
+                $container.data('data-add-master',_this.siblings('.weui-cell').data('master'));
+                $container.data('change-community-name',_this.siblings('.weui-cell').data('community-name'));
+                $container.data('change-master-name',_this.siblings('.weui-cell').data('master-name'));
+                var id = $(this).data('id');
+                window.pageManager.go(id);
+                $container.data('data-floor-change','1');
+            });
+        }
+        function showCellAction(cell){
+            isCellEditModel = true;
+            cell.find('.item-width').animate({width:'72%'},200,'linear');
+            cell.find('.size-new').animate({width:'195px'},200,'linear');
+            cell.parent().siblings().find('.delete-box').animate({right:'-101px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'0'},200,'linear');
+        }
+
+        function hideCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'-101px'},200,'linear');
+        }
+
+        function hideAllCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.parent().parent().find('.delete-box').animate({right:'-101px'},200,'linear');
+        }
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;

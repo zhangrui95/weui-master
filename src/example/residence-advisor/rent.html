@@ -66,10 +66,10 @@
             itemsPanel:$('#tab1'),
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                $('.res-joint').click(function(){
+                $('.weui-cell').on('click',function (e) {
                     $container.data('data-floorid',$(this).attr('id'));
-                    $container.data('data-floor-place',$(this).find('.head-name').html());
-                    var id = $(this).data('id');
+                    $container.data('data-floor-place',$(this).find('div .item-width').html());
+                    var id = $('.weui-cell').data('id');
                     window.pageManager.go(id);
                 });
                 var tag = currState=='0';
@@ -92,21 +92,22 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item) {
-                var ridg = item.ridgepole+'栋'
-                var units = item.unit+'单元'
-                if(item.ridgepole==null||item.ridgepole.length==0){
-                    ridg = '';
-                }
-                if(item.unit==null||item.unit.length==0){
-                    units = '';
-                }
-                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
                 var renterNum = item.tenants.length;
-                 return ' <div class="joint-border res-joint" data-id="renter-news" id="'+item.id+'">' +
-                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>'+
-                         '<div class="head-name ellipsis">'+place+'</div>'+
-                         '<div class="building-num">'+renterNum+'人</div>'+
-                         '</div>'
+                var count = 0 ;
+                for(var i in item.tenants){
+                    if(item.tenants[i].status == null){
+                        count++;
+                    }
+                }
+                 return'<div class="label-relative">'+
+                         '<label class="weui-cell weui-check__label check-border employee_lis" data-id="renter-news" id="'+item.id+'" data-community="'+item.community.id+'" data-master="'+item.master.id+'" data-community-name="'+item.community.name+'" data-master-name="'+item.master.name+'">'+
+                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                         '<div class="weui-cell__bd size-width">'+
+                         '<div><span class="item-width"><span id="street">'+item.street+'</span><span id="num">'+item.num+'</span>号<span id="ridgepole">'+item.ridgepole+'</span>栋<span id="unit">'+item.unit+'</span>单元<span id="door">'+item.door+'</span>门</span></div>'+
+                         '<div class="size-new">上报人员:'+item.user.name+'、租住人数:'+count+'人</div>'+
+                         '</div>'+
+                         '</label>'+
+                         '</div>';
 
             },
             before:function(){

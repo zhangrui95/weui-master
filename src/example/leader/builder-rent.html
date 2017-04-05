@@ -15,7 +15,7 @@
     </div>
     <div class="page__bd cell-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
-            <div class="joint-box" id="joint-box"></div>
+            <div id="joint-box"></div>
             <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
@@ -66,10 +66,10 @@
             xhrListKey:'',
             itemsPanel:$('#joint-box'),
             xhrExternalProcess : function (params,xhr) {
-                $('.joint-border').click(function(){
+                $('.weui-cell').on('click',function (e) {
                     $container.data('data-floorid',$(this).attr('id'));
-                    $container.data('data-floor-place',$(this).find('.head-name').html());
-                    var id = $(this).data('id');
+                    $container.data('data-floor-place',$(this).find('div .item-width').html());
+                    var id = $('.weui-cell').data('id');
                     window.pageManager.go(id);
                 });
                 $('.result-name').html('<img src="'+policeSrc+'" class="policesrc"/><div class="float-left">'+policeName+'</div>');
@@ -85,22 +85,20 @@
                 $('.empty-box').hide();
             },
             templateProcess : function (item) {
-                var ridg = item.ridgepole+'栋'
-                var units = item.unit+'单元'
-                if(item.ridgepole==null||item.ridgepole.length==0){
-                    ridg = '';
+                var count = 0 ;
+                for(var i in item.tenants){
+                    if(item.tenants[i].status == null){
+                        count++;
+                    }
                 }
-                if(item.unit==null||item.unit.length==0){
-                    units = '';
-                }
-                var place = item.street+item.num+'号'+ridg+units+item.door+'门'
-                var renterNum = item.tenants.length;
-                return ' <div class="joint-border position-del-box" data-id="renter-news" id="'+item.id+'">' +
-                        '<img src="images/list-left.jpg" class="rent-img-list">'+
-                        '<div class="head-name ellipsis word-img-left">' +place+
+                return '<div class="label-relative">'+
+                        '<label class="weui-cell weui-check__label check-border employee_lis" data-id="renter-news" id="'+item.id+'" data-community="'+item.community.id+'" data-master="'+item.master.id+'" data-community-name="'+item.community.name+'" data-master-name="'+item.master.name+'">'+
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div><span class="item-width"><span id="street">'+item.street+'</span><span id="num">'+item.num+'</span>号<span id="ridgepole">'+item.ridgepole+'</span>栋<span id="unit">'+item.unit+'</span>单元<span id="door">'+item.door+'</span>门</span></div>'+
+                        '<div class="size-new">辖区民警:'+item.police.name+'、租住人数:'+count+'人</div>'+
                         '</div>'+
-                        '<div class="building-num">' +renterNum+
-                        '人</div>'+
+                        '</label>'+
                         '</div>';
             },
             before:function(){

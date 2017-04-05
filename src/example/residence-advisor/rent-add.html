@@ -5,8 +5,8 @@
             <form class="weui-cell__bd bd-right font-color" id="company-name">
                 <div class="input-place"><input type="text" class="address-input" id="road" placeholder="例:先锋路/红旗大街/群力第五大道"/><div class="unit">街/路<span class="red">*</span></div></div>
                 <div class="input-place"><input type="text" class="address-input" id="size" placeholder="例:20/2-1"/><div class="unit">号<span class="red">*</span></div></div>
-                <div class="input-place"><input type="text" class="address-input" id="ridgepole" placeholder="例:D5/2/3-1(如无栋，请填1)"/><div class="unit">栋<span class="red">*</span></div></div>
-                <div class="input-place"><input type="text" class="address-input" id="element" placeholder="例:2(如无单元，请填1)"/><div class="unit">单元<span class="red">*</span></div></div>
+                <div class="input-place"><input type="text" class="address-input" id="ridgepole" placeholder="例:D5/2/3-1"/><div class="unit">栋<span class="red"> </span></div></div>
+                <div class="input-place"><input type="text" class="address-input" id="element" placeholder="例:1"/><div class="unit">单元<span class="red"> </span></div></div>
                 <div class="input-place"><input type="text" class="address-input" id="door" placeholder="例:1201/-101"/><div class="unit">门/室<span class="red">*</span></div></div>
             </form>
         </div>
@@ -32,12 +32,12 @@
         var $container = $('#container');
 //保存并添加人员
         $('#next-step').click(function(){
-            var road = $('#road').val().trim();
-            var size = $('#size').val().trim();
-            var ridgepole = $('#ridgepole').val().trim();
-            var element = $('#element').val().trim();
-            var door = $('#door').val().trim();
-            if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
+            var road = $('#road').val();
+            var size = $('#size').val();
+            var ridgepole = $('#ridgepole').val();
+            var element = $('#element').val();
+            var door = $('#door').val();
+            if(road.length==0||size.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
@@ -71,12 +71,12 @@
         });
 //保存
         $('#cancel-left').click(function(){
-            var road = $('#road').val().trim();
-            var size = $('#size').val().trim();
-            var ridgepole = $('#ridgepole').val().trim();
-            var element = $('#element').val().trim();
-            var door = $('#door').val().trim();
-            if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
+            var road = $('#road').val();
+            var size = $('#size').val();
+            var ridgepole = $('#ridgepole').val();
+            var element = $('#element').val();
+            var door = $('#door').val();
+            if(road.length==0||size.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {

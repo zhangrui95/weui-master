@@ -49,6 +49,7 @@
             $('#pop-add-box').fadeOut(100);
         });
         $('#rent-add,#add-have-rent').click(function(){
+            container.data('data-floor-change','');
             outPop();
             var id = $(this).data('id');
             window.pageManager.go(id);

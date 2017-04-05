@@ -75,6 +75,34 @@
         $iosMasks.on('click', hideActionSheet);
         $('#iosActionsheetCancel').on('click', hideActionSheet);
         $('#iosActionsheetCancels').on('click', hideActionSheet);
+        var change = $container.data('data-floor-change')
+        if(change==null||change==''){
+            var communityid = $('#container').data('data-add-typeId');
+            var masterid = $('#container').data('data-add-master');
+            var url ='api/police/save.json';
+            var id=''
+            save(url,communityid,masterid,id);
+        }else{
+            var street = $container.data('data-street');
+            var size = $container.data('data-num');
+            var ridgepole = $container.data('data-ridgepole');
+            var element = $container.data('data-unit');
+            var door = $container.data('data-door');
+            var id =  $container.data('change-id');
+            var communityid =$container.data('data-add-typeId');
+            var masterid =$container.data('data-add-master');
+            var communityName =$container.data('change-community-name');
+            var masterName =$container.data('change-master-name');
+            $('#road').val(street);
+            $('#size').val(size);
+            $('#ridgepole').val(ridgepole);
+            $('#element').val(element);
+            $('#door').val(door);
+            $('#community').html(communityName);
+            $('#residence-advisor').html(masterName);
+            var url ='api/police/update.json';
+            save(url,communityid,masterid,id);
+        }
         //选择社区
         $('#community').on('click',function(){
             $('#choice-list').html('');
@@ -154,103 +182,103 @@
             }
         });
         //保存并添加人员
-        $('#next-step').click(function(){
-            var road = $('#road').val().trim();
-            var size = $('#size').val().trim();
-            var ridgepole = $('#ridgepole').val().trim();
-            var element = $('#element').val().trim();
-            var door = $('#door').val().trim();
-            var communityid = $('#container').data('data-add-typeId');
-            var masterid = $('#container').data('data-add-master');
-            if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
-                $('#alert').html("请输入必填项");
-                $('#alert').fadeIn(100);
-                setTimeout(function () {
-                    $('#alert').fadeOut(100);
-                }, 2000);
-            }else{
-                $.ajax({
-                    type: "POST",
-                    url: "api/police/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
-                    success: function (data) {
-                        var ridg = ridgepole+'栋';
-                        if(ridgepole.length==0||ridgepole==null){
-                            ridg = '';
+        //保存
+        function save(url,communityid,masterid,id){
+            $('#next-step').click(function(){
+                var road = $('#road').val().trim();
+                var size = $('#size').val().trim();
+                var ridgepole = $('#ridgepole').val().trim();
+                var element = $('#element').val().trim();
+                var door = $('#door').val().trim();
+                if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
+                    $('#alert').html("请输入必填项");
+                    $('#alert').fadeIn(100);
+                    setTimeout(function () {
+                        $('#alert').fadeOut(100);
+                    }, 2000);
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid,id:id},
+                        success: function (data) {
+                            var ridg = ridgepole+'栋';
+                            if(ridgepole.length==0||ridgepole==null){
+                                ridg = '';
+                            }
+                            var ele = element+'单元';
+                            if(element.length==0||element==null){
+                                ele = '';
+                            }
+                            if(data.floorid==null){
+                                $('#alert').html("保存失败！");
+                                $('#alert').fadeIn(100);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(100);
+                                }, 2000);
+                            }else{
+                                var id = $('#next-step').data('id');
+                                window.pageManager.go(id);
+                                $container.data('data-floorid',data.floorid);
+                            }
+                            var place = road+size+'号'+ridg+ele+door+'门';
+                            $container.data('data-floor-place',place);
+                        },
+                        error: function (mes) {
+                            console.log("error");
                         }
-                        var ele = element+'单元';
-                        if(element.length==0||element==null){
-                            ele = '';
+                    });
+                }
+            });
+            $('#cancel-left').click(function(){
+                var road = $('#road').val().trim();
+                var size = $('#size').val().trim();
+                var ridgepole = $('#ridgepole').val().trim();
+                var element = $('#element').val().trim();
+                var door = $('#door').val().trim();
+                var communityid = $('#container').data('data-add-typeId');
+                var masterid = $('#container').data('data-add-master');
+                if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
+                    $('#alert').html("请输入必填项");
+                    $('#alert').fadeIn(100);
+                    setTimeout(function () {
+                        $('#alert').fadeOut(100);
+                    }, 2000);
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid,id:id},
+                        success: function (data) {
+                            if(data.floorid==null){
+                                $('#alert').html("保存失败！");
+                                $('#alert').fadeIn(100);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(100);
+                                }, 2000);
+                            }else{
+                                var $toast = $('#toast');
+                                if ($toast.css('display') != 'none') return;
+                                $toast.fadeIn(100);
+                                setTimeout(function () {
+                                    $toast.fadeOut(100);
+                                    $('#road,#size,#ridgepole,#element,#door').val('');
+                                    $('#road,#size,#ridgepole,#element,#door').blur();
+                                    $('#container').data('data-add-typeId','');
+                                    $('#container').data('data-add-master','');
+                                    $('#community').html('请选择');
+                                    $('#residence-advisor').html('请选择')
+                                }, 2000);
+                                $container.data('data-floorid',data.floorid);
+                            }
+                        },
+                        error: function (mes) {
+                            console.log("error");
                         }
-                        if(data.floorid==null){
-                            $('#alert').html("保存失败！");
-                            $('#alert').fadeIn(100);
-                            setTimeout(function () {
-                                $('#alert').fadeOut(100);
-                            }, 2000);
-                        }else{
-                            var id = $('#next-step').data('id');
-                            window.pageManager.go(id);
-                            $container.data('data-floorid',data.floorid);
-                        }
-                        var place = road+size+'号'+ridg+ele+door+'门';
-                        $container.data('data-floor-place',place);
-                    },
-                    error: function (mes) {
-                        console.log("error");
-                    }
-                });
-            }
-        });
-//保存
-        $('#cancel-left').click(function(){
-            var road = $('#road').val().trim();
-            var size = $('#size').val().trim();
-            var ridgepole = $('#ridgepole').val().trim();
-            var element = $('#element').val().trim();
-            var door = $('#door').val().trim();
-            var communityid = $('#container').data('data-add-typeId');
-            var masterid = $('#container').data('data-add-master');
-            if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
-                $('#alert').html("请输入必填项");
-                $('#alert').fadeIn(100);
-                setTimeout(function () {
-                    $('#alert').fadeOut(100);
-                }, 2000);
-            }else{
-                $.ajax({
-                    type: "POST",
-                    url: "api/police/save.json",
-                    data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
-                    success: function (data) {
-                        if(data.floorid==null){
-                            $('#alert').html("保存失败！");
-                            $('#alert').fadeIn(100);
-                            setTimeout(function () {
-                                $('#alert').fadeOut(100);
-                            }, 2000);
-                        }else{
-                            var $toast = $('#toast');
-                            if ($toast.css('display') != 'none') return;
-                            $toast.fadeIn(100);
-                            setTimeout(function () {
-                                $toast.fadeOut(100);
-                                $('#road,#size,#ridgepole,#element,#door').val('');
-                                $('#road,#size,#ridgepole,#element,#door').blur();
-                                $('#container').data('data-add-typeId','');
-                                $('#container').data('data-add-master','');
-                                $('#community').html('请选择');
-                                $('#residence-advisor').html('请选择')
-                            }, 2000);
-                            $container.data('data-floorid',data.floorid);
-                        }
-                    },
-                    error: function (mes) {
-                        console.log("error");
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
         $('input').focus(function () {
             $('.key-height').show();
         });
