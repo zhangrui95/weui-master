@@ -1,0 +1,53 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>列表：<button id="changeState">切换成社区</button></div>
+        <ul id="list" ></ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+        var $container = $('#container');
+        var state =  $container.data('p2c-list-state');
+        state = state==null?'0':'1';
+        var $changeState = $('#changeState');
+
+        var update = function () {
+            var id = $(this).parent().attr('data-ctype-id');
+            $container.data(state == '0'?'p2c-detail-pid':'p2c-detail-cid',id);
+            window.pageManager.go('p2c-detail');
+        };
+
+        var list = function (state) {
+            var url = state=='0'?'api/user/role.json?role=dept_police':'api/community.json';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{userid:$('#userid').val()},
+                success: function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<li data-ctype-id="'+item.id+'">' + item.name+
+                                '<button style="margin: 0 5px 0 5px" data-action="save">维护</button></li>'
+                    }
+                    var $list = $('#list');
+                    $list.html(html);
+                    $list.find('[data-action="save"]').on('click',update);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        list(state);
+
+        $changeState.on('click',function(){
+            state = state == '0'?'1':'0';
+            list(state);
+            $changeState.html('切换成'+ (state=='0'?'社区':'民警'));
+        });
+
+    });
+</script>

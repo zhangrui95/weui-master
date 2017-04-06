@@ -1,0 +1,127 @@
+<div class="page">
+    <div class="weui-grids">
+        <div><span id="prefix"></span>列表：</div>
+        <ul id="list" ></ul>
+    </div>
+    <div style="margin-top: 10px">
+        添加：
+        <ul id="add" >
+            <li><span id="otherTxt"></span>：<select id="choose"></select></li>
+            <li><button id="add-save">添加</button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var $container = $('#container');
+        var pid =  $container.data('p2c-detail-pid');
+        var cid =  $container.data('p2c-detail-cid');
+
+        var state = pid!=null ? '0':'1';
+        var pkId = state=='0'?pid:cid;
+        var detailUrl = state=='0'?'api/user/detail.json':'api/community/detail.json';
+        var listUrl = state=='0'?'api/policeCommunity/communitiesByPolice.json':'api/policeCommunity/policesByCommunity.json';
+        var chooseUrl = state=='0'?'api/community.json':'api/user/role.json?role=dept_police';
+        $('#otherTxt').html(state=='0'?'社区':'民警');
+
+
+        var add = function () {
+            var data = {userid:$('#userid').val()};
+            data[state=='0'?'pid':'cid'] = pkId;
+            data[state=='0'?'cid':'pid'] = $('#choose').val();
+            $.ajax({
+                type: "POST",
+                url: 'api/policeCommunity/save.json',
+                data:data,
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var del = function () {
+            var li = $(this).parent();
+            var pId = (state=='0'?'pid':'cid')+'='+pkId;
+            var oId = (state=='0'?'cid':'pid')+'='+li.attr('data-ctype-id');
+            $.ajax({
+                type: "DELETE",
+                url: 'api/policeCommunity/delete.json?'+pId+'&'+oId+'&userid='+$('#userid').val(),
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var detail = function () {
+            $.ajax({
+                type: "POST",
+                url: detailUrl,
+                data:{userid:$('#userid').val(),id:pkId},
+                success: function (xhr) {
+                    $('#prefix').html(xhr.name);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var list = function () {
+            $.ajax({
+                type: "POST",
+                url: listUrl,
+                data:{userid:$('#userid').val(),id:pkId},
+                success: function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<li data-ctype-id="'+item.id+'">'+ item.name +
+                                '<button data-action="del">删除</button></li>'
+                    }
+                    var $list = $('#list');
+                    $list.html(html);
+                    $list.find('[data-action="del"]').on('click',del);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var initChoose = function () {
+            $.ajax({
+                type: "POST",
+                url: chooseUrl,
+                data:{userid:$('#userid').val()},
+                success: function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<option value="'+item.id+'">'+ item.name +'</option>'
+                    }
+                    $('#choose').html(html);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        detail();
+        list();
+        initChoose();
+
+        $('#add-save').on('click',add);
+
+    });
+</script>
