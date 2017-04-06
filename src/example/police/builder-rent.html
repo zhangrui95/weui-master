@@ -203,7 +203,7 @@
                     $.ajax({
                         type: "POST",
                         url: "api/police/delete.json",
-                        data:{id:id},
+                        data:{userid:$('#userid').val(),id:id},
                         success: function (xhr) {
                             if(xhr.state == 0){
                                 $('#alert').fadeIn(200);
