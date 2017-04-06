@@ -1,0 +1,94 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>列表：</div>
+        <ul id="list" ></ul>
+    </div>
+    <div style="margin-top: 10px">
+        添加：
+        <ul id="add" >
+            <li>名称：<input type="text" name="name"/></li>
+            <li><button id="add-save">添加</button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var add = function () {
+            var $add = $('#add');
+            $.ajax({
+                type: "POST",
+                url: 'api/community/save.json',
+                data:{userid:$('#userid').val(),name:$add.find('[name="name"]').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var update = function () {
+            var li = $(this).parent();
+            $.ajax({
+                type: "POST",
+                url: 'api/community/update.json',
+                data:{userid:$('#userid').val(),id:li.attr('data-ctype-id'),name:li.find('[name="name"]').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var del = function () {
+            var li = $(this).parent();
+            $.ajax({
+                type: "DELETE",
+                url: 'api/community/delete.json?id='+li.attr('data-ctype-id')+'&userid='+$('#userid').val(),
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var list = function () {
+            $.ajax({
+                type: "POST",
+                url: 'api/community.json',
+                data:{userid:$('#userid').val()},
+                success: function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<li data-ctype-id="'+item.id+'">' +
+                                '<input type="text" name="name" value="'+item.name+'"/> -> ' + (item.user?item.user.name:'')+
+                                '<button style="margin: 0 5px 0 5px" data-action="save">修改</button><button data-action="del">删除</button></li>'
+                    }
+                    var $list = $('#list');
+                    $list.html(html);
+                    $list.find('[data-action="save"]').on('click',update);
+                    $list.find('[data-action="del"]').on('click',del);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        list();
+
+        $('#add-save').on('click',add);
+
+    });
+</script>
