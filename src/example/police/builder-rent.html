@@ -205,15 +205,15 @@
                         url: "api/police/delete.json",
                         data:{id:id},
                         success: function (xhr) {
-                            if(xhr && xhr.state == 1){
-                                var val=$searchInput.val();
-                                _this.parent().remove();
-                                fCount(val);
-                            }else{
+                            if(xhr.state == 0){
                                 $('#alert').fadeIn(200);
                                 setTimeout(function () {
                                     $('#alert').fadeOut(200);
                                 }, 2000);
+                            }else{
+                                var val=$searchInput.val();
+                                _this.parent().remove();
+                                fCount(val);
                             }
                         },
                         error: function () {
