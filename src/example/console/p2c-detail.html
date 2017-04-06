@@ -29,8 +29,8 @@
 
         var add = function () {
             var data = {userid:$('#userid').val()};
-            data[state=='0'?'pid':'cid'] = pkId;
-            data[state=='0'?'cid':'pid'] = $('#choose').val();
+            data[state=='0'?'police':'community'] = pkId;
+            data[state=='0'?'community':'police'] = $('#choose').val();
             $.ajax({
                 type: "POST",
                 url: 'api/policeCommunity/save.json',
