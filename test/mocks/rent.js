@@ -545,18 +545,18 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 [
-                    {id:'r1',street:'红旗大街辅路',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
-                    {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
-                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
-                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
-                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
-                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]},
-                    {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,tenants:[]},
-                    {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,tenants:[]},
-                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,tenants:[]},
-                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,tenants:[]},
-                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,tenants:[]},
-                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,tenants:[]}
+                    {id:'r1',street:'红旗大街',num:'123',ridgepole:3,unit:2,door:402,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon1',name:'jilajfdi'},master:{id:'m1',name:'0jidsj'}},
+                    {id:'r2',street:'嵩山路',num:'456',ridgepole:4,unit:5,door:712,police:{name:'李洋'},tenants:[],user:{name:'李四'},community:{id:'oon2',name:'11jilajfdi'},master:{id:'m2',name:'2jidsj'}},
+                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": null}],user:{name:'张三'},community:{id:'oon3',name:'22jilajfdi'},master:{id:'m3',name:'2jidsj'}},
+                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon4',name:'33jilajfdi'},master:{id:'m4',name:'3jidsj'}},
+                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon5',name:'jilajfdi'},master:{id:'m5',name:'0jidsj'}},
+                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon6',name:'jilajfdi'},master:{id:'m6',name:'0jidsj'}},
+                    {id:'r1',street:'红旗大街',num:'389',ridgepole:3,unit:2,door:402,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon7',name:'jilajfdi'},master:{id:'m7',name:'0jidsj'}},
+                    {id:'r2',street:'嵩山路',num:'21-19',ridgepole:4,unit:5,door:712,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon8',name:'jilajfdi'},master:{id:'m8',name:'0jidsj'}},
+                    {id:'r3',street:'香江路',num:'3',ridgepole:1,unit:1,door:323,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon9',name:'jilajfdi'},master:{id:'m9',name:'0jidsj'}},
+                    {id:'r4',street:'珠江路',num:'119',ridgepole:6,unit:2,door:212,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon10',name:'jilajfdi'},master:{id:'m10',name:'0jidsj'}},
+                    {id:'r5',street:'中山路',num:'84',ridgepole:5,unit:4,door:506,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon11',name:'jilajfdi'},master:{id:'m11',name:'0jidsj'}},
+                    {id:'r6',street:'华山路',num:'59',ridgepole:'',unit:6,door:721,police:{name:'李洋'},tenants:[{"id": "402883875aeaf4d1015aeaf5846a0000", "status": null}, {"id": "402883875ad0f433015ad0f54b380001", "status": "cancel"}],user:{name:'张三'},community:{id:'oon12',name:'jilajfdi'},master:{id:'m12',name:'0jidsj'}}
                 ]
             ));
         }
