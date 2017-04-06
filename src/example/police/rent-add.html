@@ -181,6 +181,10 @@
             var door = $container.data('data-door');
             var communityName =$container.data('change-community-name');
             var masterName =$container.data('change-master-name');
+            var masterid =$container.data('data-add-master');
+            if(masterid=='unknow'){
+                masterName='不详';
+            }
             $('#road').val(street);
             $('#size').val(size);
             $('#ridgepole').val(ridgepole);
