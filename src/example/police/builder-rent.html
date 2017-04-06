@@ -201,7 +201,7 @@
             _this.siblings('.delete-box').find('.r-delete').on('click',function(){
                 confirmDialog('确定删除该房屋？',function(){
                     $.ajax({
-                        type: "delete",
+                        type: "POST",
                         url: "api/police/delete.json",
                         data:{id:id},
                         success: function (xhr) {
