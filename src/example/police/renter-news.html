@@ -339,6 +339,7 @@
                 data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
                 success: function (data) {
                     if(data.state == 1){
+                        outPop();
                         $('#personbackground').hide();
                         idCardList();
                     }else if(data.state == 0){
