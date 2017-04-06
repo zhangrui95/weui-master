@@ -181,6 +181,9 @@
             var door = $container.data('data-door');
             var communityName =$container.data('change-community-name');
             var masterName =$container.data('change-master-name');
+            if(masterName==null||masterName==''){
+                masterName='不详';
+            }
             $('#road').val(street);
             $('#size').val(size);
             $('#ridgepole').val(ridgepole);
@@ -188,7 +191,8 @@
             $('#door').val(door);
             $('#community').html(communityName);
             $('#residence-advisor').html(masterName);
-            var url ='api/police/update.json';
+            var communityid =$container.data('data-add-typeId');
+            master(communityid);
             $('#next-step').click(function(){
                 var road = $('#road').val().trim();
                 var size = $('#size').val().trim();
