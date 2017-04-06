@@ -8,6 +8,8 @@
 <script>
     $(function(){
         var $container = $('#container');
+        $container.data('p2c-detail-pid',null);
+        $container.data('p2c-detail-cid',null);
         var state =  $container.data('p2c-list-state');
         state = state==null?'0':'1';
         var $changeState = $('#changeState');

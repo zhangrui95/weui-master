@@ -19,7 +19,7 @@
         var pid =  $container.data('p2c-detail-pid');
         var cid =  $container.data('p2c-detail-cid');
 
-        var state = pid!=null ? '0':'1';
+        var state = pid!=null&&pid!='' ? '0':'1';
         var pkId = state=='0'?pid:cid;
         var detailUrl = state=='0'?'api/user/detail.json':'api/community/detail.json';
         var listUrl = state=='0'?'api/policeCommunity/communitiesByPolice.json':'api/policeCommunity/policesByCommunity.json';
