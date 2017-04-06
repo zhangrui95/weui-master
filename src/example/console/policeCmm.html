@@ -8,14 +8,14 @@
 <script>
     $(function(){
         var $container = $('#container');
-        $container.data('p2c-detail-pid',null);
-        $container.data('p2c-detail-cid',null);
         var state =  $container.data('p2c-list-state');
         state = state==null?'0':'1';
         var $changeState = $('#changeState');
 
         var update = function () {
             var id = $(this).parent().attr('data-ctype-id');
+            $container.data('p2c-detail-pid',null);
+            $container.data('p2c-detail-cid',null);
             $container.data(state == '0'?'p2c-detail-pid':'p2c-detail-cid',id);
             window.pageManager.go('p2c-detail');
         };
