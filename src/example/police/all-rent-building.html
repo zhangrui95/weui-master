@@ -84,7 +84,7 @@
                     hideCellAction($(this));
                 }).on('click',function (e) {
                     if(isCellEditModel){
-                        hideAllCellAction($(this));
+                        hideAllCellAction($('.weui-cell'));
                     }else{
                         $container.data('data-floorid',$(this).attr('id'));
                         $container.data('data-floor-place',$(this).find('div .item-width').html());
@@ -212,6 +212,8 @@
             cell.find('.size-new').animate({width:'195px'},200,'linear');
             cell.parent().siblings().find('.delete-box').animate({right:'-101px'},200,'linear');
             cell.siblings('.delete-box').animate({right:'0'},200,'linear');
+            cell.parent().siblings().find('.size-new').animate({width:'220px'},200,'linear');
+            cell.parent().siblings().find('.item-width').animate({width:'90%'},200,'linear');
         }
 
         function hideCellAction(cell){
