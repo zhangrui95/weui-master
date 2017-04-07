@@ -37,7 +37,7 @@
             var ridgepole = $('#ridgepole').val().trim();
             var element = $('#element').val().trim();
             var door = $('#door').val().trim();
-            var test = /^[^。,!?！，？……￥$@~%]*$/;
+            var test = /^[^。,!?！，？……￥^$@~%:：&+={}<>《》【】[]|、‘’“”]*$/;
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
@@ -83,7 +83,7 @@
             var ridgepole = $('#ridgepole').val().trim();
             var element = $('#element').val().trim();
             var door = $('#door').val().trim();
-            var test = /^[^。,!?！，？……￥$@~%]*$/;
+            var test = /^[^。,!?！，？……￥^$@~%:：&+={}<>《》【】[]|、‘’“”]*$/;
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
