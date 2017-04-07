@@ -629,12 +629,9 @@ $(function () {
                 });
                 wx.onMenuShareTimeline(option);
                 wx.onMenuShareQQ(option);
-                wx.onMenuShareAppMessage({
-                    title: 'WeUI',
-                    desc: '为微信 Web 服务量身设计',
-                    link: location.href,
-                    imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
-                });
+                wx.onMenuShareAppMessage(option);
+                wx.onMenuShareWeibo(option);
+                wx.onMenuShareQZone(option);
             });
         });
     }
