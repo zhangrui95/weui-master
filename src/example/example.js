@@ -855,6 +855,9 @@ var picturePreview = function($selector){
         gallery.hide();
         return false;
     });
+    gallery.on('click',function(){
+        pageManager.setBeforeHashchangeOnce(null)
+    });
     var onDelete = picture["onDelete"];
     if (onDelete) {
         $('.weui-gallery__del').on('click', function () {
