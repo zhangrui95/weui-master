@@ -851,6 +851,10 @@ var picturePreview = function($selector){
         picture = JSON.parse($selector.attr('picture'));
     }
     var gallery = weui.gallery($selector.attr('src'));
+    pageManager.setBeforeHashchangeOnce(function (e) {
+        gallery.hide();
+        return false;
+    });
     var onDelete = picture["onDelete"];
     if (onDelete) {
         $('.weui-gallery__del').on('click', function () {

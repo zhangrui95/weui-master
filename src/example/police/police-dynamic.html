@@ -15,13 +15,13 @@
                 <div class="weui-cells" id="tab1" style="opacity: 1;"></div>
                 <div class="weui-cells active" id="tab2" style="opacity: 2; display: none;"></div>
                 <div class="weui-cells active" id="tab3" style="opacity: 3; display: none;"></div>
-            </div>
-            <div class="weui-loadmore" id="load" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-                <i class="weui-loading"></i>
-                <span class="weui-loadmore__tips">正在加载</span>
-            </div>
-            <div class="weui-loadmore weui-loadmore_line active" id="empty-box" style="display: none;">
-                <span class="weui-loadmore__tips">暂无更多数据</span>
+                <div class="weui-loadmore" id="load" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                    <i class="weui-loading"></i>
+                    <span class="weui-loadmore__tips">正在加载</span>
+                </div>
+                <div class="weui-loadmore weui-loadmore_line active" id="empty-box" style="">
+                    <span class="weui-loadmore__tips" id="no_data">暂无更多数据</span>
+                </div>
             </div>
         </div>
     </div>
@@ -49,6 +49,7 @@
                 });
             },
             emptyCb: function () {
+                $("#load").hide();
                 $(".weui-loading").hide();
                 var img = 'icon-ok.jpg';
                 var text1 = '很抱歉';
@@ -61,8 +62,9 @@
                         '</div>');
             },
             noMoreCb: function () {  //没有更多的数据
-                $("#empty-box").html('<span class="weui-loadmore__tips">暂无更多数据</span>');
-                $('.empty-box').show();
+                $("#empty-box").html('<span class="weui-loadmore__tips" id="no_data">暂无更多数据</span>');
+                $("#empty-box").show();
+                $('.empty-box').remove();
             },
             getItemsPanel: function () {
                 return $('#' + (currState == '0' ? 'tab1' : currState == '1' ? 'tab2' : 'tab3'));
@@ -114,8 +116,10 @@
             },
             before: function () {
                 // $("#load").show();
-                $("#empty-box").html('<span class="weui-loadmore__tips">暂无更多数据</span>');
-                $("#empty-box").show();
+                //    $("#empty-box").html('<span class="weui-loadmore__tips">暂无更多数据</span>');
+                $("#load").show();
+                $("#empty-box").hide();
+                $('.empty-box').remove();
             },
             after: function () {
                 $("#load").hide();

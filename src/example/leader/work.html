@@ -192,16 +192,16 @@
                     var html = '';
                     switch (readState) {
                         case 2 :
-                            html = '<span class="weui-badge tip-red">未读</span>';
+                            html = '<span class="weui-badge tip-orange">未读</span>';
                             break;
                         case 1 :
                             html = '<span class="weui-badge tip-green">已读</span>';
                             break;
                         case 3 :
-                            html = '<span class="weui-badge tip-orange">待处理</span>';
+                            html = '<span class="weui-badge tip-red">待处理</span>';
                             break;
                         case 4 :
-                            html = '<span class="weui-badge tip-orange">待处理</span>';
+                            html = '<span class="weui-badge tip-red">待处理</span>';
                             break;
                     }
                     return html;
@@ -209,7 +209,7 @@
                 return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '" data-read-state="' + item.readState + '">' +
                         '<div class="tiptop">' + getReadStateHtml(item.readState) + '</div>' +
                         '<div class="weui-media-box__bd">' +
-                        '<h4 class="weui-media-box__title p-width">' + item.company.name + '</h4>' +
+                        '<h4 class="weui-media-box__title p-width">检查工作：' + item.company.name + '</h4>' +
                         '<div class="p-slip clearfix">' +
                         '<div class="p-time">' + getLocalTime(item.createTime) + '</div>' +
                         '<div class="p-title">辖区民警：' + item.company.police.name + '</div>' +
@@ -254,7 +254,7 @@
             templateProcess: function (item) {
                 return '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg box-rel weui-bl" data-id="' + item.id + '">' +
                         '<div class="weui-media-box__bd">' +
-                        '<h4 class="weui-media-box__title p-width">' + item.company.name + '</h4>' +
+                        '<h4 class="weui-media-box__title p-width">检查工作：' + item.company.name + '</h4>' +
                         '<div class="p-slip clearfix">' +
                         '<div class="p-time">' + getLocalTime(item.createTime) + '</div>' +
                         '<div class="p-title">辖区民警：' + item.company.police.name + '</div>' +
