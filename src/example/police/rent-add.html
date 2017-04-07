@@ -50,7 +50,7 @@
         <div class="weui-actionsheet" id="iosActionsheets">
             <div class="weui-actionsheet__menu menus">
                 <div  id="choice-lists"></div>
-                <div class="weui-actionsheet__cell police-choice-name" id='unknow'>不详</div>
+                <div class="weui-actionsheet__cell police-choice-name" id='unknow'>暂无</div>
             </div>
             <div class="weui-actionsheet__action">
                 <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
@@ -197,7 +197,7 @@
             var masterName =$container.data('change-master-name');
             var masterid =$container.data('data-add-master');
             if(masterid=='unknow'){
-                masterName='不详';
+                masterName='暂无';
             }
             $('#road').val(street);
             $('#size').val(size);
