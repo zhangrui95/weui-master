@@ -151,7 +151,7 @@
                 url: "api/sheriff/counttenant.json",
                 data:{userid:$('#userid').val(),sfzh:sfzh,uncheck:'1'},
                 success: function (data) {
-                    $('.float-right').html('<span class="type-red">'+data.count+'</span>');
+                    $('.float-right').html('<span class="type-red">'+data.count+'人</span>');
                 },
                 error: function () {
                 }
