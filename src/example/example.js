@@ -632,6 +632,7 @@ $(function () {
                 wx.onMenuShareAppMessage(option);
                 wx.onMenuShareWeibo(option);
                 wx.onMenuShareQZone(option);
+                wx.hideAllNonBaseMenuItem();
             });
         });
     }
