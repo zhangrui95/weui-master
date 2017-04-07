@@ -85,8 +85,15 @@
                 var door = $('#door').val().trim();
                 var communityid = $('#container').data('data-add-typeId');
                 var masterid = $('#container').data('data-add-master');
+                var test = /^[^。,!?！，？……￥$@~%]*$/;
                 if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                     $('#alert').html("请输入必填项");
+                    $('#alert').fadeIn(100);
+                    setTimeout(function () {
+                        $('#alert').fadeOut(100);
+                    }, 2000);
+                }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
+                    $('#alert').html("禁止输入特殊字符");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
@@ -133,8 +140,15 @@
                 var door = $('#door').val().trim();
                 var communityid = $('#container').data('data-add-typeId');
                 var masterid = $('#container').data('data-add-master');
+                var test = /^[^。,!?！，？……￥$@~%]*$/;
                 if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                     $('#alert').html("请输入必填项");
+                    $('#alert').fadeIn(100);
+                    setTimeout(function () {
+                        $('#alert').fadeOut(100);
+                    }, 2000);
+                }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
+                    $('#alert').html("禁止输入特殊字符");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
