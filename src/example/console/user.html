@@ -86,8 +86,8 @@
                     for(var i in xhr){
                         item = xhr[i];
                         html += '<li data-domain-id="'+item.id+'">' +
-                                '<input type="text" name="name" value="'+item.name+'"/> -> ' + item.role+
-                                '<button style="margin: 0 5px 0 5px" data-action="save">修改</button><button data-action="del">删除</button></li>'
+                                '<input type="text" name="name" value="'+item.name+'"/> -> ' + item.role+','+ item.state+
+                        '<button style="margin: 0 5px 0 5px" data-action="save">修改</button><button data-action="del">删除</button></li>'
                     }
                     var $list = $('#list');
                     $list.html(html);
