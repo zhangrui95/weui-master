@@ -169,14 +169,14 @@
                                 var $toast = $('#toast');
                                 if ($toast.css('display') != 'none') return;
                                 $toast.fadeIn(100);
+                                $('#road,#size,#ridgepole,#element,#door').val('');
+                                $('#road,#size,#ridgepole,#element,#door').blur();
+                                $('#container').data('data-add-typeId','');
+                                $('#container').data('data-add-master','');
+                                $('#community').html('请选择');
+                                $('#residence-advisor').html('请选择');
                                 setTimeout(function () {
                                     $toast.fadeOut(100);
-                                    $('#road,#size,#ridgepole,#element,#door').val('');
-                                    $('#road,#size,#ridgepole,#element,#door').blur();
-                                    $('#container').data('data-add-typeId','');
-                                    $('#container').data('data-add-master','');
-                                    $('#community').html('请选择');
-                                    $('#residence-advisor').html('请选择')
                                 }, 2000);
                                 $container.data('data-floorid',data.floorid);
                             }

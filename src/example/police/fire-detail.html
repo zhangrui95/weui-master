@@ -36,8 +36,8 @@
         <div class="hight-border"></div>
         <div class="height-fixed"></div>
     </div>
-    <div class="weui-gallery" id="gallery">
-        <img class="weui-gallery__img center-img" id="galleryImg"/>
+    <div class="weui-gallery" style="position: absolute;left: 0;"  id="gallery">
+        <!--<img class="weui-gallery__img center-img" id="galleryImg"/>-->
     </div>
 </div>
 <script>
@@ -45,6 +45,7 @@
         var container = $('#container');
         var id = container.data('fire-check-id');
         var cid =  container.data('data-company-name-cid');
+        var widths = $(document).width();
         var $gallery = $("#gallery"),
              $galleryImg = $("#galleryImg");
         $.ajax({
@@ -80,75 +81,154 @@
             url: "api/fireCheck/detail.json",
             data:{userid:$('#userid').val(),id:id},
             success: function (data) {
+                var j = 0;
+                var n = 0;
+                var m = 0;
                 for(var i = 0;i<data.items.length;i++){
                     if(data.items[i].type=='check'){
-                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
+                        j++;
+                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
                     }else if(data.items[i].type=='legal'){
-                        $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
+                        n++;
+                        $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
                     }else{
-                        $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list"/></li>')
+                        m++;
+                        $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+m+'" data-item-type="'+2+'"/></li>');
                     }
                     $('#place').html(data.company.address);
                     $('#time').html(getLocalTime(data.createTime));
                 }
                 $('.fire-img-list').on("click", function(){
+                    $('#more-nums').remove();
+                    $('#pack-up-book').remove();
                     inPop(function(){
                         $gallery.fadeOut(100);
                     });
-                    $galleryImg.attr("src", this.getAttribute("src"));
-                    $gallery.fadeIn(100);
+                    var dataItemType=$(this).data('item-type');
+                    if(dataItemType=='0'){
+                        var j = $(this).data('index');
+                        var indexLeft = (j-1)*widths+12*(j-1);
+                        $gallery.css('left','-'+indexLeft+'px');
+                        var index = $('#site-img li').length;
+                        container.data('length',index);
+                        var gWidth = index*widths+index*12;
+                        $gallery.css('width',gWidth+'px');
+                        var images = [];
+                        $('#site-img li').each (function(){
+                            var src = $(this).find('img').attr('src');
+                            images.push(src);
+                        });
+                        $gallery.html('');
+                        for(var i = 0;i<$('#site-img li').length;i++){
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
+                        };
+                    }else if(dataItemType=='1'){
+                        var n = $(this).data('index');
+                        var indexLeft = (n-1)*widths+12*(n-1);
+                        $gallery.css('left','-'+indexLeft+'px');
+                        var index = $('#all-img li').length;
+                        container.data('length',index);
+                        var gWidth = index*widths+index*12;
+                        $gallery.css('width',gWidth+'px');
+                        var images = [];
+                        $('#all-img li').each (function(){
+                            var src = $(this).find('img').attr('src');
+                            images.push(src);
+                        });
+                        $gallery.html('');
+                        for(var i = 0;i<$('#all-img li').length;i++){
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
+                        };
+                    }else if(dataItemType=='2'){
+                        var m = $(this).data('index');
+                        var indexLeft = (m-1)*widths+12*(m-1);
+                        $gallery.css('left','-'+indexLeft+'px');
+                        var index = $('#person-img li').length;
+                        container.data('length',index);
+                        var gWidth = index*widths+index*12;
+                        $gallery.css('width',gWidth+'px');
+                        var images = [];
+                        $('#person-img li').each (function(){
+                            var src = $(this).find('img').attr('src');
+                            images.push(src);
+                        });
+                        $gallery.html('');
+                        for(var i = 0;i<$('#person-img li').length;i++){
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
+                        };
+                    }
+//                    $galleryImg.attr("src", this.getAttribute("src"));
+                    $gallery.show();
                 });
-                $gallery.on("click", function(){
+                $gallery.on('swipeLeft',function(e){
+                    var index = container.data('length');
+                    var leftWidth = (index-1)*widths+(index-1)*12;
+                    if(parseInt($gallery.css('left'))!='-'+leftWidth){
+                        var newLeft = parseInt($gallery.css('left')) - widths-12+'px';
+                        $(this).animate({left:newLeft},400,'linear');
+                    }
+                }).on('swipeRight',function(e){
+                    var newRight=0;
+                    if(parseInt($gallery.css('left'))!=0){
+                        newRight = parseInt($gallery.css('left')) + widths+12+'px';
+                        $(this).animate({left:newRight},400,'linear');
+                    }
+                }).on("click", function(){
                     outPop();
+                    more();
+                    $('.img-box-height').css('height','92px');
+                    $('.img-book-height').css('height','92px');
                     $gallery.fadeOut(100);
                 });
-                var width = $('.bd-right').width();
-                var nums = Math.floor(width/49)*2;
-                var length = $('#site-img li').length;
-                var more = length-nums+1;
-                var bookLength = $('#all-img li').length;
-                var moreBook = bookLength-nums+1;
-                var height = $('#site').height();
-                var bookHeight = $('#book').height();
-                if(height>92){
-                    $('#site').addClass('img-box-height');
-                }else{
-                    $('#site').removeClass('img-box-height');
-                }
-                if(bookHeight>92){
-                    $('#book').addClass('img-book-height');
-                }else{
-                    $('#book').removeClass('img-book-height');
-                }
-                $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
-                $('#site-img li').eq(length).after('<li class="more-img pack-up" id="pack-up">收起</li>');
-                if(more<=1){
-                    $('#more-num').hide();
-                    $('#pack-up').hide();
-                }
-                $('#more-num').on('click',function(){
-                    $('.img-box-height').css('height','auto');
-                    $(this).hide();
-                });
-                $('#pack-up').on('click',function(){
-                    $('.img-box-height').css('height','92px');
-                    $('#more-num').show();
-                });
-                $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
-                $('#all-img li').eq(bookLength).after('<li class="more-img pack-up" id="pack-up-book">收起</li>');
-                if(moreBook<=1){
-                    $('#more-nums').hide();
-                    $('#pack-up-book').hide();
-                }
-                $('#more-nums').on('click',function(){
-                    $('.img-book-height').css('height','auto');
-                    $(this).hide();
-                });
-                $('#pack-up-book').on('click',function(){
-                    $('.img-book-height').css('height','92px');
-                    $('#more-nums').show();
-                });
-
+                more();
+                function more() {
+                    var width = $('.bd-right').width();
+                    var nums = Math.floor(width/49)*2;
+                    var length = $('#site-img li').length;
+                    var more = length-nums+1;
+                    var bookLength = $('#all-img li').length;
+                    var moreBook = bookLength-nums+1;
+                    var height = $('#site').height();
+                    var bookHeight = $('#book').height();
+                    if(height>92){
+                        $('#site').addClass('img-box-height');
+                    }else{
+                        $('#site').removeClass('img-box-height');
+                    }
+                    if(bookHeight>92){
+                        $('#book').addClass('img-book-height');
+                    }else{
+                        $('#book').removeClass('img-book-height');
+                    }
+                    $('#site-img li').eq(nums-2).after('<li class="more-img" id="more-num">+'+more+'</li>');
+                    $('#site-img li').eq(length).after('<li class="more-img pack-up" id="pack-up">收起</li>');
+                    if(more<=1){
+                        $('#more-num').hide();
+                        $('#pack-up').hide();
+                    }
+                    $('#more-num').on('click',function(){
+                        $('.img-box-height').css('height','auto');
+                        $(this).hide();
+                    });
+                    $('#pack-up').on('click',function(){
+                        $('.img-box-height').css('height','92px');
+                        $('#more-num').show();
+                    });
+                    $('#all-img li').eq(nums-2).after('<li class="more-img" id="more-nums">+'+moreBook+'</li>');
+                    $('#all-img li').eq(bookLength).after('<li class="more-img pack-up" id="pack-up-book">收起</li>');
+                    if(moreBook<=1){
+                        $('#more-nums').hide();
+                        $('#pack-up-book').hide();
+                    }
+                    $('#more-nums').on('click',function(){
+                        $('.img-book-height').css('height','auto');
+                        $(this).hide();
+                    });
+                    $('#pack-up-book').on('click',function(){
+                        $('.img-book-height').css('height','92px');
+                        $('#more-nums').show();
+                    });
+                };
             },
             error: function (mes) {
                 console.log("error");

@@ -86,13 +86,13 @@
                 for(var i = 0;i<data.items.length;i++){
                     if(data.items[i].type=='check'){
                         j++;
-                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>')
+                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
                     }else if(data.items[i].type=='legal'){
                         n++;
-                        $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>')
+                        $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
                     }else{
                         m++;
-                        $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" data-index="'+m+'" class="fire-img-list" data-item-type="'+2+'"/></li>')
+                        $('#person-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" data-index="'+m+'" class="fire-img-list" data-item-type="'+2+'"/></li>');
                     }
                     $('#place').html(data.company.address);
                     $('#time').html(getLocalTime(data.createTime));
@@ -106,11 +106,11 @@
                     var dataItemType=$(this).data('item-type');
                     if(dataItemType=='0'){
                         var j = $(this).data('index');
-                        var indexLeft = (j-1)*widths;
+                        var indexLeft = (j-1)*widths+12*(j-1);
                         $gallery.css('left','-'+indexLeft+'px');
                         var index = $('#site-img li').length;
                         container.data('length',index);
-                        var gWidth = index*widths;
+                        var gWidth = index*widths+index*12;
                         $gallery.css('width',gWidth+'px');
                         var images = [];
                         $('#site-img li').each (function(){
@@ -119,15 +119,15 @@
                         });
                         $gallery.html('');
                         for(var i = 0;i<$('#site-img li').length;i++){
-                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;" src="'+images[i]+'"/>');
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
                         };
                     }else if(dataItemType=='1'){
                         var n = $(this).data('index');
-                        var indexLeft = (n-1)*widths;
+                        var indexLeft = (n-1)*widths+12*(n-1);
                         $gallery.css('left','-'+indexLeft+'px');
                         var index = $('#all-img li').length;
                         container.data('length',index);
-                        var gWidth = index*widths;
+                        var gWidth = index*widths+index*12;
                         $gallery.css('width',gWidth+'px');
                         var images = [];
                         $('#all-img li').each (function(){
@@ -136,15 +136,15 @@
                         });
                         $gallery.html('');
                         for(var i = 0;i<$('#all-img li').length;i++){
-                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;" src="'+images[i]+'"/>');
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
                         };
                     }else if(dataItemType=='2'){
                         var m = $(this).data('index');
-                        var indexLeft = (m-1)*widths;
+                        var indexLeft = (m-1)*widths+12*(m-1);
                         $gallery.css('left','-'+indexLeft+'px');
                         var index = $('#person-img li').length;
                         container.data('length',index);
-                        var gWidth = index*widths;
+                        var gWidth = index*widths+index*12;
                         $gallery.css('width',gWidth+'px');
                         var images = [];
                         $('#person-img li').each (function(){
@@ -153,23 +153,23 @@
                         });
                         $gallery.html('');
                         for(var i = 0;i<$('#person-img li').length;i++){
-                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;" src="'+images[i]+'"/>');
+                            $gallery.append('<img class="img-wheel" style="float: left;width: '+widths+'px;padding:0 12px 0 0;" src="'+images[i]+'"/>');
                         };
                     }
-                    $gallery.fadeIn(100);
+                    $gallery.show();
                 });
                 $gallery.on('swipeLeft',function(e){
                     var index = container.data('length');
-                    var leftWidth = (index-1)*widths;
+                    var leftWidth = (index-1)*widths+(index-1)*12;
                     if(parseInt($gallery.css('left'))!='-'+leftWidth){
-                        var newLeft = parseInt($gallery.css('left')) - widths+'px';
-                        $(this).animate({left:newLeft},800,'linear');
+                        var newLeft = parseInt($gallery.css('left')) - widths-12+'px';
+                        $(this).animate({left:newLeft},400,'linear');
                     }
                 }).on('swipeRight',function(e){
                     var newRight=0;
                     if(parseInt($gallery.css('left'))!=0){
-                        newRight = parseInt($gallery.css('left')) + widths+'px';
-                        $(this).animate({left:newRight},800,'linear');
+                        newRight = parseInt($gallery.css('left')) + widths+12+'px';
+                        $(this).animate({left:newRight},400,'linear');
                     }
                 }).on("click", function(){
                     outPop();
