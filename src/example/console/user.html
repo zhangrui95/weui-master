@@ -147,7 +147,11 @@
 
         var update = function () {
             var li = $(this).parents('[data-domain-id]');
-            actions.update.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id'),name:li.find('[name="name"]').val()});
+            actions.update.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id'),
+                name:li.find('[name="name"]').val(),
+                role:li.find('[name="role"]').val(),
+                post:li.find('[name="post"]').val()
+            });
         };
 
         var close = function () {
