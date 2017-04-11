@@ -37,6 +37,8 @@
     <div class="weui-gallery" style="position: absolute;left: 0;" id="gallery">
         <!--<img class="weui-gallery__img center-img" id="galleryImg"/>-->
     </div>
+    <div class="lt-style">&lt;</div>
+    <div class="gt-style">&gt;</div>
 </div>
 <script>
     $(function () {
@@ -86,7 +88,7 @@
                 for(var i = 0;i<data.items.length;i++){
                     if(data.items[i].type=='check'){
                         j++;
-                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
+                        $('#site-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
                     }else if(data.items[i].type=='legal'){
                         n++;
                         $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
@@ -158,25 +160,40 @@
                     }
                     $gallery.show();
                 });
-                $gallery.on('swipeLeft',function(e){
+                function swipeLeft(){
                     var index = container.data('length');
                     var leftWidth = (index-1)*widths+(index-1)*12;
                     if(parseInt($gallery.css('left'))!='-'+leftWidth){
                         var newLeft = parseInt($gallery.css('left')) - widths-12+'px';
-                        $(this).animate({left:newLeft},400,'linear');
+                        $gallery.animate({left:newLeft},200,'linear');
                     }
-                }).on('swipeRight',function(e){
+                };
+                function swipeRight(){
                     var newRight=0;
                     if(parseInt($gallery.css('left'))!=0){
                         newRight = parseInt($gallery.css('left')) + widths+12+'px';
-                        $(this).animate({left:newRight},400,'linear');
+                        $gallery.animate({left:newRight},200,'linear');
                     }
+                }
+                $gallery.on('swipeLeft',function(e){
+                    swipeLeft();
+                }).on('swipeRight',function(e){
+                    swipeRight();
                 }).on("click", function(){
                     outPop();
                     more();
                     $('.img-box-height').css('height','92px');
                     $('.img-book-height').css('height','92px');
                     $gallery.fadeOut(100);
+                    $('.lt-style,.gt-style').hide();
+                }).on(' mouseenter',function () {
+                    $('.lt-style,.gt-style').show();
+                });
+                $('.lt-style').on('click',function(){
+                    swipeRight();
+                });
+                $('.gt-style').on('click',function(){
+                    swipeLeft();
                 });
                 more();
                function more() {
