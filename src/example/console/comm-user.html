@@ -1,10 +1,6 @@
 <div class="page">
     <div class="weui-grids">
-        <div>列表：<select id="listRole" name="role">
-            <option value="dept_dev">开发者</option>
-            <option value="dept_leader">所领导</option>
-            <option value="dept_police">民警</option>
-        </select></div>
+        <div>列表：<select id="listComm"></select><select id="listUser"></select></div>
         <ul id="list" ></ul>
     </div>
     <div style="margin-top: 10px">
@@ -12,6 +8,8 @@
         <ul id="add" >
             <li>名称：<input type="text" name="name"/></li>
             <li>手机：<input type="text" name="mobile"/></li>
+            <li>社区：<select id="addComm" name="communityid"></select></li>
+            <li>民警：<select id="addUser" name="policeid"></select></li>
             <li><button id="add-save">添加</button></li>
         </ul>
     </div>
@@ -25,7 +23,7 @@
             url:undefined,
             done:function (xhr) {
                 $('#result').html(JSON.stringify(xhr));
-                actions.list && actions.list.doAction({userid:$('#userid').val(),role:'dept_community',communityid:$('#listRole').val()});
+                actions.list && actions.list.doAction({userid:$('#userid').val(),role:'dept_community',communityid:$('#listComm').val(),policeid:$('#listUser').val()});
             },
             fail:function (err) {
                 $('#result').html(JSON.stringify(err));
@@ -66,6 +64,8 @@
         };
 
         var users = {};
+        var comms = [];
+        var polices = [];
         var $list = $('#list');
         var option = {
             add:'api/user/save.json',
@@ -105,21 +105,39 @@
             if(isHide){
                 var id = li.attr('data-domain-id');
                 var user = users[id];
+                var cmmHtml = '',item;
+                for(var i in comms){
+                    item = comms[i];
+                    cmmHtml += '<option value="'+item.id+'">' +item.name +'</option>'
+                }
+                var poHtml = '';
+                for(var i in polices){
+                    item = polices[i];
+                    poHtml += '<option value="'+item.id+'">' +item.name +'</option>'
+                }
                 html = '<li>名称：<input type="text" name="name" value="'+user.name+'"/></li>' +
                         '<li>手机：<input type="text" name="mobile" value="'+user.mobile+'"/></li>' +
+                        '<li>社区：<select name="communityid">'+cmmHtml+'</select></li>' +
+                        '<li>民警：<select name="policeid">'+poHtml+'</select></li>' +
                         '<li><button data-action="save">修改</button></li>';
             }
             panel.html(html);
             $list.find('[data-action="save"]').on('click',update);
         };
+
         var $add = $('#add');
+        var $listComm = $('#listComm');
+        var $addComm = $('#addComm');
+        var $listUser = $('#listUser');
+        var $addUser = $('#addUser');
 
         var add = function () {
             actions.add.doAction({userid:$('#userid').val(),
                 name:$add.find('[name="name"]').val(),
                 mobile:$add.find('[name="mobile"]').val(),
-                role:$add.find('[name="role"]').val(),
-                post:$add.find('[name="post"]').val()
+                role:'dept_community',
+                communityid:$add.find('[name="communityid"]').val(),
+                policeid:$add.find('[name="policeid"]').val()
             });
         };
 
@@ -128,8 +146,8 @@
             actions.update.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id'),
                 name:li.find('[name="name"]').val(),
                 mobile:li.find('[name="mobile"]').val(),
-                role:li.find('[name="role"]').val(),
-                post:li.find('[name="post"]').val()
+                communityid:li.find('[name="communityid"]').val(),
+                policeid:li.find('[name="policeid"]').val()
             });
         };
 
@@ -143,18 +161,55 @@
             actions.delete.doAction('id='+li.attr('data-domain-id')+'&userid='+$('#userid').val());
         };
 
-        var list = function (role) {
-            actions.list.doAction({userid:$('#userid').val(),role:'dept_community',communityid:$('#listRole').val()});
+        var list = function (comm,police) {
+            actions.list.doAction({userid:$('#userid').val(),role:'dept_community',communityid:comm,policeid:police});
         };
 
-        var $listRole = $('#listRole');
-        list($listRole.val());
+        var initOpt = function (url,targets,cb) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{userid:$('#userid').val()},
+                success: function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<option value="'+item.id+'">' +item.name +'</option>'
+                    }
+                    targets.forEach(function(i){i.html(html)});
+                    cb(xhr);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
 
-        $listRole.on('change',function(){
-            list($(this).val());
-        });
+        var initComm = function (cb) {
+            initOpt('api/community.json',[$listComm,$addComm],cb);
+        };
 
-        $('#add-save').on('click',add);
+        var initUser = function (cb) {
+            initOpt('api/user/role.json?role=dept_police',[$listUser,$addUser],cb);
+        };
+
+        var init = function () {
+            initComm(function (commData) {
+                comms = commData;
+                initUser(function (policeData) {
+                    polices = policeData;
+                    list($listComm.val(),$listUser.val());
+                    var listCb = function(){
+                        list($listComm.val(),$listUser.val());
+                    };
+                    $listComm.on('change',listCb);
+                    $listUser.on('change',listCb);
+                    $('#add-save').on('click',add);
+                })
+            });
+        };
+
+        init();
 
     });
 </script>
