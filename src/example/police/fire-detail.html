@@ -71,6 +71,7 @@
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
+                $('.lt-style,.gt-style').hide();
                 return false;
             })
         }
