@@ -2,8 +2,8 @@
     <div class="weui-grids">
         <div>列表：<select id="listRole" name="role">
             <option value="dept_dev">开发者</option>
-            <option value="dept_dev">所领导</option>
-            <option value="dept_dev">民警</option>
+            <option value="dept_leader">所领导</option>
+            <option value="dept_police">民警</option>
         </select></div>
         <ul id="list" ></ul>
     </div>
@@ -12,12 +12,12 @@
         <ul id="add" >
             <li>名称：<input type="text" name="name"/></li>
             <li>手机：<input type="text" name="mobile"/></li>
-            <li>角色：<select id="addRole" name="role">
+            <li>角色：<select name="role">
                 <option value="dept_dev">开发者</option>
                 <option value="dept_leader">所领导</option>
                 <option value="dept_police">民警</option>
             </select></li>
-            <li>职务：<select id="addPost" name="post"></select></li>
+            <li>职务：<select name="post"></select></li>
             <li><button id="add-save">添加</button></li>
         </ul>
     </div>
@@ -71,6 +71,8 @@
             }
         };
 
+        var users = {};
+        var $list = $('#list');
         var option = {
             add:'api/user/save.json',
             update:'api/user/update.json',
@@ -85,21 +87,56 @@
                     var html = '',item;
                     for(var i in xhr){
                         item = xhr[i];
-                        html += '<li data-domain-id="'+item.id+'">' +
-                                '<input type="text" name="name" value="'+item.name+'"/> -> ' + item.role+','+ item.state+
-                        '<button style="margin: 0 5px 0 5px" data-action="save">修改</button><button data-action="del">删除</button></li>'
+                        users[item.id] = item;
+                        html += '<li data-domain-id="'+item.id+'"><span data-simple>' +
+                                item.name + ' -> ' + item.role+','+ item.state+
+                                '</span><button style="margin: 0 5px 0 5px" data-action="close">注销</button><button data-action="del">删除</button><ul data-all style="display: none"></ul></li>'
                     }
-                    var $list = $('#list');
                     $list.html(html);
-                    $list.find('[data-action="save"]').on('click',update);
+                    $list.find('[data-action="close"]').on('click',close);
                     $list.find('[data-action="del"]').on('click',del);
+                    $list.find('[data-simple]').on('click',toggleItemPanel);
                 }
             }
         };
         initActions(option);
 
+        var bindSelectChange = function (panel) {
+            panel.find('[name="role"]').on('change',function(){
+                var role = $(this).val();
+                var html = '';
+                if(role == 'dept_leader'){
+                    html = '<option>所长</option><option>副所长</option><option>教导员</option>';
+                }else if(role == 'dept_police'){
+                    html = '<option>民警</option><option>值班管理员</option><option>企业管理员</option>';
+                }
+                panel.find('[name="post"]').html(html)
+            });
+        };
+
+        var toggleItemPanel = function () {
+            var li = $(this).parent();
+            var panel = li.find('[data-all]');
+            var old = panel.css('display');
+            var isHide = old=='none';
+            panel.css('display', isHide?'':'none');
+            var html = '';
+            if(isHide){
+                var id = li.attr('data-domain-id');
+                var user = users[id];
+                html = '<li>名称：<input type="text" name="name" value="'+user.name+'"/></li>' +
+                        '<li>手机：<input type="text" name="mobile" value="'+user.mobile+'"/></li>' +
+                        '<li>角色：<select name="role"><option value="dept_dev">开发者</option><option value="dept_leader">所领导</option><option value="dept_police">民警</option></select></li>' +
+                        '<li>职务：<select name="post"></select></li>' +
+                        '<li><button data-action="save">修改</button></li>';
+            }
+            panel.html(html);
+            bindSelectChange(panel);
+            $list.find('[data-action="save"]').on('click',update);
+        };
+        var $add = $('#add');
+
         var add = function () {
-            var $add = $('#add');
             actions.add.doAction({userid:$('#userid').val(),
                 name:$add.find('[name="name"]').val(),
                 mobile:$add.find('[name="mobile"]').val(),
@@ -109,8 +146,13 @@
         };
 
         var update = function () {
-            var li = $(this).parent();
+            var li = $(this).parents('[data-domain-id]');
             actions.update.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id'),name:li.find('[name="name"]').val()});
+        };
+
+        var close = function () {
+            var li = $(this).parent();
+            actions.close.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id')});
         };
 
         var del = function () {
@@ -129,16 +171,7 @@
             list($(this).val());
         });
 
-        $('#addRole').on('change',function(){
-            var role = $(this).val();
-            var html = '';
-            if(role == 'dept_leader'){
-                html = '<option>所长</option><option>副所长</option><option>教导员</option>';
-            }else if(role == 'dept_police'){
-                html = '<option>民警</option><option>值班管理员</option><option>企业管理员</option>';
-            }
-            $('#addPost').html(html)
-        });
+        bindSelectChange($add);
 
         $('#add-save').on('click',add);
 
