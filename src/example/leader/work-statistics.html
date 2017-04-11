@@ -35,7 +35,8 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore1" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore1"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
@@ -47,7 +48,8 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore2" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore2"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
@@ -59,7 +61,8 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore3" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_loadmore3"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
@@ -238,9 +241,9 @@
             })
         });
 
-        allDataList.first();
-        noFinishDataList.first({state: 0});
-        finishedDataList.first({state: 1});
+        allDataList.first({isStatistic: 1});
+        noFinishDataList.first({state: 0, isStatistic: 1});
+        finishedDataList.first({state: 1, isStatistic: 1});
         /** 全部&已完成&未完成 end */
 
     });

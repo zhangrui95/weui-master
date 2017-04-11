@@ -37,11 +37,13 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore1" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore1"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
-                <div class="weui-cells p-height-two active" id="statistics_leader_tab2" style="opacity: 1; display: none;">
+                <div class="weui-cells p-height-two active" id="statistics_leader_tab2"
+                     style="opacity: 1; display: none;">
                     <div class="panel_none">
                     </div>
                     <div class="weui-loadmore" id="statistics_leader_load2"
@@ -49,11 +51,13 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore2" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore2"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
-                <div class="weui-cells p-height-two active" id="statistics_leader_tab3" style="opacity: 1; display: none;">
+                <div class="weui-cells p-height-two active" id="statistics_leader_tab3"
+                     style="opacity: 1; display: none;">
                     <div class="panel_none">
                     </div>
                     <div class="weui-loadmore" id="statistics_leader_load3"
@@ -61,7 +65,8 @@
                         <i class="weui-loading"></i>
                         <span class="weui-loadmore__tips">正在加载</span>
                     </div>
-                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore3" style="display: none;">
+                    <div class="weui-loadmore weui-loadmore_line active" id="statistics_leader_loadmore3"
+                         style="display: none;">
                         <span class="weui-loadmore__tips">暂无更多数据</span>
                     </div>
                 </div>
@@ -243,9 +248,9 @@
             })
         });
 
-        allDataList.first({creator: policeId});
-        noFinishDataList.first({creator: policeId, state: 0});
-        finishedDataList.first({creator: policeId, state: 1});
+        allDataList.first({creator: policeId, isStatistic: 1});
+        noFinishDataList.first({creator: policeId, state: 0, isStatistic: 1});
+        finishedDataList.first({creator: policeId, state: 1, isStatistic: 1});
         /** 全部&已完成&未完成 end */
 
     });

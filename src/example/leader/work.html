@@ -158,6 +158,7 @@
 
         /** 添加 start */
         $('#add-new-work').on('click', function () {
+            $('#addWorkForm').empty();
             var id = $(this).data('id');
             window.pageManager.go(id);
         });

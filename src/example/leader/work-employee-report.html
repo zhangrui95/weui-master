@@ -186,7 +186,6 @@
         function idCard(value, localId) {
             $('#idCard').html("");
             $('#empty').css('display', 'none');
-            window.pageManager.go('work-add');
             var addWorkForm = $('#addWorkForm');
             var index = 0;
             addWorkForm.find('input[name^="work_list_employees"]').each(function () {
@@ -197,6 +196,7 @@
             });
             addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].card" value="' + value + '">');
             addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].photo" value="' + localId + '">');
+            window.pageManager.back();
         }
 
     });
