@@ -88,7 +88,7 @@
                 for(var i = 0;i<data.items.length;i++){
                     if(data.items[i].type=='check'){
                         j++;
-                        $('#site-img').append('<li><img src="'+data.items[i].photo+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
+                        $('#site-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
                     }else if(data.items[i].type=='legal'){
                         n++;
                         $('#all-img').append('<li><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
