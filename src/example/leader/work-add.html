@@ -219,11 +219,13 @@
 
         /** 处理期限 start*/
         $('#work_value_end_time').on('click', function () {
+            var currentDate = new Date();
             weui.datePicker({
-                start: new Date().getFullYear(),
+                start: currentDate,
+                defaultValue: [currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()],
                 onConfirm: function (result) {
                     var year = result[0];
-                    var month = parseInt(result[1]) + 1;
+                    var month = parseInt(result[1]);
                     month = month < 10 ? '0' + month : month;
                     var day = result[2];
                     day = day < 10 ? '0' + day : day;
@@ -236,6 +238,12 @@
             });
         });
         /** 处理期限 end*/
+
+        /** 处理意见 start*/
+        $('#work_value_advice').change(function () {
+            addFormElement('work_value_advice', $('#work_value_advice').val());
+        });
+        /** 处理意见 end*/
 
         /** 保存start*/
         $('#showToast').on('click', function () {

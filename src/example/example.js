@@ -846,27 +846,32 @@ var generateUUID = function () {
  * 图片处理
  * @param $selector
  */
-var picturePreview = function($selector){
+var picturePreview = function ($selector) {
     var picture = {};
     if ($selector.attr('picture') != '') {
         picture = JSON.parse($selector.attr('picture'));
     }
-    var gallery = weui.gallery($selector.attr('src'));
+    var onDelete = picture["onDelete"];
+    var galleryHide = function (gallery) {
+        gallery.hide(function () {
+            pageManager.setBeforeHashchangeOnce(null);
+        });
+    }
+    var gallery = weui.gallery($selector.attr('src'), (onDelete ? {
+        onDelete: function () {
+            eval(onDelete + '("' + $selector.attr('src') + '")');
+            galleryHide(gallery);
+        }
+    } : {}));
+    if (!onDelete) {
+        $(gallery).find('.weui-gallery__del').hide();
+    }
     pageManager.setBeforeHashchangeOnce(function (e) {
-        gallery.hide();
+        galleryHide(gallery);
         return false;
     });
-    gallery.on('click',function(){
-        pageManager.setBeforeHashchangeOnce(null)
+    $(gallery).find('.weui-gallery__img').on('click', function () {
+        galleryHide(gallery);
     });
-    var onDelete = picture["onDelete"];
-    if (onDelete) {
-        $('.weui-gallery__del').on('click', function () {
-            var id = $selector.attr('src');
-            eval(onDelete + '("' + id + '")');
-            gallery.hide();
-        })
-    }else{
-        $('.weui-gallery__del').hide();
-    }
+
 };

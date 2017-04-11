@@ -83,6 +83,8 @@
             $('#androidDialog2').fadeOut(200);
         });
 
+        var flag = true;
+
         var currDataListCfg = {
             url: 'api/company.json',
             pagePanel: pagePanel,
@@ -102,13 +104,16 @@
                     }
                 }
 
-                $('.weui-cell').on('click', function (e) {
-                    addFormElement('work_value_company', $(this).data('cid'));
-                    addFormElement('work_view_company_name', $(this).data('cname'));
-                    addFormElement('work_view_address', $(this).data('caddress'));
-                    addFormElement('work_view_worker_name', $(this).data('pname'));
-                    var id = $(this).data('id');
-                    window.pageManager.back();
+                $('label.weui-cell').on('click', function (e) {
+                    if(flag){
+                        flag = false;
+                        addFormElement('work_value_company', $(this).data('cid'));
+                        addFormElement('work_view_company_name', $(this).data('cname'));
+                        addFormElement('work_view_address', $(this).data('caddress'));
+                        addFormElement('work_view_worker_name', $(this).data('pname'));
+                        var id = $(this).data('id');
+                        window.pageManager.back();
+                    }
                 });
 
             },
