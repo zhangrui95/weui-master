@@ -234,17 +234,6 @@
 
                 }
             });
-            var tmp = $('.weui-picker__content');
-            var date = new Date();
-            var $year = $(tmp[0]);
-            var $month = $(tmp[1]);
-            var month = date.getMonth() + 1;
-            var $day = $(tmp[2]);
-            var day = date.getDate();
-            var h = 102;
-            $year.css('transform', 'translate3d(0px, ' + h + 'px, 0px)');
-            $month.css('transform', 'translate3d(0px, ' + (h - (month - 1) * 34) + 'px, 0px)');
-            $day.css('transform', 'translate3d(0px, ' + (h - (day - 1) * 34) + 'px, 0px)');
         });
         /** 处理期限 end*/
 
@@ -331,8 +320,7 @@
                 async: true,
                 data: addWorkForm.serialize(),
                 success: function (card) {
-                    addWorkForm.after('<form id="addWorkForm"></form>');
-                    addWorkForm.remove();
+                    addWorkForm.empty();
                     window.pageManager.go('work');
                 },
                 error: function () {
