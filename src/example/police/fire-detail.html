@@ -165,13 +165,13 @@
                     var leftWidth = (index-1)*widths+(index-1)*12;
                     if(parseInt($gallery.css('left'))!='-'+leftWidth){
                         var newLeft = parseInt($gallery.css('left')) - widths-12+'px';
-                        $(this).animate({left:newLeft},400,'linear');
+                        $(this).animate({left:newLeft},200,'linear');
                     }
                 }).on('swipeRight',function(e){
                     var newRight=0;
                     if(parseInt($gallery.css('left'))!=0){
                         newRight = parseInt($gallery.css('left')) + widths+12+'px';
-                        $(this).animate({left:newRight},400,'linear');
+                        $(this).animate({left:newRight},200,'linear');
                     }
                 }).on("click", function(){
                     outPop();
