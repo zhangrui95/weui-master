@@ -149,6 +149,7 @@
             var li = $(this).parents('[data-domain-id]');
             actions.update.doAction({userid:$('#userid').val(),id:li.attr('data-domain-id'),
                 name:li.find('[name="name"]').val(),
+                mobile:li.find('[name="mobile"]').val(),
                 role:li.find('[name="role"]').val(),
                 post:li.find('[name="post"]').val()
             });
