@@ -256,7 +256,12 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
-        var reset = function () {
+        $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
+         var reset = function () {
             val='';
             container.data('data-list-val',val);
             currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val,groupType:group});

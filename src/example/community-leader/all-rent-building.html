@@ -181,6 +181,11 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
+        $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                window.lazyRateProxy(search, 500);
+            }
+        });
         fCount(value);
         function fCount(condition){
             $.ajax({
