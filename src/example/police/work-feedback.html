@@ -64,9 +64,9 @@
         var checkUploader = $("#checkUploader");
         var legalInstrument = $("#legalInstrument");
         var personLiable = $("#personLiable");
-        var addCheck = function (localId, fatherDiv) {
+        var addCheck = function (localId, fatherDiv, url) {
             var uuid = generateUUID();
-            fatherDiv.prepend('<img class="change-upload" src="' + localId + '" ' +
+            fatherDiv.prepend('<img class="change-upload" data-wximg-id="'+localId+'" src="' + url + '" ' +
                     'photo=\'{"gallery":"#gallery_' + uuid + '","galleryImg":"#galleryImg_' + uuid + '"}\'/>' +
                     '<div class="weui-gallery" id="gallery_' + uuid + '">' +
                     '<img  class="weui-gallery__img center-img" id="galleryImg_' + uuid + '"/>' +
@@ -78,10 +78,10 @@
                     '</div>');
         }
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
-            addCheck($(this).val());
+            addCheck($(this).val(),null,$(this).data('wximg-url'));
         });
         var delChecks = function (fatherDiv, localId) {
-            var img = $("#" + fatherDiv).find('img[src="' + localId + '"].change-upload');
+            var img = $("#" + fatherDiv).find('img[data-wximg-id="' + localId + '"].change-upload');
             img.next().remove();
             img.remove();
             var photo = addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]');
@@ -100,6 +100,8 @@
                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var localData = res.localData;
+                    var getImgData = res.getImgData;
                     for (var i = 0; i < localIds.length; i++) {
                         var localId = localIds[i];
                         var index = 0;
@@ -109,8 +111,19 @@
                                 index = i + 1;
                             }
                         });
-                        addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
-                        addCheck(localId, fatherDiv);
+                        if(getImgData){
+                            (function (imLocalId,imIndex) {
+                                getImgData(imLocalId,function (dataRes) {
+                                    var url = dataRes.localData;
+                                    addWorkForm.append('<input type="hidden" index="' + imIndex + '" name="work_list_checks[' + imIndex + '].photo" data-wximg-url="'+url+'" value="' + imLocalId + '">');
+                                    addCheck(imLocalId, fatherDiv,url);
+                                });
+                            })(localId,index)
+                        }else{
+                            var url = localData||localId;
+                            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" data-wximg-url="'+url+'" value="' + localId + '">');
+                            addCheck(localId, fatherDiv, url);
+                        }
                         addFormElement('work_list_checks[' + index + '].type', type);
                     }
                 },

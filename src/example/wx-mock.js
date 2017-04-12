@@ -2,7 +2,23 @@ wx.config = function (opt) {
     console.log('wx.config', opt)
 };
 
+wx.checkJsApi = function (opt) {
+    console.log('wx.checkJsApi', opt);
+    var checkResult = {};
+    var jsApiList = opt.jsApiList;
+    for(var i in jsApiList){
+        checkResult[jsApiList[i]] = false;
+    }
+    opt.success({checkResult: checkResult});
+};
+
 wx.index = 0;
+
+wx.getLocalImgData = function (opt) {
+    console.log('wx.getLocalImgData', opt);
+    wx.index++;
+    opt.success({localData: 'testImgLocalData_' + wx.index});
+};
 
 wx.chooseImage = function (opt) {
     console.log('wx.chooseImage', opt);

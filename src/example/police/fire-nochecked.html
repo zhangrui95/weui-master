@@ -113,7 +113,9 @@
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     var localId = localIds[0];
-                    localCb(localId);
+                    var localData = res.localData;
+                    var url = localData||localId;
+                    localCb(localId,url);
                 },
                 fail:function(err){
                     $('#img-null').html("选择照片失败！");
@@ -136,10 +138,10 @@
         };
 
         var addItem = function(imgList) {
-            choose(function(localId){
+            choose(function(localId,url){
                 upload(localId,function(localId,serverId){
                     $('#img-null').html("");
-                    imgList.append($(tmpl.replace('#url#', localId).replace('#mid#',serverId)));
+                    imgList.append($(tmpl.replace('#url#', url).replace('#mid#',serverId)));
                 });
             });
         };

@@ -60,7 +60,9 @@
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     localId = localIds[0];
-                    $uploaderFiles.append($(tmpl.replace('#url#', localId)));
+                    var localData = res.localData;
+                    var url = localData||localId;
+                    $uploaderFiles.append($(tmpl.replace('#url#', url)));
                     $(".weui-uploader__input-box").css("display","none");
                     $('.weui-gallery__opr').click(function () {
                         $uploaderFiles.html('');

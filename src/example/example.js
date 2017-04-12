@@ -566,6 +566,47 @@ $(function () {
         //     }
         // });
     }
+    function iosPreviewFix(){
+        if (/iPhone/gi.test(navigator.userAgent)) {
+            var oldChooseImage = wx.chooseImage;
+            var getImgData = function (localId,dataCb) {
+                wx.getLocalImgData({
+                    localId:localId,
+                    success:dataCb
+                });
+            };
+            var checkImgDataJsApi = function (chooseRes,cb) {
+                var localId = chooseRes.localIds[0];
+                wx.checkJsApi({
+                    jsApiList:['getLocalImgData'],
+                    success:function(res){
+                        var tag = res.checkResult.getLocalImgData;
+                        if(tag){
+                            if(chooseRes.localIds.length > 1){
+                                chooseRes.getImgData = res.getImgData;
+                                cb(chooseRes);
+                            }else{
+                                getImgData(localId,function(res){
+                                    chooseRes.localData = res.localData;
+                                    cb(chooseRes);
+                                });
+                            }
+                        }else{
+                            cb(chooseRes)
+                        }
+                    }
+                });
+            };
+            wx.chooseImage = function (opt) {
+                var oldSuccess = opt.success;
+                opt.success = function (res) {
+                    checkImgDataJsApi(res,oldSuccess);
+                };
+                oldChooseImage(opt)
+            };
+        }
+    }
+
     function androidInputBugFix(){
         // .container 设置了 overflow 属性, 导致 Android 手机下输入框获取焦点时, 输入法挡住输入框的 bug
         // 相关 issue: https://github.com/weui/weui/issues/15
@@ -600,6 +641,7 @@ $(function () {
                 nonceStr: res.nonceStr,
                 signature: res.signature,
                 jsApiList: [
+                    'checkJsApi',
                     'onMenuShareTimeline',
                     'onMenuShareAppMessage',
                     'onMenuShareQQ',
@@ -610,6 +652,7 @@ $(function () {
                     'hideOptionMenu',
                     'hideMenuItems',
                     'hideAllNonBaseMenuItem',
+                    'getLocalImgData',
                     'previewImage',
                     'chooseImage',
                     'uploadImage',
@@ -633,6 +676,7 @@ $(function () {
                 wx.onMenuShareWeibo(option);
                 wx.onMenuShareQZone(option);
                 wx.hideAllNonBaseMenuItem();
+                iosPreviewFix();
             });
         });
     }
@@ -859,7 +903,7 @@ var picturePreview = function ($selector) {
     }
     var gallery = weui.gallery($selector.attr('src'), (onDelete ? {
         onDelete: function () {
-            eval(onDelete + '("' + $selector.attr('src') + '")');
+            eval(onDelete + '("' + $selector.attr('data-wximg-id') + '")');
             galleryHide(gallery);
         }
     } : {}));

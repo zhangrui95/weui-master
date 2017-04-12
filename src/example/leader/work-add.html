@@ -103,18 +103,18 @@
         /** 现场检查 start*/
         var checkUploader = $("#checkUploader");
 
-        var addChecks = function (localId) {
-            $('#work_list_check').prepend('<img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delChecks"}\'/>');
+        var addChecks = function (localId, url) {
+            $('#work_list_check').prepend('<img class="change-upload" data-wximg-id="'+localId+'" src="' + url + '" picture=\'{"onDelete":"delChecks"}\'/>');
         };
 
         var delChecks = function (localId) {
-            var img = $('#work_list_check').find('img[src="' + localId + '"].change-upload');
+            var img = $('#work_list_check').find('img[data-wximg-id="' + localId + '"].change-upload');
             img.remove();
             addWorkForm.find('input[name^="work_list_checks"][name$="photo"][value="' + localId + '"]').remove();
         };
 
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
-            addChecks($(this).val());
+            addChecks($(this).val(),$(this).data('wximg-url'));
         });
 
         checkUploader.on("click", function (e) {
@@ -124,6 +124,8 @@
                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var localData = res.localData;
+                    var getImgData = res.getImgData;
                     for (var i = 0; i < localIds.length; i++) {
                         var localId = localIds[i];
                         var index = 0;
@@ -133,8 +135,19 @@
                                 index = i + 1;
                             }
                         });
-                        addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" value="' + localId + '">');
-                        addChecks(localId);
+                        if(getImgData){
+                            (function (imLocalId,imIndex) {
+                                getImgData(imLocalId,function (dataRes) {
+                                    var url = dataRes.localData;
+                                    addWorkForm.append('<input type="hidden" index="' + imIndex + '" name="work_list_checks[' + imIndex + '].photo" data-wximg-url="'+url+'" value="' + imLocalId + '">');
+                                    addChecks(imLocalId, url);
+                                });
+                            })(localId,index)
+                        }else{
+                            var url = localData||localId;
+                            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" data-wximg-url="'+url+'" value="' + localId + '">');
+                            addChecks(localId, url);
+                        }
                     }
                 },
                 fail: function (err) {
