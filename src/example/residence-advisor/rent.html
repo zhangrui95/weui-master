@@ -280,11 +280,6 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
-        $(document).keydown(function(event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-            }
-        });
         //搜索身份证号码
         var cardsearch = function(){
             var cardval=$cardInput.val().toUpperCase();

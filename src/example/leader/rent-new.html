@@ -153,11 +153,6 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
-        $(document).keydown(function(event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-            }
-        });
         function alertPop(id,tid){
             $(id).on('mousedown',function(e){
                 var _event = window.event||e;
