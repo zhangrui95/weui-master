@@ -132,6 +132,11 @@
         $searchInput.on('input',function(e){
             window.lazyRateProxy(search,500);
         });
+        $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
         fCount(value);
         function fCount(condition){
             $.ajax({

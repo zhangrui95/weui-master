@@ -246,12 +246,15 @@
                     '<a class="btn-bg bg-style" href="javascript:" id="save">保存</a>'+
                     '</div>'
             );
-            var txt = $('#company-name').text();
-            var txt1= $('#company-place').text();
-            var txt2 =$('#company-building').text();
-            $('#company-name').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
-            $('#company-place').html('<input class="input-change" type="text" id="textarea-place" value="'+txt1+'"/>');
-            $('#company-building').html('<input class="input-change" type="text" value="'+txt2+'" id="input-building"/>');
+            var txt = $('#company-name-show').text();
+            var txt1= $('#company-place-show').text();
+            var txt2 =$('#company-building-show').text();
+            $('#company-name-show').hide();
+            $('#company-place-show').hide();
+            $('#company-building-show').hide();
+            $('#company-name-input').html('<input class="input-change" type="text" value="'+txt+'" id="input-change"/>');
+            $('#company-place-input').html('<input class="input-change" type="text" id="textarea-place" value="'+txt1+'"/>');
+            $('#company-building-input').html('<input class="input-change" type="text" value="'+txt2+'" id="input-building"/>');
             var changeval = $('#input-change').val();
             $('#input-change').val(changeval);
             //选择企业分类
@@ -531,10 +534,6 @@
                     hint(hints);
                 }else{
                    restore();
-                    var text = $('#input-change').val();
-                    var text1 = $('#textarea-place').val();
-                    $('#company-name').html(text);
-                    $('#company-place').html(text1);
                     var json = $('#form-box').serialize();
                     $.ajax({
                         type: "post",
@@ -623,21 +622,24 @@
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
                                 '<div class="weui-cell__bd bd-right" id="company-name">'+
-                                company+
+                                '<div id="company-name-show">'+company+'</div>'+
+                                '<div id="company-name-input"></div>'+
                                 '</div>'+
                                 '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-name"/> '+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
                                 '<div class="weui-cell__bd bd-right place-top" id="company-place">'+
-                                address+
+                                '<div id="company-place-show">'+address+'</div>'+
+                                '<div id="company-place-input"></div>'+
                                 '</div>'+
                                 '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-place"/> '+
                                 '</div>'+
                                 '<div class="none-flex cell-border cell-margin">'+
                                 '<div class="weui-cell__hd"><label class="weui-label">写字楼/商场</label></div>'+
                                 '<div class="weui-cell__bd bd-right place-top" id="company-building">'+
-                                officeBuilding +
+                                '<div id="company-building-show">'+officeBuilding +'</div>'+
+                                '<div id="company-building-input"></div>'+
                                 '</div>'+
                                 '<img src="images/empty.png" class="icon-go-width empty-input" id="empty-building"/> '+
                                 '</div>'+

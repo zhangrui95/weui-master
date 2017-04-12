@@ -208,6 +208,11 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
+        $(document).keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
         alertPop('#add-new-rent','#pop-add-box,#add');
         alertPop('#choice-alert','#filtrate');
     });
