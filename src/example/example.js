@@ -873,5 +873,15 @@ var picturePreview = function ($selector) {
     $(gallery).find('.weui-gallery__img').on('click', function () {
         galleryHide(gallery);
     });
-
+};
+/**
+ * 回车功能禁用
+ */
+keyCode();
+function keyCode() {
+    $(document).keydown(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
 };
