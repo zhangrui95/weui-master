@@ -117,10 +117,16 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));
         }
-    }
-    ,
+    },
     {
         route: "/example/api/user/delete.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:0}));
+        }
+    },
+    {
+        route: "/example/api/user/import.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));

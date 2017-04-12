@@ -1,0 +1,41 @@
+<div class="page">
+    <div class="weui-grids">
+        模板：?
+        <ul id="add" >
+            <li>文件：<input id="file" type="file" name="name"/></li>
+            <li>类别：<select id="role">
+                <option value="dept_company">企业</option>
+                <option value="dept_community">社区</option>
+            </select></li>
+            <li><button id="add-save">导入</button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var add = function () {
+            var form = new FormData();
+            form.append('userid',$('#userid').val());
+            form.append('role',$('#role').val());
+            form.append('file',$('#file')[0]);
+            $.ajax({
+                type: "POST",
+                url: 'api/user/import.json',
+                data:form,
+                contentType:false,
+                processData:false,
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                },
+                error: function (err) {
+                    console.log(err)
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        $('#add-save').on('click',add);
+    });
+</script>
