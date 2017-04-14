@@ -929,3 +929,66 @@ function keyCode() {
         }
     });
 };
+/**
+ * 出租屋图标拖拽功能
+ */
+function imgIcon(id,imgId){
+    //PC端拖拽
+    var _event,left,top,downX,downY;
+    $(imgId).on('mousedown',function(e){
+        _event = window.event||e;
+        left = _event.offsetX;
+        top = _event.offsetY;
+        downX = _event.pageX;
+        downY = _event.pageY;
+        _event.preventDefault();
+        $('.page').on('mousemove',function(e){
+            var _event = window.event||e;
+            var x = _event.clientX-left;
+            var y = _event.clientY-top;
+            $(imgId).css('left',x + "px");
+            $(imgId).css('top',y + "px");
+        });
+    }) .on('mouseup',function(e){
+        $('.page').unbind();
+        var upX = e.pageX;
+        var upY = e.pageY;
+        var moveX = downX - upX;
+        var moveY = downY - upY;
+        if(moveX==0&&moveY==0){
+            inPop(function(){
+                $(id).hide();
+            });
+            $(id).show();
+        }
+    });
+    //移动端拖拽
+    $(imgId).on('touchstart',function(e){
+        left = e.touches[0].pageX;
+        top = e.touches[0].pageY;
+        e.preventDefault();
+    }).on('touchmove',function(e){
+        var x = e.touches[0].clientX-25;
+        var y = e.touches[0].clientY-25;
+        $(imgId).css('left',x + "px");
+        $(imgId).css('top',y + "px");
+    }).on('touchend',function(e){
+        var endX = e.changedTouches[0].pageX;
+        var endY= e.changedTouches[0].pageY;
+        var moveX = left - endX;
+        var moveY = top -endY;
+        $('body').unbind();
+        if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+            inPop(function(){
+                $(id).hide();
+            });
+            $(id).show();
+        }
+    });
+    function inPop(callback){
+        pageManager.setBeforeHashchangeOnce(function (e) {
+            callback();
+            return false;
+        })
+    }
+}

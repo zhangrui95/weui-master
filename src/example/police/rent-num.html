@@ -25,11 +25,9 @@
             </div>
         </div>
     </div>
-    <div class="pop-add-box" id="pop-add-box">
-        <div class="rent-pop" id="add"></div>
-        <input type="button" value="选择已有出租屋" class="already-have-rent"  data-id="add-have-rent" id="add-have-rent"/>
-        <input type="button" value="新建出租屋" class="add-rent-button" data-id="rent-add" id="rent-add"/>
-    </div>
+    <div class="rent-pop" id="add"></div>
+    <div class="add-rent-button active" data-id="rent-add" id="rent-add">新建房屋</div>
+    <div class="already-have-rent active"  data-id="add-have-rent" id="add-have-rent">选择已有房屋</div>
 </div>
 <script>
     $(function(){
@@ -41,9 +39,11 @@
         var value = container.data('data-list-val');
         $searchInput.val(value);
         $('#add').on('click',function(){
-            $('#pop-add-box').fadeOut(100);
+            outPop();
+            $('#add,.add-rent-button,.already-have-rent').fadeOut(100);
         });
         $('#rent-add,#add-have-rent').click(function(){
+            container.data('data-list-val','');
             container.data('data-floor-change','');
             outPop();
             var id = $(this).data('id');
@@ -99,68 +99,7 @@
         };
         var currDataList = window.dataList.newList(currDataListCfg);
         currDataList.first({sfzh:value});
-        function alertPop(id,tid){
-            $(id).on('mousedown',function(e){
-                var _event = window.event||e;
-                var left = _event.offsetX;
-                var top = _event.offsetY;
-                var downX = _event.pageX;
-                var downY = _event.pageY;
-                _event.preventDefault();
-                $('body').on('mousemove',function(e){
-                    var _event = window.event||e;
-                    var x = _event.clientX-left;
-                    var y = _event.clientY-top;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
-                });
-                $(id).on('mouseup',function(e){
-                    $('body').unbind();
-                    var upX = e.pageX;
-                    var upY = e.pageY;
-                    var moveX = downX - upX;
-                    var moveY = downY - upY;
-                    if(moveX==0&&moveY==0){
-                        $searchInput.val('');
-                        inPop(function(){
-                            $(tid).hide();
-                        });
-                        $(tid).show();
-                    }
-                });
-            });
-            $(id).on('touchstart',function(e){
-                var left = e.touches[0].pageX;
-                var top = e.touches[0].pageY;
-                e.preventDefault();
-                $('body').on('touchmove',function(e){
-                    var x = e.touches[0].clientX-25;
-                    var y = e.touches[0].clientY-25;
-                    $(id).css('left',x + "px");
-                    $(id).css('top',y + "px");
-                });
-                $(id).on('touchend',function(e){
-                    var endX = e.changedTouches[0].pageX;
-                    var endY= e.changedTouches[0].pageY;
-                    var moveX = left - endX;
-                    var moveY = top -endY;
-                    $('body').unbind();
-                    if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                        $searchInput.val('');
-                        inPop(function(){
-                            $(tid).hide();
-                        });
-                        $(tid).show();
-                    }
-                });
-            });
-        }
-        function inPop(callback){
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
+        imgIcon('#add,.add-rent-button,.already-have-rent','#add-new-rent');
         function outPop(){
             pageManager.setBeforeHashchangeOnce(null)
         }
@@ -208,7 +147,5 @@
         $searchInput.on('input',function(){
             window.lazyRateProxy(search,500);
         });
-        alertPop('#add-new-rent','#pop-add-box,#add');
-        alertPop('#choice-alert','#filtrate');
     });
 </script>
