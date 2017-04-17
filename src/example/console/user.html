@@ -18,6 +18,7 @@
                 <option value="dept_police">民警</option>
             </select></li>
             <li>职务：<select name="post"></select></li>
+            <li>有警区：<input type="checkbox" name="policeArea" value="0"/></li>
             <li><button id="add-save">添加</button></li>
         </ul>
     </div>
@@ -108,7 +109,7 @@
                 if(role == 'dept_leader'){
                     html = '<option>所长</option><option>副所长</option><option>教导员</option>';
                 }else if(role == 'dept_police'){
-                    html = '<option>民警</option><option>值班管理员</option><option>企业管理员</option>';
+                    html = '<option>民警</option><option>值班管理员</option><option>企业管理员</option><option>综合管理员</option>';
                 }
                 panel.find('[name="post"]').html(html)
             });
@@ -128,6 +129,7 @@
                         '<li>手机：<input type="text" name="mobile" value="'+user.mobile+'"/></li>' +
                         '<li>角色：<select name="role"><option value="dept_dev">开发者</option><option value="dept_leader">所领导</option><option value="dept_police">民警</option></select></li>' +
                         '<li>职务：<select name="post"></select></li>' +
+                        '<li>有警区：<input type="checkbox" name="policeArea" value="0"/></li>' +
                         '<li><button data-action="save">修改</button></li>';
             }
             panel.html(html);
@@ -141,7 +143,8 @@
                 name:$add.find('[name="name"]').val(),
                 mobile:$add.find('[name="mobile"]').val(),
                 role:$add.find('[name="role"]').val(),
-                post:$add.find('[name="post"]').val()
+                post:$add.find('[name="post"]').val(),
+                policeArea:$add.find('[name="policeArea"]:checked').val()
             });
         };
 
@@ -151,7 +154,8 @@
                 name:li.find('[name="name"]').val(),
                 mobile:li.find('[name="mobile"]').val(),
                 role:li.find('[name="role"]').val(),
-                post:li.find('[name="post"]').val()
+                post:li.find('[name="post"]').val(),
+                policeArea:li.find('[name="policeArea"]:checked').val()
             });
         };
 
