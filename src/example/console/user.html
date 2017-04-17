@@ -5,6 +5,7 @@
             <option value="dept_leader">所领导</option>
             <option value="dept_police">民警</option>
         </select></div>
+        <ul><li><b>姓名 -> 角色,状态,职务,警区</b></li></ul>
         <ul id="list" ></ul>
     </div>
     <div style="margin-top: 10px">
@@ -90,7 +91,7 @@
                         item = xhr[i];
                         users[item.id] = item;
                         html += '<li data-domain-id="'+item.id+'"><span data-simple>' +
-                                item.name + ' -> ' + item.role+','+ item.state+
+                                item.name + ' -> ' + item.role+','+ item.state+','+ item.post+','+ item.policeArea+
                                 '</span><button style="margin: 0 5px 0 5px" data-action="close">注销</button><button data-action="del">删除</button><ul data-all style="display: none"></ul></li>'
                     }
                     $list.html(html);
