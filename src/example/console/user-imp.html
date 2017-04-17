@@ -2,12 +2,12 @@
     <div class="weui-grids">
         模板：?
         <ul id="add" >
-            <li>文件：<input id="file" type="file" name="name"/></li>
+            <li>文件：<input id="file" type="file"/></li>
             <li>类别：<select id="role">
                 <option value="dept_company">企业</option>
                 <option value="dept_community">社区</option>
             </select></li>
-            <li><button id="add-save">导入</button></li>
+            <li><button id="add-save" type="button">导入</button></li>
         </ul>
     </div>
     <div id="result"></div>
@@ -19,10 +19,10 @@
             var form = new FormData();
             form.append('userid',$('#userid').val());
             form.append('role',$('#role').val());
-            form.append('file',$('#file')[0]);
+            form.append('file',$('#file')[0].files[0]);
             $.ajax({
                 type: "POST",
-                url: 'api/user/import.json',
+                url: 'api/user/imports.json',
                 data:form,
                 contentType:false,
                 processData:false,
