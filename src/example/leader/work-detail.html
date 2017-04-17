@@ -319,7 +319,7 @@
                     url: "api/workMain/delete.json?id=" + id + "&userid=" + $('#userid').val(),
                     data: {id: id, userid: $('#userid').val()},
                     success: function (xhr) {
-                        window.pageManager.go('work');
+                        window.pageManager.back();
                     },
                     error: function (err) {
                         console.log(err);
