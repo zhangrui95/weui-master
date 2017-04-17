@@ -208,8 +208,8 @@
            var more = length - nums + 1;
            var bookLength = $('#all-img li').length;
            var moreBook = bookLength - nums + 1;
-           var height = $('#site').height();
-           var bookHeight = $('#book').height();
+           var height = 47*Math.ceil(length/Math.floor(width / 49))+14;
+           var bookHeight = 47*Math.ceil(bookLength/Math.floor(width / 49))+14;
            if (height > 92) {
                $('#site').addClass('img-box-height');
            } else {
