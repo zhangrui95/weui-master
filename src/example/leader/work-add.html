@@ -104,7 +104,7 @@
         var checkUploader = $("#checkUploader");
 
         var addChecks = function (localId, url) {
-            $('#work_list_check').prepend('<img class="change-upload" data-wximg-id="'+localId+'" src="' + url + '" picture=\'{"onDelete":"delChecks"}\'/>');
+            $('#work_list_check').prepend('<img class="change-upload" data-wximg-id="' + localId + '" src="' + url + '" picture=\'{"onDelete":"delChecks"}\'/>');
         };
 
         var delChecks = function (localId) {
@@ -114,7 +114,7 @@
         };
 
         addWorkForm.find('input[name^="work_list_checks"][name$="photo"]').each(function () {
-            addChecks($(this).val(),$(this).data('wximg-url'));
+            addChecks($(this).val(), $(this).data('wximg-url'));
         });
 
         checkUploader.on("click", function (e) {
@@ -135,17 +135,17 @@
                                 index = i + 1;
                             }
                         });
-                        if(getImgData){
-                            (function (imLocalId,imIndex) {
-                                getImgData(imLocalId,function (dataRes) {
+                        if (getImgData) {
+                            (function (imLocalId, imIndex) {
+                                getImgData(imLocalId, function (dataRes) {
                                     var url = dataRes.localData;
-                                    addWorkForm.append('<input type="hidden" index="' + imIndex + '" name="work_list_checks[' + imIndex + '].photo" data-wximg-url="'+url+'" value="' + imLocalId + '">');
+                                    addWorkForm.append('<input type="hidden" index="' + imIndex + '" name="work_list_checks[' + imIndex + '].photo" data-wximg-url="' + url + '" value="' + imLocalId + '">');
                                     addChecks(imLocalId, url);
                                 });
-                            })(localId,index)
-                        }else{
-                            var url = localData||localId;
-                            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" data-wximg-url="'+url+'" value="' + localId + '">');
+                            })(localId, index)
+                        } else {
+                            var url = localData || localId;
+                            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_checks[' + index + '].photo" data-wximg-url="' + url + '" value="' + localId + '">');
                             addChecks(localId, url);
                         }
                     }
@@ -234,7 +234,7 @@
         $('#work_value_end_time').on('click', function () {
             $('#work_value_advice').blur();
             var currentDate = new Date();
-            weui.datePicker({
+            var options = {
                 start: currentDate,
                 defaultValue: [currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()],
                 onConfirm: function (result) {
@@ -245,10 +245,22 @@
                     day = day < 10 ? '0' + day : day;
                     $('#work_value_end_time').text(year + '-' + month + '-' + day);
                     addFormElement('work_value_end_time', $('#work_value_end_time').text());
+                    pageManager.setBeforeHashchangeOnce(null);
                 },
                 onChange: function (result) {
 
                 }
+            }
+            var datePicker = weui.datePicker(options);
+            $(datePicker).on('click', '.weui-mask', function () {
+                pageManager.setBeforeHashchangeOnce(null);
+            });
+            $(datePicker).on('click', '.weui-picker__action', function () {
+                pageManager.setBeforeHashchangeOnce(null);
+            });
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                datePicker.hide();
+                return false;
             });
         });
         /** 处理期限 end*/
@@ -300,8 +312,7 @@
             addWorkForm.append('<input type="hidden" name="userid" value="' + $('#userid').val() + '">');
             if (localIds.length > 0) {
                 var loading = weui.loading('上传中...');
-                recursionUploadImg(localIds);
-                loading.hide();
+                recursionUploadImg(localIds, loading);
             } else {
                 postData();
             }
@@ -315,7 +326,7 @@
             });
         };
 
-        var recursionUploadImg = function (localIds) {
+        var recursionUploadImg = function (localIds, loading) {
             var tmp = localIds.pop();
             var localId = tmp.localId;
             wx.uploadImage({
@@ -325,8 +336,9 @@
                     var serverId = res.serverId; // 返回图片的服务器端ID
                     addWorkForm.find('input[name="' + tmp.name + '"]').val(serverId);
                     if (localIds.length > 0) {
-                        recursionUploadImg(localIds);
+                        recursionUploadImg(localIds, loading);
                     } else {
+                        loading.hide();
                         postData();
                     }
                 },
