@@ -146,7 +146,7 @@ gulp.task('build:example:style', function (){
 
 gulp.task('build:gsp:style', function (){
     var styleDist = gspDist+'/assets/stylesheets';
-    gulp.src('src/example/swiper-3.4.2.min.less', {base: 'src/example'})
+    gulp.src('src/example/swiper-3.3.1.min.less', {base: 'src/example'})
         .pipe(less().on('error', function (e){
             console.error(e.message);
             this.emit('end');
@@ -161,7 +161,7 @@ gulp.task('build:gsp:style', function (){
 });
 
 gulp.task('build:example:style', function (){
-    gulp.src('src/example/swiper-3.4.2.min.less', option)
+    gulp.src('src/example/swiper-3.3.1.min.less', option)
         .pipe(less().on('error', function (e){
             console.error(e.message);
             this.emit('end');
@@ -249,7 +249,7 @@ gulp.task('gsp', ['gsp:build:style', 'build:gsp']);
 gulp.task('watch', ['release'], function () {
     gulp.watch('src/style/**/*', ['build:style']);
     gulp.watch('src/example/example.less', ['build:example:style']);
-    gulp.watch('src/example/swiper-3.4.2.min.less', ['build:example:style']);
+    gulp.watch('src/example/swiper-3.3.1.min.less', ['build:example:style']);
     gulp.watch('src/example/**/*.?(png|jpg|gif|js)', ['build:example:assets']);
     gulp.watch('src/**/*.html', ['build:example:html']);
     gulp.watch("test/mock.js",['mock-watch']);

@@ -202,7 +202,7 @@
             newswiper.slideTo(0);
         });
        function more() {
-           var width = $('.bd-right').width();
+           var width = $(window).width()-40;
            var nums = Math.floor(width / 49) * 2;
            var length = $('#site-img li').length;
            var more = length - nums + 1;
