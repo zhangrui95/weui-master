@@ -34,6 +34,21 @@
         <div class="hight-border"></div>
         <div class="height-fixed"></div>
     </div>
+    <div id="img-big-box1">
+        <div class="swiper-container weui-gallery" id="gallery" style="position: absolute;left: 0;">
+            <div class="swiper-wrapper" id="gallery-box"></div>
+        </div>
+    </div>
+    <div id="img-big-box2">
+        <div class="swiper-container weui-gallery" id="gallery2" style="position: absolute;left: 0;">
+            <div class="swiper-wrapper" id="gallery-box2"></div>
+        </div>
+    </div>
+    <div id="img-big-box3">
+        <div class="swiper-container weui-gallery" id="gallery3" style="position: absolute;left: 0;">
+            <div class="swiper-wrapper" id="gallery-box3"></div>
+        </div>
+    </div>
 </div>
 <script>
     $(function () {
@@ -97,9 +112,7 @@
                         $('#place').html(data.company.address);
                         $('#time').html(getLocalTime(data.createTime));
                     }
-                    imgClick("#site-img .index-fire img");
-                    imgClick("#all-img .index-fire img");
-                    imgClick("#person-img .index-fire img");
+                    BigImg();
                     more();
                 },
                 error: function (mes) {
@@ -107,6 +120,88 @@
                 }
             });
         };
+        var myswiper = '';
+        var swiper = '';
+        var newswiper = '';
+        var widths = $(window).width();
+        function BigImg(){
+            $('[data-item-type]').on("click", function(){
+                $('#gallery-box').html('');
+                $('#gallery-box2').html('');
+                $('#gallery-box3').html('');
+                inPop(function(){
+                    $('#gallery,#gallery2,#gallery3').fadeOut(100);
+                });
+                var dataItemType=$(this).data('item-type');
+                if(dataItemType=='0'){
+                    var j= $(this).data('index')-1;
+                    $gallery.show();
+                    var images = [];
+                    $('#site-img .index-fire').each (function(){
+                        var src = $(this).find('img').attr('src');
+                        images.push(src);
+                    });
+                    for(var i = 0;i<$('#site-img .index-fire').length;i++){
+                        $('#img-big-box1 .swiper-container #gallery-box').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
+                    };
+                    myswiper = new Swiper('#img-big-box1 .swiper-container', {
+                        initialSlide :j,
+                        pagination: '#img-big-box1 .swiper-pagination',
+                        paginationClickable: true,
+                        spaceBetween:20,
+                    });
+                }else if(dataItemType=='1'){
+                    var n= $(this).data('index')-1;
+                    $gallery2.show();
+                    var images = [];
+                    $('#all-img .index-fire').each (function(){
+                        var src = $(this).find('img').attr('src');
+                        images.push(src);
+                    });
+                    for(var i = 0;i<$('#all-img .index-fire').length;i++){
+                        $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
+                    };
+                    swiper = new Swiper('#img-big-box2 .swiper-container', {
+                        initialSlide :n,
+                        pagination: '#img-big-box2 .swiper-pagination',
+                        paginationClickable: true,
+                        spaceBetween:20,
+                    });
+                } else if(dataItemType=='2'){
+                    var m= $(this).data('index')-1;
+                    $gallery3.show();
+                    var images = [];
+                    $('#person-img .index-fire').each (function(){
+                        var src = $(this).find('img').attr('src');
+                        images.push(src);
+                    });
+                    for(var i = 0;i<$('#person-img .index-fire').length;i++){
+                        $('#img-big-box3 .swiper-container #gallery-box3').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
+                    };
+                    newswiper = new Swiper('#img-big-box3 .swiper-container', {
+                        initialSlide :m,
+                        pagination: '#img-big-box3 .swiper-pagination',
+                        paginationClickable: true,
+                        spaceBetween:20,
+                    });
+                }
+            });
+        };
+        $gallery.on("click", function(){
+            outPop();
+            $gallery.hide();
+            myswiper.slideTo(0);
+        });
+        $gallery2.on("click", function(){
+            outPop();
+            $gallery2.hide();
+            swiper.slideTo(0);
+        });
+        $gallery3.on("click", function(){
+            outPop();
+            $gallery3.hide();
+            newswiper.slideTo(0);
+        });
        function more() {
            var width = $(window).width()-40;
            var nums = Math.floor(width / 49) * 2;

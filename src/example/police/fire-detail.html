@@ -121,6 +121,7 @@
         var myswiper = '';
         var swiper = '';
         var newswiper = '';
+        var widths = $(window).width();
         function BigImg(){
             $('[data-item-type]').on("click", function(){
                 $('#gallery-box').html('');
@@ -139,7 +140,7 @@
                         images.push(src);
                     });
                     for(var i = 0;i<$('#site-img .index-fire').length;i++){
-                        $('#img-big-box1 .swiper-container #gallery-box').append('<div class="swiper-slide"><img src="'+images[i]+'"/></div>');
+                        $('#img-big-box1 .swiper-container #gallery-box').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
                     myswiper = new Swiper('#img-big-box1 .swiper-container', {
                         initialSlide :j,
@@ -156,7 +157,7 @@
                         images.push(src);
                     });
                     for(var i = 0;i<$('#all-img .index-fire').length;i++){
-                        $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img src="'+images[i]+'"/></div>');
+                        $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
                     swiper = new Swiper('#img-big-box2 .swiper-container', {
                         initialSlide :n,
@@ -173,7 +174,7 @@
                         images.push(src);
                     });
                     for(var i = 0;i<$('#person-img .index-fire').length;i++){
-                        $('#img-big-box3 .swiper-container #gallery-box3').append('<div class="swiper-slide"><img src="'+images[i]+'"/></div>');
+                        $('#img-big-box3 .swiper-container #gallery-box3').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
                     newswiper = new Swiper('#img-big-box3 .swiper-container', {
                         initialSlide :m,
