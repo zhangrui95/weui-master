@@ -49,7 +49,7 @@
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles"),
-                localId,
+                localId, url,
                 tag = false
                 ;
         $uploaderInput.on("click", function (e) {
@@ -61,7 +61,7 @@
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     localId = localIds[0];
                     var localData = res.localData;
-                    var url = localData||localId;
+                    url = localData || localId;
                     $('#idCard').html("");
                     $uploaderFiles.append($(tmpl.replace('#url#', url)));
                     $(".weui-uploader__input-box").css("display", "none");
@@ -183,9 +183,9 @@
             }
             tag = true;
             $('#card').blur();
-            idCard($('#card').val(), localId);
+            idCard($('#card').val(), localId, url);
         });
-        function idCard(value, localId) {
+        function idCard(value, localId, url) {
             $('#idCard').html("");
             $('#empty').css('display', 'none');
             var addWorkForm = $('#addWorkForm');
@@ -197,7 +197,7 @@
                 }
             });
             addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].card" value="' + value + '">');
-            addWorkForm.append('<input type="hidden" index="' + index + '" name="work_list_employees[' + index + '].photo" value="' + localId + '">');
+            addWorkForm.append('<input type="hidden" index="' + index + '" data-wximg-id="' + url + '" name="work_list_employees[' + index + '].photo" value="' + localId + '">');
             window.pageManager.back();
         }
 

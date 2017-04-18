@@ -236,8 +236,7 @@
                     if (localIds.length > 0) {
                         recursionUploadImg(localIds, loading);
                     } else {
-                        loading.hide();
-                        postData();
+                        postData(loading);
                     }
                 },
                 fail: function (err) {
@@ -247,13 +246,16 @@
             });
         };
 
-        var postData = function () {
+        var postData = function (loading) {
             $.ajax({
                 type: "POST",
                 url: "api/workReply/save.json",
                 async: true,
                 data: addWorkForm.serialize(),
                 success: function (card) {
+                    if(loading){
+                        loading.hide();
+                    }
                     updateState(workId, 3);
                     addWorkForm.after('<form id="addWorkForm"></form>');
                     addWorkForm.remove();

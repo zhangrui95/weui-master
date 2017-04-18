@@ -157,11 +157,11 @@
         /** 现场检查 end*/
 
         /** 未带身份证 start*/
-        var addTasks = function (id, localId) {
+        var addTasks = function (id, localId, url) {
             $('#hotel').append(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
-                    '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delTasks"}\'/>' +
+                    '       <img class="change-upload" data-wximg-id="' + localId + '" src="' + url + '" picture=\'{"onDelete":"delTasks"}\'/>' +
                     '   </div>' +
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
@@ -183,8 +183,8 @@
         addWorkForm.find('input[name^="work_list_tasks"][name$="card"]').each(function () {
             var card = $(this).val();
             var tmp = $(this).attr('name');
-            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]').val();
-            addTasks(card, photo);
+            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]');
+            addTasks(card, photo.val(), photo.data('wximg-id'));
         });
 
         var hotel = $('#hotel-add');
@@ -194,11 +194,11 @@
         /** 未带身份证 end*/
 
         /** 从业人员 start*/
-        var addEmployees = function (id, localId) {
+        var addEmployees = function (id, localId, url) {
             $('#employee-report').append(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
-                    '       <img class="change-upload" src="' + localId + '" picture=\'{"onDelete":"delEmployees"}\'/>' +
+                    '       <img class="change-upload" data-wximg-id="' + localId + '" src="' + url + '" picture=\'{"onDelete":"delEmployees"}\'/>' +
                     '   </div>' +
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
@@ -220,8 +220,8 @@
         addWorkForm.find('input[name^="work_list_employees"][name$="card"]').each(function () {
             var card = $(this).val();
             var tmp = $(this).attr('name');
-            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]').val();
-            addEmployees(card, photo);
+            var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]');
+            addEmployees(card, photo.val(), photo.data('wximg-id'));
         });
 
         var employeeReport = $('#employee-report-add');
@@ -338,8 +338,7 @@
                     if (localIds.length > 0) {
                         recursionUploadImg(localIds, loading);
                     } else {
-                        loading.hide();
-                        postData();
+                        postData(loading);
                     }
                 },
                 fail: function (err) {
@@ -349,13 +348,16 @@
             });
         };
 
-        var postData = function () {
+        var postData = function (loading) {
             $.ajax({
                 type: "POST",
                 url: "api/workMain/save.json",
                 async: true,
                 data: addWorkForm.serialize(),
                 success: function (card) {
+                    if(loading){
+                        loading.hide();
+                    }
                     addWorkForm.empty();
                     window.pageManager.back();
                 },
