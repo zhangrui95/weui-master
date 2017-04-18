@@ -156,7 +156,7 @@
 }
 .top-operator {
     float: right;
-    padding: 6px 20px 0 0;
+    padding: 6px 10px 0 0;
 }
 .btn-blue {
     position: relative;
@@ -262,6 +262,9 @@
     font-family: 微软雅黑;
     float: left;
     width: 22%;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 .state-name-list .list-name .imported-number {
     color: #999;
@@ -498,4 +501,9 @@ select {
     height: -webkit-calc(100% - 63px);
     height: -moz-calc(100% - 63px);
     height: calc(100% - 63px);
+}
+.p-shit {
+    overflow:hidden!important;
+    white-space:nowrap!important;
+    text-overflow:ellipsis!important;
 }

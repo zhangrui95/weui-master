@@ -212,7 +212,8 @@
                     $(this).val(null);
                 }
             });
-            recursionUploadImg(localIds);
+            var loading = weui.loading('上传中...');
+            recursionUploadImg(localIds, loading);
         }
 
         var name2name = function (name) {
@@ -223,7 +224,7 @@
             });
         }
 
-        var recursionUploadImg = function (localIds) {
+        var recursionUploadImg = function (localIds, loading) {
             var tmp = localIds.pop();
             var localId = tmp.localId;
             wx.uploadImage({
@@ -233,8 +234,9 @@
                     var serverId = res.serverId; // 返回图片的服务器端ID
                     addWorkForm.find('input[name="' + tmp.name + '"]').val(serverId);
                     if (localIds.length > 0) {
-                        recursionUploadImg(localIds);
+                        recursionUploadImg(localIds, loading);
                     } else {
+                        loading.hide();
                         postData();
                     }
                 },
@@ -276,7 +278,7 @@
                 url: "api/workMain/updateReadState.json",
                 data: {id: id, userid: $("#userid").val(), readState: readState},
                 success: function (data) {
-                    window.pageManager.go('police-dynamic');
+                    window.pageManager.back();
                 },
                 error: function () {
                     console.log("update state error!");
