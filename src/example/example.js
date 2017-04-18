@@ -992,27 +992,3 @@ function imgIcon(id,imgId){
         })
     }
 }
-//调用微信放大轮播
-function getImg(obj){
-    var m = [];
-    for(var i=0; i< $(obj).length; i++){
-        m[i] = $(obj)[i].src;
-    }
-    return m;
-}
-function preview(current, urls){
-    if(!current || urls.length == 0){
-        return ;
-    }
-    WeixinJSBridge.invoke('imagePreview', {
-        'current': current,
-        'urls': urls
-    });
-}
-function imgClick(obj){
-    $(obj).click(function(){
-        var src = getImg(obj);
-        var curent = $(this).data('index')-1;
-        preview(src[curent], src);
-    });
-}
