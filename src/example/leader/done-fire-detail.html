@@ -37,16 +37,28 @@
     <div id="img-big-box1">
         <div class="swiper-container weui-gallery" id="gallery" style="position: absolute;left: 0;">
             <div class="swiper-wrapper" id="gallery-box"></div>
+            <div class="swiper-next-box"></div>
+            <div class="swiper-prev-box"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </div>
     <div id="img-big-box2">
         <div class="swiper-container weui-gallery" id="gallery2" style="position: absolute;left: 0;">
             <div class="swiper-wrapper" id="gallery-box2"></div>
+            <div class="swiper-next-box"></div>
+            <div class="swiper-prev-box"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </div>
     <div id="img-big-box3">
         <div class="swiper-container weui-gallery" id="gallery3" style="position: absolute;left: 0;">
             <div class="swiper-wrapper" id="gallery-box3"></div>
+            <div class="swiper-next-box"></div>
+            <div class="swiper-prev-box"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
         </div>
     </div>
 </div>
@@ -58,6 +70,7 @@
         var $gallery = $("#gallery");
         var $gallery2 = $("#gallery2");
         var $gallery3 = $("#gallery3");
+        $('.swiper-button-next,.swiper-button-prev').hide();
         function inPop(callback){
             pageManager.setBeforeHashchangeOnce(function (e) {
                 callback();
@@ -144,11 +157,18 @@
                     for(var i = 0;i<$('#site-img .index-fire').length;i++){
                         $('#img-big-box1 .swiper-container #gallery-box').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
+                    if(myswiper!=''){
+                        if(j == 0){
+                            myswiper.slideTo(0,1);
+                        }
+                    }
                     myswiper = new Swiper('#img-big-box1 .swiper-container', {
                         initialSlide :j,
                         pagination: '#img-big-box1 .swiper-pagination',
                         paginationClickable: true,
                         spaceBetween:20,
+                        nextButton: '.swiper-button-next',
+                        prevButton: '.swiper-button-prev'
                     });
                 }else if(dataItemType=='1'){
                     var n= $(this).data('index')-1;
@@ -161,11 +181,18 @@
                     for(var i = 0;i<$('#all-img .index-fire').length;i++){
                         $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
+                    if(swiper!=''){
+                        if(n == 0){
+                            swiper.slideTo(0,1);
+                        }
+                    }
                     swiper = new Swiper('#img-big-box2 .swiper-container', {
                         initialSlide :n,
                         pagination: '#img-big-box2 .swiper-pagination',
                         paginationClickable: true,
                         spaceBetween:20,
+                        nextButton: '.swiper-button-next',
+                        prevButton: '.swiper-button-prev'
                     });
                 } else if(dataItemType=='2'){
                     var m= $(this).data('index')-1;
@@ -178,29 +205,39 @@
                     for(var i = 0;i<$('#person-img .index-fire').length;i++){
                         $('#img-big-box3 .swiper-container #gallery-box3').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
                     };
+                    if(newswiper!='') {
+                        if (m == 0) {
+                            newswiper.slideTo(0, 1);
+                        }
+                    }
                     newswiper = new Swiper('#img-big-box3 .swiper-container', {
                         initialSlide :m,
                         pagination: '#img-big-box3 .swiper-pagination',
                         paginationClickable: true,
                         spaceBetween:20,
+                        nextButton: '.swiper-button-next',
+                        prevButton: '.swiper-button-prev'
                     });
                 }
             });
         };
-        $gallery.on("click", function(){
+        $('#gallery-box').on("click", function(){
             outPop();
             $gallery.hide();
-            myswiper.slideTo(0);
+        }).on('mouseenter',function(){
+            $('.swiper-button-next,.swiper-button-prev').show();
         });
-        $gallery2.on("click", function(){
+        $('#gallery-box2').on("click", function(){
             outPop();
             $gallery2.hide();
-            swiper.slideTo(0);
+        }).on('mouseenter',function(){
+            $('.swiper-button-next,.swiper-button-prev').show();
         });
-        $gallery3.on("click", function(){
+        $('#gallery-box3').on("click", function(){
             outPop();
             $gallery3.hide();
-            newswiper.slideTo(0);
+        }).on('mouseenter',function(){
+            $('.swiper-button-next,.swiper-button-prev').show();
         });
        function more() {
            var width = $(window).width()-40;
