@@ -128,7 +128,8 @@
                         if(source == null|| source == ''){
                             wx.closeWindow();
                         }else{
-                            window.pageManager.go(source);
+//                            window.pageManager.go(source);
+                            window.history.go(-1);
                         }
                     },
                     error: function (mes) {
