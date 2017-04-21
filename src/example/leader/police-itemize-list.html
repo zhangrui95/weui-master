@@ -239,11 +239,17 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        $(document).ready(function(){
-            $('.weui-navbar__item').on('click', function () {
+        $('.weui-navbar__item').on('click', function () {
+            if($('#load').css('display')=='block'){
+                return;
+            }else{
                 $(this).addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
-            });
-            $(".weui-navbar div").click(function() {
+            }
+        });
+        $(".weui-navbar div").click(function() {
+            if($('#load').css('display')=='block'){
+                return;
+            }else{
                 var state = $(this).data('state');
                 if(state != currState){
                     $('#container').data('detail-source-state',state);
@@ -254,7 +260,7 @@
                     currDataList.first({state:state,policeId:policeids});
                 }
                 return false;
-            });
+            }
         });
         var detailSourceState = container.data('detail-source-state');
         if(detailSourceState && detailSourceState != currState){
