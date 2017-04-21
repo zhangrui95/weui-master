@@ -215,19 +215,27 @@
 
         var currDataList = window.dataList.newList(currDataListCfg);
         $('.weui-navbar__item').on('click', function () {
-            $(this).addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
+            if($('#load').css('display')=='block'){
+                return;
+            }else {
+                $(this).addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
+            }
         });
         $(".weui-navbar div").click(function() {
-            var state = $(this).data('state');
-            if(state != currState){
-                $('#container').data('detail-source-state',state);
-                var activeTab = $(this).attr("href");
-                $(".weui-cells").hide();
-                $(activeTab).html('').fadeIn();
-                currState = state;
-                init();
+            if($('#load').css('display')=='block'){
+                return;
+            }else {
+                var state = $(this).data('state');
+                if (state != currState) {
+                    $('#container').data('detail-source-state', state);
+                    var activeTab = $(this).attr("href");
+                    $(".weui-cells").hide();
+                    $(activeTab).html('').fadeIn();
+                    currState = state;
+                    init();
+                }
+                return false;
             }
-            return false;
         });
 
         var detailSourceState = container.data('detail-source-state');
