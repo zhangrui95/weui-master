@@ -239,7 +239,8 @@
                 data:{userid:$('#userid').val(),checkIds:checkIds,legalIds:legalIds,fireIds:fireIds,cid:cid},
                 success: function (card) {
                     if(source){
-                        window.pageManager.go(source);
+//                        window.pageManager.go(source);
+                        window.history.go(-1);
                     }else{
                         wx.closeWindow();
                     }

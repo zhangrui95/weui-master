@@ -188,6 +188,7 @@
         var $iosMaskFire = $('#iosMask-fire');
         var $iosActionsheetPolice = $('#iosActionsheet-police');
         var $iosMaskPolice = $('#iosMask-police');
+        var tag = false;
         function hideActionSheet() {
             $iosActionsheet.removeClass('weui-actionsheet_toggle');
             $iosMask.fadeOut(200);
@@ -488,6 +489,10 @@
             });
         }
         $('#showToast').on('click',function(){
+            if(tag){
+                return;
+            }
+            tag = true;
             var hints = '';
             function hint(hints) {
                 $('#notNull').html(hints);
@@ -495,6 +500,7 @@
                 setTimeout(function () {
                     $('#notNull').fadeOut(100);
                 }, 2000);
+                tag = false;
             }
             var inputChange = $('#input-change').val();
             var inputplace = $('#input-place').val();
@@ -561,10 +567,9 @@
                     success: function (xhr) {
                         if(xhr && xhr.state == 0){
                             $('#notNull').hide();
-                            var id = $('#showToast').data('id');
-                            window.pageManager.go(id);
+                            window.history.go(-1);
                         }else{
-                            hint('添加失败');
+                            hint('添加失败，联系人已存在');
                         }
                     },
                     error: function () {

@@ -30,6 +30,7 @@
 <script>
     $(function(){
         var $container = $('#container');
+        var tag = false;
 //保存并添加人员
         $('#next-step').click(function(){
             var road = $('#road').val().trim();
@@ -44,13 +45,19 @@
                 setTimeout(function () {
                     $('#alert').fadeOut(100);
                 }, 2000);
+                tag = false;
             }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
                 $('#alert').html("禁止输入特殊字符");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
                     $('#alert').fadeOut(100);
                 }, 2000);
+                tag = false;
             }else{
+                if(tag){
+                    return;
+                }
+                tag = true;
                 $.ajax({
                     type: "POST",
                     url: "api/floor/save.json",
@@ -71,6 +78,7 @@
                         $container.data('data-floor-place',place);
                     },
                     error: function (mes) {
+                        tag = false;
                         console.log("error");
                     }
                 });
@@ -84,18 +92,24 @@
             var element = $('#element').val().trim();
             var door = $('#door').val().trim();
             var test = /^[^。,!?！，？……￥^$@~%:：&+={}<>《》【】[]|、‘’“”]*$/;
+            if(tag){
+                return;
+            }
+            tag = true;
             if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0){
                 $('#alert').html("请输入必填项");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
                     $('#alert').fadeOut(100);
                 }, 2000);
+                tag = false;
             }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
                 $('#alert').html("禁止输入特殊字符");
                 $('#alert').fadeIn(100);
                 setTimeout(function () {
                     $('#alert').fadeOut(100);
                 }, 2000);
+                tag = false;
             }else{
                 $.ajax({
                     type: "POST",
@@ -105,14 +119,16 @@
                         var $toast = $('#toast');
                         if ($toast.css('display') != 'none') return;
                         $toast.fadeIn(100);
-                        $('#road,#size,#ridgepole,#element,#door').val('');
-                        $('#road,#size,#ridgepole,#element,#door').blur();
                         setTimeout(function () {
+                            $('#road,#size,#ridgepole,#element,#door').val('');
+                            $('#road,#size,#ridgepole,#element,#door').blur();
                             $toast.fadeOut(100);
+                            tag = false;
                         }, 2000);
                     },
                     error: function (mes) {
                         console.log("error");
+                        tag = false;
                     }
                 });
             }
