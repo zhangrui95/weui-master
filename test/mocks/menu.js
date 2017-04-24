@@ -9,7 +9,7 @@ var leaderMenu = {
         {name:"消防安全",hash:"fire",icon:"images/icon10.png"},
         {name:"出租房管理",hash:"rent",icon:"images/icon7.png"},
         {name:"散装油交易登记",hash:"station",icon:"images/icon12.png"},
-        {name:"所内工作",hash:"work",icon:"images/icon11.png"}
+        {name:"所内管理",hash:"work",icon:"images/icon11.png"}
     ]
 };
 
@@ -20,7 +20,7 @@ var getPoliceMenu= function (buf) {
         {name:"从业人员统计",hash:"police-employee",icon:"images/icon8.png"},
         {name:"消防安全",hash:"fire",icon:"images/icon10.png"},
         {name:"出租房管理",hash:"rent",icon:"images/icon7.png"},
-        {name:"所内工作",hash:"police-dynamic",icon:"images/icon11.png"}
+        {name:"所内管理",hash:"police-dynamic",icon:"images/icon11.png"}
     ],data;
     if(buf.indexOf('target=dept_police-CAdmin') != -1){
         menu = [{name:"企业管理",href:"leader.html",hash:"clear_data",icon:"images/icon9.png"}].concat(menu)
