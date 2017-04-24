@@ -130,21 +130,6 @@
                 console.log("error");
             }
         });
-        function IsPC() {
-            var userAgentInfo = navigator.userAgent;
-            var Agents = ["Android", "iPhone",
-                "SymbianOS", "Windows Phone",
-                "iPad", "iPod"];
-            var flag = true;
-            for (var v = 0; v < Agents.length; v++) {
-                if (userAgentInfo.indexOf(Agents[v]) > 0) {
-                    flag = false;
-                    break;
-                }
-            }
-            $('.swiper-slide').addClass('swiper-no-swiping');
-            return flag;
-        }
         var myswiper = '';
         var swiper = '';
         var newswiper = '';
@@ -232,7 +217,6 @@
                         prevButton: '.swiper-button-prev'
                     });
                 }
-                IsPC();
             });
         };
         $('#gallery-box').on("click", function(){
