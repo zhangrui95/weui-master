@@ -65,6 +65,7 @@
         var $iosActionsheets = $('#iosActionsheets');
         var $iosMasks = $('#iosMasks');
         var $container = $('#container');
+        var tag = false;
         function hideActionSheet() {
             $iosActionsheet.removeClass('weui-actionsheet_toggle');
             $iosMask.fadeOut(200);
@@ -92,12 +93,14 @@
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
                     }, 2000);
+                    tag = false;
                 }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
                     $('#alert').html("禁止输入特殊字符");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
                     }, 2000);
+                    tag = false;
                 }else{
                     $.ajax({
                         type: "POST",
@@ -141,18 +144,24 @@
                 var communityid = $('#container').data('data-add-typeId');
                 var masterid = $('#container').data('data-add-master');
                 var test = /^[^。,!?！，？……￥^$@~%:：&+={}<>《》【】[]|、‘’“”]*$/;
+                if(tag){
+                    return;
+                }
+                tag = true;
                 if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                     $('#alert').html("请输入必填项");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
                     }, 2000);
+                    tag = false;
                 }else if(test.test(road)==false||test.test(size)==false||test.test(ridgepole)==false||test.test(element)==false||test.test(door)==false){
                     $('#alert').html("禁止输入特殊字符");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
                     }, 2000);
+                    tag = false;
                 }else{
                     $.ajax({
                         type: "POST",
@@ -161,6 +170,7 @@
                         success: function (data) {
                             if(data.state==0){
                                 $('#alert').html("保存失败！");
+                                tag = false;
                                 $('#alert').fadeIn(100);
                                 setTimeout(function () {
                                     $('#alert').fadeOut(100);
@@ -169,19 +179,21 @@
                                 var $toast = $('#toast');
                                 if ($toast.css('display') != 'none') return;
                                 $toast.fadeIn(100);
-                                $('#road,#size,#ridgepole,#element,#door').val('');
-                                $('#road,#size,#ridgepole,#element,#door').blur();
-                                $('#container').data('data-add-typeId','');
-                                $('#container').data('data-add-master','');
-                                $('#community').html('请选择');
-                                $('#residence-advisor').html('请选择');
                                 setTimeout(function () {
+                                    $('#road,#size,#ridgepole,#element,#door').val('');
+                                    $('#road,#size,#ridgepole,#element,#door').blur();
+                                    $('#container').data('data-add-typeId','');
+                                    $('#container').data('data-add-master','');
+                                    $('#community').html('请选择');
+                                    $('#residence-advisor').html('请选择');
                                     $toast.fadeOut(100);
+                                    tag = false;
                                 }, 2000);
                                 $container.data('data-floorid',data.floorid);
                             }
                         },
                         error: function (mes) {
+                            tag = false;
                             console.log("error");
                         }
                     });
@@ -217,12 +229,17 @@
                 var communityid =$container.data('data-add-typeId');
                 var masterid =$container.data('data-add-master');
                 var rid =  $container.data('change-id');
+                if(tag){
+                    return;
+                }
+                tag = true;
                 if(road.length==0||size.length==0||ridgepole.length==0||element.length==0||door.length==0||communityid==null||masterid==null||communityid==''||masterid==''){
                     $('#alert').html("请输入必填项");
                     $('#alert').fadeIn(100);
                     setTimeout(function () {
                         $('#alert').fadeOut(100);
                     }, 2000);
+                    tag = false;
                 }else{
                     $.ajax({
                         type: "POST",
@@ -238,6 +255,7 @@
                                 ele = '';
                             }
                             if(data.state==0){
+                                tag = false;
                                 $('#alert').html("保存失败！");
                                 $('#alert').fadeIn(100);
                                 setTimeout(function () {
@@ -252,6 +270,7 @@
                             $container.data('data-floor-place',place);
                         },
                         error: function (mes) {
+                            tag = false;
                             console.log("error");
                         }
                     });
