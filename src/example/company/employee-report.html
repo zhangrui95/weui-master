@@ -1,6 +1,6 @@
 <!--基本信息-->
 <div class="page">
-    <div class="page__bd">
+    <div class="page__bd page_y">
         <div id="error" class="error" style="display: none;">
             <img src="images/error.png"/>
             <span>当前网络不可用，请检查你的网络设置</span>
@@ -21,14 +21,39 @@
                 </div>
             </div>
         </div>
-        <div class="weui-cells">
-            <div class="weui-cell border-cell padding-cell">
-                <div class="weui-cell__bd cell-unleft">
-                    <input id="card" class="weui-input input-margin" type="text" placeholder="从业人员身份证号"/>
+        <div id="detail">
+            <div class="none-flex cell-border">
+                <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+                <div class="weui-cell__bd bd-right">
+                    <input id="card" class="weui-input input-text-right" type="text" placeholder="从业人员身份证号"/>
                 </div>
-                <span id="empty" class="active"><img src="images/empty.png" class="empty"/></span>
+                <div class="red-star">*</div>
+            </div>
+            <div class="none-flex cell-border">
+                <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+                <div class="weui-cell__bd bd-right">
+                    <input id="phone" class="weui-input input-text-right" type="text" placeholder="从业人员11位手机号码"/>
+                </div>
+                <span id="" class="active"><img src="images/empty.png" class="empty"/></span>
             </div>
         </div>
+        <div class="key-img-height active"></div>
+        <!--<div class="weui-cells">-->
+            <!--<div class="weui-cell border-cell padding-cell">-->
+                <!--<div class="weui-cell__bd cell-unleft">-->
+                    <!--<input id="card" class="weui-input input-margin" type="text" placeholder="从业人员身份证号"/>-->
+                <!--</div>-->
+                <!--<span id="empty" class="active"><img src="images/empty.png" class="empty"/></span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="weui-cells">-->
+            <!--<div class="weui-cell border-cell padding-cell">-->
+                <!--<div class="weui-cell__bd cell-unleft">-->
+                    <!--<input id="phone" class="weui-input input-margin" type="text" placeholder="从业人员手机号码"/>-->
+                <!--</div>-->
+                <!--<span id="p-empty" class="active"><img src="images/empty.png" class="empty"/></span>-->
+            <!--</div>-->
+        <!--</div>-->
         <div id="idCard" class="prompt active"></div>
         <div class="weui-gallery" id="gallery">
             <span class="weui-gallery__img" id="galleryImg"></span>
@@ -39,9 +64,14 @@
             </div>
         </div>
     </div>
-    <div class="weui-btn-area">
-        <a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>
+    <div class="btn-box">
+        <div class="btn-box button-box">
+            <a class="btn" href="javascript:" id="showToast">提交</a>
+        </div>
     </div>
+    <!--<div class="weui-btn-area">-->
+        <!--<a class="weui-btn weui-btn_primary" href="javascript:" id="showToast" >提交</a>-->
+    <!--</div>-->
 </div>
 <script type="text/javascript">
     $(function(){
@@ -162,7 +192,7 @@
                 }, 2000);
                 return;
             }
-            var value=$('#card').val();
+            var value=$('#card').val().toUpperCase();
             if (value == '') {
                 $('#idCard').html("身份证号码不能为空");
                 $('#idCard').fadeIn(100);
@@ -179,7 +209,18 @@
                 $('#empty').css('display', 'block');
                 return ;
             }
-
+            var phone = /^1[34578]\d{9}$/;
+            var phonenum = $('#phone').val();
+            if(phonenum!=''){
+                if(phone.test(phonenum)==false){
+                    $('#idCard').html("手机号码不正确");
+                    $('#idCard').fadeIn(100);
+                    setTimeout(function () {
+                        $('#idCard').fadeOut(100);
+                    }, 2000);
+                    return;
+                }
+            }
             if(tag){
                 return;
             }
@@ -190,7 +231,7 @@
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    idCard($('#card').val(),serverId);
+                    idCard($('#card').val(),serverId,$('#phone').val());
                 },
                 fail:function(err){
                     $('#error').css("display","block");
@@ -198,13 +239,13 @@
                 }
             });
         });
-        function idCard(value,serverId){
+        function idCard(value,serverId,phone){
             $('#empty').css('display','none');
             $.ajax({
                 type: "POST",
                 url: "api/employee/save.json",
                 async: true,
-                data:{card:value,userid:$('#userid').val(),serverId:serverId},
+                data:{card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,phone:phone},
                 success: function (card) {
                     wx.closeWindow();
                 },
@@ -213,6 +254,12 @@
                     tag = false;
                 }
             });
-        }
+        };
+        $('input').focus(function () {
+            $('.key-img-height').show();
+        });
+        $('input').blur(function () {
+            $('.key-img-height').hide();
+        });
     });
 </script>
