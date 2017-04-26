@@ -115,7 +115,7 @@ gulp.task('build:example:assets', function (){
 
 gulp.task('build:gsp:style', function (){
     var styleDist = gspDist+'/assets/stylesheets';
-    gulp.src('src/example/example.less', {base: 'src/example'})
+    gulp.src('src/example/*.less', {base: 'src/example'})
         .pipe(less().on('error', function (e){
             console.error(e.message);
             this.emit('end');
@@ -130,38 +130,7 @@ gulp.task('build:gsp:style', function (){
 });
 
 gulp.task('build:example:style', function (){
-    gulp.src('src/example/example.less', option)
-        .pipe(less().on('error', function (e){
-            console.error(e.message);
-            this.emit('end');
-        }))
-        .pipe(postcss([autoprefixer(['iOS >= 7', 'Android >= 4.1'])]))
-        .pipe(nano({
-            zindex: false,
-            autoprefixer: false
-        }))
-        .pipe(gulp.dest(dist))
-        .pipe(browserSync.reload({stream: true}));
-});
-
-gulp.task('build:gsp:style', function (){
-    var styleDist = gspDist+'/assets/stylesheets';
-    gulp.src('src/example/swiper-3.3.1.min.less', {base: 'src/example'})
-        .pipe(less().on('error', function (e){
-            console.error(e.message);
-            this.emit('end');
-        }))
-        .pipe(replace('images/',''))
-        .pipe(postcss([autoprefixer(['iOS >= 7', 'Android >= 4.1'])]))
-        .pipe(nano({
-            zindex: false,
-            autoprefixer: false
-        }))
-        .pipe(gulp.dest(styleDist));
-});
-
-gulp.task('build:example:style', function (){
-    gulp.src('src/example/swiper-3.3.1.min.less', option)
+    gulp.src('src/example/*.less', option)
         .pipe(less().on('error', function (e){
             console.error(e.message);
             this.emit('end');
