@@ -239,7 +239,7 @@
                 confirmDialog('确定注销该人员？',function(){
                     $.ajax({
                         type: "post",
-                        url: "api/user/close.json?userid="+$('#userid').val(),
+                        url: "api/employee/close.json?userid="+$('#userid').val(),
                         data:{id:id},
                         success: function (xhr) {
                             if(xhr && xhr.state == 0){

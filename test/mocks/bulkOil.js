@@ -72,6 +72,7 @@ var routes = [
                     company:{ id:'key1',name:'南京灌汤包',address:'中山路',police:{name:'李迪迪'}},
                     photo:'images/icon1.png',
                     card:'1111111111111111111',
+                    mobile:'',
                     purpose:'维修、装修、清洗',
                     amount:100.2,
                     type:'汽油',

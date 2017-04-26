@@ -20,6 +20,10 @@
                 <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_card"></div>
             </div>
             <div class="none-flex cell-border cell-margin">
+                <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+                <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_mobile"></div>
+            </div>
+            <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">购油用途</label></div>
                 <div class="weui-cell__bd bd-right font-color place-top" id="work_station_value_purpose"></div>
             </div>
@@ -102,6 +106,7 @@
             $('[id^="work_station_value_"]').each(function () {
                 var name = $(this).attr('id').substr(19);
                 var val = getValue(data, name);
+                val = val==null?'':val;
                 $(this).text(val);
             });
             $('[id^="work_station_time_"]').each(function () {
