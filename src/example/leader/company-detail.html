@@ -438,21 +438,9 @@
                 var inputplace = $('#textarea-place').val();
                 var inputbuilding = $('#input-building').val();
                 var type = $('#container').data('data-add-typeId');
-                if(type==null){
-                    type = $('#classify').data('types');
-                }
                 var police = $('#container').data('data-add-policeId');
-                if(police==null){
-                    police = $('#police').data('polices');
-                }
                 var group = $('#container').data('data-add-groupId');
-                if(group==null){
-                    group =  $('#group').data('groups');
-                }
                 var fire = $('#container').data('data-add-fireId');
-                if(fire==null){
-                    fire = $('#fire').data('fires');
-                }
                 var legalPersonName= $('#legal-name').html();
                 var legalPersonPhone= $('#mobile-num').html();
                 var legalPersonMobile= $('#tel-num').html();
@@ -703,6 +691,10 @@
                                 }
                                 html += '</div>';
                 html += '<div id="add-box-show"></div></div>';
+            $('#container').data('data-add-typeId',data.company.type.id);
+            $('#container').data('data-add-policeId',data.company.police.id);
+            $('#container').data('data-add-groupId',groupType);
+            $('#container').data('data-add-fireId',fireState);
             $('.cells-ajax').append(html);
             if($('#mobile-num').text()==''){
                 $('#symbol').hide();
