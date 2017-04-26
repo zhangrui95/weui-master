@@ -167,6 +167,34 @@
             });
         }
         load();
+        //企业分类
+        $.ajax({
+            type: "POST",
+            url: "api/companyType.json",
+            data:{userid:$('#userid').val()},
+            success: function (data) {
+                for(var i = 0;i<data.length;i++){
+                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                }
+            },
+            error: function (mes) {
+                console.log("error");
+            }
+        });
+        //辖区
+        $.ajax({
+            type: "POST",
+            url: "api/user/policeHadArea.json",
+            data: {userid: $('#userid').val()},
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
+                }
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
         $('#change').on('touchstart',function(e){
             var left = e.touches[0].pageX;
             var top = e.touches[0].pageY;
@@ -259,43 +287,16 @@
             $('#input-change').val(changeval);
             //选择企业分类
             $('#classify').on('click',function(){
-                $('#choice-list').html('');
-                $.ajax({
-                    type: "POST",
-                    url: "api/companyType.json",
-                    data:{userid:$('#userid').val()},
-                    success: function (data) {
-                        for(var i = 0;i<data.length;i++){
-                            $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
-                        }
-                        $iosActionsheet.addClass('weui-actionsheet_toggle');
-                        $iosMask.fadeIn(200);
-                        $('.type-choice-name').on('click',function(){
-                            $('#classify').html($(this).text());
-                            var typeId = $(this).attr('id');
-                            $('#container').data('data-add-typeId',typeId);
-                            hideActionSheet();
-                        });
-                    },
-                    error: function (mes) {
-                        console.log("error");
-                    }
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.fadeIn(200);
+                $('.type-choice-name').on('click',function(){
+                    $('#classify').html($(this).text());
+                    var typeId = $(this).attr('id');
+                    $('#container').data('data-add-typeId',typeId);
+                    hideActionSheet();
                 });
             });
             //选择辖区
-            $.ajax({
-                type: "POST",
-                url: "api/user/policeHadArea.json",
-                data: {userid: $('#userid').val()},
-                success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
-                    }
-                },
-                error: function () {
-                    console.log("error");
-                }
-            });
             $('#police').on('click',function(){
                 $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
                 $iosMaskPolice.fadeIn(200);
