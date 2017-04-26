@@ -27,6 +27,16 @@
             </div>
         </div>
     </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     $(function(){
@@ -85,11 +95,26 @@
                         '<span class="result-name overflow-name">'+data.company.name+'</span>'+
                         '<span class="result-num"><span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span></span>'
                 );
-                $(".weui-cell").on('click',function () {
+                $('.icon-delete').each(function(){
+                    var _this = $(this);
+                    var id = _this.siblings('.weui-cell').data('tid');
+                    Delete(id,_this);
+                }).on('click',function(){
+                    showCellAction($(this).siblings('.weui-cell'));
+                });
+                $('.weui-cell').on('swipeLeft',function(e){
+                    showCellAction($(this));
+                }).on('swipeRight',function(e){
+                    hideCellAction($(this));
+                }).on('click',function (e) {
+                    if(isCellEditModel){
+                        hideAllCellAction($('.weui-cell'));
+                    }else{
                     var id = $(this).data('id');
                     container.data('detail-source','company-list');
                     $('#taskId').val($(this).data('tid'));
                     window.pageManager.go(id);
+                    }
                 });
             },
             emptyCb : function () {
@@ -104,7 +129,8 @@
             },
             templateProcess : function (items) {
                 var red = items.state == '0' ? 'class="red-circle"':'';
-                return '<div class="weui-cell bg-cell no-margin"  data-id="com-detail" data-tid="'+items.id+'">' +
+                return '<div class="label-relative">'+
+                        '<div class="weui-cell bg-cell no-margin"  data-id="com-detail" data-tid="'+items.id+'">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
                         '<span  '+red+'></span>'+
                         '<p class="left-cell">' +
@@ -113,9 +139,13 @@
                         '<div class="weui-cell__ft cell_fs left-cell">' +
                         '<img src="images/icon-time.jpg" class="position-time"/>'+
                         '<span>'+getLocalTime(items.createTime)+'</span>'  +
-                        '<img class="icon-go" src="images/icon-go.jpg"/>'+
                         '</div>' +
                         '</div>' +
+                        '</div>'+
+                        '<img class="icon-go icon-delete" src="images/icon-delete.png">'+
+                        '<div class="delete-box">'+
+                        '<div class="delete">注销</div>'+
+                        '</div>'+
                         '</div>';
             },
             before:function(){
@@ -167,6 +197,69 @@
         if(val!=null){
             $searchBar.addClass('weui-search-bar_focusing');
             $searchInput.val(val);
+        }
+        $('#default').on('click',function(){
+            $('#androidDialog2').fadeOut(200);
+        });
+        function confirmDialog(msg,callback){
+            $('#androidDialog2').fadeIn(200);
+            $('#dialog').html(msg);
+            $('#primary').unbind().on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+                callback();
+            });
+        }
+        var isCellEditModel = false;
+        function showCellAction(cell){
+            isCellEditModel = true;
+            cell.find('.item-width').animate({width:'72%'},200,'linear');
+            cell.find('.size-new').animate({width:'195px'},200,'linear');
+            cell.parent().siblings().find('.delete-box').animate({right:'-101px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'-51px'},200,'linear');
+            cell.parent().siblings().find('.size-new').animate({width:'220px'},200,'linear');
+            cell.parent().siblings().find('.item-width').animate({width:'90%'},200,'linear');
+        }
+
+        function hideCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.siblings('.delete-box').animate({right:'-101px'},200,'linear');
+        }
+
+        function hideAllCellAction(cell){
+            isCellEditModel = false;
+            cell.find('.item-width').animate({width:'90%'},200,'linear');
+            cell.find('.size-new').animate({width:'220px'},200,'linear');
+            cell.parent().parent().find('.delete-box').animate({right:'-101px'},200,'linear');
+        }
+
+        function Delete(id,_this) {
+            _this.siblings('.delete-box').find('.delete').on('click',function(){
+                confirmDialog('确定注销该人员？',function(){
+                    $.ajax({
+                        type: "post",
+                        url: "api/user/close.json?userid="+$('#userid').val(),
+                        data:{id:id},
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 0){
+                                _this.parent().remove();
+                            }else{
+                                $('#alert').fadeIn(200);
+                                setTimeout(function () {
+                                    $('#alert').fadeOut(200);
+                                }, 2000);
+                            }
+                        },
+                        error: function () {
+                            $('#alert').fadeIn(200);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(200);
+                            }, 2000);
+                        }
+                    });
+                });
+            });
         }
     });
 

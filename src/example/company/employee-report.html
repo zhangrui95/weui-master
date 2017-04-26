@@ -225,7 +225,7 @@
                 type: "POST",
                 url: "api/employee/save.json",
                 async: true,
-                data:{card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,phone:phone},
+                data:{card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,mobile:phone},
                 success: function (card) {
                     wx.closeWindow();
                 },
