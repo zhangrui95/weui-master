@@ -213,12 +213,15 @@
             var photo = addWorkForm.find('input[name^="work_list_employees"][name$="photo"][value="' + localId + '"]');
             var tmp = photo.attr('name');
             var card = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'card' + '"]');
+            var mobile = addWorkForm.find('input[name="' + tmp.substring(0, tmp.length - 'photo'.length) + 'mobile' + '"]');
             photo.remove();
             card.remove();
+            mobile.remove();
         };
 
         addWorkForm.find('input[name^="work_list_employees"][name$="card"]').each(function () {
             var card = $(this).val();
+            var mobile = $(this)[0].nextElementSibling.value;
             var tmp = $(this).attr('name');
             var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]');
             addEmployees(card, photo.val(), photo.data('wximg-id'));
