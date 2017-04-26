@@ -234,70 +234,7 @@ var routes = [
                 }
             ));
         }
-    },
-    {
-        route: "/example/api/fireCheck/listByCompany.json",
-        handle: function (req, res, next) {
-            res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify(
-                {
-                    company:{name:'豪峰会汽车服务有限公司/豪车盛宴/汽车有限公司'},
-                    list:[
-                        {createTime:1485137757000},
-                        {createTime:1485137757000},
-                        {createTime:1484137757070},
-                        {createTime:1483214046832},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832},
-                        {createTime:1485137757000},
-                        {createTime:1485137757000},
-                        {createTime:1484137757070},
-                        {createTime:1483214046832},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832},
-                        {createTime:1482214046832}
-                    ]
-                }
-
-            ));
-        }
-    },
-    {
-        route: "/example/api/fireCheck/detail.json",
-        handle: function (req, res, next) {
-            res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify(
-                {
-                    id:'com1',
-                    company:{name:'瓦力科技',address:'黑龙江省哈尔滨市南岗区嵩山路19号',createTime:1485137757000},
-                    items:[
-                        {type:'check',photo:'images/icon1.png'},
-                        {type:'fire',photo:'images/icon2.png'},
-                        {type:'legal',photo:'images/icon3.png'},
-                        {type:'legal',photo:'images/icon4.png'},
-                        {type:'legal',photo:'images/icon5.png'},
-                        {type:'legal',photo:'images/icon7.png'},
-                        {type:'legal',photo:'images/icon3.png'},
-                        {type:'legal',photo:'images/icon4.png'},
-                        {type:'legal',photo:'images/icon5.png'},
-                        {type:'legal',photo:'images/icon7.png'},
-                        {type:'legal',photo:'images/icon3.png'},
-                        {type:'legal',photo:'images/icon3.png'},
-                        {type:'legal',photo:'images/icon4.png'},
-                        {type:'legal',photo:'images/icon5.png'},
-                        {type:'legal',photo:'images/icon7.png'},
-                        {type:'check',photo:'images/icon1.png'},
-                        {type:'check',photo:'images/icon2.png'},
-                        {type:'check',photo:'images/icon8.png'},
-                        {type:'check',photo:'images/icon1.png'},
-                    ]
-                }
-
-            ));
-        }
-    },
-    {
+    },{
         route: "/example/api/firePlanItem/groupByUser.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
@@ -390,14 +327,7 @@ var routes = [
 
             ));
         }
-    },
-    {
-        route: "/example/api/fireCheck/save.json",
-        handle: function (req, res, next) {
-            res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({state:0}));
-        }
-    },
+    }
 ];
 
 module.exports = routes;

@@ -101,6 +101,10 @@
         function outPop(){
             pageManager.setBeforeHashchangeOnce(null)
         }
+        var sortFun = function(a,b){
+            var ret = a.createTime - b.createTime;
+            return ret == 0 ? (a.id > b.id ? 1: -1):ret;
+        };
         $.ajax({
             type: "POST",
             url: "api/fireCheck/detail.json",
@@ -109,16 +113,19 @@
                 var j = 0;
                 var n = 0;
                 var m = 0;
-                for(var i = 0;i<data.items.length;i++){
-                    if(data.items[i].type=='check'){
+                var items = data.items.sort(sortFun);
+                var item;
+                for(var i = 0;i<items.length;i++){
+                    item = items[i];
+                    if(item.type=='check'){
                         j++;
-                        $('#site-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
+                        $('#site-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+item.id+'" class="fire-img-list" data-index="'+j+'" data-item-type="'+0+'"/></li>');
                     }else if(data.items[i].type=='legal'){
                         n++;
-                        $('#all-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
+                        $('#all-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+item.id+'" class="fire-img-list" data-index="'+n+'"  data-item-type="'+1+'"/></li>');
                     }else{
                         m++;
-                        $('#person-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+data.items[i].id+'" class="fire-img-list" data-index="'+m+'" data-item-type="'+2+'"/></li>');
+                        $('#person-img').append('<li class="index-fire"><img src="api/fireCheck/photo?id='+item.id+'" class="fire-img-list" data-index="'+m+'" data-item-type="'+2+'"/></li>');
                     }
                     $('#place').html(data.company.address);
                     $('#time').html(getLocalTime(data.createTime));
