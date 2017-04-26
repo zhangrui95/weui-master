@@ -194,7 +194,7 @@
         /** 未带身份证 end*/
 
         /** 从业人员 start*/
-        var addEmployees = function (id, localId, url) {
+        var addEmployees = function (id,mobile, localId, url) {
             $('#employee-report').append(
                     '<div class="weui-cell weui-cell_access" href="javascript:;">' +
                     '   <div class="weui-cell__hd">' +
@@ -202,6 +202,7 @@
                     '   </div>' +
                     '   <div class="weui-cell__bd weui-cell_primary">' +
                     '       <p>' + id + '</p>' +
+                    '       <p class="mobile-style">' + mobile + '</p>' +
                     '   </div>' +
                     '</div>'
             );
@@ -224,7 +225,7 @@
             var mobile = $(this)[0].nextElementSibling.value;
             var tmp = $(this).attr('name');
             var photo = $('input[name="' + tmp.substring(0, tmp.length - 'card'.length) + 'photo' + '"]');
-            addEmployees(card, photo.val(), photo.data('wximg-id'));
+            addEmployees(card,mobile, photo.val(), photo.data('wximg-id'));
         });
 
         var employeeReport = $('#employee-report-add');
