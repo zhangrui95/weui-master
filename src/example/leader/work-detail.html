@@ -164,6 +164,10 @@
                 };
 
                 var addEmployees = function (item) {
+                    var mobile = item.mobile;
+                    mobile = mobile==null?'':mobile;
+                    var  tag =  mobile=='';
+                    var active = tag?'active':'';
                     $('#work_main_list_employees').append(
                             '<a class="weui-cell weui-cell_access" href="javascript:;">' +
                             '   <div class="weui-cell__hd">' +
@@ -171,6 +175,7 @@
                             '   </div>' +
                             '   <div class="weui-cell__bd weui-cell_primary">' +
                             '       <p>' + item.card + '</p>' +
+                            '       <p class="mobile-style '+active+'"><img src="images/mobile.png" class="mobile-icon"/>' + mobile + '</p>' +
                             '   </div>' +
                             '</a>');
                 };
