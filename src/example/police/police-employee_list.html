@@ -160,12 +160,12 @@
         var cid =  container.data('data-company-name-cid');
         var val = container.data('data-list-employee-val');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({cid:cid,card:val});
+        currDataList.first({userid:$('#userid').val(),cid:cid,card:val});
         var search = function(){
             var val=$searchInput.val().toUpperCase();
             container.data('data-list-employee-val',val);
             if(val != ""){
-                currDataList.first({cid:cid,card:val});
+                currDataList.first({userid:$('#userid').val() ,cid:cid,card:val});
             }
         };
         $searchInput.on('input',function(){
@@ -174,7 +174,7 @@
         var reset = function () {
             val='';
             container.data('data-list-employee-val',val);
-            currDataList.first({cid:cid,card:val});
+            currDataList.first({userid:$('#userid').val(),cid:cid,card:val});
         };
         $searchCancel.on('click',function(){
             reset();
@@ -236,7 +236,7 @@
 
         function Delete(id,_this) {
             _this.siblings('.delete-box').find('.delete').on('click',function(){
-                confirmDialog('确定注销该人员？',function(){
+                confirmDialog('确定注销该人员？',function () {
                     $.ajax({
                         type: "post",
                         url: "api/employee/close.json?userid="+$('#userid').val(),
