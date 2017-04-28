@@ -78,20 +78,11 @@
                 result(xhr);
                 $(".weui-cell").on('click',function () {
                     $('#container').data('data-list-employee-val',null);
-                    var allnum=$(this).find('.num-right .type-blue').text()
-                    if(allnum==0){
-                        $searchInput.blur();
-                        $('#alert').fadeIn(100);
-                        setTimeout(function () {
-                            $('#alert').fadeOut(100);
-                        }, 2000);
-                    }else{
                         var cid = $(this).attr('id');
                         container.data('data-company-name-cid',cid);
                         var id = $('.weui-cell').data('id');
                         $('#taskId').val($(this).data('tid'));
                         window.pageManager.go(id);
-                    }
                 });
             },
             emptyCb : function () {

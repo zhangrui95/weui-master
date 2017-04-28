@@ -1,5 +1,6 @@
 <!--旅店信息-->
 <div class="page page-list">
+    <img class="change-news" src="images/icon-new.png" id="add-new-employee" data-id="add-employee"/>
     <div class="weui-search-bar" id="searchBar">
         <form class="weui-search-bar__form">
             <div class="weui-search-bar__box">
@@ -160,12 +161,12 @@
         var cid =  container.data('data-company-name-cid');
         var val = container.data('data-list-employee-val');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({userid:$('#userid').val(),cid:cid,card:val});
+        currDataList.first({cid:cid,card:val});
         var search = function(){
             var val=$searchInput.val().toUpperCase();
             container.data('data-list-employee-val',val);
             if(val != ""){
-                currDataList.first({userid:$('#userid').val() ,cid:cid,card:val});
+                currDataList.first({cid:cid,card:val});
             }
         };
         $searchInput.on('input',function(){
@@ -174,7 +175,7 @@
         var reset = function () {
             val='';
             container.data('data-list-employee-val',val);
-            currDataList.first({userid:$('#userid').val(),cid:cid,card:val});
+            currDataList.first({cid:cid,card:val});
         };
         $searchCancel.on('click',function(){
             reset();
@@ -261,6 +262,10 @@
                 });
             });
         }
+        $('#add-new-employee').on('click',function(){
+            var eid = $(this).data('id');
+            window.pageManager.go(eid);
+        });
     });
 
 </script>
