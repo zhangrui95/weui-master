@@ -73,13 +73,6 @@
             animates();
         }
         function types(data){
-            if(width>999){
-                $('#all-cover').hide();
-            }else{
-                if (data.types.length > 6) {
-                    $('#all-cover').css('display', 'block');
-                }
-            }
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
                 $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-blue">'+items.num+'</span>)</span></li>');
@@ -93,24 +86,6 @@
             $('#common-num').html(cnum);
             $('#rest-num').html(onum);
         }
-        $('#all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#classification').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#classification').css('height', '100px');
-                $(this).html('展开全部');
-            }
-        })
-        $('#area-all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#area').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#area').css('height', '100px');
-                $(this).html('展开全部');
-            }
-        })
         function click() {
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');

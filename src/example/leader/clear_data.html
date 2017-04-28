@@ -6,21 +6,24 @@
             <div class="choice-title">分类
                 <span class="cover-blue" id="all-cover">展开全部</span>
             </div>
-            <ul class="classification" id="classification">
-                <li class="all-news white-border choice-after" id="all-types">全部</li>
-            </ul>
+            <div class="cover-all-box">
+                <ul class="classification" id="classification">
+                    <li class="all-news white-border choice-after" id="all-types">全部</li>
+                </ul>
+            </div>
         </div>
         <div class="area-box">
             <div class="choice-title">辖区
                 <span class="cover-blue" id="area-all-cover">展开全部</span>
             </div>
-            <ul class="area" id="area">
-                <li class="all-news  white-border choice-after" id="all-polices">全部</li>
-            </ul>
+            <div class="cover-all-box">
+                <ul class="area" id="area">
+                    <li class="all-news  white-border choice-after" id="all-polices">全部</li>
+                </ul>
+            </div>
         </div>
         <div class="area-box sort-box">
-            <div class="choice-title">组别
-            </div>
+            <div class="choice-title">组别</div>
             <ul class="area sort">
                 <li class="all-news white-border sorts choice-after" data-group="" id="all-sort">全部</li>
                 <li class="all-news white-border sorts" data-group="0" id="common"><span class="item-name">普通</span><span>(<span class="type-blue" id="common-num"></span>)</span></li>
@@ -52,6 +55,7 @@
                 recover(typedis);
                 recover(policeids);
                 recover(groupId);
+                unfold(125);
             },
             error: function (mes) {
                 console.log("error");
@@ -90,13 +94,6 @@
             animates();
         }
         function types(data){
-            if(width>999){
-                $('#all-cover').hide();
-            }else{
-                if (data.types.length > 6) {
-                    $('#all-cover').css('display', 'block');
-                }
-            }
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
                 $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-blue">'+items.num+'</span>)</span></li>');
@@ -104,13 +101,6 @@
             }
         }
         function persons(data){
-            if(width>999){
-                $('#all-cover').hide();
-            }else{
-                if(data.persons.length>6){
-                    $('#area-all-cover').css('display','block');
-                }
-            }
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
                 $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-blue">'+items.num+'</span>)</span></li>');
@@ -124,24 +114,6 @@
             $('#common-num').html(cnum);
             $('#rest-num').html(onum);
         }
-        $('#all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#classification').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#classification').css('height', '100px');
-                $(this).html('展开全部');
-            }
-        });
-        $('#area-all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#area').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#area').css('height', '100px');
-                $(this).html('展开全部');
-            }
-        });
         function click() {
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');

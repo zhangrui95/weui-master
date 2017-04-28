@@ -39,17 +39,21 @@
                 <div class="choice-title">分类
                     <span class="cover-blue" id="all-cover">展开全部</span>
                 </div>
-                <ul class="classification" id="classification">
-                    <li class="all-news white-border choice-after" id="all-types">全部</li>
-                </ul>
+                <div class="cover-all-box">
+                    <ul class="classification" id="classification">
+                        <li class="all-news white-border choice-after" id="all-types">全部</li>
+                    </ul>
+                </div>
             </div>
             <div class="area-box">
                 <div class="choice-title">辖区
                     <span class="cover-blue" id="area-all-cover">展开全部</span>
                 </div>
-                <ul class="area area-police" id="area">
-                    <li class="all-news  white-border choice-after" id="all-polices">全部</li>
-                </ul>
+                <div class="cover-all-box">
+                    <ul class="area area-police" id="area">
+                        <li class="all-news  white-border choice-after" id="all-polices">全部</li>
+                    </ul>
+                </div>
             </div>
             <div class="area-box">
                 <div class="choice-title">年份</div>
@@ -150,19 +154,13 @@
                 persons(data);
                 click();
                 years();
+                unfold(85);
             },
             error: function (mes) {
                 console.log("error");
             }
         });
         function types(data){
-            if(width>999){
-                $('#all-cover').hide();
-            }else{
-                if (data.types.length > 6) {
-                    $('#all-cover').css('display', 'block');
-                }
-            }
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
                 $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
@@ -170,13 +168,6 @@
             }
         }
         function persons(data){
-            if(width>999){
-                $('#all-cover').hide();
-            }else{
-                if(data.persons.length>6){
-                    $('#area-all-cover').css('display','block');
-                }
-            }
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
                 var num = items.num;
@@ -201,24 +192,6 @@
                 $(this).siblings().removeClass('choice-after');
             })
         }
-        $('#all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#classification').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#classification').css('height', '60px');
-                $(this).html('展开全部');
-            }
-        });
-        $('#area-all-cover').click(function() {
-            if ($(this).html() == '展开全部') {
-                $('#area').css('height', '100%');
-                $(this).html('收起');
-            } else {
-                $('#area').css('height', '60px');
-                $(this).html('展开全部');
-            }
-        });
         function click() {
             $('#all-types,#all-polices').on('click',function () {
                 $(this).siblings().removeClass('choice-after');

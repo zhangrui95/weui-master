@@ -864,7 +864,6 @@ body, .page {
     width: 100%;
     margin-top:10px;
     border-top:10px solid #EEEEEE;
-    min-height: 180px;
     .classification-box{
         width: 96%;
         margin: 0 auto;
@@ -876,11 +875,10 @@ body, .page {
     .classification{
         width: 96%;
         margin: 0 auto;
-        overflow: hidden;
         font-size: 16px;
-        height: 100px;
-        overflow: hidden;
+        height: auto;
         padding-bottom: 20px;
+        overflow: hidden;
         li{
             float: left;
             padding: 2px 10px;
@@ -895,7 +893,6 @@ body, .page {
     background: #FFFFFF;
     margin-top:10px;
     border-top:10px solid #EEEEEE;
-    min-height: 180px;
     .area-box{
         width: 96%;
         margin: 0 auto;
@@ -907,7 +904,6 @@ body, .page {
         overflow: hidden;
         font-size: 16px;
         padding-bottom: 20px;
-        height: 100px;
         li{
             float: left;
             padding: 2px 10px;
@@ -1420,21 +1416,6 @@ body, .page {
         border: none;
         margin: 0;
         background: transparent;
-    }
-    .classification-box{
-        min-height: 100px;
-        .classification{
-            height: 60px;
-        }
-    }
-    .area-box{
-        min-height: 100px;
-        .area{
-            height: 30px;
-        }
-        .area-police{
-            height: 60px;
-        }
     }
     .choice-after {
         border: 1px dashed #ff5a54;
@@ -2263,4 +2244,7 @@ body, .page {
     height: 44px;
     margin-top: -22px;
     z-index: 9;
+}
+.cover-all-box{
+    overflow: hidden;
 }

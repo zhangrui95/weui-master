@@ -992,3 +992,24 @@ function imgIcon(id,imgId){
         })
     }
 }
+function unfold(num){
+    $('.cover-all-box').css('height', num+'px');
+    var typeHeight = $('#classification').height(),
+    policeHeight = $('#area').height(),
+    number = num+20;
+    if(typeHeight>number){
+        $('#all-cover').css('display', 'block');
+    }
+    if(policeHeight>number){
+        $('#area-all-cover').css('display', 'block');
+    }
+    $('.cover-blue').click(function() {
+        if ($(this).html() == '展开全部') {
+            $(this).parent().siblings('.cover-all-box').css('height', '100%');
+            $(this).html('收起');
+        } else {
+            $(this).parent().siblings('.cover-all-box').css('height', num+'px');
+            $(this).html('展开全部');
+        }
+    });
+}
