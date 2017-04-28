@@ -243,8 +243,8 @@
                         url: "api/employee/close.json?userid="+$('#userid').val(),
                         data:{id:id},
                         success: function (xhr) {
-                            if(xhr && xhr.state == 0){
-                                _this.parent().remove();
+                            if(xhr && xhr.state == 1){
+                                currDataList.first({cid:cid,card:$searchInput.val()});
                             }else{
                                 $('#alert').fadeIn(200);
                                 setTimeout(function () {
