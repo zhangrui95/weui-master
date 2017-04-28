@@ -1,6 +1,6 @@
 <!--旅店信息-->
 <div class="page page-list">
-    <img class="change-news" src="images/icon-new.png" id="add-new-employee" data-id="add-employee"/>
+    <!--<img class="change-news" src="images/icon-new.png" id="add-new-employee" data-id="add-employee"/>-->
     <div class="weui-search-bar" id="searchBar">
         <form class="weui-search-bar__form">
             <div class="weui-search-bar__box">
@@ -96,18 +96,19 @@
                         '<span class="result-name overflow-name">'+data.company.name+'</span>'+
                         '<span class="result-num"><span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+nums+'</span></span>'
                 );
-                $('.icon-delete').each(function(){
-                    var _this = $(this);
-                    var id = _this.siblings('.weui-cell').data('tid');
-                    Delete(id,_this);
-                }).on('click',function(){
-                    showCellAction($(this).siblings('.weui-cell'));
-                });
-                $('.weui-cell').on('swipeLeft',function(e){
-                    showCellAction($(this));
-                }).on('swipeRight',function(e){
-                    hideCellAction($(this));
-                }).on('click',function (e) {
+//                $('.icon-delete').each(function(){
+//                    var _this = $(this);
+//                    var id = _this.siblings('.weui-cell').data('tid');
+//                    Delete(id,_this);
+//                }).on('click',function(){
+//                    showCellAction($(this).siblings('.weui-cell'));
+//                });
+//                $('.weui-cell').on('swipeLeft',function(e){
+//                    showCellAction($(this));
+//                }).on('swipeRight',function(e){
+//                    hideCellAction($(this));
+//                })
+                $('.weui-cell').on('click',function (e) {
                     if(isCellEditModel){
                         hideAllCellAction($('.weui-cell'));
                     }else{
