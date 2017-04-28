@@ -56,7 +56,7 @@
     <div class="blank active" id="alert">
         <div class="td-style td-top">
             <div class="td-name">姓名</div>
-            <input type='text' id="legal-person-name" placeholder="法人姓名"/>
+            <input type='text' id="legal-person-name" placeholder="法人/负责人姓名"/>
         </div>
         <div class="td-style">
             <div class="td-name">手机号码</div>
@@ -68,7 +68,7 @@
         </div>
         <div class="td-style">
             <div class="td-name">身份证号</div>
-            <input type='text' id="IdCard" placeholder="法人身份证号码"/>
+            <input type='text' id="IdCard" placeholder="法人/负责人身份证号码"/>
         </div>
         <div class="prompt" id="hite"></div>
         <div class="button-box" data-id="employee_list" >
@@ -251,7 +251,7 @@
             $('#change').hide();
             $('.link-alert').addClass('link-man');
             if($('#legal-name').html()==''){
-                $('#add-legal').html('<div class="add-legal-person"><span class="add-icon">+</span>新增法人</div>');
+                $('#add-legal').html('<div class="add-legal-person"><span class="add-icon">+</span>新增法人/负责人</div>');
             };
             if($('#legal-name').html()!=''){
                 $('#add-legal').hide();
@@ -660,7 +660,7 @@
                                 '</div>'+
                                 '<img src="images/icon-go.jpg" class="icon-go-width"/> '+
                                 '</div>'+
-                                '<div class="head-title">法人</div>'+
+                                '<div class="head-title">法人/负责人</div>'+
                                 '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
                                 '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" >'+legalPersonName+'</label></div><div id="add-legal"></div>'+
                                 '<div class="weui-cell__bd bd-right">'+
