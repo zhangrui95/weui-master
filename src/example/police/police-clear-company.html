@@ -1,4 +1,5 @@
 <div class="page clear-data-box">
+    <img class="change-news" src="images/icon-new.png" id="add-new-company" data-id="add-company"/>
     <div class="page_choice all-box">
         <div class="all-num-box"></div>
         <div class="classification-box">
@@ -24,7 +25,6 @@
 </div>
 <script>
     $(function(){
-        var width = document.body.clientWidth;
         var container= $('#container');
         var typedis=container.data('data-choice-type-ids');
         var policeId = container.data('self-policeId');
@@ -132,6 +132,54 @@
             }else{
                 window.pageManager.go(id);
             }
-        })
+        });
+        $('#add-new-company').on('mousedown',function(e){
+            var _event = window.event||e;
+            var left = _event.offsetX;
+            var top = _event.offsetY;
+            var downX = _event.pageX;
+            var downY = _event.pageY;
+            _event.preventDefault();
+            $('body').on('mousemove',function(e){
+                var _event = window.event||e;
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#add-new-company').css('left',x + "px");
+                $('#add-new-company').css('top',y + "px");
+            });
+            $('#add-new-company').on('mouseup',function(e){
+                $('body').unbind();
+                var upX = e.pageX;
+                var upY = e.pageY;
+                var moveX = downX - upX;
+                var moveY = downY - upY;
+                if(moveX==0&&moveY==0){
+                    var id = $('#add-new-company').data('id');
+                    window.pageManager.go(id);
+                }
+            });
+        });
+        $('#add-new-company').on('touchstart',function(e){
+            var left = e.touches[0].pageX;
+            var top = e.touches[0].pageY;
+            e.preventDefault();
+            $('body').on('touchmove',function(e){
+                var x = e.touches[0].clientX-25;
+                var y = e.touches[0].clientY-25;
+                $('#add-new-company').css('left',x + "px");
+                $('#add-new-company').css('top',y + "px");
+            });
+            $('#add-new-company').on('touchend',function(e){
+                var endX = e.changedTouches[0].pageX;
+                var endY= e.changedTouches[0].pageY;
+                var moveX = left - endX;
+                var moveY = top -endY;
+                $('body').unbind();
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                    var id = $('#add-new-company').data('id');
+                    window.pageManager.go(id);
+                }
+            });
+        });
     })
 </script>

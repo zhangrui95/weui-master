@@ -1,98 +1,678 @@
-<div class="page page-list">
+<div class="page clear-data-box">
+    <img class="change-news" src="images/icon-edit.png" id="change"/>
     <div id="error" class="error" style="display: none;">
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
     </div>
-    <div class="page__bd details cells-ajax page_y"></div>
+    <form class="active" id="form-box"></form>
+    <div class="active" id="dele-new"></div>
+    <div class="page_choice all-box cells-ajax"></div>
     <div class="weui-gallery" id="gallery">
         <img  class="weui-gallery__img center-img" id="galleryImg"/>
     </div>
-    <div class="btn-box" data-id="police-employee_list" id="look">
-        <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查看从业人员列表</a>
+    <div class="btn-box" id="look">
+        <a class="btn" href="javascript:" id="showToast" data-id="police-employee_list">查看从业人员列表</a>
     </div>
+    <div>
+        <div class="weui-mask" id="iosMask" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheet">
+            <div class="weui-actionsheet__menu" id="choice-list"></div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMasks" style="display: none"></div>
+        <div class="weui-actionsheet" id="iosActionsheets">
+            <div class="weui-actionsheet__menu weui-actionsheet__menu-height" id="choice-lists">
+                <div class="weui-actionsheet__cell group-choice-name" data-group="0">普通</div>
+                <div class="weui-actionsheet__cell group-choice-name" data-group="1">其他</div>
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" id="iosActionsheetCancels">取消</div>
+            </div>
+        </div>
+    </div>
+    <div class="blank active" id="alert">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' id="legal-person-name" placeholder="法人/负责人姓名"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' id="legal-phone"  placeholder="11位手机号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">电话号码</div>
+            <input type='text' id="legal-company-tel-num" placeholder="企业电话号码"/>
+        </div>
+        <div class="td-style">
+            <div class="td-name">身份证号</div>
+            <input type='text' id="IdCard" placeholder="法人/负责人身份证号码"/>
+        </div>
+        <div class="prompt" id="hite"></div>
+        <div class="button-box" data-id="employee_list" >
+            <a class="imported-left none-style" href="javascript:" id="dis-none2" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="new-save" data-id="police-company_list">确定</a>
+        </div>
+    </div>
+    <div class="page-alert active" id="alertbackground"></div>
+    <div class="blank active" id="alert-person">
+        <div class="td-style td-top">
+            <div class="td-name">姓名</div>
+            <input type='text' id="linkName" placeholder="联系人姓名"/>
+            <span class="star-red">*</span>
+        </div>
+        <div class="td-style">
+            <div class="td-name">手机号码</div>
+            <input type='text' id="linkPhone" placeholder="11位手机号码"/>
+            <span class="star-red">*</span>
+        </div>
+        <div class="td-style">
+            <div class="td-name">邮箱</div>
+            <input type='text' id="E-mail" placeholder="邮箱账号"/>
+        </div>
+        <div class="td-style" >
+            <div class="td-name">职位</div>
+            <input type='text'id="Work" placeholder="工作职位"/>
+        </div>
+        <div class="prompt active" id="prompt">*请输入必填项</div>
+        <div class="button-box active" data-id="employee_list" id="person-news-change-btn">
+            <a class="imported-left none-style" href="javascript:" id="dis-none" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="news-save" data-id="police-company_list">确定</a>
+        </div>
+        <div class="button-box active" data-id="employee_list" id="amend">
+            <a class="imported-left none-style" href="javascript:" id="dis-none1" data-id="police-company_list">取消</a>
+            <a class="btn-bg bg-style" href="javascript:" id="amend-new" data-id="police-company_list">确定</a>
+        </div>
+    </div>
+    <div class="page-alert active" id="personbackground"></div>
+    <div class="page-alert active" id="changeground"></div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd" id="dialog"></div>
+            <div class="weui-dialog__ft" id="primary-box">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="default">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull">请填选必填项</div>
 </div>
 <script type="text/javascript">
     $(function(){
-        $gallery = $("#gallery"),
-                $galleryImg = $("#galleryImg")
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+        var $iosActionsheets = $('#iosActionsheets');
+        var $iosMasks = $('#iosMasks');
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+            $iosActionsheets.removeClass('weui-actionsheet_toggle');
+            $iosMasks.fadeOut(200);
+        }
+        $iosMask.on('click', hideActionSheet);
+        $iosMasks.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $('#iosActionsheetCancels').on('click', hideActionSheet);
         var cid =  $('#container').data('data-company-name-cid');
+        function load() {
+            $.ajax({
+                type: "POST",
+                url: "api/company/detail.json",
+                data:{id:cid,userid:$('#userid').val()},
+                success: function (data) {
+                    lists(data);
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
+        }
+        load();
+        //企业分类
         $.ajax({
             type: "POST",
-            url: "api/company/detail.json",
-            data:{id:cid,userid:$('#userid').val()},
+            url: "api/companyType.json",
+            data:{userid:$('#userid').val()},
             success: function (data) {
-                lists(data);
+                for(var i = 0;i<data.length;i++){
+                    $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].id+'>'+data[i].name+'</div>');
+                }
             },
             error: function (mes) {
-                $('#error').css("display","block");
+                console.log("error");
             }
         });
+        $('#change').on('touchstart',function(e){
+            var left = e.touches[0].pageX;
+            var top = e.touches[0].pageY;
+            e.preventDefault();
+            $('body').on('touchmove',function(e){
+                var x = e.touches[0].clientX-25;
+                var y = e.touches[0].clientY-25;
+                $('#change').css('left',x + "px");
+                $('#change').css('top',y + "px");
+            });
+            $('#change').on('touchend',function(e){
+                var endX = e.changedTouches[0].pageX;
+                var endY= e.changedTouches[0].pageY;
+                var moveX = left - endX;
+                var moveY = top -endY;
+                $('body').unbind();
+                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
+                    changeClick();
+                }
+            });
+        });
+        $('#change').on('mousedown',function(e){
+            var _event = window.event||e;
+            var left = _event.offsetX;
+            var top = _event.offsetY;
+            var downX = _event.pageX;
+            var downY = _event.pageY;
+            _event.preventDefault();
+            $('body').on('mousemove',function(e){
+                var _event = window.event||e;
+                var x = _event.clientX-left;
+                var y = _event.clientY-top;
+                $('#change').css('left',x + "px");
+                $('#change').css('top',y + "px");
+            });
+            $('#change').on('mouseup',function(e){
+                $('body').unbind();
+                var upX = e.pageX;
+                var upY = e.pageY;
+                var moveX = downX - upX;
+                var moveY = downY - upY;
+                if(moveX==0&&moveY==0){
+                    changeClick();
+                }
+            });
+        });
+        function changeClick() {
+            $('.click-right').css('margin-right','30px');
+            $('.click-right-icon').css('margin-right','15px');
+            $('.icon-go-width').show();
+            $('.link-delete').show();
+            $('#change').hide();
+            $('.link-alert').addClass('link-man');
+            if($('#legal-name').html()==''){
+                $('#add-legal').html('<div class="add-legal-person"><span class="add-icon">+</span>新增法人/负责人</div>');
+            };
+            if($('#legal-name').html()!=''){
+                $('#add-legal').hide();
+            };
+            $('#look').html(
+                    '<div class="btn-box button-box" id="btnPanel">'+
+                    '<div class="imported-left none-style" id="cancel-left">取消</div>'+
+                    '<a class="btn-bg bg-style" href="javascript:" id="save">保存</a>'+
+                    '</div>'
+            );
+            //选择企业分类
+            $('#classify').on('click',function(){
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.fadeIn(200);
+                $('.type-choice-name').on('click',function(){
+                    $('#classify').html($(this).text());
+                    var typeId = $(this).attr('id');
+                    $('#container').data('data-add-typeId',typeId);
+                    hideActionSheet();
+                });
+            });
+            //选择企业组别
+            $('#group').on('click',function(){
+                $iosActionsheets.addClass('weui-actionsheet_toggle');
+                $iosMasks.fadeIn(200);
+                $('.group-choice-name').on('click',function(){
+                    $('#group').html($(this).text());
+                    var groupId = $(this).data('group');
+                    $('#container').data('data-add-groupId',groupId);
+                    hideActionSheet();
+                });
+            });
+            $('.blur').on('click',function(){
+                $('#input-change,#textarea-place,#input-building').blur();
+            });
+            //法人信息修改
+            $('#legal-person').on('click',function(){
+                inPop(function(){
+                    $('#alert,#alertbackground').fadeOut(100);
+                });
+                $('#alert,#alertbackground').fadeIn(100);
+                var legalPhone = $('#legal-phone').val();
+                var legalCompanyNum = $('#legal-company-tel-num').val();
+                var changeLegalname = $('#legal-name').text();
+                var legalPersonCard = $('#legalCard').text();
+                $('#legal-person-name').val(changeLegalname);
+                var changelegalPhone = $('#mobile-num').text();
+                $('#legal-phone').val(changelegalPhone);
+                var changelegalCompanyNum = $('#tel-num').text();
+                $('#legal-company-tel-num').val(changelegalCompanyNum);
+                $('#IdCard').val(legalPersonCard);
+                $('#new-save').on('click',function(){
+                    var pattern = /^1[34578]\d{9}$/;
+                    var legalName = $('#legal-person-name').val();
+                    var legalPhone = $('#legal-phone').val();
+                    var legalCompanyNum = $('#legal-company-tel-num').val();
+                    var legalCard = $('#IdCard').val();
+                    if(legalPhone!=''){
+                        if(pattern.test(legalPhone)==false){
+                            $('#hite').html('请输入正确的手机号码');
+                            $('#hite').fadeIn(100);
+                            setTimeout(function () {
+                                $('#hite').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            testMobile();
+                        }
+                    } else{
+                        testMobile();
+                    }
+                    if(legalPhone.length != 0&&legalCompanyNum.length!=0){
+                        $('#symbol').show();
+                    }
+                    if(legalPhone.length == 0&&legalCompanyNum.length!=0){
+                        $('#symbol').hide();
+                    }
+                    if(legalPhone.length != 0&&legalCompanyNum.length==0){
+                        $('#symbol').hide();
+                    }
+                    function testMobile(){
+                        $('#alert,#alertbackground').fadeOut(100);
+                        $('#legal-name').html(legalName);
+                        $('#mobile-num').html(legalPhone);
+                        $('#tel-num').html(legalCompanyNum);
+                        $('#legalCard').html(legalCard);
+                        if(legalName!=''||legalPhone!=''|| legalCompanyNum!=''){
+                            $('#add-legal').hide();
+                        };
+                    };
+                });
+                $('#dis-none2').on('click',function(){
+                    outPop();
+                    $('#alert,#alertbackground').fadeOut(100);
+                });
+            });
+            $('#add-box-show').html(
+                    '<div class="add-line" id="add-linkman"><span class="add">+</span>新增联系人</div>'+
+                    '<div class="height-fixed"></div>'
+            );
+            //删除及添加修改联系人
+            $('#add-linkman').on('click',function(){
+                inPop(function(){
+                    $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                });
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeIn(100);
+                $('#linkName,#linkPhone,#WeXin,#E-mail,#Work').val('');
+                $('#prompt').hide();
+                $('#dis-none').on('click',function(){
+                    outPop();
+                    $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                });
+            });
+            $('#default').on('click',function(){
+                $('#androidDialog2').fadeOut(200);
+            });
+            $('.old-link').siblings('.link-delete').on('click',function(){
+                var _this = $(this);
+                var dele =_this.siblings('.link-man').attr('id');
+                $('#container').data('data-link-dele',dele);
+                $('#androidDialog2').fadeIn(200);
+                $('#dialog').html('确定注销该联系人？');
+                $('#dele-new').html('');
+                $('#primary').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                    _this.parent().remove();
+                    $('#dele-new').append(_this.parent().html());
+                });
+            });
+            $('#save').on('click',function(){
+                var hints = '';
+                function hint(hints) {
+                    $('#notNull').html(hints);
+                    $('#notNull').fadeIn(100);
+                    setTimeout(function () {
+                        $('#notNull').fadeOut(100);
+                    }, 2000);
+                }
+                var inputChange = $('#input-change').val();
+                var inputplace = $('#textarea-place').val();
+                var inputbuilding = $('#input-building').val();
+                var type = $('#container').data('data-add-typeId');
+                var police = $('#container').data('data-add-policeId');
+                var group = $('#container').data('data-add-groupId');
+                var fire = $('#container').data('data-add-fireId');
+                var legalPersonName= $('#legal-name').html();
+                var legalPersonPhone= $('#mobile-num').html();
+                var legalPersonMobile= $('#tel-num').html();
+                var legalPersonCard = $('#legalCard').html();
+                $('#form-box').html(
+                        '<input name="id" value="'+cid+'"/>'+
+                        '<input name="type" value="'+type+'"/>'+
+                        '<input name="groupType" value="'+group+'"/>'+
+                        '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
+                        '<input name="legalPersonPhone" value="'+legalPersonPhone+'"/>'+
+                        '<input name="legalPersonMobile" value="'+legalPersonMobile+'"/>'+
+                        '<input name="legalPersonCard" value="'+legalPersonCard+'"/>'+
+                        '<div id="add-list-name"></div>'+
+                        '<div id="dele-box"></div>'
+                );
+                var $dele = $('#dele-new');
+                $dele.find('.link-alert').each(function(i){
+                    var delId = $(this).attr('id');
+                    if(delId!=null){
+                        $('#dele-box').append('<input name="del['+i+']" value="'+delId+'"/>');
+                    }
+                });
+                var oldLength = $('#link-box .old-link').length;
+                $('#link-box').find('.link-alert').each(function(i){
+                    var manLink = $(this);
+                    var name = manLink.data('name');
+                    var phone = manLink.data('phone');
+                    var WeXin = manLink.data('weixin');
+                    var Email = manLink.data('email');
+                    var Work = manLink.data('post');
+                    var id = $(this).attr('id');
+                    var j = i-oldLength;
+                    var object = 'upt['+i+']';
+                    if(id==null){
+                        object = 'add['+j+']';
+                    }else{
+                        $('#add-list-name').append('<input name="'+object+'.id" value="'+id+'"/>');
+                    }
+                    if(name!=null){
+                        $('#add-list-name').append('<input name="'+object+'.name" value="'+name+'"/>');
+                    }
+                    if(phone!=null){
+                        $('#add-list-name').append('<input name="'+object+'.mobile" value="'+phone+'"/>');
+                    }
+//                    if(WeXin!=null){
+//                        $('#add-list-name').append('<input name="'+object+'.wid" value="'+WeXin+'"/>');
+//                    }
+                    if(Email!=null){
+                        $('#add-list-name').append('<input name="'+object+'.email" value="'+Email+'"/>');
+                    }
+                    if(Work!=null){
+                        $('#add-list-name').append( '<input name="'+object+'.post" value="'+Work+'"/>');
+                    }
+                });
+               if(type==''){
+                    var hints = '请选择企业分类';
+                    hint(hints);
+                }else if($('#group').text()==''){
+                    var hints = '请选择企业组别';
+                    hint(hints);
+                }else if($('#link-box').text().length==0||$('#link-box').text()==''){
+                    var hints = '请添加企业联系人信息';
+                    hint(hints);
+                }else{
+                    restore();
+                    var json = $('#form-box').serialize();
+                    $.ajax({
+                        type: "post",
+                        url: "api/company/update.json?userid="+$('#userid').val(),
+                        data:json,
+                        success: function (xhr) {
+                            if(xhr && xhr.state == 0){
+                                $dele.html('');
+                                $('#notNull').hide();
+                                $('.cells-ajax').html('');
+                                load();
+                            }else{
+                                hint('更新失败');
+                            }
+                        },
+                        error: function () {
+                            hint('更新失败');
+                        }
+                    });
+                }
+
+            });
+            $('#cancel-left').on('click',function(){
+                $('.cells-ajax').html('');
+                load();
+                restore();
+            });
+        }
+
+        function motifyMan(manPan){
+            var linkmanName = $('#linkName').val();
+            var linkPhone = $('#linkPhone').val();
+            var WeXin = $('#WeXin').val();
+            var Email = $('#E-mail').val();
+            var Work = $('#Work').val();
+            manPan.data('name',linkmanName);
+            manPan.data('phone',linkPhone);
+            manPan.data('weixin',WeXin);
+            manPan.data('email',Email);
+            manPan.data('post',Work);
+        }
+
         function lists(data) {
             var address = data.company.address;
             address = address==null?'':address;
             var company = data.company.name;
+            var type = data.company.type.name;
             var police = data.company.police.name;
+            var groupType = data.company.groupType;
+            var fireState = data.company.fireState;
+            var legalPersonCard = data.company.legalPersonCard;
+            var legalPersonName = data.company.legalPersonName;
+            var legalPersonPhone = data.company.legalPersonPhone;
+            var legalPersonMobile = data.company.legalPersonMobile;
+            var officeBuilding = data.company.officeBuilding;
+            var group = '未选择';
+            if(groupType==0){
+                group = '普通';
+            }else if(groupType==1){
+                group = '其他';
+            }
+            var fire = '';
+            if(fireState==0){
+                fire = '非重点消防单位';
+            }else if(fireState==1){
+                fire = '重点消防单位';
+            }
+            if(legalPersonName==null){
+                legalPersonName='';
+            }
+            if(legalPersonCard==null){
+                legalPersonCard='';
+            }
+            if(legalPersonPhone==null){
+                legalPersonPhone='';
+            }
+            if(legalPersonMobile==null){
+                legalPersonMobile='';
+            }
+            if(officeBuilding ==null){
+                officeBuilding='';
+            }
             company = company==null?'':company;
-            var html =      '<div class="head-title">基本信息</div>'+
+            var html =      '<div id="news-change">'+
+                    '<div class="head-title">基本信息</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>'+
-                    '<div class="weui-cell__bd bd-right" >'+
-                    company+
+                    '<div class="weui-cell__bd bd-right" id="company-name">'+
+                    '<div id="company-name-show">'+company+'</div>'+
+                    '<div id="company-name-input"></div>'+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">企业地址</label></div>'+
-                    '<div class="weui-cell__bd bd-right" >'+
-                    address+
+                    '<div class="weui-cell__bd bd-right place-top" id="company-place">'+
+                    '<div id="company-place-show">'+address+'</div>'+
+                    '<div id="company-place-input"></div>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="none-flex cell-border cell-margin">'+
+                    '<div class="weui-cell__hd"><label class="weui-label">写字楼/商场</label></div>'+
+                    '<div class="weui-cell__bd bd-right place-top" id="company-building">'+
+                    '<div id="company-building-show">'+officeBuilding +'</div>'+
+                    '<div id="company-building-input"></div>'+
                     '</div>'+
                     '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">企业分类</label></div>'+
-                    '<div class="weui-cell__bd bd-right" >'+
-                    ''+
+                    '<div class="weui-cell__bd bd-right click-right-icon blur" id="classify" data-types="'+ data.company.type.id+'">'+
+                    type+
                     '</div>'+
+                    '<img src="images/icon-go.jpg" class="icon-go-width"/> '+
                     '</div>'+
-                    '<div class="none-flex cell-border cell-margin head-title-border">'+
+                    '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>'+
-                    '<div class="weui-cell__bd bd-right" >'+
-                    ''+
+                    '<div class="weui-cell__bd bd-right click-right-icon blur" id="group"  data-groups="'+groupType+'">'+
+                    group+
                     '</div>'+
+                    '<img src="images/icon-go.jpg" class="icon-go-width"/> '+
                     '</div>'+
-                    '<div class="head-title">法人</div>'+
                     '<div class="none-flex cell-border cell-margin head-title-border">'+
-                    '<div class="weui-cell__hd"><label class="weui-label">法人</label></div>'+
-                    '<div class="weui-cell__bd bd-right" >'+
-                    '<span>手机号</span>/<span>电话号</span>'+
+                    '<div class="weui-cell__hd"><label class="weui-label">消防等级</label></div>'+
+                    '<div class="weui-cell__bd bd-right blur" id="fire" data-fires="'+fireState+'">' +
+                    fire+
                     '</div>'+
                     '</div>'+
-                    '<div class="head-title">联系人</div>'
-            for(var i=0;i<data.users.length;i++){
-                var index = i+1;
+                    '<div class="head-title">法人/负责人</div>'+
+                    '<div class="none-flex cell-border cell-margin head-title-border" id="legal-person">'+
+                    '<div class="weui-cell__hd"><label class="weui-label" id="legal-name" >'+legalPersonName+'</label></div><div id="add-legal"></div>'+
+                    '<div class="weui-cell__bd bd-right">'+
+                    '<span id="mobile-num">'+legalPersonPhone+'</span><span id="symbol">/</span><span id="tel-num">'+legalPersonMobile+'</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '<span class="active" id="legalCard">'+legalPersonCard+'</span>'+
+                    '<div class="head-title">联系人</div>'+
+                    '<div id="link-box">';
+            var users = data.users,wid,email,post;
+            for(var i=0;i<users.length;i++){
+                wid = users[i].wid;
+                wid = wid == null ? '':' data-weixin="'+wid+'"';
+                email = users[i].email;
+                email = email == null ? '':' data-email="'+email+'"';
+                post = users[i].post;
+                post = post == null ? '':' data-post="'+post+'"';
                 html +=
-                        '<div class="none-flex cell-border cell-margin">' +
-                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+data.users[i].name+'</label></div>' +
-                        '<div class="weui-cell__bd bd-right" >' +
-                        data.users[i].mobile +
+                        '<div class="link-news-box">'+
+                        '<div class="none-flex cell-border cell-margin link-alert old-link"  data-name="'+users[i].name+'" data-phone="'+users[i].mobile+'" '+wid+email+post+' id="'+users[i].id+'">' +
+                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+users[i].name+'</label></div>' +
+                        '<div class="weui-cell__bd bd-right click-right label-phone" >' +
+                        users[i].mobile +
                         '</div>' +
+                        '</div>'+
+                        '<div class="link-delete cancel-style">注销</div>'+
                         '</div>'
             }
-            ;
             html += '</div>';
+            html += '<div id="add-box-show"></div></div>';
+            $('#container').data('data-add-typeId',data.company.type.id);
+            $('#container').data('data-add-policeId',data.company.police.id);
+            $('#container').data('data-add-groupId',groupType);
+            $('#container').data('data-add-fireId',fireState);
             $('.cells-ajax').append(html);
-            $('.head-img').on("click", function(){
-                $galleryImg.attr("src", this.getAttribute("src"));
-                $gallery.fadeIn(100);
-            });
-            $gallery.on("click", function(){
-                $gallery.fadeOut(100);
+            if($('#mobile-num').text()==''){
+                $('#symbol').hide();
+            }
+            if($('#tel-num').text()==''){
+                $('#symbol').hide();
+            }
+        }
+        $('#news-save').on('click',function(){
+            var linkmanName = $('#linkName').val();
+            var linkPhone = $('#linkPhone').val();
+            var WeXin = $('#WeXin').val();
+            var Email = $('#E-mail').val();
+            var Work = $('#Work').val();
+            var pattern = /^1[34578]\d{9}$/;
+            var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if(linkmanName.length==0||linkPhone.length==0){
+                $('#prompt').html('请输入必填项');
+                $('#prompt').show();
+                setTimeout(function () {
+                    $('#prompt').fadeOut(100);
+                }, 2000);
+            }else if(pattern.test(linkPhone)==false){
+                $('#prompt').html('请输入正确的手机号码');
+                $('#prompt').show();
+                setTimeout(function () {
+                    $('#prompt').fadeOut(100);
+                }, 2000);
+            }else if(Email.length!=0){
+                if(email.test(Email)==false){
+                    $('#prompt').html('请输入正确的邮箱账号');
+                    $('#prompt').show();
+                    setTimeout(function () {
+                        $('#prompt').fadeOut(100);
+                    }, 2000);
+                }else{
+                    Link();
+                }
+            } else{
+                Link();
+            }
+            function Link(){
+                var html =
+                        '<div class="link-news-box">'+
+                        '<div class="none-flex cell-border cell-margin link-alert link-man" data-name="'+linkmanName+'" data-phone="'+linkPhone+'" data-weixin="'+WeXin+'" data-email="'+Email+'" data-post="'+Work+'">'+
+                        '<div class="weui-cell__hd"><label class="weui-label label-width">'+linkmanName+'</label></div>'+
+                        '<div class="weui-cell__bd bd-right click-right label-phone right-mar">'+
+                        linkPhone+
+                        '</div>'+
+                        '</div>'+
+                        '<div class="link-delete block add-link-delete cancel-style">注销</div>'+
+                        '</div>'
+                $('#link-box').append(html);
+                $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
+                $('#default').on('click',function(){
+                    $('#androidDialog2').fadeOut(200);
+                });
+                $('.add-link-delete').on('click',function(){
+                    var _this = $(this);
+                    $('#androidDialog2').fadeIn(200);
+                    $('#dialog').html('确定删除该联系人');
+                    $('#primary').on('click',function(){
+                        $('#androidDialog2').fadeOut(200);
+                        _this.parent().remove();
+                    });
+                });
+            }
+        });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null);
+        }
+        function  restore() {
+            $('.click-right').css('margin-right','0');
+            $('.click-right-icon').css('margin-right','0');
+            $('.icon-go-width').hide();
+            $('.link-delete').hide();
+            $('#classify').unbind();
+            $('#group').unbind();
+            $('#legal-person').unbind();
+            $('#add-linkman').unbind();
+            $('#add-linkman').hide();
+            $('#change').show();
+            $('#maskbox').hide();
+            $('#look').html('<a class="btn" href="javascript:" id="showToast" data-id="police-employee_list">查看从业人员列表</a>');
+            $('.link-alert').removeClass('link-man');
+            Toast();
+        }
+        function  Toast() {
+            $('#showToast').on('click',function(){
+                $('#container').data('data-list-employee-val',null);
+                $('#container').data('data-company-name-cid',cid);
+                var id = $(this).data('id');
+                $('#taskId').val($(this).data('id'));
+                window.pageManager.go(id);
             });
         }
-        $('.btn-box').on('click',function(){
-            $('#container').data('data-list-employee-val',null);
-            $('#container').data('data-company-name-cid',cid);
-            var id = $('.btn-box').data('id');
-            $('#taskId').val($(this).data('tid'));
-            window.pageManager.go(id);
-        })
+        Toast();
     })
 </script>

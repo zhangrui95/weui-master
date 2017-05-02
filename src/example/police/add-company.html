@@ -33,11 +33,6 @@
                 <div  class="red-star">*</div>
             </div>
             <div class="none-flex cell-border cell-margin">
-                <div class="weui-cell__hd"><label class="weui-label">辖区民警</label></div>
-                <div class="weui-cell__bd bd-right font-color blur" id="police">请选择</div>
-                <div class="red-star">*</div>
-            </div>
-            <div class="none-flex cell-border cell-margin">
                 <div class="weui-cell__hd"><label class="weui-label">企业组别</label></div>
                 <div class="weui-cell__bd bd-right font-color blur" id="group">请选择</div>
                 <div class="red-star">*</div>
@@ -98,13 +93,6 @@
                 </div>
                 <div class="weui-actionsheet__action">
                     <div class="weui-actionsheet__cell" id="iosActionsheetCancel-fire">取消</div>
-                </div>
-            </div>
-            <div class="weui-mask" id="iosMask-police" style="display: none"></div>
-            <div class="weui-actionsheet" id="iosActionsheet-police">
-                <div class="weui-actionsheet__menu" id="choice-list-police"></div>
-                <div class="weui-actionsheet__action">
-                    <div class="weui-actionsheet__cell" id="iosActionsheetCancel-police">取消</div>
                 </div>
             </div>
         </div>
@@ -186,26 +174,21 @@
         var $iosMasks = $('#iosMasks');
         var $iosActionsheetFire = $('#iosActionsheet-fire');
         var $iosMaskFire = $('#iosMask-fire');
-        var $iosActionsheetPolice = $('#iosActionsheet-police');
-        var $iosMaskPolice = $('#iosMask-police');
         var tag = false;
+        var policeId = $("#container").data('self-policeId');
         function hideActionSheet() {
             $iosActionsheet.removeClass('weui-actionsheet_toggle');
             $iosMask.fadeOut(200);
             $iosActionsheets.removeClass('weui-actionsheet_toggle');
             $iosMasks.fadeOut(200);
-            $iosActionsheetPolice.removeClass('weui-actionsheet_toggle');
-            $iosMaskPolice.fadeOut(200);
             $iosActionsheetFire.removeClass('weui-actionsheet_toggle');
             $iosMaskFire.fadeOut(200);
         }
         $iosMask.on('click', hideActionSheet);
         $iosMasks.on('click', hideActionSheet);
-        $iosMaskPolice.on('click', hideActionSheet);
         $iosMaskFire.on('click', hideActionSheet);
         $('#iosActionsheetCancel').on('click', hideActionSheet);
         $('#iosActionsheetCancels').on('click', hideActionSheet);
-        $('#iosActionsheetCancel-police').on('click', hideActionSheet);
         $('#iosActionsheetCancel-fire').on('click', hideActionSheet);
         //选择企业分类
         $('#classify').on('click',function(){
@@ -230,30 +213,6 @@
                 error: function (mes) {
                     console.log("error");
                 }
-            });
-        });
-        //选择辖区
-        $.ajax({
-            type: "POST",
-            url: "api/user/policeHadArea.json",
-            data: {userid: $('#userid').val()},
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    $('#choice-list-police').append('<div class="weui-actionsheet__cell police-choice-name" id=' + data[i].id + '>' + data[i].name + '</div>');
-                }
-            },
-            error: function () {
-                console.log("error");
-            }
-        });
-        $('#police').on('click',function(){
-            $iosActionsheetPolice.addClass('weui-actionsheet_toggle');
-            $iosMaskPolice.fadeIn(200);
-            $('.police-choice-name').on('click', function () {
-                $('#police').html($(this).text());
-                var policeId = $(this).attr('id');
-                $('#container').data('data-add-policeId', policeId);
-                hideActionSheet();
             });
         });
         //选择企业组别
@@ -507,7 +466,6 @@
             var officeBuilding = $('#input-building').val();
             var classify = $('#classify').text();
             var type = $('#container').data('data-add-typeId');
-            var police = $('#container').data('data-add-policeId');
             var group = $('#container').data('data-add-groupId');
             var fire = $('#container').data('data-add-fireId');
             var legalPersonName= $('#legal-person-name').val();
@@ -519,7 +477,7 @@
                     '<input name="address" value="'+inputplace+'"/>'+
                     '<input name="officeBuilding" value="'+officeBuilding+'"/>'+
                     '<input name="type" value="'+type+'"/>'+
-                    '<input name="police" value="'+police+'"/>'+
+                    '<input name="police" value="'+policeId+'"/>'+
                     '<input name="groupType" value="'+group+'"/>'+
                     '<input name="fireState" value="'+fire+'"/>'+
                     '<input name="legalPersonName" value="'+legalPersonName+'"/>'+
@@ -550,8 +508,6 @@
                 hint('请输入企业地址');
             }else if(classify=='请选择'){
                 hint('请选择企业分类');
-            }else if($('#police').text()=='请选择'){
-                hint('请选择辖区');
             }else if($('#group').text()=='请选择'){
                 hint( '请选择企业组别');
             }else if($('#fire').text()=='请选择'){
