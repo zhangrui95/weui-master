@@ -100,7 +100,7 @@
                 confirmDialog('确定注销该企业？',function () {
                     $.ajax({
                         type: "post",
-                        url: "api/company/close.json?userid="+$('#userid').val(),
+                        url: "api/company/closeSelf.json?userid="+$('#userid').val(),
                         data:{id:id},
                         success: function (xhr) {
                             if(xhr && xhr.state == 0){

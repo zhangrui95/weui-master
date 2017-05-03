@@ -518,7 +518,7 @@
                 var json = $('#form-box').serialize();
                 $.ajax({
                     type: "POST",
-                    url: "api/company/save.json?userid="+$('#userid').val(),
+                    url: "api/company/saveSelf.json?userid="+$('#userid').val(),
                     data:json,
                     success: function (xhr) {
                         if(xhr && xhr.state == 0){

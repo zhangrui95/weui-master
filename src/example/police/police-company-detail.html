@@ -405,7 +405,7 @@
                     var json = $('#form-box').serialize();
                     $.ajax({
                         type: "post",
-                        url: "api/company/update.json?userid="+$('#userid').val(),
+                        url: "api/company/updateSelf.json?userid="+$('#userid').val(),
                         data:json,
                         success: function (xhr) {
                             if(xhr && xhr.state == 0){
