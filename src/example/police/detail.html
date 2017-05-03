@@ -101,7 +101,7 @@
             }
             html += '</div>';
             $('.page_y').css('height',height);
-            $('.cells-ajax').append(html);
+            $('.cells-ajax').html(html);
             $('.head-img').on("click", function(){
                 inPop(function(){
                     $gallery.fadeOut(100);
