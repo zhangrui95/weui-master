@@ -409,7 +409,7 @@
                 });
             });
             linkAlert();
-            $('.old-link').siblings('.link-delete').on('click',function(){
+            $('.old-link').siblings('.link-delete').off().on('click',function(){
                 var _this = $(this);
                 $('#container').data('delboxId',_this.siblings('.old-link').attr('id'));
                 $('#container').data('othis',_this.parent().html());
@@ -745,7 +745,7 @@
                 $('#link-box').append(html);
                 linkAlert();
                 $('#alert-person,#personbackground,#person-news-change-btn').fadeOut(100);
-                $('.add-link-delete').on('click',function(){
+                $('.add-link-delete').off().on('click',function(){
                     var _this = $(this);
                     $('#androidDialog2').fadeIn(200);
                     $('#dialog').html('确定删除该联系人？');
@@ -757,7 +757,7 @@
             }
         });
         function linkAlert() {
-            $('.link-man').on('click',function(){
+            $('.link-man').off().on('click',function(){
                 inPop(function(){
                     $('#alert-person,#changeground,#amend').fadeOut(100);
                 });
@@ -788,7 +788,7 @@
                     post='';
                 }
                 $('#Work').val(post);
-                $('#amend-new').on('click',function(){
+                $('#amend-new').off().on('click',function(){
                     var linkmanName = $('#linkName').val();
                     var linkPhone = $('#linkPhone').val();
                     var WeXin = $('#WeXin').val();

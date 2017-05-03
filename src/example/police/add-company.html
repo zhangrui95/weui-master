@@ -385,7 +385,7 @@
             $('#androidDialog2').fadeOut(200);
         });
         function bindEveryMan() {
-            $('.link-man').siblings('.link-delete').on('click',function(){
+            $('.link-man').siblings('.link-delete').off().on('click',function(){
                 var _this = $(this);
                 $('#androidDialog2').fadeIn(200);
                 $('#dialog').html('确定删除该联系人？');
@@ -394,7 +394,7 @@
                     _this.parent().remove();
                 })
             });
-            $('.link-man') .on('click',function(){
+            $('.link-man').off() .on('click',function(){
                 $('#prompt').hide();
                 $('#alert-person,#changeground,#amend').fadeIn(100);
                 var manPan = $(this);
@@ -402,7 +402,7 @@
                 var _this_phone = manPan.find('.label-phone');
                 $('#linkName').val(_this.text());
                 $('#linkPhone').val(_this_phone.text());
-                $('#amend-new').on('click',function(){
+                $('#amend-new').off().on('click',function(){
                     var linkmanName = $('#linkName').val();
                     var linkPhone = $('#linkPhone').val();
                     var WeXin = $('#WeXin').val();

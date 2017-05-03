@@ -426,7 +426,7 @@
             $('#androidDialog2').fadeOut(200);
         });
         function bindEveryMan() {
-            $('.link-man').siblings('.link-delete').unbind('click').on('click',function(){
+            $('.link-man').siblings('.link-delete').off().on('click',function(){
                 var _this = $(this);
                 $('#androidDialog2').fadeIn(200);
                 $('#dialog').html('确定删除该联系人？');
