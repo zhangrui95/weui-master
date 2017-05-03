@@ -690,7 +690,7 @@
             $('#container').data('data-add-policeId',data.company.police.id);
             $('#container').data('data-add-groupId',groupType);
             $('#container').data('data-add-fireId',fireState);
-            $('.cells-ajax').append(html);
+            $('.cells-ajax').html(html);
             if($('#mobile-num').text()==''){
                 $('#symbol').hide();
             }
