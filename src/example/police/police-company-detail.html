@@ -407,12 +407,12 @@
                                 $('.cells-ajax').html('');
                                 load();
                             }else{
-                                hint('更新失败');
+                                hint(xhr.error == null || xhr.error == ''?'更新失败': xhr.error);
                                 load();
                             }
                         },
                         error: function () {
-                            hint('更新失败');
+                            hint('更新失败,网络原因');
                         }
                     });
                 }

@@ -525,11 +525,11 @@
                             $('#notNull').hide();
                             window.history.go(-1);
                         }else{
-                            hint('添加失败');
+                            hint(xhr.error == null || xhr.error == ''?'添加失败': xhr.error);
                         }
                     },
                     error: function () {
-                        hint('添加失败');
+                        hint('添加失败,网络原因');
                     }
                 });
             }
