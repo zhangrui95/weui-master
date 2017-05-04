@@ -77,6 +77,13 @@ var routes = [
                 res.end(JSON.stringify(menu));
             });
         }
+    },
+    {
+        route: "/example/api/menu/reload.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:1}));
+        }
     }
 ];
 
