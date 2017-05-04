@@ -107,7 +107,7 @@
             var id = $("#showToast").data('id');
             var curr = $('#container').data('today-rota-id');
             if(rota==null||rota==''|| rota==curr){
-                window.pageManager.go(id);
+                window.history.go(-1);
                 return;
             }
             $.ajax({
@@ -115,7 +115,7 @@
                 url: "api/rota/allot.json",
                 data:{userid:$('#userid').val(),uid:rota},
                 success: function () {
-                        window.pageManager.go(id);
+                    window.history.go(-1);
                 },
                 error: function (mes) {
                     $('#error').css("display","block");
