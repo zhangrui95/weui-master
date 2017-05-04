@@ -361,11 +361,12 @@ $(function () {
         if(item == null){
             html += '<a href="javascript:;" class="weui-grid"></a>';
         }else{
-            var dataIdAttr = item.hash==null||item.hash==''?'':('data-id="'+item.hash+'"');
-            var dataHrefAttr = item.href==null||item.href==''?'':('data-href="'+item.href+'"');
+            var dataIdAttr = item.state == 0||item.hash==null||item.hash==''?'':('data-id="'+item.hash+'"');
+            var dataHrefAttr = item.state == 0||item.href==null||item.href==''?'':('data-href="'+item.href+'"');
+            var grayIcon = item.state == 0 ? ' gray-filter' :'';
             html += '<a href="javascript:;" class="weui-grid" '+dataHrefAttr+' '+dataIdAttr+'>' +
                 '<div class="weui-grid__icon">' +
-                '<img src="'+item.icon+'" alt="" class="radius">';
+                '<img src="'+item.icon+'" alt="" class="radius'+grayIcon+'">';
             if(item.num != null){
                 html += '<span class="weui-badge" style="position: absolute;top: -0.8em;left: 2.2em;">'+item.num+'</span>';
             }
@@ -375,10 +376,11 @@ $(function () {
     };
     var renderMenu = function (option, menu) {
         var len = maxLen(menu, option);
-        var html = '';
+        var html = '',item;
         for (var i = 0; i < len; i++) {
-            option.processMenuItem(menu[i]);
-            html += renderMenuItem(menu[i]);
+            item = menu[i];
+            option.processMenuItem(item);
+            html += renderMenuItem(item);
         }
         $(option.menu).html(html);
     };
@@ -425,7 +427,26 @@ $(function () {
         });
     };
 
-    var callback = function (option, xhr) {
+    var menuSort = function(a,b){
+        var aNum = a.orderNum;
+        aNum = aNum == null ? 0: aNum;
+        var bNum = b.orderNum;
+        bNum = bNum == null ? 0: bNum;
+        return aNum - bNum;
+    };
+
+    var filterMenu = function (menu) {
+        var ret = [],item;
+        for(var i in menu){
+            item = menu[i];
+            if(item.state != -1){
+                ret.push(item);
+            }
+        }
+        return ret;
+    };
+
+    var menuCallback = function (option, xhr) {
         if(xhr == null){
             return
         }
@@ -438,16 +459,16 @@ $(function () {
         //     redirectOneItem(option, menu[0]);
         //     return;
         // }
-        renderMenu(option, menu);
+        renderMenu(option, filterMenu(menu).sort(menuSort));
         bindMenuItemHandler(option);
     };
 
     var initMenu = function (opt) {
         var option = $.extend({},menuOpt,opt);
         if(option.data == null){
-            remoteMenu(option,callback);
+            remoteMenu(option,menuCallback);
         }else{
-            callback(option, option.data);
+            menuCallback(option, option.data);
         }
 
     };
