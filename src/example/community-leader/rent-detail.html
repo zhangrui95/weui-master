@@ -45,7 +45,7 @@
                 url: "api/tenant/counttenant.json",
                 data:{userid:$('#userid').val(),floorid:floorId},
                 success: function (data) {
-                    var count = data.count - 1;
+                    var count = data.count;
                     $('#count-renter').html(count);
                 },
                 error: function (mes) {
