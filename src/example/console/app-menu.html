@@ -13,43 +13,12 @@
 <script>
     $(function(){
 
-        var add = function () {
-            var $add = $('#add');
-            $.ajax({
-                type: "POST",
-                url: 'api/companyType/save.json',
-                data:{userid:$('#userid').val(),name:$add.find('[name="name"]').val()},
-                success: function (xhr) {
-                    $('#result').html(JSON.stringify(xhr));
-                    list();
-                },
-                error: function (err) {
-                    $('#result').html(JSON.stringify(err));
-                }
-            });
-        };
-
         var update = function () {
             var li = $(this).parent();
             $.ajax({
                 type: "POST",
-                url: 'api/companyType/update.json',
+                url: 'api/appMenu/update.json',
                 data:{userid:$('#userid').val(),id:li.attr('data-ctype-id'),name:li.find('[name="name"]').val()},
-                success: function (xhr) {
-                    $('#result').html(JSON.stringify(xhr));
-                    list();
-                },
-                error: function (err) {
-                    $('#result').html(JSON.stringify(err));
-                }
-            });
-        };
-
-        var del = function () {
-            var li = $(this).parent();
-            $.ajax({
-                type: "DELETE",
-                url: 'api/companyType/delete.json?id='+li.attr('data-ctype-id')+'&userid='+$('#userid').val(),
                 success: function (xhr) {
                     $('#result').html(JSON.stringify(xhr));
                     list();
@@ -103,8 +72,6 @@
 
         var initMenus = function () {
             list();
-
-            $('#add-save').on('click',add);
 
             $('#listRole').on('change',function(){
                 var html = '',val = $(this).val();
