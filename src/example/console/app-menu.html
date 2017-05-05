@@ -1,0 +1,138 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>列表：
+            <select id="listRole"><option value="dept_leader">所领导</option><option value="dept_police">民警</option><option value="dept_company">企业</option></select>
+            <select id="listPost"></select>
+        </div>
+        <ul id="list"></ul>
+    </div>
+    <div class="weui-grids">结果</div>
+    <div id="menu" class="weui-grids"></div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var add = function () {
+            var $add = $('#add');
+            $.ajax({
+                type: "POST",
+                url: 'api/companyType/save.json',
+                data:{userid:$('#userid').val(),name:$add.find('[name="name"]').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var update = function () {
+            var li = $(this).parent();
+            $.ajax({
+                type: "POST",
+                url: 'api/companyType/update.json',
+                data:{userid:$('#userid').val(),id:li.attr('data-ctype-id'),name:li.find('[name="name"]').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var del = function () {
+            var li = $(this).parent();
+            $.ajax({
+                type: "DELETE",
+                url: 'api/companyType/delete.json?id='+li.attr('data-ctype-id')+'&userid='+$('#userid').val(),
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    list();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var preview = function (menu) {
+            var menuOpt = {
+                row:4,
+                col:3,
+                data:{menu:menu},
+                error:function (err) {
+                    console.log(err)
+                }
+            };
+            initMenu(menuOpt);
+        };
+
+        var render = function (xhr) {
+            var html = '';
+            var item;
+            for(var i in xhr){
+                item = xhr[i];
+                html += '<li><img src="'+item.icon+'" width="16" height="16" alt="">'+item.name+'->'+item.state+'->'+item.orderNum+'</li>';
+            }
+            $('#list').html(html);
+        };
+
+        var list = function () {
+            var role = $('#listRole').val();
+            var post = $('#listPost').val();
+            var target = role + (post==null||post==''?'':('-'+post));
+            $.ajax({
+                type: "POST",
+                url: 'api/menu/app.json',
+                data:{userid:$('#userid').val(),target:target},
+                success: function (xhr) {
+                    var menu = xhr.menu;
+                    render(menu);
+                    preview(menu);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var initMenus = function () {
+            list();
+
+            $('#add-save').on('click',add);
+
+            $('#listRole').on('change',function(){
+                var html = '',val = $(this).val();
+                if(val == 'dept_police'){
+                    html = '<option value="">民警</option><option value="CAdmin">企业管理员</option><option value="RAdmin">值班管理员</option><option value="PAdmin">综合管理员</option>';
+                }else if(val == 'dept_company'){
+                    html = '<option value="">企业</option><option value="Hotel">旅店洗浴</option><option value="Oil">加油站</option>';
+                }
+                $('#listPost').html(html);
+                list();
+            });
+            $('#listPost').on('change',list);
+        };
+
+        var appMenus;
+
+        $.ajax({
+            type: "POST",
+            url: 'api/appMenu/mine.json',
+            data:{userid:$('#userid').val()},
+            success: function (xhr) {
+                appMenus = xhr;
+                initMenus();
+            },
+            error: function (err) {
+                $('#result').html(JSON.stringify(err));
+            }
+        });
+
+    });
+</script>
