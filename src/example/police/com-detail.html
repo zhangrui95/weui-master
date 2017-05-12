@@ -97,19 +97,7 @@
                         '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(data.doneTime)+
                         '</div>'+
-                        '</div>'
-//                var word="非重点人员";
-//                var red='';
-//                if(data.personState==1){
-//                    word="重点人员"
-//                    var red='type-red';
-//                }
-//                html+='<div class="none-flex cell-border cells-margin" id="fin-time">'+
-//                        '<div class="weui-cell__hd"><label class="weui-label">人员状态</label></div>'+
-//                        '<div class="weui-cell__bd bd-right '+red+'" id="import-employee">'+
-//                            word+
-//                        '</div>'+
-//                        '</div>'
+                        '</div>';
             }
             html += '</div>';
             $('.cells-ajax').html(html);
@@ -126,42 +114,23 @@
             });
         }
         $('#showToast').click(function(){
-//            if($('#importantCheck').prop('checked')){
-                $.ajax({
-                    type: "POST",
-                    url: "api/employee/doneTask.json",
-                    data:{id:$('#taskId').val(),userid:$('#userid').val()},
-                    success: function () {
-                        var source = $('#container').data('detail-source');
-                        if(source == null|| source == ''){
-                            wx.closeWindow();
-                        }else{
+            $.ajax({
+                type: "POST",
+                url: "api/employee/doneTask.json",
+                data:{id:$('#taskId').val(),userid:$('#userid').val()},
+                success: function () {
+                    var source = $('#container').data('detail-source');
+                    if(source == null|| source == ''){
+                        wx.closeWindow();
+                    }else{
 //                            window.pageManager.go(source);
-                            window.history.go(-1);
-                        }
-                    },
-                    error: function (mes) {
-                        $('#error').css("display","block");
+                        window.history.go(-1);
                     }
-                });
-//            }else{
-//                $.ajax({
-//                    type: "POST",
-//                    url: "api/employee/doneTask.json",
-//                    data:{id:$('#taskId').val(),userid:$('#userid').val(),personState:0},
-//                    success: function () {
-//                        var source = $('#container').data('detail-source');
-//                        if(source == null|| source == ''){
-//                            wx.closeWindow();
-//                        }else{
-//                            window.pageManager.go(source);
-//                        }
-//                    },
-//                    error: function (mes) {
-//                        $('#error').css("display","block");
-//                    }
-//                });
-//            }
+                },
+                error: function (mes) {
+                    $('#error').css("display","block");
+                }
+            });
         });
     })
 </script>
