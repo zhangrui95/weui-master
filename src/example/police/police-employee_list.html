@@ -131,7 +131,8 @@
             },
             templateProcess : function (items) {
                 var red = items.state == '0' ? 'class="red-circle"':'';
-                return '<div class="label-relative">'+
+                var grey = items.state == '0' ? '':'red-dels';
+                return '<div class="label-relative emp-box">'+
                         '<div class="weui-cell bg-cell no-margin"  data-id="com-detail" data-tid="'+items.id+'">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
                         '<span  '+red+'></span>'+
@@ -146,7 +147,7 @@
                         '</div>'+
                         '<img class="icon-go icon-delete" src="images/icon-delete.png">'+
                         '<div class="delete-box">'+
-                        '<div class="delete">注销</div>'+
+                        '<div class="delete '+grey+'">注销</div>'+
                         '</div>'+
                         '</div>';
             },
@@ -237,7 +238,7 @@
         }
 
         function Delete(id,_this) {
-            _this.siblings('.delete-box').find('.delete').on('click',function(){
+            _this.siblings('.delete-box').find('.red-dels').on('click',function(){
                 confirmDialog('确定注销该人员？',function () {
                     $.ajax({
                         type: "post",
