@@ -90,6 +90,15 @@
             });
         }
 
+        var errorDis = function (msg) {
+            var $alert = $('#alert');
+            $alert.html(msg);
+            $alert.fadeIn(200);
+            setTimeout(function () {
+                $('#alert').fadeOut(200);
+            }, 2000);
+        };
+
         function Delete(id,_this) {
             _this.siblings('.delete-box').find('.delete').on('click',function(){
                 confirmDialog('确定删除该企业？',function(){
@@ -100,17 +109,11 @@
                             if(xhr && xhr.state == 0){
                                 _this.parent().remove();
                             }else{
-                                $('#alert').fadeIn(200);
-                                setTimeout(function () {
-                                    $('#alert').fadeOut(200);
-                                }, 2000);
+                                errorDis('<p>'+(xhr && xhr.error && xhr.error !== '' ? xhr.error : '操作失败，请重试！')+'</p>');
                             }
                         },
                         error: function () {
-                            $('#alert').fadeIn(200);
-                            setTimeout(function () {
-                                $('#alert').fadeOut(200);
-                            }, 2000);
+                            errorDis('<p>操作失败，请重试！</p>');
                         }
                     });
                 });
@@ -128,17 +131,11 @@
                             if(xhr && xhr.state == 0){
                                 _this.parent().remove();
                             }else{
-                                $('#alert').fadeIn(200);
-                                setTimeout(function () {
-                                    $('#alert').fadeOut(200);
-                                }, 2000);
+                                errorDis('<p>'+(xhr && xhr.error && xhr.error !== '' ? xhr.error : '操作失败，请重试！')+'</p>');
                             }
                         },
                         error: function () {
-                            $('#alert').fadeIn(200);
-                            setTimeout(function () {
-                                $('#alert').fadeOut(200);
-                            }, 2000);
+                            errorDis('<p>操作失败，请重试！</p>');
                         }
                     });
                 });
