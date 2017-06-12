@@ -205,7 +205,7 @@
         $('#card').blur(function(){
             var card = $(this).val();
             if (card == null || !cardValid(card)) {
-                hint('错误的身份证号');
+                hint('无效的身份证号码');
             }
         });
 

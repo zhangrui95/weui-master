@@ -300,17 +300,20 @@
                 return ;
             }
             var phone = /^1[34578]\d{9}$/;
-            var phonenum = $('#phone').val();
+            var $phone = $('#phone');
+            var phonenum = $phone.val();
             if(phonenum!='' && !phone.test(phonenum)){
                 errorMsg("手机号码不正确");
                 return;
             }
-            var company = $('#company').val();
+            var $company = $('#company');
+            var company = $company.val();
             if(company == null || company == ''){
                 errorMsg("工作单位不能为空");
                 return;
             }
-            var address = $('#address').val();
+            var $address = $('#address');
+            var address = $address.val();
             if(address == null || address == ''){
                 errorMsg("工作地址不能为空");
                 return;
@@ -320,6 +323,9 @@
             }
             tag = true;
             $card.blur();
+            $phone.blur();
+            $company.blur();
+            $address.blur();
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
