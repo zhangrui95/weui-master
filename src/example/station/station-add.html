@@ -19,7 +19,7 @@
                 <div class="none-flex cell-border cell-margin">
                     <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
                     <div class="weui-cell__bd bd-right font-color place-top">
-                        <input class="input-change fire-num-box-border font-color" type="text" name="card"
+                        <input id="card" class="input-change fire-num-box-border font-color" type="text" name="card"
                                placeholder="请输入身份证号">
                     </div>
                     <div class="red-star">*</div>
@@ -123,6 +123,8 @@
                 label: '其他',
                 value: '其他'
             }], {
+                id:'purposeP',
+                defaultValue: ['摩托车'],
                 onConfirm: function (result) {
                     $('#purpose').val(result);
                     if (result == '其他') {
@@ -144,6 +146,8 @@
                 label: '汽油',
                 value: '汽油'
             }], {
+                id:'typeP',
+                defaultValue: ['汽油'],
                 onConfirm: function (result) {
                     $('#type').val(result);
                 }
@@ -158,21 +162,54 @@
                 label: '单位',
                 value: '单位'
             }], {
+                id:'catP',
+                defaultValue: ['个人'],
                 onConfirm: function (result) {
                     $('#cat').val(result);
                 }
             });
         });
 
-        $('#showToast').on('click', function () {
-
-            function hint(hints) {
-                $('#notNull').html(hints);
-                $('#notNull').fadeIn(100);
-                setTimeout(function () {
-                    $('#notNull').fadeOut(100);
-                }, 2000);
+        var cardValid = function (value) {
+            var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
+            var pattern = new RegExp(ex);
+            if (!pattern.test(value)) {
+                return false;
             }
+            var params = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+            var checks = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+            var id = value;
+            var sum = 0;
+            for (var i = 0; i < 17; i++) {
+                var tmp = id.charAt(i);
+                sum += params[i] * tmp;
+            }
+            sum %= 11;
+            var check;
+            if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
+                check = 10;
+            } else {
+                check = id.charAt(17);
+            }
+            return check == checks[sum];
+        };
+
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+        }
+
+        $('#card').blur(function(){
+            var card = $(this).val();
+            if (card == null || !cardValid(card)) {
+                hint('错误的身份证号');
+            }
+        });
+
+        $('#showToast').on('click', function () {
 
             var save = function () {
                 wx.uploadImage({
@@ -201,40 +238,17 @@
                         tag = false;
                     }
                 });
-            }
-
-            var cardValid = function (value) {
-                var ex = /^((1[1-5])|(2[1-3])|(3[1-7])|(4[1-6])|(5[0-4])|(6[1-5])|71|(8[12])|91)\d{4}(19|2[0-9])((\d{2}(0[13-9]|1[012])(0[1-9]|[12]\d|30))|(\d{2}(0[13578]|1[02])31)|(\d{2}02(0[1-9]|1\d|2[0-8]))|(([13579][26]|[2468][048]|0[48])0229))\d{3}(\d|X|x)?$/;
-                var pattern = new RegExp(ex);
-                if (!pattern.test(value)) {
-                    return false;
-                }
-                var params = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-                var checks = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2];
-                var id = value;
-                var sum = 0;
-                for (var i = 0; i < 17; i++) {
-                    var tmp = id.charAt(i);
-                    sum += params[i] * tmp;
-                }
-                sum %= 11;
-                var check;
-                if (id.charAt(17) == 'x' || id.charAt(17) == 'X') {
-                    check = 10;
-                } else {
-                    check = id.charAt(17);
-                }
-                return check == checks[sum];
             };
 
             var numberValid = function (value) {
                 var pattern = new RegExp('^[0-9]+(\\.[0-9]{1,4})?$');
                 return pattern.test(value);
-            }
+            };
             var phone = /^1[34578]\d{9}$/;
+            var card = $('#card').val()
             if ($('#form').find('[name="photo"]').val() == '') {
                 hint('请上传采购人照片');
-            } else if ($('#form').find('[name="card"]').val() == null || !cardValid($('#form').find('[name="card"]').val())) {
+            } else if (card == null || !cardValid(card)) {
                 hint('输入正确的身份证号');
             }else if ($('#form').find('[name="mobile"]').val() != '') {
                 if(phone.test($('#form').find('[name="mobile"]').val())==false){
