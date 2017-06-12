@@ -350,6 +350,7 @@
                     }else if(data.state == -1){
                         errorMsg("保存失败，此房已有该人员信息!");
                     }
+                    tag = false;
                 },
                 error: function () {
                     $('#error').css("display","block");
