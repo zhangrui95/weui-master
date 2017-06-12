@@ -60,6 +60,10 @@
             if(data.phone==null){
                 data.phone='';
             }
+            var company = data.company;
+            company = company==null?'':company;
+            var address = data.address;
+            address = address==null?'':address;
             var place = item.street+item.num+'号'+ridg+units+item.door+'门';
             var html ='<div class="weui-cells weui-cells_form" id="'+data.id+'">' +
                     '<div class="none-flex cell-top">'+
@@ -79,6 +83,18 @@
                     data.phone+
                     '</div>'+
                     '</div>'+
+                '<div class="none-flex cell-border cell-margin">'+
+                '<div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>'+
+                '<div class="weui-cell__bd bd-right" >'+
+                company+
+                '</div>'+
+                '</div>'+
+                '<div class="none-flex cell-border cell-margin">'+
+                '<div class="weui-cell__hd"><label class="weui-label">工作地址</label></div>'+
+                '<div class="weui-cell__bd bd-right" >'+
+                address+
+                '</div>'+
+                '</div>'+
                     '<div class="none-flex cell-border cell-margin">'+
                     '<div class="weui-cell__hd"><label class="weui-label">所属社区</label></div>'+
                     '<div class="weui-cell__bd bd-right" >'+

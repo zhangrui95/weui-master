@@ -54,6 +54,20 @@
                         <input id="phone" class="weui-input input-text-right" type="text" placeholder="租客11位手机号码"/>
                     </div>
                 </div>
+                <div class="none-flex cell-border">
+                    <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
+                    <div class="weui-cell__bd bd-right">
+                        <input id="company" class="weui-input input-text-right" type="text" placeholder="租客工作单位"/>
+                    </div>
+                    <div class="red-star">*</div>
+                </div>
+                <div class="none-flex cell-border">
+                    <div class="weui-cell__hd"><label class="weui-label">工作地址</label></div>
+                    <div class="weui-cell__bd bd-right">
+                        <input id="address" class="weui-input input-text-right" type="text" placeholder="租客工作地址"/>
+                    </div>
+                    <div class="red-star">*</div>
+                </div>
             </div>
             <div class="key-img-height active"></div>
             <div class="prompt active" id="idCard"></div>
@@ -150,9 +164,6 @@
                 return false;
             })
         }
-        function outPop(){
-            pageManager.setBeforeHashchangeOnce(null)
-        }
         //弹出添加新人员信息
         var tmpl = '<li class="weui-uploader__file head-image" style="background-image:url(#url#)"></li>',
                 $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
@@ -162,6 +173,14 @@
                 localIds,
                 tag = false
                 ;
+        var $idCard = $('#idCard');
+        var errorMsg = function(msg){
+            $idCard.html(msg);
+            $idCard.fadeIn(100);
+            setTimeout(function () {
+                $idCard.fadeOut(100);
+            }, 2000);
+        };
         $('#add-renter').on('click',function(){
             tag = false;
             inPop(function(){
@@ -194,20 +213,10 @@
                     })
                 },
                 fail:function(err){
-                    $('#idCard').html("选择照片失败！");
-                    $('#idCard').fadeIn(100);
-                    setTimeout(function () {
-                        $('#idCard').fadeOut(100);
-                    }, 2000);
+                    errorMsg("选择照片失败！");
                 }
             });
         });
-        function inPop(callback){
-            pageManager.setBeforeHashchangeOnce(function (e) {
-                callback();
-                return false;
-            })
-        }
 
         function outPop(){
             pageManager.setBeforeHashchangeOnce(null)
@@ -250,81 +259,65 @@
             $('#empty').css('display', 'none');
             var value=$('#card').val();
             if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                errorMsg("身份证号码不能为空");
             } else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                errorMsg("无效的身份证号码");
                 $('#empty').css('display', 'block');
-                return ;
             }
-        });
-        $('#card').keyup(function(){
+        }).keyup(function(){
+            var $empty = $('#empty');
             if(($('#card').val()+"").length>=1){
-                $('#empty').css('display', 'block');
-                $('#empty').click(function () {
+                $empty.css('display', 'block');
+                $empty.click(function () {
                     $('#card').val('');
-                    $('#empty').css('display', 'none');
+                    $empty.css('display', 'none');
                 })
             }else {
-                $('#empty').css('display', 'none');
+                $empty.css('display', 'none');
             }
         });
         $('#showToast').on('click',function(){
             if(localId==null||localId==''){
-                $('#idCard').html("照片不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                errorMsg("照片不能为空");
                 return;
             }
-            var value=$('#card').val().toUpperCase();
+            var $card = $('#card');
+            var value=$card.val().toUpperCase();
             if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                errorMsg("身份证号码不能为空");
                 return ;
             } else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                errorMsg("无效的身份证号码");
                 $('#empty').css('display', 'block');
                 return ;
             }
             var phone = /^1[34578]\d{9}$/;
             var phonenum = $('#phone').val();
-            if(phonenum!=''){
-                if(phone.test(phonenum)==false){
-                    $('#idCard').html("手机号码不正确");
-                    $('#idCard').fadeIn(100);
-                    setTimeout(function () {
-                        $('#idCard').fadeOut(100);
-                    }, 2000);
-                    return;
-                }
+            if(phonenum!='' && !phone.test(phonenum)){
+                errorMsg("手机号码不正确");
+                return;
+            }
+            var company = $('#company').val();
+            if(company == null || company == ''){
+                errorMsg("工作单位不能为空");
+                return;
+            }
+            var address = $('#address').val();
+            if(address == null || address == ''){
+                errorMsg("工作地址不能为空");
+                return;
             }
             if(tag){
                 return;
             }
             tag = true;
-            $('#card').blur();
+            $card.blur();
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    idCard($('#card').val().toUpperCase(),serverId,$('#phone').val());
+                    idCard(value,serverId,phonenum,company,address);
                 },
                 fail:function(err){
                     $('#error').css("display","block");
@@ -332,32 +325,22 @@
                 }
             });
         });
-        function idCard(value,serverId,phone){
+        function idCard(value,serverId,phone,company,address){
             $('#empty').css('display','none');
             $.ajax({
                 type: "POST",
                 url: "api/tenant/save.json",
                 async: true,
-                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
+                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone,company:company,address:address},
                 success: function (data) {
                     if(data.state == 1){
                         outPop();
                         $('#personbackground').hide();
                         idCardList();
                     }else if(data.state == 0){
-                        $('#idCard').html("保存失败");
-                        $('#idCard').fadeIn(100);
-                        setTimeout(function () {
-                            $('#idCard').fadeOut(100);
-                        }, 2000);
-                        return;
+                        errorMsg("保存失败");
                     }else if(data.state == -1){
-                        $('#idCard').html("保存失败，此房已有该人员信息!");
-                        $('#idCard').fadeIn(100);
-                        setTimeout(function () {
-                            $('#idCard').fadeOut(100);
-                        }, 2000);
-                        return;
+                        errorMsg("保存失败，此房已有该人员信息!");
                     }
                 },
                 error: function () {
@@ -368,8 +351,7 @@
         }
         $('input').focus(function () {
             $('.key-img-height').show();
-        });
-        $('input').blur(function () {
+        }).blur(function () {
             $('.key-img-height').hide();
         });
     });
