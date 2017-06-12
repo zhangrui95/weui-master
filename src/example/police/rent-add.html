@@ -330,9 +330,11 @@
                 url: "api/police/community.json",
                 data:{userid:$('#userid').val()},
                 success: function (data) {
+                    var html = '';
                     for(var i = 0;i<data.length;i++){
-                        $('#choice-list').append('<div class="weui-actionsheet__cell type-choice-name" id='+data[i].community.id+'>'+data[i].community.name+'</div>');
+                        html += '<div class="weui-actionsheet__cell type-choice-name" id='+data[i].community.id+'>'+data[i].community.name+'</div>';
                     }
+                    $('#choice-list').html(html);
                     if(data.length<4){
                         $('.menu').css('height','auto');
                     }else{
