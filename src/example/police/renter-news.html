@@ -287,7 +287,8 @@
                 errorMsg("照片不能为空");
                 return;
             }
-            var value=$('#card').val().toUpperCase();
+            var $card = $('#card');
+            var value=$card.val().toUpperCase();
             if (value == '') {
                 errorMsg("身份证号码不能为空");
                 return ;
@@ -298,23 +299,31 @@
             }
             var phone = /^1[34578]\d{9}$/;
             var phonenum = $('#phone').val();
-            if(phonenum!=''){
-                if(phone.test(phonenum)==false){
-                    errorMsg("手机号码不正确");
-                    return;
-                }
+            if(phonenum!='' && !phone.test(phonenum)){
+                errorMsg("手机号码不正确");
+                return;
+            }
+            var company = $('#company').val();
+            if(company == null || company == ''){
+                errorMsg("工作单位不能为空");
+                return;
+            }
+            var address = $('#address').val();
+            if(address == null || address == ''){
+                errorMsg("工作地址不能为空");
+                return;
             }
             if(tag){
                 return;
             }
             tag = true;
-            $('#card').blur();
+            $card.blur();
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1,// 默认为1，显示进度提示
                 success: function (res) {
                     var serverId = res.serverId; // 返回图片的服务器端ID
-                    idCard($('#card').val().toUpperCase(),serverId,$('#phone').val());
+                    idCard(value,serverId,phonenum,company,address);
                 },
                 fail:function(err){
                     $('#error').css("display","block");
@@ -322,13 +331,13 @@
                 }
             });
         });
-        function idCard(value,serverId,phone){
+        function idCard(value,serverId,phone,company,address){
             $('#empty').css('display','none');
             $.ajax({
                 type: "POST",
                 url: "api/tenant/save.json",
                 async: true,
-                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone},
+                data:{sfzh:value,userid:$('#userid').val(),serverId:serverId,floorid:floorId,phone:phone,company:company,address:address},
                 success: function (data) {
                     if(data.state == 1){
                         outPop();
@@ -348,8 +357,7 @@
         }
         $('input').focus(function () {
             $('.key-img-height').show();
-        });
-        $('input').blur(function () {
+        }).blur(function () {
             $('.key-img-height').hide();
         });
     });
