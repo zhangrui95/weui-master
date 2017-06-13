@@ -1,0 +1,60 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>油价：</div>
+        <ul id="list" >
+            <li data-set-key="dept_oil_92">
+                <label>汽油92:<input type="text" value=""/> </label><button style="margin: 0 5px 0 5px" data-action="save">修改</button>
+            </li>
+            <li data-set-key="dept_oil_0">
+                <label>柴油0:<input type="text" value=""/></label> <button style="margin: 0 5px 0 5px" data-action="save">修改</button>
+            </li>
+        </ul>
+        <div id="result"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $list = $('#list');
+
+        var fetchValue = function (key, li) {
+            $.ajax({
+                type: "POST",
+                url: 'api/appConfig/valueAll.json',
+                data:{userid:$('#userid').val(),key:key},
+                success: function (xhr) {
+                    li.find('input').val(xhr.value);
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var setValue = function (key, value) {
+            $.ajax({
+                type: "POST",
+                url: 'api/appConfig/configAll.json',
+                data:{userid:$('#userid').val(),key:key,value:value},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                }
+            });
+        };
+
+        var init = function(){
+            $list.find('[data-set-key]').each(function(){
+                var oThis = $(this);
+                fetchValue(oThis.data('set-key'), oThis)
+            });
+            $list.on('click','[data-action]',function () {
+                var li = $(this).parents('[data-set-key]');
+                setValue(li.data('set-key'),li.find('input').val());
+            });
+        };
+
+        init();
+    });
+</script>
