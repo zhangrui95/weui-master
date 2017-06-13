@@ -250,21 +250,18 @@
                 return pattern.test(value);
             };
             var phone = /^1[34578]\d{9}$/;
-            var card = $('#card').val()
+            var card = $('#card').val();
+            var mobile = $('#form').find('[name="mobile"]').val();
             if ($('#form').find('[name="photo"]').val() == '') {
                 hint('请上传采购人照片');
             } else if (card == null || !cardValid(card)) {
                 hint('输入正确的身份证号');
-            }else if ($('#form').find('[name="mobile"]').val() != '') {
-                if(phone.test($('#form').find('[name="mobile"]').val())==false){
-                    hint('输入正确的手机号码');
-                }else{
-                    save();
-                }
+            }else if (mobile != '' && !phone.test(mobile)) {
+                hint('输入正确的手机号码');
             } else if ($('#form').find('[name="purpose"]').val() == '') {
                 hint('请' + ($('#purpose').val() == '其他' ? '输入' : '选择') + '购油用途');
             } else if ($('#form').find('[name="amount"]').val() == '' || !numberValid($('#form').find('[name="amount"]').val())) {
-                hint('请输入正确的购买购买金额');
+                hint('请输入正确的购买金额');
             } else if ($('#form').find('[name="type"]').val() == '') {
                 hint('请选择油品类型');
             } else if ($('#form').find('[name="cat"]').val() == '') {
