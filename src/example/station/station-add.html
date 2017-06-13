@@ -209,23 +209,28 @@
             }
         });
 
+        var tag = false;
         $('#showToast').on('click', function () {
-
             var save = function () {
+                if(tag){
+                   return;
+                }
+                tag = true;
                 wx.uploadImage({
                     localId: $('#form').find('[name="photo"]').val(), // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1,// 默认为1，显示进度提示
                     success: function (res) {
                         var serverId = res.serverId; // 返回图片的服务器端ID
-                        $('#form').find('[name="photo"]').val(serverId);
-                        $('#form').append('<input type="hidden" name="userid" value="' + $('#userid').val() + '">');
+                        var $form = $('#form');
+                        $form.find('[name="photo"]').val(serverId);
                         $.ajax({
                             type: "POST",
-                            url: "api/bulkOil/save.json",
+                            url: "api/bulkOil/save.json?userid="+$('#userid').val(),
                             async: true,
-                            data: $('#form').serialize(),
+                            data: $form.serialize(),
                             success: function (card) {
                                 wx.closeWindow();
+                                tag = false;
                             },
                             error: function () {
                                 $('#error').css("display", "block");
