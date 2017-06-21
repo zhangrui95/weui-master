@@ -369,29 +369,36 @@
             var pattern = /^1[34578]\d{9}$/;
             var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if(linkmanName.length==0||linkPhone.length==0){
-                $('#prompt').html('请输入必填项');
-                $('#prompt').fadeIn(100);
-                setTimeout(function () {
-                    $('#prompt').fadeOut(100);
-                }, 2000);
+                hint('请输入必填项');
             }else if(pattern.test(linkPhone)==false){
-                $('#prompt').html('请输入正确的手机号码');
-                $('#prompt').fadeIn(100);
-                setTimeout(function () {
-                    $('#prompt').fadeOut(100);
-                }, 2000);
+                hint('请输入正确的手机号码');
             }else if(Email.length!=0){
                 if(email.test(Email)==false){
-                    $('#prompt').html('请输入正确的邮箱账号');
-                    $('#prompt').fadeIn(100);
-                    setTimeout(function () {
-                        $('#prompt').fadeOut(100);
-                    }, 2000);
+                    hint('请输入正确的邮箱账号');
                 }else{
-                    Link();
+                    getMobile(linkPhone);
                 }
             } else{
-                Link();
+                getMobile(linkPhone);
+            }
+            function getMobile(linkPhone) {
+                $.ajax({
+                    type: "POST",
+                    url: 'api/user/checkMobile.json',
+                    data:{userid:$('#userid').val(),mobile:linkPhone},
+                    success: function (xhr) {
+                        if(xhr.state == 0){
+                            tag = false;
+                            Link();
+                        }else{
+                            hint('操作失败，联系人手机号码已存在！')
+                        }
+                    },
+                    error: function (err) {
+                        $('#result').html(JSON.stringify(err));
+                        tag = false;
+                    }
+                });
             }
             function Link(){
                 var html =   '<div class="link-news-box">'+
@@ -452,35 +459,54 @@
                     var pattern = /^1[34578]\d{9}$/;
                     var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
                     if(linkmanName.length==0||linkPhone.length==0){
-                        $('#prompt').html('请输入必填项');
-                        $('#prompt').fadeIn(100);
-                        setTimeout(function () {
-                            $('#prompt').fadeOut(100);
-                        }, 2000);
+                        hint('请输入必填项');
                     }else if(pattern.test(linkPhone)==false){
-                        $('#prompt').html('请输入正确的手机号码');
-                        $('#prompt').fadeIn(100);
-                        setTimeout(function () {
-                            $('#prompt').fadeOut(100);
-                        }, 2000);
+                        hint('请输入正确的手机号码');
                     }else if(Email.length!=0){
                         if(email.test(Email)==false){
-                            $('#prompt').html('请输入正确的邮箱账号');
-                            $('#prompt').fadeIn(100);
-                            setTimeout(function () {
-                                $('#prompt').fadeOut(100);
-                            }, 2000);
+                            hint('请输入正确的邮箱账号');
                         }else{
-                            _this.html($('#linkName').val());
-                            _this_phone.html($('#linkPhone').val());
-                            $('#alert-person,#changeground,#amend').fadeOut(100);
-                            motifyMan(manPan);
+                            $.ajax({
+                                type: "POST",
+                                url: 'api/user/checkMobile.json',
+                                data:{userid:$('#userid').val(),mobile:linkPhone},
+                                success: function (xhr) {
+                                    if(xhr.state == 0){
+                                        tag = false;
+                                        _this.html($('#linkName').val());
+                                        _this_phone.html($('#linkPhone').val());
+                                        $('#alert-person,#changeground,#amend').fadeOut(100);
+                                        motifyMan(manPan);
+                                    }else{
+                                        hint('操作失败，联系人手机号码已存在！')
+                                    }
+                                },
+                                error: function (err) {
+                                    $('#result').html(JSON.stringify(err));
+                                    tag = false;
+                                }
+                            });
                         }
                     }else{
-                        _this.html($('#linkName').val());
-                        _this_phone.html($('#linkPhone').val());
-                        $('#alert-person,#changeground,#amend').fadeOut(100);
-                        motifyMan(manPan);
+                        $.ajax({
+                            type: "POST",
+                            url: 'api/user/checkMobile.json',
+                            data:{userid:$('#userid').val(),mobile:linkPhone},
+                            success: function (xhr) {
+                                if(xhr.state == 0){
+                                    _this.html($('#linkName').val());
+                                    _this_phone.html($('#linkPhone').val());
+                                    $('#alert-person,#changeground,#amend').fadeOut(100);
+                                    motifyMan(manPan);
+                                }else{
+                                    hint('操作失败，联系人手机号码已存在！')
+                                }
+                            },
+                            error: function (err) {
+                                $('#result').html(JSON.stringify(err));
+                                tag = false;
+                            }
+                        });
                     }
                 });
                 $('#dis-none1').on('click',function(){
@@ -493,15 +519,6 @@
                 return;
             }
             tag = true;
-            var hints = '';
-            function hint(hints) {
-                $('#notNull').html(hints);
-                $('#notNull').fadeIn(100);
-                setTimeout(function () {
-                    $('#notNull').fadeOut(100);
-                }, 2000);
-                tag = false;
-            }
             var inputChange = $('#input-change').val();
             var inputplace = $('#input-place').val();
             var officeBuilding = $('#input-building').val();
@@ -578,5 +595,14 @@
                 });
             }
         });
+        var hints = '';
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
     });
 </script>
