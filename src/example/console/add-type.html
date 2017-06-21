@@ -5,6 +5,12 @@
         <li><span style="color: red;display:none;" id="prompt">*类型key为英文或数字组合</span></li>
         <li>类型名：<input type="text" name="name"/></li>
         <li><span style="color: red;display:none;" id="prom">*类型名不能为空</span></li>
+        <li>是否注销该类型：
+            <select name="close">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </li>
         <span style="color: red;display:none;" id="pro">*添加成功</span></li>
         <li><button id="add-save">添加</button></li>
     </ul>
@@ -17,6 +23,7 @@
         var add = function () {
             var type = $add.find('[name="type"]').val();
             var name = $add.find('[name="name"]').val();
+            var close = $add.find('[name="close"]').val();
             if(tag){
                 return;
             }
@@ -34,7 +41,7 @@
                 $.ajax({
                     type: "POST",
                     url: 'api/appConfig/saveInnerType.json',
-                    data:{userid:$('#userid').val(),type:type,name:name},
+                    data:{userid:$('#userid').val(),type:type,name:name,close:close},
                     success: function (xhr) {
                         $('#result').html(JSON.stringify(xhr));
                         $('#pro').show();
