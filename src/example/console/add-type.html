@@ -1,0 +1,51 @@
+<div class="page">
+    <div>添加类型：</div>
+    <ul id="add" >
+        <li>类型key：<input type="text" name="type"/></li>
+        <li><span style="color: red;display:none;" id="prompt">*类型key为英文或数字组合</span></li>
+        <li>类型名：<input type="text" name="name"/><span style="color: red;display:none;" id="prom">*用户名为中文汉字</span></li>
+        <span style="color: red;display:none;" id="pro">*添加成功</span></li>
+        <li><button id="add-save">添加</button></li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        var tag = false;
+        var userType = /^[a-zA-Z0-9]+$/;
+        var typeName = /^[\u4e00-\u9fa5]+$/;
+        var $add = $('#add');
+        var add = function () {
+            var type = $add.find('[name="type"]').val();
+            var name = $add.find('[name="name"]').val();
+            if(tag){
+                return;
+            }
+            tag = true;
+            if(userType.test(type)==false){
+                $('#prompt').show();
+                tag = false;
+            }else if(typeName.test(name)==false){
+                $('#prompt').hide();
+                $('#prom').show();
+                tag = false;
+            }else{
+                $('#prompt').hide();
+                $('#prom').hide();
+                $.ajax({
+                    type: "POST",
+                    url: 'api/appConfig/saveInnerType.json',
+                    data:{userid:$('#userid').val(),type:type,name:name},
+                    success: function (xhr) {
+                        $('#result').html(JSON.stringify(xhr));
+                        $('#pro').show();
+                    },
+                    error: function (err) {
+                        $('#result').html(JSON.stringify(err));
+                        tag = false;
+                    }
+                });
+            }
+        };
+        $('#add-save').on('click',add);
+    })
+</script>
