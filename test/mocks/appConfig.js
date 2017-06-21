@@ -29,7 +29,7 @@ var routes = [
         }
     },
     {
-        route: "/example/api/appConfig/addInnerType.json",
+        route: "/example/api/appConfig/saveInnerType.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:1}));
