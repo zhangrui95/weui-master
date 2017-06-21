@@ -1,0 +1,50 @@
+<div class="page">
+    <div>设置数据轮询窗口时间：</div>
+    <ul id="add" >
+        <li>
+            类型：
+            <select name="type">
+                <option value="hotel">旅店</option>
+                <option value="work">从业</option>
+                <option value="tenant">出租</option>
+                <option value="health">医疗</option>
+            </select>
+        </li>
+        <li>天数：<input type="text" name="day"/></li>
+        <li>字段依据：
+            <select name="field">
+                <option value="none">none</option>
+                <option value="state">state</option>
+            </select>
+        </li>
+        <span style="color: red;display:none;" id="pro">*设置成功</span></li>
+        <li><button id="add-save">确定</button></li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        var tag = false;
+        var $add = $('#add');
+        var add = function () {
+            if(tag){
+                return;
+            }
+            tag = true;
+            $.ajax({
+                type: "POST",
+                url: 'api/appConfig/setInnerTimeWindow.json',
+                data:{userid:$('#userid').val(),type:$add.find('[name="type"]').val(),day:$add.find('[name="day"]').val(),field:$add.find('[name="field"]').val()},
+                success: function (xhr) {
+                    $('#result').html(JSON.stringify(xhr));
+                    $('#pro').show();
+                },
+                error: function (err) {
+                    $('#result').html(JSON.stringify(err));
+                    tag = false;
+                }
+            });
+
+        };
+        $('#add-save').on('click',add);
+    })
+</script>
