@@ -1,0 +1,49 @@
+<div class="page">
+    <div>新增派出所用户：</div>
+    <ul id="add" >
+        <li>用户名：<input type="text" name="name"/><span style="color: red;display:none;" id="prompt">*用户名为英文或数字组合</span></li>
+        <li>密码：<input type="text" name="pass" value="123456"/></li>
+        <li>角色：
+            <select name="role">
+                <option value="1">值班</option>
+                <option value="2">内勤</option>
+            </select>
+        </li>
+        <span style="color: red;display:none;" id="pro">*添加成功</span></li>
+        <li><button id="add-save">添加</button></li>
+     </ul>
+</div>
+<script>
+    $(function () {
+        var tag = false;
+        var userName = /^[a-zA-Z0-9]+$/;
+        var $add = $('#add');
+        var add = function () {
+            var name = $add.find('[name="name"]').val();
+            if(tag){
+                return;
+            }
+            tag = true;
+            if(userName.test(name)==false){
+                $('#prompt').show();
+                tag = false;
+            }else{
+                $('#prompt').hide();
+                $.ajax({
+                    type: "POST",
+                    url: 'api/appConfig/addInnerUser.json',
+                    data:{userid:$('#userid').val(),name:name,pass:$add.find('[name="pass"]').val(),role:$add.find('[name="role"]').val()},
+                    success: function (xhr) {
+                        $('#result').html(JSON.stringify(xhr));
+                        $('#pro').show();
+                    },
+                    error: function (err) {
+                        $('#result').html(JSON.stringify(err));
+                        tag = false;
+                    }
+                });
+            }
+        };
+        $('#add-save').on('click',add);
+    })
+</script>
