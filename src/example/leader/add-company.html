@@ -466,49 +466,34 @@
                         if(email.test(Email)==false){
                             hint('请输入正确的邮箱账号');
                         }else{
-                            $.ajax({
-                                type: "POST",
-                                url: 'api/user/checkMobile.json',
-                                data:{userid:$('#userid').val(),mobile:linkPhone},
-                                success: function (xhr) {
-                                    if(xhr.state == 0){
-                                        tag = false;
-                                        _this.html($('#linkName').val());
-                                        _this_phone.html($('#linkPhone').val());
-                                        $('#alert-person,#changeground,#amend').fadeOut(100);
-                                        motifyMan(manPan);
-                                    }else{
-                                        hint('操作失败，联系人手机号码已存在！')
-                                    }
-                                },
-                                error: function (err) {
-                                    $('#result').html(JSON.stringify(err));
-                                    tag = false;
-                                }
-                            });
+                            getLinkman(linkPhone);
                         }
                     }else{
-                        $.ajax({
-                            type: "POST",
-                            url: 'api/user/checkMobile.json',
-                            data:{userid:$('#userid').val(),mobile:linkPhone},
-                            success: function (xhr) {
-                                if(xhr.state == 0){
-                                    _this.html($('#linkName').val());
-                                    _this_phone.html($('#linkPhone').val());
-                                    $('#alert-person,#changeground,#amend').fadeOut(100);
-                                    motifyMan(manPan);
-                                }else{
-                                    hint('操作失败，联系人手机号码已存在！')
-                                }
-                            },
-                            error: function (err) {
-                                $('#result').html(JSON.stringify(err));
-                                tag = false;
-                            }
-                        });
+                        getLinkman(linkPhone);
                     }
                 });
+                function getLinkman(linkPhone) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'api/user/checkMobile.json',
+                        data:{userid:$('#userid').val(),mobile:linkPhone},
+                        success: function (xhr) {
+                            if(xhr.state == 0){
+                                tag = false;
+                                _this.html($('#linkName').val());
+                                _this_phone.html($('#linkPhone').val());
+                                $('#alert-person,#changeground,#amend').fadeOut(100);
+                                motifyMan(manPan);
+                            }else{
+                                hint('操作失败，联系人手机号码已存在！')
+                            }
+                        },
+                        error: function (err) {
+                            $('#result').html(JSON.stringify(err));
+                            tag = false;
+                        }
+                    });
+                }
                 $('#dis-none1').on('click',function(){
                     $('#alert-person,#changeground,#amend').fadeOut(100);
                 });
