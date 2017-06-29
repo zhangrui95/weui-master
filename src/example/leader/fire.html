@@ -24,11 +24,10 @@
     <div class="catalog">
         <div class="cata">
             <div class="area-width">辖区</div>
-            <div class="imported-width">非重点企业</div>
+            <div class="imported-width">任务总量</div>
             <div>未检查</div>
             <div class="fire-num-box-border" style="border:none">已检查</div>
         </div>
-
     </div>
     <div class="page__bd leader-fire-y bg-page bottom-cell-pad">
         <div id="box" class="bg-box">
@@ -83,7 +82,7 @@
                 </ul>
             </div>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类、辖区、年份及周期</p></div>
+        <div class="hint" id="hint"><img src="images/error-big.png"/><p>请选择分类、辖区、年份及周期</p></div>
         <div class="btn-box" id="btnPanel" >
             <div class="imported-left" id="reset">重置</div>
             <a class="btn-bg" href="javascript:" id="showToast" data-id="fire-choice-list">确定</a>
@@ -140,17 +139,9 @@
         function choice(data){
             var number = data.checkNums.plan+data.checkNums.extra;
             $('#white-top').html(
-                    '<div class="fire-num-box">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+data.companyNums.unpoint+'</dt>'+
-                    '<dd>非重点企业</dd>'+
-                    '</dl>'+
+                    '<div class="fire-num-box" id="undone-box">'+
                     '</div>'+
-                    '<div class="fire-num-box">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+data.companyNums.point+'</dt>'+
-                    '<dd>重点企业</dd>'+
-                    '</dl>'+
+                    '<div class="fire-num-box" id="done-box">'+
                     '</div>'+
                     '<div class="fire-num-box fire-num-box-border">'+
                     '<dl class="num-center">'+
@@ -158,7 +149,7 @@
                     '<dd>总次数</dd>'+
                     '</dl>'+
                     '</div>'
-            )
+            );
         }
         var pagePanel = $('.page__bd');
         var currDataListCfg = {
@@ -173,19 +164,17 @@
                 var done = xhr.done;
                 undo = undo==null?0:undo;
                 done = done==null?0:done;
-                $('#white-bottom').html(
-                        '<div class="undone-num" data-id="undone-fire" id="undone">'+
-                        '<dl class="num-center">'+
-                        '<dt>'+undo+'</dt>'+
+                $('#undone-box').html(
+                        '<dl class="num-center" id="undone" data-id="undone-fire" >'+
+                        '<dt style="color:#ff5a54;">'+undo+'</dt>'+
                         '<dd class="choice-title-red">未检查</dd>'+
-                        '</dl>'+
-                        '</div>'+
-                        '<div class="done-num" id="done" data-id="done-fire">'+
-                        '<dl class="num-center">'+
+                        '</dl>'
+                );
+                $('#done-box').html(
+                        '<dl class="num-center" id="done" data-id="done-fire">'+
                         '<dt>'+done+'</dt>'+
                         '<dd>已检查</dd>'+
-                        '</dl>'+
-                        '</div>'
+                        '</dl>'
                 );
             $('#undone,#done').on('click',function(){
                 var id = $(this).data('id');
@@ -203,7 +192,7 @@
                     window.pageManager.go(id);
                     var policeId = $(this).attr('id');
                     container.data('fire-police-id',policeId);
-                })
+                });
             },
             noMoreCb : function () {
                 $('.weui-loadmore_line').show();
@@ -221,15 +210,15 @@
                 }
                 var avatar = items.avatar;
                 if(avatar==null||avatar==''){
-                    avatar = 'images/head.jpg'
+                    avatar = 'images/head.jpg';
                 }else{
-                    avatar += '64'
+                    avatar += '64';
                 }
                 return '<div class="fire-name-list" id="'+items.id+'" data-id="police-itemize-list">'+
                             '<img src="'+avatar+'" class="header-img"/>'+
                             '<div class="list-name">'+
                                 '<div class="police-name">'+items.name+'</div>'+
-                                '<div class="imported-number">'+items.pointNum+'</div>'+
+                                '<div class="imported-number">'+num+'</div>'+
                                 '<div class="undone-number">'+undo+'</div>'+
                                 '<div class="done-number">'+done+'</div>'+
                             '</div>'+
@@ -312,11 +301,11 @@
             $('.types').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
-            })
+            });
             $('.polices').on('click',function () {
                 $(this).toggleClass('choice-after');
                 $('#all-polices').removeClass('choice-after');
-            })
+            });
         }
 
         $('.period').on('click',function () {
@@ -341,7 +330,7 @@
                 years.push($(this).data('year'));
             });
             $('.choice-after .item-name').each(function(){
-                texts.push($(this).text())
+                texts.push($(this).text());
             });
             $('.period.choice-after').each (function(){
                 prd = $(this).data('period');
@@ -479,7 +468,7 @@
             })
         }
         function outPop(){
-            pageManager.setBeforeHashchangeOnce(null)
+            pageManager.setBeforeHashchangeOnce(null);
         }
     })
 </script>
