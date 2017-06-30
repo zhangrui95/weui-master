@@ -1,7 +1,7 @@
 <div class="page page_box page-list">
         <div id="fire-head">
-            <div class="fire-header">
-            <div class="fire-header-left">
+            <div class="fire-header police-fire-header">
+            <div class="fire-header-left fire-left-police">
                 <div class="img-detail select-box" id="select-year">
                     <div class="select-border img-detail select-width" id="year-num"></div>
                     <div class="select-border select">▼</div>
@@ -12,15 +12,13 @@
                     <div class="select-border select">▼</div>
                     </div>
                 </div>
+            <div class="fire-right-police" id="all-num"></div>
                 <div class="position-choice" id="choice-alert">
                     <img src="images/Iconset.png" class="choice-img"/>
                     <!--<div class="choice-color">筛选</div>-->
                 </div>
             </div>
-            <div class="white-position" id="white-position">
-            </div>
         </div>
-    <div class="height-fixed-fire"></div>
         <div class="weui-tab">
             <div class="weui-navbar">
                 <div class="weui-navbar__item tab-border" href="#tab1" data-state="0">未检查<span id="number-left"></span></div>
@@ -133,26 +131,7 @@
         }
         function choice(data){
             var number = data.checkNums.plan+data.checkNums.extra;
-            $('#white-position').html(
-                    '<div class="fire-num-box">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+data.companyNums.unpoint+'</dt>'+
-                    '<dd>非重点企业</dd>'+
-                    '</dl>'+
-                    '</div>'+
-                    '<div class="fire-num-box">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+data.companyNums.point+'</dt>'+
-                    '<dd>重点企业</dd>'+
-                    '</dl>'+
-                    '</div>'+
-                    '<div class="fire-num-box fire-num-box-border">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+number+'</dt>'+
-                    '<dd>总次数</dd>'+
-                    '</dl>'+
-                    '</div>'
-            )
+            $('#all-num').html('总次数：'+number);
         }
         var currDataListCfg = {
             url:'api/firePlanItem.json',
