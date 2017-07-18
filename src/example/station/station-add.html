@@ -209,6 +209,16 @@
             }
         });
 
+        $('#card').keyup(function(){
+            var val = $(this).val();
+            if(val === '62'){
+                $('#notNull').html('请到辖区派出所开具证明！');
+                $('#notNull').fadeIn(100);
+                setTimeout(function () {
+                    wx.closeWindow();
+                }, 3000);
+            }
+        });
         var tag = false;
         $('#showToast').on('click', function () {
             var save = function () {
