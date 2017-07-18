@@ -19,8 +19,6 @@ var menus = [
     {id:'15',name:"消防安全",hash:"fire",icon:"images/icon10.png",state:1,orderNum:6},
     {id:'16',name:"出租房管理",hash:"rent",icon:"images/icon7.png",state:1,orderNum:7},
     {id:'17',name:"所内管理",hash:"police-dynamic",icon:"images/icon11.png",state:1,orderNum:8},
-    {id:'21',name:"居住证明申请",hash:"apply-for-dwell",icon:"images/icon11.png",state:1,orderNum:8},
-    {id:'22',name:"身份证申请",hash:"apply-for-cardid",icon:"images/icon11.png",state:1,orderNum:8},
 
     {id:'18',name:"未带身份证入住",href:"hotel.html",icon:"images/icon2.png",state:1,orderNum:1},
     {id:'19',name:"从业人员上报",hash:"employee-report",icon:"images/icon3.png",state:1,orderNum:2},
