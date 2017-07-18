@@ -211,7 +211,7 @@
 
         $('#card').keyup(function(){
             var val = $(this).val();
-            if(val === '62'){
+            if(val.indexOf('65')==0){
                 $('#notNull').html('请到辖区派出所开具证明！');
                 $('#notNull').fadeIn(100);
                 setTimeout(function () {
