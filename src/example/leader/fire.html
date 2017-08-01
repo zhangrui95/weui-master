@@ -113,8 +113,20 @@
             var data = new Date();
             var year = data.getFullYear();
             var month = data.getMonth();
-            yearid = year;
-            periodid = month<6?1:2;
+            var oldYear = container.data('fire-year');
+            var oldPeriod = container.data('fire-period');
+            if(oldYear){
+                yearid = oldYear;
+            }else{
+                yearid = year;
+                container.data('fire-year',yearid);
+            }
+            if(oldPeriod){
+                periodid = oldPeriod;
+            }else{
+                periodid = month<6?1:2;
+                container.data('fire-period',periodid);
+            }
             $('#year-num').html(year+'年');
             $('#period-num').html(month<6?'上半年':'下半年');
         }
@@ -373,6 +385,7 @@
                 onConfirm: function (result) {
                     $('#year-num').html(result[0].value+'年');
                     yearid = result[0].value;
+                    container.data('fire-year',yearid);
                     init();
                 }
             });
@@ -386,6 +399,7 @@
                 onConfirm: function (result) {
                     $('#period-num').html(result[0].label);
                     periodid =result[0].value ;
+                    container.data('fire-period',periodid);
                     init();
                 }
             });
