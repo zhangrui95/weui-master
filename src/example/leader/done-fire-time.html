@@ -7,12 +7,20 @@
         $(function(){
             var container = $('#container');
             var cid =  container.data('data-company-name-cid');
-            var fireYear = container.data('fire-year');
-            var firePeriod = container.data('fire-period');
+            var choiceQuery = container.data('choice-query');
+            var year;
+            var period;
+            if(choiceQuery === '1'){
+                year = container.data('data-choice-years-ids');
+                period = container.data('data-choice-period-ids');
+            }else{
+                year = container.data('fire-year');
+                period = container.data('fire-period');
+            }
             $.ajax({
                 type: "POST",
                 url: "api/fireCheck/listByCompany.json",
-                data:{userid:$('#userid').val(),cid:cid,years:fireYear,period:firePeriod},
+                data:{userid:$('#userid').val(),cid:cid,years:year,period:period},
                 success: function (data) {
                     $('.fire-header').html(
                             '<div  class="fire-company-name" id="head-name"></div>'+
