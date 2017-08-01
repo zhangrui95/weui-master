@@ -80,12 +80,8 @@
 <script type="text/javascript">
     $(function(){
         var container = $('#container');
-        var width = document.body.clientWidth;
-        var typedis=container.data('data-choice-type-ids');
-        var year=container.data('data-choice-year-ids');
-        var period=container.data('data-choice-period-ids');
-        var val = container.data('data-choice-val-ids');
-        var policeId = container.data('self-policeId');
+        var fireYear = container.data('fire-year');
+        var firePeriod = container.data('fire-period');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
@@ -143,7 +139,7 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({});
+        currDataList.first({years:fireYear,period:firePeriod});
 
         $.ajax({
             type: "POST",
@@ -180,7 +176,7 @@
         }
         function years(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var j=0;
             for(var i = 2017 ;i<=year;i++){
                 j++;

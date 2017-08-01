@@ -81,10 +81,8 @@
     $(function(){
         var container = $('#container');
         var width = document.body.clientWidth;
-        var year=container.data('data-choice-year-ids');
-        var period=container.data('data-choice-period-ids');
-        var val = container.data('data-choice-val-ids');
-        var policeId = container.data('self-policeId');
+        var fireYear = container.data('fire-year');
+        var firePeriod = container.data('fire-period');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
@@ -138,7 +136,7 @@
         };
 
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({state:'0'});
+        currDataList.first({state:'0',years:fireYear,period:firePeriod});
 
         $.ajax({
             type: "POST",
