@@ -97,10 +97,9 @@
         container.data('data-choice-police-ids','');
         container.data('data-choice-type-ids','');
         container.data('data-state-list','');
-        var width = document.body.clientWidth;
-        var year=container.data('data-choice-year-ids');
-        var period=container.data('data-choice-period-ids');
-        var val = container.data('data-choice-val-ids');
+//        var year=container.data('data-choice-year-ids');
+//        var period=container.data('data-choice-period-ids');
+//        var val = container.data('data-choice-val-ids');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click',function(){
@@ -112,7 +111,7 @@
 
         function initPeriod(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var month = data.getMonth();
             yearid = year;
             periodid = month<6?1:2;
@@ -281,7 +280,7 @@
         }
         function years(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var j=0;
             for(var i = 2017 ;i<=year;i++){
                 j++;
@@ -365,48 +364,31 @@
         })
         $('#select-year').on('click', function () {
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
+            var arr = [];
             for(var i= year ;i>=2017;i--){
-                weui.picker([{
-                    label: i,
-                    value:i
-                }], {
-                    onConfirm: function (result) {
-                        $('#year-num').html(result[0].value+'年');
-                        yearid = result[0].value;
-                        init();
-                    }
-                });
+                arr.push({label: i,value:i});
             }
+            weui.picker(arr, {
+                onConfirm: function (result) {
+                    $('#year-num').html(result[0].value+'年');
+                    yearid = result[0].value;
+                    init();
+                }
+            });
         });
         $('#select-period').on('click', function () {
-                weui.picker([
-                    {
-                    label: '全年',
-                    value:0
-                    },
-                    {
-                        label: '上半年',
-                        value:1
-                    },
-                    {
-                        label: '下半年',
-                        value:2
-                    }], {
-                    onConfirm: function (result) {
-                        var label='';
-                        if(result[0].value==0){
-                            label='全年';
-                        }else if(result[0].value==1){
-                            label='上半年';
-                        }else{
-                            label='下半年';
-                        }
-                        $('#period-num').html(label);
-                        periodid =result[0].value ;
-                        init();
-                    }
-                });
+            weui.picker([
+                {label: '全年',value:0},
+                {label: '上半年',value:1},
+                {label: '下半年', value:2}
+                ], {
+                onConfirm: function (result) {
+                    $('#period-num').html(result[0].label);
+                    periodid =result[0].value ;
+                    init();
+                }
+            });
         });
         $('#choice-alert').on('mousedown',function(e){
             var _event = window.event||e;

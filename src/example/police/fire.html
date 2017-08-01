@@ -346,44 +346,27 @@
         })
             $('#select-year').on('click', function () {
                 var data = new Date();
-                var year = data.getFullYear(data);
+                var year = data.getFullYear();
+                var arr = [];
                 for(var i= year ;i>=2017;i--){
-                    weui.picker([{
-                        label: i,
-                        value:i
-                    }], {
-                        onConfirm: function (result) {
-                            $('#year-num').html(result[0].value+'年');
-                            yearid = result[0].value;
-                            init();
-                        }
-                    });
+                    arr.push({label: i,value:i});
                 }
+                weui.picker(arr, {
+                    onConfirm: function (result) {
+                        $('#year-num').html(result[0].value+'年');
+                        yearid = result[0].value;
+                        init();
+                    }
+                });
             });
             $('#select-period').on('click', function () {
                 weui.picker([
-                    {
-                        label: '全年',
-                        value:0
-                    },
-                    {
-                        label: '上半年',
-                        value:1
-                    },
-                    {
-                        label: '下半年',
-                        value:2
-                    }], {
+                    {label: '全年',value:0},
+                    {label: '上半年',value:1},
+                    {label: '下半年', value:2}
+                    ], {
                     onConfirm: function (result) {
-                        var label='';
-                        if(result[0].value==0){
-                            label='全年';
-                        }else if(result[0].value==1){
-                            label='上半年';
-                        }else{
-                            label='下半年';
-                        }
-                        $('#period-num').html(label);
+                        $('#period-num').html(result[0].label);
                         periodid =result[0].value ;
                         init();
                     }
