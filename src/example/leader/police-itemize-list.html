@@ -87,12 +87,8 @@
     $(function(){
         var currState = '0';
         var container = $('#container');
-        var pagePanel = container.find('.page_box .page__bd');
-        var width = document.body.clientWidth;
-        var typedis=container.data('data-choice-type-ids');
-        var year=container.data('data-choice-year-ids');
-        var period=container.data('data-choice-period-ids');
-        var val = container.data('data-choice-val-ids');
+        var fireYear = container.data('fire-year');
+        var firePeriod = container.data('fire-period');
         var policeids=container.data('fire-police-id');
         container.data('data-state-list','');
         var $searchClear = $('#searchClear');
@@ -199,7 +195,7 @@
                 });
             },
             emptyCb : function () {
-                var tag = currState=='0';
+                var tag = currState==='0';
                 var tabPanel = tag?'tab1':'tab2';
                 var img = tag?'icon-ok.jpg':'icon-over.jpg';
                 var txt = tag?'好厉害！':'哎呦喂！';
@@ -215,10 +211,10 @@
                 $('.empty-box').hide();
             },
             getItemsPanel : function () {
-                return $('#'+(currState=='0'?'tab1':'tab2'));
+                return $('#'+(currState==='0'?'tab1':'tab2'));
             },
             templateProcess : function (item) {
-                var tag = currState=='0';
+                var tag = currState==='0';
                 var listcolor = tag?'list-color':'';
                 var checked = tag?'':'done-fire-time';
                 return '<div class="weui-cell bg-cell" data-id="'+checked+'" data-cid="'+item.company.id+'" >' +
@@ -244,36 +240,32 @@
 
         var currDataList = window.dataList.newList(currDataListCfg);
         $('.weui-navbar__item').on('click', function () {
-            if($('#load').css('display')=='block'){
-                return;
-            }else{
+            if($('#load').css('display')!=='block'){
                 $(this).addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
             }
         });
         $(".weui-navbar div").click(function() {
-            if($('#load').css('display')=='block'){
-                return;
-            }else{
+            if($('#load').css('display')!=='block'){
                 var state = $(this).data('state');
-                if(state != currState){
+                if(state !== currState){
                     $('#container').data('detail-source-state',state);
                     var activeTab = $(this).attr("href");
                     $(".weui-cells").hide();
                     $(activeTab).html('').fadeIn();
                     currState = state;
-                    currDataList.first({state:state,policeId:policeids});
+                    currDataList.first({state:state,policeId:policeids,years:fireYear,period:firePeriod});
                 }
                 return false;
             }
         });
         var detailSourceState = container.data('detail-source-state');
-        if(detailSourceState && detailSourceState != currState){
+        if(detailSourceState && detailSourceState !== currState){
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
             $(target.attr("href")).fadeIn();
         }
-        currDataList.first({state:currState,policeId:policeids});
+        currDataList.first({state:currState,policeId:policeids,years:fireYear,period:firePeriod});
 
         $.ajax({
             type: "POST",
@@ -325,7 +317,7 @@
         }
         function years(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var j=0;
             for(var i = 2017 ;i<=year;i++){
                 j++;
