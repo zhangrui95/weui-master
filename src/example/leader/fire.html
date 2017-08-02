@@ -119,14 +119,14 @@
                 yearid = year;
                 container.data('fire-year',yearid);
             }
-            if(oldPeriod){
+            if(oldPeriod || oldPeriod === 0){
                 periodid = oldPeriod;
             }else{
                 periodid = month<6?1:2;
                 container.data('fire-period',periodid);
             }
             $('#year-num').html(year+'年');
-            $('#period-num').html(month<6?'上半年':'下半年');
+            $('#period-num').html(periodid===0?'全年':(periodid===1?'上半年':'下半年'));
         }
         initPeriod();
 
