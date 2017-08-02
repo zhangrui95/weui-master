@@ -475,6 +475,7 @@ $(function () {
 
     var webMoveCfg = {
         startEventName : 'mousedown',
+        moveEventName : 'mousemove',
         endEventName : 'mouseup',
         funcGetX : function(e){ return e.clientX; },
         funcGetY : function(e){ return e.clientY; }
@@ -482,6 +483,7 @@ $(function () {
 
     var mobileMoveCfg = {
         startEventName : 'touchstart',
+        moveEventName : 'touchmove',
         endEventName : 'touchend',
         funcGetX : function(e){ return e.changedTouches[0].clientX; },
         funcGetY : function(e){ return e.changedTouches[0].clientY; }
@@ -528,6 +530,32 @@ $(function () {
         }]);
     }
 
+    function doDrag(supportTouch,_old$On,callback){
+        var tag,cfg = moveCfg(supportTouch);
+        var oThis = $(this);
+        _old$On.apply(this, [cfg.startEventName, function(e){
+            tag = true;
+            e.preventDefault();
+        }]);
+        _old$On.apply(this, [cfg.moveEventName, function(e){
+            if(!tag){
+                return;
+            }
+            var x = cfg.funcGetX(e);
+            var y = cfg.funcGetY(e);
+            var ret = callback(x,y);
+            if(ret){
+                x = ret.x;
+                y = ret.y;
+            }
+            oThis.css('left',x + "px").css('top',y + "px");
+        }]);
+        _old$On.apply(this, [cfg.endEventName+' ', function(e){
+            tag = false;
+        }]);
+
+    }
+
     function fastClick(){
         var supportTouch = isSupportTouch();
         var _old$On = $.fn.on;
@@ -539,8 +567,26 @@ $(function () {
         };
 
         $.fn.on = function(){
-            if(/click/.test(arguments[0]) && typeof arguments[1] == 'function'){ // 只扩展支持touch的当前元素的click事件
+            if(/click/.test(arguments[0]) && typeof arguments[1] === 'function'){ // 只扩展支持touch的当前元素的click事件
                 doClick.apply(this, [arguments[1]]);
+            }else{
+                _old$On.apply(this, arguments);
+            }
+            return this;
+        };
+    }
+
+    function drag(){
+        var supportTouch = isSupportTouch();
+        var _old$On = $.fn.on;
+
+        var doInDrag = function(callback){
+            doDrag.apply(this,[supportTouch,_old$On,callback]);
+        };
+
+        $.fn.on = function(){
+            if(/drag/.test(arguments[0]) && typeof arguments[1] === 'function'){ // 只扩展支持touch的当前元素的click事件
+                doInDrag.apply(this, [arguments[1]]);
             }else{
                 _old$On.apply(this, arguments);
             }
@@ -559,15 +605,15 @@ $(function () {
         };
 
         $.fn.on = function(){
-            if(/swipeUp/.test(arguments[0]) && typeof arguments[1] == 'function'){ // 只扩展支持touch的当前元素的click事件
+            if(/swipeUp/.test(arguments[0]) && typeof arguments[1] === 'function'){ // 只扩展支持touch的当前元素的click事件
                 doSwipe.apply(this, [arguments[1],'up']);
-            }else if(/swipeDown/.test(arguments[0]) && typeof arguments[1] == 'function'){
+            }else if(/swipeDown/.test(arguments[0]) && typeof arguments[1] === 'function'){
                 doSwipe.apply(this, [arguments[1],'down']);
-            }else if(/swipeLeft/.test(arguments[0]) && typeof arguments[1] == 'function'){
+            }else if(/swipeLeft/.test(arguments[0]) && typeof arguments[1] === 'function'){
                 doSwipe.apply(this, [arguments[1],'left']);
-            }else if(/swipeRight/.test(arguments[0]) && typeof arguments[1] == 'function'){
+            }else if(/swipeRight/.test(arguments[0]) && typeof arguments[1] === 'function'){
                 doSwipe.apply(this, [arguments[1],'right']);
-            }else if(/swipe/.test(arguments[0]) && typeof arguments[1] == 'function'){
+            }else if(/swipe/.test(arguments[0]) && typeof arguments[1] === 'function'){
                 doSwipe.apply(this, [arguments[1]]);
             }else{
                 _old$On.apply(this, arguments);
@@ -740,6 +786,7 @@ $(function () {
         preload();
         fastClick();
         swipe();
+        drag();
         androidInputBugFix();
         setJSAPI();
         window.initMenu = initMenu;
