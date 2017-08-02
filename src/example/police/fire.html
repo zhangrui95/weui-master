@@ -89,12 +89,9 @@
     $(function(){
         var currState = '0';
         var container = $('#container');
+        container.data('choice-query','');
         var pagePanel = container.find('.page_box .page__bd');
-        var width = document.body.clientWidth;
         var typedis=container.data('data-choice-type-ids');
-        var year=container.data('data-choice-year-ids');
-        var period=container.data('data-choice-period-ids');
-        var val = container.data('data-choice-val-ids');
         var policeId = container.data('self-policeId');
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
@@ -108,12 +105,24 @@
         });
         function initPeriod(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var month = data.getMonth();
-            yearid = year;
-            periodid = month<6?1:2;
+            var oldYear = container.data('fire-year');
+            var oldPeriod = container.data('fire-period');
+            if(oldYear){
+                yearid = oldYear;
+            }else{
+                yearid = year;
+                container.data('fire-year',yearid);
+            }
+            if(oldPeriod || oldPeriod === 0){
+                periodid = oldPeriod;
+            }else{
+                periodid = month<6?1:2;
+                container.data('fire-period',periodid);
+            }
             $('#year-num').html(year+'年');
-            $('#period-num').html(month<6?'上半年':'下半年');
+            $('#period-num').html(periodid===0?'全年':(periodid===1?'上半年':'下半年'));
         }
         initPeriod();
         function initHead(){
@@ -196,18 +205,14 @@
 
         var currDataList = window.dataList.newList(currDataListCfg);
         $('.weui-navbar__item').on('click', function () {
-            if($('#load').css('display')=='block'){
-                return;
-            }else {
+            if($('#load').css('display')!=='block'){
                 $(this).addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
             }
         });
         $(".weui-navbar div").click(function() {
-            if($('#load').css('display')=='block'){
-                return;
-            }else {
+            if($('#load').css('display')!=='block'){
                 var state = $(this).data('state');
-                if (state != currState) {
+                if (state !== currState) {
                     $('#container').data('detail-source-state', state);
                     var activeTab = $(this).attr("href");
                     $(".weui-cells").hide();
@@ -220,7 +225,7 @@
         });
 
         var detailSourceState = container.data('detail-source-state');
-        if(detailSourceState && detailSourceState != currState){
+        if(detailSourceState && detailSourceState !== currState){
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
             target.addClass('tab-border').siblings('.tab-border').removeClass('tab-border');
@@ -272,7 +277,7 @@
         }
         function years(){
             var data = new Date();
-            var year = data.getFullYear(data);
+            var year = data.getFullYear();
             var j=0;
             for(var i = 2017 ;i<=year;i++){
                     j++;
@@ -300,6 +305,7 @@
             $(this).siblings().removeClass('choice-after');
         });
         $('#showToast').on('click',function(){
+            outPop();
             var yearsArr = [];
             var texts = [];
             var typeIds = [];
@@ -318,10 +324,9 @@
                 prd = $(this).data('period');
             });
             var typedis=typeIds.join(',');
-            year=yearsArr.join(',');
             container.data('data-choice',texts.join(','));
             container.data('data-choice-type-ids',typedis);
-            container.data('data-choice-years-ids',year);
+            container.data('data-choice-years-ids',yearsArr.join(','));
             container.data('data-choice-period-ids',prd);
             container.data('data-choice-val-ids',val);
             var alltypes = $('#all-types').hasClass('choice-after');
@@ -355,6 +360,7 @@
                     onConfirm: function (result) {
                         $('#year-num').html(result[0].value+'年');
                         yearid = result[0].value;
+                        container.data('fire-year',yearid);
                         init();
                     }
                 });
@@ -368,61 +374,31 @@
                     onConfirm: function (result) {
                         $('#period-num').html(result[0].label);
                         periodid =result[0].value ;
+                        container.data('fire-period',periodid);
                         init();
                     }
                 });
             });
-        $('#choice-alert').on('mousedown',function(e){
-            var _event = window.event||e;
-            var left = _event.offsetX;
-            var top = _event.offsetY;
-            var downX = _event.pageX;
-            var downY = _event.pageY;
-            _event.preventDefault();
-            $('body').on('mousemove',function(e){
-                var _event = window.event||e;
-                var x = _event.clientX-left;
-                var y = _event.clientY-top;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('mouseup',function(e){
-                $('body').unbind();
-                var upX = e.pageX;
-                var upY = e.pageY;
-                var moveX = downX - upX;
-                var moveY = downY - upY;
-                if(moveX==0&&moveY==0){
-                    $searchInput.val('');
-                    $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
-        });
-        $('#choice-alert').on('touchstart',function(e){
-            var left = e.touches[0].pageX;
-            var top = e.touches[0].pageY;
-            e.preventDefault();
-            $('body').on('touchmove',function(e){
-                var x = e.touches[0].clientX-25;
-                var y = e.touches[0].clientY-25;
-                $('#choice-alert').css('left',x + "px");
-                $('#choice-alert').css('top',y + "px");
-            });
-            $('#choice-alert').on('touchend',function(e){
-                var endX = e.changedTouches[0].pageX;
-                var endY= e.changedTouches[0].pageY;
-                var moveX = left - endX;
-                var moveY = top -endY;
-                $('body').unbind();
-                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                    $searchInput.val('');
-                    $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
-                    $('#filtrate').fadeIn(100);
-                }
-            });
-        });
 
+        $('#choice-alert').on('drag',function(x,y){
+            return {x:x-25,y:y-25}
+        }).on('click',function(){
+            $searchInput.val('');
+            $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+            inPop(function(){
+                $('#filtrate').fadeOut(100);
+            });
+            $('#filtrate').fadeIn(100);
+        });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null);
+        }
     });
 
 </script>
