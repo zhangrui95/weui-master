@@ -57,8 +57,6 @@ var menuIds = {
 
 var getMenuByKey = function (buf,key) {
     var ids = menuIds[key](buf);
-    console.log('buf',buf)
-    console.log('menuIds',ids)
     var ret = [];
     for(var i in ids){
         ret.push(menus[ids[i]])
