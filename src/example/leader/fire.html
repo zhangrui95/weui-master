@@ -17,7 +17,11 @@
             </div>
         </div>
         <div class="white-position" id="white-position">
-            <div id="white-top"></div>
+            <div id="white-top">
+                <div class="fire-num-box" id="undone-box"></div>
+                <div class="fire-num-box" id="done-box"></div>
+                <div class="fire-num-box fire-num-box-border" id="total-box"></div>
+            </div>
             <div id="white-bottom"></div>
         </div>
     </div>
@@ -147,18 +151,7 @@
 
         function choice(data){
             var number = data.checkNums.plan+data.checkNums.extra;
-            $('#white-top').html(
-                    '<div class="fire-num-box" id="undone-box">'+
-                    '</div>'+
-                    '<div class="fire-num-box" id="done-box">'+
-                    '</div>'+
-                    '<div class="fire-num-box fire-num-box-border">'+
-                    '<dl class="num-center">'+
-                    '<dt>'+number+'</dt>'+
-                    '<dd>总次数</dd>'+
-                    '</dl>'+
-                    '</div>'
-            );
+            $('#total-box').html('<dl class="num-center"><dt>'+number+'</dt><dd>总次数</dd></dl>');
         }
         var pagePanel = $('.page__bd');
         var currDataListCfg = {
