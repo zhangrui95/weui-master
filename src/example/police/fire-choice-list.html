@@ -63,7 +63,7 @@
 <script type="text/javascript">
     $(function(){
         var container = $('#container');
-        var width = document.body.clientWidth;
+        container.data('choice-query','1');
         var typedis=container.data('data-choice-type-ids');
         var year=container.data('data-choice-year-ids');
         var period=container.data('data-choice-period-ids');
@@ -101,9 +101,14 @@
                         '<img src="images/Iconset.png" class="choice-img"/>'+
                     '</div>'
             );
-            $('#choice-alert').on('click',function(){
+            $('#choice-alert').on('drag',function(x,y){
+                return {x:x-25,y:y-25}
+            }).on('click',function(){
                 $searchInput.val('');
                 $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
+                inPop(function(){
+                    $('#filtrate').fadeOut(100);
+                });
                 $('#filtrate').fadeIn(100);
             });
             $('#clear').on('click',function () {
@@ -228,6 +233,7 @@
             $(this).siblings().removeClass('choice-after');
         })
         $('#showToast').on('click',function(){
+            outPop();
             var yearsArr = [];
             var texts = [];
             var typeIds = [];
@@ -274,6 +280,15 @@
             $searchInput.val('');
             $('#all-types,#all-years,#all-period').addClass('choice-after').siblings().removeClass('choice-after');
         })
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null);
+        }
     });
 
 </script>
