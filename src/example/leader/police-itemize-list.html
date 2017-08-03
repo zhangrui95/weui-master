@@ -206,7 +206,7 @@
         });
         $(".weui-navbar div").click(function() {
             if($('#load').css('display')!=='block'){
-                var state = $(this).data('state');
+                var state = $(this).data('state')+'';
                 if(state !== currState){
                     $('#container').data('detail-source-state',state);
                     var activeTab = $(this).attr("href");
@@ -219,6 +219,9 @@
             }
         });
         var detailSourceState = container.data('detail-source-state');
+        if(detailSourceState !== null && detailSourceState !== undefined){
+            detailSourceState = detailSourceState+'';
+        }
         if(detailSourceState && detailSourceState !== currState){
             currState = detailSourceState;
             var target = $('.weui-navbar [data-state="1"]');
