@@ -2,7 +2,7 @@
     <div class="fire-header"></div>
     <div class="position-list" id="time-list"></div>
 </div>
-<button class="orange-button" data-id="fire-nochecked" id="new-btn">新建检查</button>
+<button class="orange-button active" data-id="fire-nochecked" id="new-btn">新建检查</button>
 <script>
     $(function(){
         var container = $('#container');
@@ -17,6 +17,25 @@
             year = container.data('fire-year');
             period = container.data('fire-period');
         }
+
+        var currDate = new Date();
+        var currYear = currDate.getFullYear();
+        var currPeriod = currDate.getMonth()<6?1:2;
+        if(currYear === year && (period === currPeriod || period === 0)){
+            var currTimestamp = currDate.getTime();
+            var start = container.data('fire-plan-start');
+            container.data('fire-plan-start','');
+            var end = container.data('fire-plan-end');
+            container.data('fire-plan-end','');
+            if(currTimestamp >= start && currTimestamp <= end){
+                $('#new-btn').show().on('click',function(){
+                    var id = $(this).data('id');
+                    container.data('fire-check-source','fire-checked');
+                    window.pageManager.go(id);
+                });
+            }
+        }
+
         $.ajax({
             type: "POST",
             url: "api/fireCheck/listByCompany.json",
@@ -43,11 +62,10 @@
                 }
                 $('.pink').eq(0).addClass('pink-first')
                 var years;
-                var list = data.list,datelist,item;
+                var list = data.list,item;
                 for(var i = 0;i<list.length;i++) {
                     item = list[i];
-                    datelist = item.createTime;
-                    var date = new Date(datelist);
+                    var date = new Date(item.createTime);
                     years = date.getFullYear();
                     var str =years+"";
                     if (str.indexOf(years) !== -1){
@@ -73,12 +91,6 @@
             error: function (mes) {
                 console.log("error");
             }
-        });
-
-        $('#new-btn').on('click',function(){
-            var id = $(this).data('id');
-            container.data('fire-check-source','fire-checked');
-            window.pageManager.go(id);
         });
 
     })
