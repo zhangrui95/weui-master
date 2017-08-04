@@ -248,36 +248,37 @@
 
         init();
 
-        $.ajax({
-            type: "POST",
-            url: "api/company/info.json",
-            data:{userid:$('#userid').val()},
-            success: function (data) {
-                types(data);
-                persons(data);
-                click();
-                years();
-                unfold(85);
-            },
-            error: function (mes) {
-                console.log("error");
-            }
-        });
+        var initQueryPanel = function () {
+            $.ajax({
+                type: "POST",
+                url: "api/company/info.json",
+                data:{userid:$('#userid').val()},
+                success: function (data) {
+                    types(data);
+                    persons(data);
+                    click();
+                    years();
+                    unfold(85);
+                },
+                error: function (mes) {
+                    console.log("error");
+                }
+            });
+        };
+
+        initQueryPanel();
+
         function types(data){
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+items.num+'</span>)</span></li>');
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span></li>');
                 $('#classification li').eq(0).css('color','#ff5a54');
             }
         }
         function persons(data){
             for(var i=0;i<data.persons.length;i++){
                 var items=data.persons[i];
-                var num = items.num;
-                if(num==null){
-                    num = 0;
-                }
-                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span>'+num+'</span>)</span></li>');
+                $('#area').append('<li class="white-border polices" id="'+items.id+'"><span class="item-name">'+items.name+'</span></li>');
                 $('#area li').eq(0).css('color','#ff5a54');
             }
         }
