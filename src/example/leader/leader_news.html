@@ -13,14 +13,14 @@
         col:3,
         target:target,
         beforePageChange : function (hash) {
+            var $container = $('#container');
             if (hash === 'clear_data' || hash === 'employee') {
-                var $container = $('#container');
                 $container.data('data-choice-type-ids', '');
                 $container.data('data-choice-police-ids', '');
                 $container.data('data-groupId', '');
-                $container.data('fire-year','');
-                $container.data('fire-period','');
             }
+            $container.data('fire-year','');
+            $container.data('fire-period','');
         },
         processMenuItem: function (item) {
             var data = (item||{}).data||{};

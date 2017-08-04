@@ -10,14 +10,14 @@
         col:3,
         target:target,//police 民警 police|RAdmin 值班管理员 police|CAdmin企业管理员
         beforePageChange : function (hash) {
+            var $container = $('#container');
             if (hash == 'police-clear-company' || hash == 'police-employee') {
-                var $container = $('#container');
                 $container.data('data-choice-type-ids', '');
                 $container.data('data-choice-police-ids', '');
                 $container.data('data-groupId', '');
-                $container.data('fire-year','');
-                $container.data('fire-period','');
             }
+            $container.data('fire-year','');
+            $container.data('fire-period','');
         },
         processMenuItem: function (item) {
             var data = (item||{}).data||{};
