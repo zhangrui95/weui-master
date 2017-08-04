@@ -37,7 +37,7 @@
             if(ids==null || ids.length==0){
                 return;
             }
-            var id = ids.split(',');
+            var id = (ids+'').split(',');
             for(var i in id){
                 $('#'+id[i]).addClass('choice-after');
             }
