@@ -24,9 +24,7 @@
         if(currYear === year && (period === currPeriod || period === 0)){
             var currTimestamp = currDate.getTime();
             var start = container.data('fire-plan-start');
-            container.data('fire-plan-start','');
             var end = container.data('fire-plan-end');
-            container.data('fire-plan-end','');
             if(currTimestamp >= start && currTimestamp <= end){
                 $('#new-btn').show().on('click',function(){
                     var id = $(this).data('id');
