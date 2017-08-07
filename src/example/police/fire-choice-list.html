@@ -69,6 +69,7 @@
         var period=container.data('data-choice-period-ids');
         var val = container.data('data-choice-val-ids');
         var policeId = container.data('self-policeId');
+        var currTimestamp = new Date().getTime();
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchInput.val(val);
@@ -124,10 +125,13 @@
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
                 $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    if(!id || id === ''){
+                        return;
+                    }
                     var cid = $(this).data('cid');
                     container.data('data-company-name-cid',cid);
                     container.data('fire-check-source','fire-choice-list');
-                    var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
             },
@@ -144,7 +148,7 @@
             templateProcess : function (items) {
                 var tag = items.fcid == null || items.fcid =='';
                 var listcolor = tag?'list-color':'';
-                var checked = tag?'fire-nochecked':'fire-checked';
+                var checked = tag?((currTimestamp < items.startTime || currTimestamp > items.endTime) ?'':'fire-nochecked'):'fire-checked';
                 return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="'+checked+'" data-cid="'+items.company.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
