@@ -147,10 +147,13 @@
                 $('#number-left').html('('+data.undo+')');
                 $('#number-right').html('('+data.done+')');
                 $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    if(id === ''){
+                        return;
+                    }
                     var cid = $(this).data('cid');
                     container.data('data-company-name-cid',cid);
                     container.data('fire-check-source','fire');
-                    var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
             },

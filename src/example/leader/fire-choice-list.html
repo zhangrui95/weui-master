@@ -135,10 +135,13 @@
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
                 $(".weui-cell").on('click',function () {
+                    var id = $(this).data('id');
+                    if(id === ''){
+                        return;
+                    }
                     var cid = $(this).data('cid');
                     container.data('data-company-name-cid',cid);
                     container.data('fire-check-source','fire-choice-list');
-                    var id = $(this).data('id');
                     window.pageManager.go(id);
                 });
             },
@@ -155,7 +158,8 @@
             templateProcess : function (items) {
                 var tag = items.fcid == null || items.fcid =='';
                 var listcolor = tag?'list-color':'';
-                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="done-fire-time" data-cid="'+items.company.id+'">'+
+                var nextId = tag?'':'done-fire-time';
+                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="'+nextId+'" data-cid="'+items.company.id+'">'+
                         '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
                         '<div class="weui-cell__bd size-width">'+
                         '<div><span class="item-width '+listcolor+'">'+items.company.name+'</span></div>'+
