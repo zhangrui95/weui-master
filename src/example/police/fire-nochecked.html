@@ -221,7 +221,7 @@
             }else if(type == 'fire'){
                 imgList = $uploaderPerson;
             }
-            $('#confirm').on('click',function(){
+            $('#confirm').unbind().on('click',function(){
                 if(imgList){
                     imgList.find('[data-media-id="'+curr+'"]').remove();
                 }
