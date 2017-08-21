@@ -652,7 +652,7 @@ $(function () {
                         var tag = res.checkResult.getLocalImgData;
                         if(tag){
                             if(chooseRes.localIds.length > 1){
-                                chooseRes.getImgData = res.getImgData;
+                                chooseRes.getImgData = getImgData;
                                 cb(chooseRes);
                             }else{
                                 getImgData(localId,function(res){
