@@ -75,7 +75,7 @@
         function types(data){
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span></li>');
+                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-blue">'+items.num+'</span>)</span></li>');
                 $('#classification li').eq(0).css('color','#55a3e7');
             }
         }
