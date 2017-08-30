@@ -114,6 +114,18 @@ var routes = [
         }
     },
     {
+        /**
+         * @param typeIds 企业类型id sep ,
+         * @param policeIds 民警id sep ,
+         * @param name 企业名称
+         * @param createTimeStartStr 数据起始日期 yyyy-MM-dd
+         * @param createTimeEndStr 数据结束日期 yyyy-MM-dd
+         * @return nums 统计
+         *              num 总数
+         *              done 已完成
+         *              undo 未完成
+         *          list 企业从业数据项
+         */
         route: "/example/api/employee/companies.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
