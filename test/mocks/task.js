@@ -69,12 +69,16 @@ var routes = [{
          * 按企业统计列表
          * @param state 状态 未核查0 已核查1id
          * @param cid 企业id
-         * @return total 企业总数
+         * @return nums 统计
+         *              num 总数
+         *              done 已完成
+         *              undo 未完成
+         *          total 企业总数
          *          list 企业信息列表
          *              item  企业信息
          *              nums 统计项 nullable
-         *                  num 总数
-         *                  done 已核查
+         *                  num 项总数
+         *                  done 项已核查
          */
         route: "/example/api/task/companies.json",
         handle: function(req, res, next) {
