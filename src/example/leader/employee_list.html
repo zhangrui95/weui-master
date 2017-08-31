@@ -60,6 +60,8 @@
             $searchInput.blur();
         });
         var container = $('#container');
+        var createTimeStartStr = container.data('data-time-start');
+        var createTimeEndStr = container.data('data-time-end');
         var pagePanel = container.find('.page .page__bd');
 
         var currDataListCfg = {
@@ -119,12 +121,12 @@
         var cid =  container.data('data-company-name-cid');
         var val = container.data('data-list-employee-val');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({cid:cid,card:val});
+        currDataList.first({cid:cid,card:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         var search = function(){
             var val=$searchInput.val().toUpperCase();
             container.data('data-list-employee-val',val);
             if(val != ""){
-                currDataList.first({cid:cid,card:val});
+                currDataList.first({cid:cid,card:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
             }
         };
         $searchInput.on('input',function(){
@@ -133,7 +135,7 @@
         var reset = function () {
             val='';
             container.data('data-list-employee-val',val);
-            currDataList.first({cid:cid,card:val});
+            currDataList.first({cid:cid,card:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         };
         $searchCancel.on('click',function(){
             reset();
