@@ -168,7 +168,7 @@
                         url: 'api/police/save.json',
                         data:{userid:$('#userid').val(),street:road,num:size,ridgepole:ridgepole,unit:element,door:door,'community.id':communityid,'master.id':masterid},
                         success: function (data) {
-                            if(data.state==0){
+                            if(!data || !data.floorid){
                                 $('#alert').html("保存失败！");
                                 tag = false;
                                 $('#alert').fadeIn(100);
