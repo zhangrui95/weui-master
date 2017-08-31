@@ -135,13 +135,15 @@
         var typeIds = container.data('data-choice-type-ids');
         var policeIds = container.data('data-choice-police-ids');
         var val = container.data('data-list-val');
+        var createTimeStartStr = container.data('data-time-start');
+        var createTimeEndStr = container.data('data-time-end');
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
+        currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         var search = function(){
             var val=$searchInput.val();
             container.data('data-list-val',val);
             if(val != ""){
-                currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
+                currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
             }
         };
         $searchInput.on('input',function(){
@@ -150,7 +152,7 @@
         var reset = function () {
             val='';
             container.data('data-list-val',val);
-            currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val});
+            currDataList.first({typeIds:typeIds,policeIds:policeIds,name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         };
         $searchCancel.on('click',function(){
             reset();

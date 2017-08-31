@@ -1,123 +1,207 @@
 <div class="page clear-data-box">
     <div class="page_choice all-box">
-        <div class="all-nums-box"  id="all-nums-box"></div>
+        <div class="all-nums-box" id="all-nums-box"></div>
         <div class="classification-box">
             <div class="choice-title">分类</div>
             <ul class="classification  box-height" id="classification">
                 <li class="all-news white-border choice-after" id="all-types">全部</li>
             </ul>
         </div>
-        <div class="hint" id="hint"><img src="images/error-big.png"/> <p>请选择分类</p></div>
+        <div class="hint" id="hint"><img src="images/error-big.png" />
+            <p>请选择分类</p>
+        </div>
+        <div class="picker-box">
+            <div class="choice-title">时间</div>
+            <div class="cover-all-box">
+                <span id="all-picker" class="all choice-after">全部</span><span id="pickerStart" class="picker-button">开始时间</span>—<span id="pickerEnd" class="picker-button">结束时间</span>
+            </div>
+        </div>
     </div>
     <div class="btn-box" data-id="hotel_news">
         <a class="btn" href="javascript:" id="showToast" data-id="police-company_list">查询</a>
     </div>
+    <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">开始时间应小于结束时间</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
-    $(function(){
+    $(function() {
         var width = document.body.clientWidth;
-        var container= $('#container');
-        var typedis=container.data('data-choice-type-ids');
+        var container = $('#container');
+        var typedis = container.data('data-choice-type-ids');
         var policeId = container.data('self-policeId');
         $.ajax({
             type: "POST",
             url: "api/employee/info.json",
-            data:{userid:$('#userid').val(),policeId:policeId},
-            success: function (data) {
+            data: {
+                userid: $('#userid').val(),
+                policeId: policeId
+            },
+            success: function(data) {
                 animate(data);
                 types(data);
                 click();
                 recover(typedis);
             },
-            error: function (mes) {
+            error: function(mes) {
                 console.log("error");
             }
         });
-        function recover(ids){
-            if(ids==null || ids.length==0){
+
+        function recover(ids) {
+            if (ids == null || ids.length == 0) {
                 return;
             }
-            var id = (ids+'').split(',');
-            for(var i in id){
-                $('#'+id[i]).addClass('choice-after');
+            var id = (ids + '').split(',');
+            for (var i in id) {
+                $('#' + id[i]).addClass('choice-after');
             }
-            if(typedis==''){
+            if (typedis == '') {
                 $('#all-types').addClass('choice-after');
-            }else{
+            } else {
                 $('#all-types').removeClass('choice-after');
             }
         }
-        function animate(data){
-            var num =data.nums.num;
+
+        function animate(data) {
+            var num = data.nums.num;
             var done = data.nums.done;
-            var undone = num-done;
-            if(num==null){
-                num=0;
-                undone=0;
+            var undone = num - done;
+            if (num == null) {
+                num = 0;
+                undone = 0;
             }
-            if(done==null){
-                undone=0;
+            if (done == null) {
+                undone = 0;
             }
             $('#all-nums-box').html(
-                    '<div class="all-number">企业从业人员统计</div>'+
-                    '<div class="all-done-num"><p class="done-num-child timer"  data-to="'+undone+'" data-speed="700">'+undone+'</p><p class="child-name child-name-red">未核查</p></div>'+
-                    '<div class="all-num"><p class="all-num-child timer"  data-to="'+num+'" data-speed="700">'+num+'</p><p class="child-name">全部</p></div>'
+                '<div class="all-number">企业从业人员统计</div>' +
+                '<div class="all-done-num"><p class="done-num-child timer"  data-to="' + undone + '" data-speed="700">' + undone + '</p><p class="child-name child-name-red">未核查</p></div>' +
+                '<div class="all-num"><p class="all-num-child timer"  data-to="' + num + '" data-speed="700">' + num + '</p><p class="child-name">全部</p></div>'
             )
             animates();
         }
-        function types(data){
+
+        function types(data) {
             for (var i = 0; i < data.types.length; i++) {
                 var items = data.types[i];
                 var nums = items.nums;
-                nums = nums==null?{num:0,done:0}:nums;
+                nums = nums == null ? {
+                    num: 0,
+                    done: 0
+                } : nums;
                 var num = nums.num;
                 var done = nums.done;
-                var undone = nums.num-done;
-                if(num==null || done==null){
+                var undone = nums.num - done;
+                if (num == null || done == null) {
                     num = 0;
-                    undone=0;
+                    undone = 0;
                 }
-                $('#classification').append('<li class="white-border types" id="'+items.id+'"><span class="item-name">'+items.name+'</span><span>(<span class="type-red">'+undone+'</span>/<span class="type-blue">'+num+'</span>)</span></li>');
-                $('#classification li').eq(0).css('color','#55a3e7');
+                $('#classification').append('<li class="white-border types" id="' + items.id + '"><span class="item-name">' + items.name + '</span><span>(<span class="type-red">' + undone + '</span>/<span class="type-blue">' + num + '</span>)</span></li>');
+                $('#classification li').eq(0).css('color', '#55a3e7');
             }
         }
+
         function click() {
-            $('#all-types').on('click',function () {
+            $('#all-types').on('click', function() {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
-            $('.types').on('click',function () {
+            $('.types').on('click', function() {
                 $(this).toggleClass('choice-after');
                 $('#all-types').removeClass('choice-after');
             })
         }
-        $('#showToast').on('click',function(){
+        $('#showToast').on('click', function() {
             var texts = [];
             var typeIds = [];
-            $('#container').data('data-list-val',null);
-            $('.types.choice-after').each (function(){
+            $('#container').data('data-list-val', null);
+            $('.types.choice-after').each(function() {
                 typeIds.push($(this).attr('id'));
             })
-            $('.choice-after .item-name').each(function(){
+            $('.choice-after .item-name').each(function() {
                 texts.push($(this).text())
             });
-            $('#container').data('data-choice',texts.join(','));
-            $('#container').data('data-choice-type-ids',typeIds.join(','));
+            $('#container').data('data-choice', texts.join(','));
+            $('#container').data('data-choice-type-ids', typeIds.join(','));
             var id = $('#showToast').data('id');
-            var typedis=$('#container').data('data-choice-type-ids');
+            var typedis = $('#container').data('data-choice-type-ids');
             var alltypes = $('#all-types').hasClass('choice-after');
-            if(typedis == ''){
-                if(alltypes){
+            if (typedis == '') {
+                if (alltypes) {
                     window.pageManager.go(id);
-                }else{
+                } else {
                     $('#hint').fadeIn(100);
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#hint').fadeOut(100);
                     }, 2000);
                 }
-            }else{
+            } else {
                 window.pageManager.go(id);
             }
         })
+        $('#pickerStart').on('click', function() {
+            weui.datePicker({
+                start: 2000,
+                end: new Date().getFullYear(),
+                onConfirm: function(result) {
+                    $('#all-picker').removeClass('choice-after');
+                    var createTimeEndStr = $('#container').data('data-time-end');
+                    var endTime = 0;
+                    var startTime = new Date().setFullYear(result[0], result[1], result[2])
+                    if (createTimeEndStr) {
+                        var timeArr = createTimeEndStr.split('-');
+                        endTime = new Date().setFullYear(timeArr[0], timeArr[1], timeArr[2])
+                    }
+                    if (endTime && startTime > endTime) {
+                        $('#iosDialog2').fadeIn(200);
+                    } else {
+                        var createTimeStartStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
+                        $('#pickerStart').text(createTimeStartStr)
+                        $('#container').data('data-time-start', createTimeStartStr);
+                    }
+                },
+            });
+        });
+        $('#pickerEnd').on('click', function() {
+            weui.datePicker({
+                start: 2000,
+                end: new Date().getFullYear(),
+                onConfirm: function(result) {
+                    $('#all-picker').removeClass('choice-after');
+                    var createTimeStartStr = $('#container').data('data-time-start');
+                    var endTime = new Date().setFullYear(result[0], result[1], result[2])
+                    var startTime = 0
+                    if (createTimeStartStr) {
+                        var timeArr = createTimeStartStr.split('-');
+                        startTime = new Date().setFullYear(timeArr[0], timeArr[1], timeArr[2])
+                    }
+                    if (startTime && startTime > endTime) {
+                        $('#iosDialog2').fadeIn(200);
+                    } else {
+                        var createTimeEndStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
+                        $('#pickerEnd').text(createTimeEndStr)
+                        $('#container').data('data-time-end', createTimeEndStr);
+                    }
+
+                }
+            });
+        });
+        $('.weui-dialog__btn').on('click', function() {
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+        $('#all-picker').on('click', function() {
+            $(this).addClass('choice-after');
+            $('#pickerStart').text('开始时间');
+            $('#pickerEnd').text('结束时间');
+            $('#container').data('data-time-start', '');
+            $('#container').data('data-time-end', '');
+        });
     })
 </script>
