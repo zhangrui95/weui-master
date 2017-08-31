@@ -84,6 +84,7 @@ var routes = [{
         handle: function(req, res, next) {
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
+                nums: { num: 31, done: 7, undo: 24 },
                 "total": 94,
                 "list": [
                     { "item": { "id": "4028b881594edc0301594edc20730093", "police": { "id": "4028b881592a5e4401592a5e5a270006", "name": "张佳宁", "phonetic": "zhangjianing" }, "groupType": 0, "name": "爱上阳光旅馆", "type": { "id": "4028b881594e226901594e22834a0000", "name": "旅店", "wxDeptId": 6, "state": 0 } }, nums: { num: 98, done: 21 } },
