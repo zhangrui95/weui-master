@@ -133,8 +133,9 @@
                         '<span>' + getLocalTime(data.createTime) + '</span>' +
                         stateTemp + '</div></div></div>'
                 }else{
-                    var done = data.nums.done || "0"
-                    var num = data.nums.num || "0"
+                    var nums = data.nums || {};
+                    var done = nums.done || 0
+                    var num = nums.num || 0
                     return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
                         '<div class="weui-cell__bd cell_bd_border" >' +
                         '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
