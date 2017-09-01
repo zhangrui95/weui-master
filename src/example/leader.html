@@ -1,85 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+
 <head>
     <!-- build:remove -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <!-- /build -->
-    <meta name="layout" content="main"/>
+    <meta name="layout" content="main" />
     <title>管理</title>
     <!-- build:remove -->
-    <link rel="stylesheet" href="../style/weui.css"/>
-    <link rel="stylesheet" href="./example.css"/>
-    <link rel="stylesheet" href="swiper-3.3.1.min.css"/>
+    <link rel="stylesheet" href="../style/weui.css" />
+    <link rel="stylesheet" href="./example.css" />
+    <link rel="stylesheet" href="swiper-3.3.1.min.css" />
     <!-- /build -->
 </head>
+
 <body ontouchstart="">
-<!-- build:remove -->
-<input type="hidden" id="userid" value=""/>
-<input type="hidden" id="userPost" value=""/>
-<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
-<div class="container" id="container"></div>
-<!-- /build -->
-<form id="addWorkForm"></form>
-<link rel="import" href="./leader/leader_news.html" title="所领导管理">
-<link rel="import" href="./leader/home.html">
-<link rel="import" href="./leader/hotel_news.html" title="未带身份证入住">
-<link rel="import" href="./leader/Set_up.html" title="设置值班民警">
-<link rel="import" href="./leader/clear_data.html" title="企业底数清">
-<link rel="import" href="./leader/employee.html" title="从业人员上报">
-<link rel="import" href="./leader/detail.html" title="详情">
-<link rel="import" href="./leader/company_list.html" title="企业列表">
-<link rel="import" href="./leader/employee_list.html" title="企业从业人员列表">
-<link rel="import" href="./leader/employee_detail.html" title="企业从业人员详情">
-<link rel="import" href="./leader/company.html" title="企业列表">
-<link rel="import" href="./leader/company-detail.html" title="企业详情">
-<link rel="import" href="./leader/fire.html" title="消防安全">
-<link rel="import" href="./leader/undone-fire.html" title="消防安全未检查企业列表">
-<link rel="import" href="./leader/done-fire.html" title="消防安全已检查企业列表">
-<link rel="import" href="./leader/done-fire-time.html" title="消防安全已检查列表">
-<link rel="import" href="./leader/done-fire-detail.html" title="消防安全已检查详情">
-<link rel="import" href="./leader/fire-choice-list.html" title="消防安全筛选列表">
-<link rel="import" href="./leader/police-itemize-list.html" title="消防安全民警计划列表">
-<link rel="import" href="./leader/add-company.html" title="添加企业信息">
-<link rel="import" href="./leader/rent.html" title="出租屋管理">
-<link rel="import" href="./leader/rent-new.html" title="出租屋管理">
-<link rel="import" href="./leader/rent-detail.html" title="出租屋管理">
-<link rel="import" href="./leader/renter-news.html" title="出租屋管理">
-<link rel="import" href="./leader/builder-rent.html" title="出租屋列表">
-<link rel="import" href="./leader/all-rent-building.html" title="出租屋列表">
-<link rel="import" href="./leader/rent-num.html" title="出租屋人员列表">
-<link rel="import" href="./leader/rent-undone-num.html" title="出租屋未核查人员列表">
-<link rel="import" href="./leader/work.html" title="所内管理">
-<link rel="import" href="./leader/work-company.html" title="检查企业">
-<link rel="import" href="./leader/work-add.html" title="添加工作">
-<link rel="import" href="./leader/work-employee-report.html" title="从业人员上报">
-<link rel="import" href="./leader/work-hotel.html" title="未带身份证入住">
-<link rel="import" href="./leader/work-detail.html" title="工作详情">
-<link rel="import" href="./leader/work-reply.html" title="回复">
-<link rel="import" href="./leader/work-statistics.html" title="统计">
-<link rel="import" href="./leader/work-statistics-leader.html" title="所长统计">
-<link rel="import" href="./leader/station.html" title="散装油交易登记">
-<link rel="import" href="./leader/station-list.html" title="加油站登记信息">
-<link rel="import" href="./leader/station-detail.html" title="登记详情">
-<!-- build:remove -->
-<script src="./zepto.min.js"></script>
-<script src="swiper.min.js"></script>
-<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
-<script>
-    var href = window.location.href;
-    var idx = href.indexOf('menu=');
-    if(idx!=-1){
-        href = href.substring(idx+5);
-        idx = href.indexOf('&')
-        if(idx!=-1){
-            href = href.substring(0,idx);
+    <!-- build:remove -->
+    <input type="hidden" id="userid" value="" />
+    <input type="hidden" id="userPost" value="" />
+    <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+    <div class="container" id="container"></div>
+    <!-- /build -->
+    <form id="addWorkForm"></form>
+    <link rel="import" href="./leader/leader_news.html" title="所领导管理">
+    <link rel="import" href="./leader/home.html">
+    <link rel="import" href="./leader/hotel_news.html" title="未带身份证入住">
+    <link rel="import" href="./leader/company-employee-list.html" title="企业搜索结果列表">
+    <link rel="import" href="./leader/Set_up.html" title="设置值班民警">
+    <link rel="import" href="./leader/clear_data.html" title="企业底数清">
+    <link rel="import" href="./leader/employee.html" title="从业人员上报">
+    <link rel="import" href="./leader/detail.html" title="详情">
+    <link rel="import" href="./leader/company_list.html" title="企业列表">
+    <link rel="import" href="./leader/employee_list.html" title="企业从业人员列表">
+    <link rel="import" href="./leader/employee_detail.html" title="企业从业人员详情">
+    <link rel="import" href="./leader/company.html" title="企业列表">
+    <link rel="import" href="./leader/company-detail.html" title="企业详情">
+    <link rel="import" href="./leader/fire.html" title="消防安全">
+    <link rel="import" href="./leader/undone-fire.html" title="消防安全未检查企业列表">
+    <link rel="import" href="./leader/done-fire.html" title="消防安全已检查企业列表">
+    <link rel="import" href="./leader/done-fire-time.html" title="消防安全已检查列表">
+    <link rel="import" href="./leader/done-fire-detail.html" title="消防安全已检查详情">
+    <link rel="import" href="./leader/fire-choice-list.html" title="消防安全筛选列表">
+    <link rel="import" href="./leader/police-itemize-list.html" title="消防安全民警计划列表">
+    <link rel="import" href="./leader/add-company.html" title="添加企业信息">
+    <link rel="import" href="./leader/rent.html" title="出租屋管理">
+    <link rel="import" href="./leader/rent-new.html" title="出租屋管理">
+    <link rel="import" href="./leader/rent-detail.html" title="出租屋管理">
+    <link rel="import" href="./leader/renter-news.html" title="出租屋管理">
+    <link rel="import" href="./leader/builder-rent.html" title="出租屋列表">
+    <link rel="import" href="./leader/all-rent-building.html" title="出租屋列表">
+    <link rel="import" href="./leader/rent-num.html" title="出租屋人员列表">
+    <link rel="import" href="./leader/rent-undone-num.html" title="出租屋未核查人员列表">
+    <link rel="import" href="./leader/work.html" title="所内管理">
+    <link rel="import" href="./leader/work-company.html" title="检查企业">
+    <link rel="import" href="./leader/work-add.html" title="添加工作">
+    <link rel="import" href="./leader/work-employee-report.html" title="从业人员上报">
+    <link rel="import" href="./leader/work-hotel.html" title="未带身份证入住">
+    <link rel="import" href="./leader/work-detail.html" title="工作详情">
+    <link rel="import" href="./leader/work-reply.html" title="回复">
+    <link rel="import" href="./leader/work-statistics.html" title="统计">
+    <link rel="import" href="./leader/work-statistics-leader.html" title="所长统计">
+    <link rel="import" href="./leader/station.html" title="散装油交易登记">
+    <link rel="import" href="./leader/station-list.html" title="加油站登记信息">
+    <link rel="import" href="./leader/station-detail.html" title="登记详情">
+    <!-- build:remove -->
+    <script src="./zepto.min.js"></script>
+    <script src="swiper.min.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+    <script>
+        var href = window.location.href;
+        var idx = href.indexOf('menu=');
+        if (idx != -1) {
+            href = href.substring(idx + 5);
+            idx = href.indexOf('&')
+            if (idx != -1) {
+                href = href.substring(0, idx);
+            }
+            $('#userPost').val(href)
         }
-        $('#userPost').val(href)
-    }
-</script>
-<script src="./example.js"></script>
-<script src="./wx-mock.js"></script>
-<!-- /build -->
+    </script>
+    <script src="./example.js"></script>
+    <script src="./wx-mock.js"></script>
+    <!-- /build -->
 </body>
+
 </html>
