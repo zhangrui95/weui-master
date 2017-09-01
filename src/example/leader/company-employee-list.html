@@ -1,0 +1,137 @@
+<!--旅店信息-->
+<div class="page page_box page-list">
+    <div class="weui-media-box">
+        <h3 id="cel-name" style="width:80%;"></h3>
+        <p style="color:gray">地址:<span id="cel-addr"></span></p>
+        <span style="position:absolute;top:25px;right:10px;" id="cel-nums"></span>
+    </div>
+    <div class="page__bd cell-y bg-page bottom-cell">
+        <div id="box" class="bg-box">
+            <div class="weui-tab__panel panel_none" id="tab1">
+                <div class="weui-cells"></div>
+            </div>
+            <div class="weui-tab__panel panel_none" id="tab2" style="display:none;">
+                <div class="position-choice" id="choice-alert" style="top:70%;">
+                    <img src="images/Iconset.png" class="choice-img" />
+                </div>
+                <div class="weui-cells"></div>
+            </div>
+            <div class="weui-loadmore-load" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore-load weui-loadmore_line active" id="new-none">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+    <div class="filtrate" id="filtrate">
+        <div class="filtrate-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的企业名称" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="filtrate-y">
+            <div class="picker-box">
+                <div class="choice-title">时间</div>
+                <div class="cover-all-box">
+                    <span id="all-picker" class="all choice-after" style="color:#ff5a54;background:none;">全部</span><span id="pickerStart" class="picker-button">开始时间</span>—<span id="pickerEnd" class="picker-button">结束时间</span>
+                </div>
+            </div>
+            <div class="area-box">
+                <div class="choice-title">辖区
+                    <!-- <span class="cover-blue" id="area-all-cover">展开全部</span> -->
+                </div>
+                <div class="cover-all-box">
+                    <ul class="area" id="area">
+                        <li class="all-news  white-border choice-after" id="all-polices">全部</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="hint" id="hint"><img src="images/error-big.png" />
+            <p>请选择时间，辖区</p>
+        </div>
+        <div class="btn-box" id="btnPanel">
+            <div class="imported-left" id="reset">重置</div>
+            <a class="btn-bg" href="javascript:" id="showToast" data-id="company-choice-list">确定</a>
+        </div>
+        <div class="js_dialog" id="iosDialog2" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">开始时间应小于结束时间</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        var container = $('#container');
+        var pagePanel = container.find('.page_box .page__bd');
+        var currDataListCfg = {
+            url: 'api/employee/listByCompany.json',
+            pagePanel: pagePanel,
+            scrollPanel: pagePanel.find('#box'),
+            winPanel: container.find('.page_box'),
+            xhrExternalProcess: function(params, xhr) {
+                var data = xhr;
+                $('#cel-name').html(data.company.name);
+                $('#cel-addr').html(data.company.address);
+                $('#cel-nums').html('<span style="color:red">'+data.undo+'</span>/<span>'+(data.done+data.undo)+'</span>')
+                $(".weui-cell").on('click', function() {
+                    var id = $(this).data('id');
+                    container.data('detail-source', 'hotel_news');
+                    $('#taskId').val($(this).data('tid'));
+                    window.pageManager.go(id);
+                });
+            },
+            emptyCb: function() {
+                $('#tab1 .list').html('<div class="empty-box">' +
+                    '<img src="images/icon-over.jpg" class="empty-img"/>' +
+                    '<p class="null-word">很抱歉！</p><p class="null-word2">没有相关信息哦</p>' +
+                    '</div>');
+            },
+            noMoreCb: function() {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            getItemsPanel: function() {
+                return $('#tab1 .weui-cells');
+            },
+            templateProcess: function(item) {
+                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
+                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + item.id + '">' +
+                    '<div class="weui-cell__bd cell_bd_border" >' +
+                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
+                    '<p class="left-cell item-width">' +
+                    item.card +
+                    '</p>' +
+                    '<div class="weui-cell__ft cell_fs left-cell">' +
+                    '<img src="images/icon-time.jpg" class="position-time"/>' +
+                    '<span>' + getLocalTime(item.createTime) + '</span>' +
+                    stateTemp +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+            },
+            before: function() {
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after: function() {
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first();
+    });
+</script>
