@@ -101,7 +101,7 @@
                 $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
-                    $('#hotelId').val($(this).data('tid'));
+                    container.data('hotel-cid', $(this).data('tid'));
                     window.pageManager.go(id);
                 });
             },
