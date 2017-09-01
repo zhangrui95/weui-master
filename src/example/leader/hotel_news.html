@@ -14,11 +14,9 @@
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
-            <div class="weui-tab__panel panel_none" id="tab1">
-                <div class="weui-cells"></div>
-            </div>
-            <div class="weui-tab__panel panel_none" id="tab2" style="display:none;">
-                <div class="weui-cells"></div>
+            <div class="weui-tab__panel panel_none">
+                <div class="weui-cells"  id="tab1"></div>
+                <div class="weui-cells active"  id="tab2"></div>
             </div>
             <div class="weui-loadmore-load" id="load">
                 <i class="weui-loading"></i>
@@ -80,102 +78,69 @@
 <script type="text/javascript">
     $(function() {
         var container = $('#container');
+        var currState = container.data('detail-source-state')||'0';
+        changeTab(currState)
         var pagePanel = container.find('.page_box .page__bd');
-        var tab1DataListCfg = {
-            url: 'api/task/leader.json',
+        var currDataListCfg = {
             pagePanel: pagePanel,
             scrollPanel: pagePanel.find('#box'),
             winPanel: container.find('.page_box'),
             xhrExternalProcess: function(params, xhr) {
                 var data = xhr;
-                $('#number-left').html('(' + data.undo + ')');
-                $("#tab1 .weui-cell").on('click', function() {
+                var tag = currState=='0';
+                if(tag) $("#total").html('全部人数：<span>'+(data.undo+data.done)+'</span>')
+                else $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
+                if(data.undo) $('#number-left').html('(' + data.undo + ')');
+                $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
-                    $('#taskId').val($(this).data('tid'));
+                    var tabPanel = tag?'tab1':'tab2';
+                    if(currState=='0') $('#taskId').val($(this).data('tid'));
+                    else $('#hotelId').val($(this).data('tid'));
                     window.pageManager.go(id);
                 });
             },
-            emptyCb: function() {
-                $('#tab1 .list').html('<div class="empty-box">' +
-                    '<img src="images/icon-over.jpg" class="empty-img"/>' +
-                    '<p class="null-word">很抱歉！</p><p class="null-word2">没有相关信息哦</p>' +
-                    '</div>');
+            emptyCb : function () {
+                var tag = currState=='0';
+                var tabPanel = tag?'tab1':'tab2';
+                var img = tag?'icon-ok.jpg':'icon-over.jpg';
+                var txt = tag?'很抱歉！':'哎呦喂！';
+                var txt1 = tag?'没有相关信息哦':'快去看看是否有未核查的信息';
+                $('#'+tabPanel).html('<div class="empty-box">'+
+                        '<img src="images/'+img+'" class="empty-img"/>'+
+                        '<p class="null-word">'+txt+'</p>'+
+                        '<p class="null-word2">'+txt1+'</p>'+
+                        '</div>');
             },
             noMoreCb: function() {
                 $('.weui-loadmore_line').show();
                 $('.empty-box').hide();
             },
-            getItemsPanel: function() {
-                return $('#tab1 .weui-cells');
+            getItemsPanel : function () {
+                return $('#'+(currState=='0'?'tab1':'tab2'));
             },
-            templateProcess: function(item) {
-                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
-                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + item.id + '">' +
-                    '<div class="weui-cell__bd cell_bd_border" >' +
-                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                    '<p class="left-cell item-width">' +
-                    item.company +
-                    '</p>' +
-                    '<div class="weui-cell__ft cell_fs left-cell">' +
-                    '<img src="images/icon-time.jpg" class="position-time"/>' +
-                    '<span>' + getLocalTime(item.createTime) + '</span>' +
-                    stateTemp +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-            },
-            before: function() {
-                $("#load").show();
-                $(".weui-loadmore_line").hide();
-            },
-            after: function() {
-                $("#load").hide();
-            }
-        };
-        var tab1DataList = window.dataList.newList(tab1DataListCfg);
-        tab1DataList.first();
-        var tab2DataListCfg = {
-            url: 'api/task/companies.json',
-            pagePanel: pagePanel,
-            scrollPanel: pagePanel.find('#box'),
-            winPanel: container.find('.page_box'),
-            xhrExternalProcess: function(params, xhr) {
-                var data = xhr;
-                $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
-                $("#tab2 .weui-cell").on('click', function() {
-                    var id = $(this).data('id');
-                    container.data('detail-source', 'hotel_news');
-                    $('#hotelId').val($(this).data('tid'));
-                    window.pageManager.go(id);
-                });
-            },
-            emptyCb: function() {
-                $('#tab2 .list').html('<div class="empty-box">' +
-                    '<img src="images/icon-over.jpg" class="empty-img"/>' +
-                    '<p class="null-word">很抱歉！</p><p class="null-word2">没有相关信息哦</p>' +
-                    '</div>');
-            },
-            noMoreCb: function() {
-                $('.weui-loadmore_line').show();
-                $('.empty-box').hide();
-            },
-            getItemsPanel: function() {
-                return $('#tab2 .weui-cells');
+            getUrl : function() {
+                return currState=='0'?'api/task/leader.json':'api/task/companies.json';
             },
             templateProcess: function(data) {
-                return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
-                    '<div class="weui-cell__bd cell_bd_border" >' +
-                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                    '<p class="left-cell item-width">' +
-                    data.item.name +
-                    '</p>' +
-                    '<div class="weui-cell__ft cell_fs left-cell">' +
-                    '<span style="margin:0">辖区：' + data.item.police.name + '</span>' +
-                    '<span style="position: absolute;right: 15px;top: 30px;">' + data.nums.done + '/' + data.nums.num + '</span>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
+                if(currState=='0'){
+                    var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
+                    return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
+                        '<p class="left-cell item-width">' + data.company +'</p><div class="weui-cell__ft cell_fs left-cell">' +
+                        '<img src="images/icon-time.jpg" class="position-time"/>' +
+                        '<span>' + getLocalTime(data.createTime) + '</span>' +
+                        stateTemp + '</div></div></div>'
+                }else{
+                    return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
+                        '<div class="weui-cell__bd cell_bd_border" >' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
+                        '<p class="left-cell item-width">' + data.item.name +'</p><div class="weui-cell__ft cell_fs left-cell">' +
+                        '<span style="margin:0">辖区：' + data.item.police.name + '</span>' +
+                        '<span style="position: absolute;right: 15px;top: 30px;">' + data.nums.done + '/' + data.nums.num + '</span>' +
+                        '</div></div></div>'
+                }
             },
             before: function() {
                 $("#load").show();
@@ -185,17 +150,32 @@
                 $("#load").hide();
             }
         };
-        var tab2DataList = window.dataList.newList(tab2DataListCfg);
-        tab2DataList.first();
-        $('.weui-navbar__item').on('click', function() {
-            if($(this).index()==1){
-                $('#choice-alert').show();
-            }else{
-                $('#choice-alert').hide();
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first();
+        $('.weui-navbar__item').on('click', function () {
+            if($('#load').css('display')=='block'){
+                return;
+            }else {
+                changeTab ($(this).index())
+                return false;
             }
-            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-            $('#box .weui-tab__panel').eq($(this).index()).show().siblings().hide()
         });
+        function changeTab (index) {
+            var $this = $('.weui-navbar__item').eq(index)
+            $('#box .weui-cells').eq(index).show().siblings().hide()
+            $this.addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            var state = $this.data('state');
+            if (state != currState) {
+                $('#container').data('detail-source-state', state);
+                var activeTab = $this.attr("href");
+                $(".weui-cells").hide();
+                $(activeTab).html('').fadeIn();
+                currState = state;
+                currDataList.first();
+            }
+            if(index=="0") $('#choice-alert').hide()
+            else $('#choice-alert').show()
+        }
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click', function() {
