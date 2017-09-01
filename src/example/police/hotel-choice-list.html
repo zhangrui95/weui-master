@@ -1,30 +1,23 @@
-<!--旅店信息-->
-<div class="page page_box page-list">
-    <div class="weui-tab">
-        <div class="weui-navbar">
-            <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">核查统计<span id="number-left"></span></div>
-            <div class="weui-navbar__item" href="#tab2" data-state="1">企业统计<span id="number-right"></span></div>
+<div class="page page-list">
+    <div class="fire-list-head">
+        <div class="fire-header" id="fire-choice-header" style="background:#55a3e7">
+            <div class="fire-header-left">
+                <span class="fire-head-name">筛选结果</span>
+            </div>
+            <div class="position-choice" id="choice-alert" style="background:#55a3e7;">
+                <img src="images/Iconset.png" class="choice-img" />
+            </div>
         </div>
     </div>
-    <div class="weui-media-box">
-        <p class="weui-media-box__desc" id="total"></p>
-    </div>
-    <div class="position-choice" id="choice-alert" style="display:none;background:#55a3e7;">
-        <img src="images/Iconset.png" class="choice-img" />
-    </div>
-    <div class="page__bd cell-y bg-page bottom-cell">
+    <div class="page__bd cell-y bg-page">
         <div id="box" class="bg-box">
-            <div class="weui-tab__panel panel_none" id="tab1">
-                <div class="weui-cells"></div>
+            <div class="weui-tab__panel panel_none" id="list">
             </div>
-            <div class="weui-tab__panel panel_none" id="tab2" style="display:none;">
-                <div class="weui-cells"></div>
-            </div>
-            <div class="weui-loadmore-load" id="load">
+            <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
-            <div class="weui-loadmore-load weui-loadmore_line active" id="new-none">
+            <div class="weui-loadmore weui-loadmore_line active">
                 <span class="weui-loadmore__tips">暂无更多数据</span>
             </div>
         </div>
@@ -48,16 +41,16 @@
                     <span id="all-picker" class="all choice-after" style="background:none;">全部</span><span id="pickerStart" class="picker-button">开始时间</span>—<span id="pickerEnd" class="picker-button">结束时间</span>
                 </div>
             </div>
-            <div class="area-box">
+            <!-- <div class="area-box">
                 <div class="choice-title">辖区
-                    <!-- <span class="cover-blue" id="area-all-cover">展开全部</span> -->
+                    <span class="cover-blue" id="area-all-cover">展开全部</span>
                 </div>
                 <div class="cover-all-box">
                     <ul class="area" id="area">
                         <li class="all-news  white-border choice-after" id="all-polices">全部</li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="hint" id="hint"><img src="images/error-big.png" />
             <p>请选择时间，辖区</p>
@@ -78,90 +71,49 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function() {
+    $(function(){
         var container = $('#container');
-        var pagePanel = container.find('.page_box .page__bd');
-        var tab1DataListCfg = {
-            url: 'api/task/leader.json',
-            pagePanel: pagePanel,
-            scrollPanel: pagePanel.find('#box'),
-            winPanel: container.find('.page_box'),
-            xhrExternalProcess: function(params, xhr) {
-                var data = xhr;
-                $('#number-left').html('(' + data.undo + ')');
-                $("#tab1 .weui-cell").on('click', function() {
-                    var id = $(this).data('id');
-                    container.data('detail-source', 'hotel_news');
-                    $('#taskId').val($(this).data('tid'));
-                    window.pageManager.go(id);
-                });
-            },
-            emptyCb: function() {
-                $('#tab1 .list').html('<div class="empty-box">' +
-                    '<img src="images/icon-over.jpg" class="empty-img"/>' +
-                    '<p class="null-word">很抱歉！</p><p class="null-word2">没有相关信息哦</p>' +
-                    '</div>');
-            },
-            noMoreCb: function() {
-                $('.weui-loadmore_line').show();
-                $('.empty-box').hide();
-            },
-            getItemsPanel: function() {
-                return $('#tab1 .weui-cells');
-            },
-            templateProcess: function(item) {
-                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
-                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + item.id + '">' +
-                    '<div class="weui-cell__bd cell_bd_border" >' +
-                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                    '<p class="left-cell item-width">' +
-                    item.company +
-                    '</p>' +
-                    '<div class="weui-cell__ft cell_fs left-cell">' +
-                    '<img src="images/icon-time.jpg" class="position-time"/>' +
-                    '<span>' + getLocalTime(item.createTime) + '</span>' +
-                    stateTemp +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-            },
-            before: function() {
-                $("#load").show();
-                $(".weui-loadmore_line").hide();
-            },
-            after: function() {
-                $("#load").hide();
-            }
-        };
-        var tab1DataList = window.dataList.newList(tab1DataListCfg);
-        tab1DataList.first();
-        var tab2DataListCfg = {
-            url: 'api/task/companies.json',
-            pagePanel: pagePanel,
-            scrollPanel: pagePanel.find('#box'),
-            winPanel: container.find('.page_box'),
-            xhrExternalProcess: function(params, xhr) {
-                var data = xhr;
-                $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
-                $("#tab2 .weui-cell").on('click', function() {
+        var policeids=container.data('data-choice-police-ids');
+        var createTimeStartStr=container.data('data-time-start');
+        var createTimeEndStr=container.data('data-time-end');
+        var val = container.data('data-choice-val-ids');
+        $('#choice-alert').on('drag',function(x,y){
+            return {x:x-25,y:y-25}
+        }).on('click',function(){
+            $searchInput.val('');
+            $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+            inPop(function(){
+                $('#filtrate').fadeOut(100);
+            });
+            $('#filtrate').fadeIn(100);
+        });
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+        })
+        var pagePanel = $('.page__bd');
+        var currDataListCfg = {
+            url:'api/task/companies.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params,xhr) {
+                $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
                     $('#hotelId').val($(this).data('tid'));
                     window.pageManager.go(id);
                 });
             },
-            emptyCb: function() {
-                $('#tab2 .list').html('<div class="empty-box">' +
-                    '<img src="images/icon-over.jpg" class="empty-img"/>' +
-                    '<p class="null-word">很抱歉！</p><p class="null-word2">没有相关信息哦</p>' +
-                    '</div>');
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
             },
-            noMoreCb: function() {
+            noMoreCb : function () {
                 $('.weui-loadmore_line').show();
                 $('.empty-box').hide();
-            },
-            getItemsPanel: function() {
-                return $('#tab2 .weui-cells');
             },
             templateProcess: function(data) {
                 return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
@@ -171,31 +123,23 @@
                     data.item.name +
                     '</p>' +
                     '<div class="weui-cell__ft cell_fs left-cell">' +
-                    '<span style="margin:0">辖区：' + data.item.police.name + '</span>' +
+                    '<span style="margin:0">地址：' + data.item.address + '</span>' +
                     '<span style="position: absolute;right: 15px;top: 30px;">' + data.nums.done + '/' + data.nums.num + '</span>' +
                     '</div>' +
                     '</div>' +
                     '</div>'
             },
-            before: function() {
+            before:function(){
                 $("#load").show();
                 $(".weui-loadmore_line").hide();
             },
-            after: function() {
+            after:function(){
                 $("#load").hide();
             }
         };
-        var tab2DataList = window.dataList.newList(tab2DataListCfg);
-        tab2DataList.first();
-        $('.weui-navbar__item').on('click', function() {
-            if($(this).index()==1){
-                $('#choice-alert').show();
-            }else{
-                $('#choice-alert').hide();
-            }
-            $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
-            $('#box .weui-tab__panel').eq($(this).index()).show().siblings().hide()
-        });
+
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({policeIds:policeids,name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         var $searchClear = $('#searchClear');
         var $searchInput = $('#searchInput');
         $searchClear.on('click', function() {
@@ -341,20 +285,20 @@
         });
         $('#showToast').on('click', function() {
             outPop();
-            var policeIds = [];
             var texts = [];
+            var policeIds = [];
             var val = $searchInput.val();
+            var createTimeStartStr = container.data('data-time-start');
+            var createTimeEndStr = container.data('data-time-end');
             $('.polices.choice-after').each(function() {
                 policeIds.push($(this).attr('id'));
             })
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text());
             });
-            container.data('data-choice',texts.join(','));
-            container.data('data-choice-police-ids',policeIds.join(','));
-            container.data('data-choice-val-ids',val);
-            var id = $('#showToast').data('id');
-            window.pageManager.go(id);
+            currDataList.first({policeIds:policeIds.join(','),name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
+            $('#filtrate').fadeOut(100);
         });
     });
+
 </script>
