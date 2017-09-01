@@ -4,11 +4,14 @@ var routes = [{
          * 民警列表
          * @param state 状态 未核查0 已核查1
          * @param cid 企业id
+         * @return company 企业信息
+         *          list 未带身份证数据
          */
         route: "/example/api/task.json",
         handle: function(req, res, next) {
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
+                company:{name:'瓦力科技',address:'南岗区嵩山路19号',type:{name:"软件",id:'k1'},police:{name:'林琳',id:'p1'},groupType:0,fireState:0},
                 list: [
                     { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
                     { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
@@ -40,11 +43,14 @@ var routes = [{
          * 所领导列表
          * @param state 状态 未核查0 已核查1id
          * @param cid 企业id
+         * @return company 企业信息
+         *          list 未带身份证数据
          */
         route: "/example/api/task/leader.json",
         handle: function(req, res, next) {
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
+                company:{name:'瓦力科技',address:'南岗区嵩山路19号',type:{name:"软件",id:'k1'},police:{name:'林琳',id:'p1'},groupType:0,fireState:0},
                 list: [
                     { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
                     { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
