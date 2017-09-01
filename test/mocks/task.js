@@ -10,18 +10,18 @@ var routes = [{
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
                 list: [
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 },
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 },
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 }
+                    { id: 'key1', card: '230105199603022201', state:"0", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"0", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"0", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"0", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 }
                 ],
                 undo: 55,
                 done: 1020
@@ -46,18 +46,18 @@ var routes = [{
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
                 list: [
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 },
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 },
-                    { id: 'key1', card: '230105199603022201', company: '禧龙宾馆1', createTime: 1482214046832 },
-                    { id: 'key2', card: '230105199603022202', company: '旅店2', createTime: 1482214046832 },
-                    { id: 'key3', card: '230105199603022203', company: '旅店3', createTime: 1482214046832 },
-                    { id: 'key4', card: '230105199603022204', company: '旅店4', createTime: 1482214046832 }
+                    { id: 'key1', card: '230105199603022201', state:"0", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"0", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"0", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"0", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 }
                 ],
                 undo: 100,
                 done: 955
@@ -67,6 +67,11 @@ var routes = [{
     {
         /**
          * 按企业统计列表
+         * @param typeIds 企业类型id sep ,
+         * @param policeIds 民警id sep ,
+         * @param name 企业名称
+         * @param createTimeStartStr 数据起始日期 yyyy-MM-dd
+         * @param createTimeEndStr 数据结束日期 yyyy-MM-dd
          * @param state 状态 未核查0 已核查1id
          * @param cid 企业id
          * @return nums 统计
