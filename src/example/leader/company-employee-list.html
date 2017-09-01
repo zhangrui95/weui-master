@@ -75,8 +75,10 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var cid = $('#hotel').val()
         var container = $('#container');
+        var cid = container.data('hotel-cid');
+        var createTimeStartStr=container.data('data-time-start');
+        var createTimeEndStr=container.data('data-time-end');
         var pagePanel = container.find('.page_box .page__bd');
         var currDataListCfg = {
             url: 'api/task/leader.json',
@@ -133,6 +135,6 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({cid:cid});
+        currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
     });
 </script>
