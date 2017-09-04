@@ -12,6 +12,7 @@
         <div class="position-choice" id="choice-alert" style="display:none;background:#55a3e7;">
             <img src="images/Iconset.png" class="choice-img" />
         </div>
+        <div class="alert" id="alert"><p>暂无数据</p></div>
         <div class="page__bd cell-y bg-page bottom-cell">
             <div id="box" class="bg-box">
                 <div class="weui-tab__panel panel_none">
@@ -92,12 +93,21 @@
                     else $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
                     if(data.undo) $('#number-left').html('(' + data.undo + ')');
                     $(".weui-cell").on('click', function() {
-                        var id = $(this).data('id');
-                        container.data('detail-source', 'hotel_news');
-                        var tabPanel = tag?'tab1':'tab2';
-                        if(currState=='0') $('#taskId').val($(this).data('tid'));
-                        else container.data('hotel-cid', $(this).data('tid'));
-                        window.pageManager.go(id);
+                        var allnum=$(this).find('.total').text();
+                        if(allnum==0){
+                            $searchInput.blur();
+                            $('#alert').fadeIn(100);
+                            setTimeout(function () {
+                                $('#alert').fadeOut(100);
+                            }, 2000);
+                        }else{
+                            var id = $(this).data('id');
+                            container.data('detail-source', 'hotel_news');
+                            var tabPanel = tag?'tab1':'tab2';
+                            if(currState=='0') $('#taskId').val($(this).data('tid'));
+                            else container.data('hotel-cid', $(this).data('tid'));
+                            window.pageManager.go(id);
+                        }
                     });
                 },
                 emptyCb : function () {
@@ -126,7 +136,7 @@
                     if(currState=='0'){
                         var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
                         return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
-                            '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<div class="weui-cell__bd cell_bd_border"  style="padding-right: 50px;box-sizing: border-box;">' +
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
                             '<p class="left-cell item-width">' + data.company +'</p><div class="weui-cell__ft cell_fs left-cell">' +
                             '<img src="images/icon-time.jpg" class="position-time"/>' +
@@ -137,11 +147,11 @@
                         var done = nums.done || 0
                         var num = nums.num || 0
                         return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
-                            '<div class="weui-cell__bd cell_bd_border" >' +
+                            '<div class="weui-cell__bd cell_bd_border" style="padding-right: 50px;box-sizing: border-box;">' +
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
                             '<p class="left-cell item-width">' + data.item.name +'</p><div class="weui-cell__ft cell_fs left-cell">' +
                             '<span style="margin:0">地址：' + data.item.address + '</span>' +
-                            '<span style="position: absolute;right: 15px;top: 30px;">' + done + '/' + num + '</span>' +
+                            '<span style="position: absolute;right: 15px;top: 30px;">' + done + '/<span class="total" style="margin:0">' + num + '</span></span>' +
                             '</div></div></div>'
                     }
                 },

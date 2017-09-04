@@ -89,7 +89,7 @@
                 var data = xhr;
                 $('#cel-name').html(data.company.name);
                 $('#cel-addr').html(data.company.address);
-                $('#cel-nums').html('<span style="color:red">'+data.undo+'</span>/<span>'+(data.done+data.undo)+'</span>')
+                $('#cel-nums').html('<span style="color:red">'+data.done+'</span>/<span>'+(data.done+data.undo)+'</span>')
                 $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
