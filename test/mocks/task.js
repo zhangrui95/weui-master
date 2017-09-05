@@ -1,7 +1,7 @@
 var fs = require('fs');
 var routes = [{
         /**
-         * 民警列表
+         * 民警按值班列表
          * @param state 状态 未核查0 已核查1
          * @param cid 企业id
          * @return company 企业信息
@@ -47,6 +47,38 @@ var routes = [{
          *          list 未带身份证数据
          */
         route: "/example/api/task/leader.json",
+        handle: function(req, res, next) {
+            res.setHeader('Content-Type', 'application/json; charset=UTF-8');
+            res.end(JSON.stringify({
+                company:{name:'瓦力科技',address:'南岗区嵩山路19号',type:{name:"软件",id:'k1'},police:{name:'林琳',id:'p1'},groupType:0,fireState:0},
+                list: [
+                    { id: 'key1', card: '230105199603022201', state:"0", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"0", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"0", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"0", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 },
+                    { id: 'key1', card: '230105199603022201', state:"1", company: '禧龙宾馆1', createTime: 1482214046832 },
+                    { id: 'key2', card: '230105199603022202', state:"1", company: '旅店2', createTime: 1482214046832 },
+                    { id: 'key3', card: '230105199603022203', state:"1", company: '旅店3', createTime: 1482214046832 },
+                    { id: 'key4', card: '230105199603022204', state:"1", company: '旅店4', createTime: 1482214046832 }
+                ],
+                undo: 100,
+                done: 955
+            }));
+        }
+    },
+    {
+        /**
+         * 民警按辖区列表
+         * @param state 状态 未核查0 已核查1id
+         * @param cid 企业id
+         * @return company 企业信息
+         *          list 未带身份证数据
+         */
+        route: "/example/api/task/listByPolice.json",
         handle: function(req, res, next) {
             res.setHeader('Content-Type', 'application/json; charset=UTF-8');
             res.end(JSON.stringify({
