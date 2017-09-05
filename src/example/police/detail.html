@@ -39,6 +39,7 @@
         function lists(data) {
             var task = data.task;
             var rota = task.doneUser.id;
+            var policeName = task.doneUser.name;
             var companyObj = data.company||{};
             var address = companyObj.address;
             address = address==null?'':address;
@@ -89,13 +90,19 @@
                 }
             }else{
                 height = '95%';
-                html+='<div class="none-flex cell-border cell-margin border-margin"  id="fin-time">'+
+                html+='<div class="none-flex cell-border"  id="fin-time">'+
                         '<div class="weui-cell__hd"><label class="weui-label">完成时间</label></div>'+
                          '<div class="weui-cell__bd bd-right">'+
                             getLocalTime(task.doneTime)+
                         '</div>'+
                     '</div>'
             }
+            html +='<div class="none-flex cell-border cell-margin border-margin">'+
+                        '<div class="weui-cell__hd"><label class="weui-label">值班民警</label></div>'+
+                        '<div class="weui-cell__bd bd-right">'+
+                            policeName+
+                        '</div>'+
+                    '</div>';
             html += '</div>';
             $('.page_y').css('height',height);
             $('.cells-ajax').html(html);
