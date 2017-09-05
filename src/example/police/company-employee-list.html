@@ -89,7 +89,7 @@
                 var data = xhr;
                 $('#cel-name').html(data.company.name);
                 $('#cel-addr').html(data.company.address);
-                $('#cel-nums').html('<span style="color:red">'+data.done+'</span>/<span>'+(data.done+data.undo)+'</span>')
+                $('#cel-nums').html('<span style="color:red">'+data.undo+'</span>/<span>'+(data.done+data.undo)+'</span>')
                 $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
@@ -111,7 +111,7 @@
                 return $('#tab1 .weui-cells');
             },
             templateProcess: function(item) {
-                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
+                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;">未核查</span>'
                 return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + item.id + '">' +
                     '<div class="weui-cell__bd cell_bd_border" >' +
                     '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +

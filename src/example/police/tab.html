@@ -2,7 +2,7 @@
 <div class="page page_box page-list">
         <div class="weui-tab">
             <div class="weui-navbar">
-                <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">值班核查</div>
+                <div class="weui-navbar__item weui-bar__item_on" href="#tab1" data-state="0">值班核查<span id="number-left"></span></div>
                 <div class="weui-navbar__item" href="#tab2" data-state="1">辖区统计</div>
             </div>
         </div>
@@ -79,7 +79,8 @@
     <script type="text/javascript">
         $(function() {
             var container = $('#container');
-            var currState = container.data('detail-source-state')||'0';
+            // var currState = container.data('detail-source-state')||'0';
+            var currState = '0';
             changeTab(currState)
             var pagePanel = container.find('.page_box .page__bd');
             var currDataListCfg = {
@@ -89,8 +90,14 @@
                 xhrExternalProcess: function(params, xhr) {
                     var data = xhr;
                     var tag = currState=='0';
-                    if(tag) $("#total").html('全部人数：<span>'+(data.undo+data.done)+'</span>')
-                    else $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
+                    if(tag) {
+                        container.data('data-nums-undo',data.undo)
+                        $("#total").html('全部人数：<span>'+(data.undo+data.done)+'</span>')
+                    }else {
+                        $("#total").html('全部企业：<span style="margin-right:20px;">'+data.total+'</span>全部人数：<span>'+data.nums.num+'</span>')
+                    }
+                    var undo = container.data('data-nums-undo') || '0'
+                    $('#number-left').html('('+undo+')')
                     if(data.undo) $('#number-left').html('(' + data.undo + ')');
                     $(".weui-cell").on('click', function() {
                         var allnum=$(this).find('.total').text();
@@ -130,11 +137,11 @@
                     return $('#'+(currState=='0'?'tab1':'tab2'));
                 },
                 getUrl : function() {
-                    return currState=='0'?'api/task/leader.json':'api/task/companies.json';
+                    return currState=='0'?'api/task.json':'api/task/companies.json';
                 },
                 templateProcess: function(data) {
                     if(currState=='0'){
-                        var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;">未核查</span>'
+                        var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;">未核查</span>'
                         return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
                             '<div class="weui-cell__bd cell_bd_border"  style="padding-right: 50px;box-sizing: border-box;">' +
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
@@ -151,7 +158,7 @@
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
                             '<p class="left-cell item-width">' + data.item.name +'</p><div class="weui-cell__ft cell_fs left-cell">' +
                             '<span style="margin:0">地址：' + data.item.address + '</span>' +
-                            '<span style="position: absolute;right: 15px;top: 30px;">' + done + '/<span class="total" style="margin:0">' + num + '</span></span>' +
+                            '<span style="position: absolute;right: 15px;top: 30px;">' + (num-done) + '/<span class="total" style="margin:0">' + num + '</span></span>' +
                             '</div></div></div>'
                     }
                 },
@@ -300,7 +307,7 @@
             });
             $('#pickerEnd').on('click', function() {
                 weui.datePicker({
-                    start: 2000,
+                    start: 2017,
                     end: new Date().getFullYear(),
                     onConfirm: function(result) {
                         $('#all-picker').removeClass('choice-after');

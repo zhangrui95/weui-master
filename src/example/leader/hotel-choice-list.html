@@ -137,7 +137,7 @@
                     '</p>' +
                     '<div class="weui-cell__ft cell_fs left-cell">' +
                     '<span style="margin:0">辖区：' + data.item.police.name + '</span>' +
-                    '<span style="position: absolute;right: 15px;top: 30px;">' + done + '/<span class="total" style="margin:0">' + num + '</span></span>' +
+                    '<span style="position: absolute;right: 15px;top: 30px;">' + (num-done) + '/<span class="total" style="margin:0">' + num + '</span></span>' +
                     '</div>' +
                     '</div>' +
                     '</div>'
@@ -264,7 +264,7 @@
         });
         $('#pickerEnd').on('click', function() {
             weui.datePicker({
-                start: 2000,
+                start: 2017,
                 end: new Date().getFullYear(),
                 onConfirm: function(result) {
                     $('#all-picker').removeClass('choice-after');
