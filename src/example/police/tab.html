@@ -9,7 +9,7 @@
         <div class="weui-media-box">
             <p class="weui-media-box__desc" id="total"></p>
         </div>
-        <div class="position-choice" id="choice-alert" style="display:none;background:#55a3e7;">
+        <div class="position-choice" id="choice-alert" style="background:#55a3e7;">
             <img src="images/Iconset.png" class="choice-img" />
         </div>
         <div class="alert" id="alert"><p>暂无数据</p></div>
@@ -80,6 +80,8 @@
         $(function() {
             var container = $('#container');
             var currState = container.data('detail-source-state')||'0';
+            container.data('data-time-start','');
+            container.data('data-time-end','');
             changeTab(currState)
             var pagePanel = container.find('.page_box .page__bd');
             var currDataListCfg = {

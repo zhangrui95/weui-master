@@ -80,6 +80,8 @@
     $(function() {
         var container = $('#container');
         var currState = container.data('detail-source-state')||'0';
+        container.data('data-time-start','');
+        container.data('data-time-end','');
         changeTab(currState)
         var pagePanel = container.find('.page_box .page__bd');
         var currDataListCfg = {
