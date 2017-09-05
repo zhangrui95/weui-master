@@ -1,9 +1,8 @@
 <!--旅店信息-->
 <div class="page page_box page-list">
-    <div class="weui-media-box">
-        <h3 id="cel-name" style="width:80%;"></h3>
-        <p style="color:gray">地址:<span id="cel-addr"></span></p>
-        <span style="position:absolute;top:25px;right:10px;" id="cel-nums"></span>
+    <div class="fire-header blue-header"></div>
+    <div class="weui-media-box" style="padding:10px 15px;">
+        <p style="color:gray">地址:<span id="head-addr"></span></p>
     </div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
@@ -87,9 +86,20 @@
             winPanel: container.find('.page_box'),
             xhrExternalProcess: function(params, xhr) {
                 var data = xhr;
-                $('#cel-name').html(data.company.name);
-                $('#cel-addr').html(data.company.address);
-                $('#cel-nums').html('<span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+(data.done+data.undo)+'</span>')
+                $('.fire-header').html(
+                    '<div  class="fire-company-name" id="head-name"></div>'+
+                    '<marquee  class="fire-company-name" id="head-name-scroll"></marquee>'+
+                    '<span class="num-right"><span class="type-red">'+data.undo+
+                    '</span>/<span style="color:#fff;">'+(data.done+data.undo)+'</span></span>'
+                )
+                if(data.company.name.length>15){
+                    $('#head-name-scroll').html(data.company.name);
+                    $('#head-name').hide();
+                }else{
+                    $('#head-name').html(data.company.name);
+                    $('#head-name-scroll').hide();
+                }
+                $('#head-addr').html(data.company.address);
                 $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
@@ -111,14 +121,16 @@
                 return $('#tab1 .weui-cells');
             },
             templateProcess: function(data) {
-                var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;padding: 2px 6px;">未核查</span>'
-                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
-                    '<div class="weui-cell__bd cell_bd_border"  style="padding-right: 50px;box-sizing: border-box;">' +
-                    '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                    '<p class="left-cell item-width">' + data.card +'</p><div class="weui-cell__ft cell_fs left-cell">' +
-                    '<img src="images/icon-time.jpg" class="position-time" style="top:50px"/>' +
-                    '<span>' + getLocalTime(data.createTime) + '</span>' +
-                    stateTemp + '</div></div></div>'
+                var stateTemp = data.state==1?'':'<span class="weui-badge" style="box-shadow: none;padding: 2px 6px;">未核查</span>'
+                return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="detail" data-tid="' + data.id + '">' +
+                    '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                    '<div class="weui-cell__bd size-width">'+
+                    '<div class="overflow-ellipsis"><span class="item-width">'+data.card+'</span></div>'+
+                    '<div class="weui-cell__ft cell_fs left-cell">' + 
+                    '<img src="images/icon-time.jpg" class="position-time" style="top:53px;left:28px;"/>' +
+                    getLocalTime(data.createTime)+'</div>'+
+                    '</div><span class="num-right">'+
+                    stateTemp +'</span></label>';
             },
             before: function() {
                 $("#load").show();

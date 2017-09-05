@@ -139,14 +139,16 @@
             },
             templateProcess: function(data) {
                 if(currState=='0'){
-                    var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;padding: 2px 6px;">未核查</span>'
-                    return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
-                        '<div class="weui-cell__bd cell_bd_border" style="padding-right: 50px;box-sizing: border-box;">' +
-                        '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                        '<p class="left-cell item-width">' + data.company +'</p><div class="weui-cell__ft cell_fs left-cell">' +
-                        '<img src="images/icon-time.jpg" class="position-time" style="top:50px"/>' +
-                        '<span>' + getLocalTime(data.createTime) + '</span>' +
-                        stateTemp + '</div></div></div>'
+                    var stateTemp = data.state==1?'':'<span class="weui-badge" style="box-shadow: none;padding: 2px 6px;">未核查</span>'
+                    return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="detail" data-tid="' + data.id + '">' +
+                        '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                        '<div class="weui-cell__bd size-width">'+
+                        '<div class="overflow-ellipsis"><span class="item-width">'+data.company+'</span></div>'+
+                        '<div class="weui-cell__ft cell_fs left-cell">' + 
+                        '<img src="images/icon-time.jpg" class="position-time" style="top:53px;left:28px;"/>' +
+                        getLocalTime(data.createTime)+'</div>'+
+                        '</div><span class="num-right">'+
+                        stateTemp +'</span></label>';
                 }else{
                     var nums = data.nums || {};
                     var done = nums.done || 0
