@@ -79,6 +79,7 @@
         var createTimeEndStr=container.data('data-time-end');
         resetPicker ()
         var val = container.data('data-choice-val-ids');
+        container.data('data-choice-val-ids',"");
         $('#choice-alert').on('drag',function(x,y){
             return {x:x-25,y:y-25}
         }).on('click',function(){
@@ -165,7 +166,8 @@
             }
         }).on('click', function() {
             $searchInput.val('');
-            $('#all-picker,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+            resetPicker()
             inPop(function() {
                 $('#filtrate').fadeOut(100);
             });
@@ -184,8 +186,8 @@
         }
 
         function polices(data) {
-            for (var i = 0; i < data.persons.length; i++) {
-                var items = data.persons[i];
+            for (var i = 0; i < data.length; i++) {
+                var items = data[i];
                 var nums = items.nums;
                 nums = nums == null ? {
                     num: 0,
@@ -198,13 +200,15 @@
                     num = 0;
                     undone = 0;
                 }
-                $('#area').append('<li class="white-border polices" id="' + items.id + '"><span class="item-name">' + items.name + '</span><span>(<span class="type-red">' + undone + '</span>/<span class="type-blue">' + num + '</span>)</span></li>');
+                $('#area').append('<li class="white-border polices" id="' + items.id + '"><span class="item-name">' + items.name + '</span><span>'+
+                    // '(<span class="type-red">' + undone + '</span>/<span class="type-blue">' + num + '</span>)'+
+                    '</span></li>');
                 $('#area li').eq(0).css('color', '#55a3e7');
             }
         }
         $.ajax({
             type: "POST",
-            url: "api/employee/info.json",
+            url: "api/user/policeHadArea.json",
             data: {
                 userid: $('#userid').val(),
             },
@@ -301,9 +305,9 @@
             var texts = [];
             var policeIds = [];
             var val = $searchInput.val();
+            container.data('data-choice-val-ids',val);
             var createTimeStartStr = container.data('data-time-start');
             var createTimeEndStr = container.data('data-time-end');
-            resetPicker()
             $('.polices.choice-after').each(function() {
                 policeIds.push($(this).attr('id'));
             })
