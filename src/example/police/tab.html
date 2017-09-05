@@ -79,8 +79,7 @@
     <script type="text/javascript">
         $(function() {
             var container = $('#container');
-            // var currState = container.data('detail-source-state')||'0';
-            var currState = '0';
+            var currState = container.data('detail-source-state')||'0';
             changeTab(currState)
             var pagePanel = container.find('.page_box .page__bd');
             var currDataListCfg = {
@@ -100,7 +99,7 @@
                     $('#number-left').html('('+undo+')')
                     if(data.undo) $('#number-left').html('(' + data.undo + ')');
                     $(".weui-cell").on('click', function() {
-                        var allnum=$(this).find('.total').text();
+                        var allnum=$(this).find('.type-blue').text();
                         if(allnum==0){
                             $searchInput.blur();
                             $('#alert').fadeIn(100);
@@ -141,25 +140,26 @@
                 },
                 templateProcess: function(data) {
                     if(currState=='0'){
-                        var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;">未核查</span>'
+                        var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;padding: 2px 6px;">未核查</span>'
                         return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
                             '<div class="weui-cell__bd cell_bd_border"  style="padding-right: 50px;box-sizing: border-box;">' +
                             '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
                             '<p class="left-cell item-width">' + data.company +'</p><div class="weui-cell__ft cell_fs left-cell">' +
-                            '<img src="images/icon-time.jpg" class="position-time"/>' +
+                            '<img src="images/icon-time.jpg" class="position-time" style="top:50px"/>' +
                             '<span>' + getLocalTime(data.createTime) + '</span>' +
                             stateTemp + '</div></div></div>'
                     }else{
                         var nums = data.nums || {};
                         var done = nums.done || 0
                         var num = nums.num || 0
-                        return '<div class="weui-cell bg-cell"  data-id="company-employee-list" data-tid="' + data.item.id + '">' +
-                            '<div class="weui-cell__bd cell_bd_border" style="padding-right: 50px;box-sizing: border-box;">' +
-                            '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                            '<p class="left-cell item-width">' + data.item.name +'</p><div class="weui-cell__ft cell_fs left-cell">' +
-                            '<span style="margin:0">地址：' + data.item.address + '</span>' +
-                            '<span style="position: absolute;right: 15px;top: 30px;">' + (num-done) + '/<span class="total" style="margin:0">' + num + '</span></span>' +
-                            '</div></div></div>'
+                        return '<label class="weui-cell weui-check__label check-border employee_lis" data-id="company-employee-list" data-tid="' + data.item.id+'">'+
+                            '<div><img src="images/list-left.jpg" class="border-right-img-mall"/></div>'+
+                            '<div class="weui-cell__bd size-width">'+
+                            '<div class="overflow-ellipsis"><span class="item-width">'+data.item.name+'</span></div>'+
+                            '<div class="cell_fs weui-cell__ft overflow-ellipsis">地址：' + data.item.address + '</div>'+
+                            '</div>'+
+                            '<span class="num-right"><span class="type-red">'+(num-done)+'</span> / <span class="type-blue">'+num+'</span></span>'+
+                            '</label>';
                     }
                 },
                 before: function() {
@@ -284,7 +284,7 @@
             });
             $('#pickerStart').on('click', function() {
                 weui.datePicker({
-                    start: 2000,
+                    start: 2017,
                     end: new Date().getFullYear(),
                     onConfirm: function(result) {
                         $('#all-picker').removeClass('choice-after');

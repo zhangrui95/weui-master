@@ -3,6 +3,7 @@
     <div id="menu" class="weui-grids"></div>
 </div>
 <script>
+     $('#container').data('detail-source-state',"0");
     var target = $('#userPost').val();
     target = target == null || target == '' ? 'police' : target;
     var menuOpt = {

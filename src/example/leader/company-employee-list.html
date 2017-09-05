@@ -89,7 +89,7 @@
                 var data = xhr;
                 $('#cel-name').html(data.company.name);
                 $('#cel-addr').html(data.company.address);
-                $('#cel-nums').html('<span style="color:red">'+data.undo+'</span>/<span>'+(data.done+data.undo)+'</span>')
+                $('#cel-nums').html('<span class="type-red">'+data.undo+'</span>/<span class="type-blue">'+(data.done+data.undo)+'</span>')
                 $(".weui-cell").on('click', function() {
                     var id = $(this).data('id');
                     container.data('detail-source', 'hotel_news');
@@ -110,21 +110,15 @@
             getItemsPanel: function() {
                 return $('#tab1 .weui-cells');
             },
-            templateProcess: function(item) {
-                var stateTemp = item.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;">未核查</span>'
-                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + item.id + '">' +
-                    '<div class="weui-cell__bd cell_bd_border" >' +
+            templateProcess: function(data) {
+                var stateTemp = data.state==1?'':'<span class="weui-badge" style="position: absolute;right: 15px;top: 30px;box-shadow: none;padding: 2px 6px;">未核查</span>'
+                return '<div class="weui-cell bg-cell"  data-id="detail" data-tid="' + data.id + '">' +
+                    '<div class="weui-cell__bd cell_bd_border"  style="padding-right: 50px;box-sizing: border-box;">' +
                     '<div><img src="images/list-left.jpg" class="border-right-img"/></div>' +
-                    '<p class="left-cell item-width">' +
-                    item.card +
-                    '</p>' +
-                    '<div class="weui-cell__ft cell_fs left-cell">' +
-                    '<img src="images/icon-time.jpg" class="position-time"/>' +
-                    '<span>' + getLocalTime(item.createTime) + '</span>' +
-                    stateTemp +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
+                    '<p class="left-cell item-width">' + data.card +'</p><div class="weui-cell__ft cell_fs left-cell">' +
+                    '<img src="images/icon-time.jpg" class="position-time" style="top:50px"/>' +
+                    '<span>' + getLocalTime(data.createTime) + '</span>' +
+                    stateTemp + '</div></div></div>'
             },
             before: function() {
                 $("#load").show();
