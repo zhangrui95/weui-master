@@ -1,14 +1,14 @@
 <div class="page page-list">
-    <div class="fire-list-head">
-        <div class="fire-header" id="fire-choice-header" style="background:#55a3e7">
-            <div class="fire-header-left">
-                <span class="fire-head-name">筛选结果</span>
-            </div>
-            <div class="position-choice" id="choice-alert" style="background:#55a3e7;">
-                <img src="images/Iconset.png" class="choice-img" />
+        <div class="fire-list-head">
+            <div class="fire-header blue-header" id="fire-choice-header">
+                <div class="fire-header-left">
+                    <span class="fire-head-name">筛选结果</span>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="position-choice" id="choice-alert" style="background:#55a3e7;">
+            <img src="images/Iconset.png" class="choice-img" />
+        </div>
     <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="page__bd cell-y bg-page">
         <div id="box" class="bg-box">
@@ -100,6 +100,9 @@
             winPanel:container,
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
+                var data = xhr;
+                $("#fire-choice-header").append('<span class="num-right" style="line-height:60px;"><span class="type-red">'+data.nums.undo+
+                    '</span>/<span style="color:#fff;">'+data.nums.num+'</span></span>')
                 $(".weui-cell").on('click', function() {
                     var allnum=$(this).find('.total').text();
                     if(allnum==0){
