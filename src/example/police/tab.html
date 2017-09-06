@@ -295,7 +295,7 @@
                     end: new Date().getFullYear(),
                     onConfirm: function(result) {
                         $('#all-picker').removeClass('choice-after');
-                        var createTimeEndStr = container.data('data-time-end');
+                        var createTimeEndStr = $('#pickerEnd').val();
                         var endTime = 0;
                         var startTime = new Date().setFullYear(result[0], result[1], result[2])
                         if (createTimeEndStr) {
@@ -317,7 +317,7 @@
                     end: new Date().getFullYear(),
                     onConfirm: function(result) {
                         $('#all-picker').removeClass('choice-after');
-                        var createTimeStartStr = container.data('data-time-start');
+                        var createTimeStartStr = $('#pickerStart').val();
                         var endTime = new Date().setFullYear(result[0], result[1], result[2])
                         var startTime = 0
                         if (createTimeStartStr) {

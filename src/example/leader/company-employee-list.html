@@ -4,9 +4,6 @@
     <div class="weui-media-box" style="padding:10px 15px;">
         <p style="color:gray">地址:<span id="head-addr"></span></p>
     </div>
-    <div class="position-choice" id="choice-alert" style="top:70%;">
-        <img src="images/Iconset.png" class="choice-img" />
-    </div>
     <div class="page__bd cell-y bg-page bottom-cell">
         <div id="box" class="bg-box">
             <div class="weui-tab__panel panel_none" id="list">
@@ -135,7 +132,8 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        if(container.data('data-detail-source')="hotel_news"){
+        if(container.data('data-pop-hash')=='hotel-choice-list'){
+            container.data('data-pop-hash','')
             currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         }else{
             currDataList.first({cid:cid});
