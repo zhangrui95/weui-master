@@ -152,8 +152,8 @@
             })
             $('#all-picker').on('click', function() {
                 $('#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
-                $('#pickerStart').text('开始时间');
-                $('#pickerEnd').text('结束时间');
+                $('#pickerStart').val('');
+                $('#pickerEnd').val('');
             });
             $('.polices').on('click', function() {
                 $(this).toggleClass('choice-after');
@@ -216,8 +216,8 @@
         }).on('click', function() {
             $searchInput.val('');
             $('#all-polices,#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
-            $('#pickerStart').text('开始时间');
-            $('#pickerEnd').text('结束时间');
+            $('#pickerStart').val('');
+            $('#pickerEnd').val('');
             inPop(function() {
                 $('#filtrate').fadeOut(100);
             });
@@ -226,8 +226,8 @@
         $('#reset,#clear').on('click',function () {
             $searchInput.val('');
             $('#all-polices,#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
-            $('#pickerStart').text('开始时间');
-            $('#pickerEnd').text('结束时间');
+            $('#pickerStart').val('');
+            $('#pickerEnd').val('');
         });
         $('#clear').on('click', function() {
             $('#filtrate').fadeOut(100);
@@ -238,7 +238,7 @@
                 end: new Date().getFullYear(),
                 onConfirm: function(result) {
                     $('#all-picker').removeClass('choice-after');
-                    var createTimeEndStr = $('#pickerEnd').text()
+                    var createTimeEndStr = $('#pickerEnd').val()
                     var endTime = 0;
                     var startTime = new Date().setFullYear(result[0], result[1], result[2])
                     if (createTimeEndStr) {
@@ -249,7 +249,7 @@
                         $('#iosDialog2').fadeIn(200);
                     } else {
                         var createTimeStartStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
-                        $('#pickerStart').text(createTimeStartStr)
+                        $('#pickerStart').val(createTimeStartStr)
                         container.data('data-time-start', createTimeStartStr);
                     }
                 },
@@ -261,7 +261,7 @@
                 end: new Date().getFullYear(),
                 onConfirm: function(result) {
                     $('#all-picker').removeClass('choice-after');
-                    var createTimeStartStr =  $('#pickerStart').text();
+                    var createTimeStartStr =  $('#pickerStart').val();
                     var endTime = new Date().setFullYear(result[0], result[1], result[2])
                     var startTime = 0
                     if (createTimeStartStr) {
@@ -272,7 +272,7 @@
                         $('#iosDialog2').fadeIn(200);
                     } else {
                         var createTimeEndStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
-                        $('#pickerEnd').text(createTimeEndStr)
+                        $('#pickerEnd').val(createTimeEndStr)
                         container.data('data-time-end', createTimeEndStr);
                     }
 
@@ -287,8 +287,8 @@
             var texts = [];
             var policeIds = [];
             var val = $searchInput.val();
-            var createTimeStartStr = $('#pickerStart').text();
-            var createTimeEndStr = $('#pickerEnd').text();
+            var createTimeStartStr = $('#pickerStart').val();
+            var createTimeEndStr = $('#pickerEnd').val();
             $('.polices.choice-after').each(function() {
                 policeIds.push($(this).attr('id'));
             })
