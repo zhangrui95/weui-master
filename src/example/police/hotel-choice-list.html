@@ -4,6 +4,7 @@
                 <div class="fire-header-left">
                     <span class="fire-head-name">筛选结果</span>
                 </div>
+                <span class="num-right" style="line-height:60px;"></span>
             </div>
         </div>
         <div class="position-choice" id="choice-alert" style="background:#55a3e7;">
@@ -39,7 +40,7 @@
             <div class="picker-box">
                 <div class="choice-title">时间</div>
                 <div class="cover-all-box">
-                    <span id="all-picker" class="all choice-after" style="background:none;">全部</span><span id="pickerStart" class="picker-button">开始时间</span>—<span id="pickerEnd" class="picker-button">结束时间</span>
+                    <span id="all-picker" class="all choice-after" style="background:none;">全部</span><input id="pickerStart" class="picker-button" placeholder="开始时间"/>—<input id="pickerEnd" class="picker-button" placeholder="结束时间"/>
                 </div>
             </div>
             <!-- <div class="area-box">
@@ -77,21 +78,7 @@
         var policeids=container.data('data-choice-police-ids');
         var createTimeStartStr=container.data('data-time-start');
         var createTimeEndStr=container.data('data-time-end');
-        resetPicker ()
         var val = container.data('data-choice-val-ids');
-        $('#choice-alert').on('drag',function(x,y){
-            return {x:x-25,y:y-25}
-        }).on('click',function(){
-            $searchInput.val('');
-            $('#all-types,#all-years,#all-period,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
-            inPop(function(){
-                $('#filtrate').fadeOut(100);
-            });
-            $('#filtrate').fadeIn(100);
-        });
-        $('#clear').on('click',function () {
-            $('#filtrate').fadeOut(100);
-        })
         var pagePanel = $('.page__bd');
         var currDataListCfg = {
             url:'api/task/policeCompanies.json',
@@ -101,8 +88,8 @@
             itemsPanel:$('#list'),
             xhrExternalProcess : function (params,xhr) {
                 var data = xhr;
-                $("#fire-choice-header").append('<span class="num-right" style="line-height:60px;"><span class="type-red">'+data.nums.undo+
-                    '</span>/<span style="color:#fff;">'+data.nums.num+'</span></span>')
+                $("#fire-choice-header .num-right").html('<span class="type-red">'+data.nums.undo+
+                    '</span>/<span style="color:#fff;">'+data.nums.num+'</span>')
                 $(".weui-cell").on('click', function() {
                     var allnum=$(this).find('.total').text();
                     if(allnum==0){
@@ -158,26 +145,16 @@
         $searchClear.on('click', function() {
             $searchInput.val('');
         })
-        $('#choice-alert').on('drag', function(x, y) {
-            return {
-                x: x - 25,
-                y: y - 25
-            }
-        }).on('click', function() {
-            $searchInput.val('');
-            $('#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
-            resetPicker()
-            inPop(function() {
-                $('#filtrate').fadeOut(100);
-            });
-            $('#filtrate').fadeIn(100);
-        });
-
         function click() {
             $('#all-types,#all-polices').on('click', function() {
                 $(this).siblings().removeClass('choice-after');
                 $(this).toggleClass('choice-after');
             })
+            $('#all-picker').on('click', function() {
+                $('#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
+                $('#pickerStart').text('开始时间');
+                $('#pickerEnd').text('结束时间');
+            });
             $('.polices').on('click', function() {
                 $(this).toggleClass('choice-after');
                 $('#all-polices').removeClass('choice-after');
@@ -231,10 +208,26 @@
         function outPop() {
             pageManager.setBeforeHashchangeOnce(null);
         }
+        $('#choice-alert').on('drag', function(x, y) {
+            return {
+                x: x - 25,
+                y: y - 25
+            }
+        }).on('click', function() {
+            $searchInput.val('');
+            $('#all-polices,#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#pickerStart').text('开始时间');
+            $('#pickerEnd').text('结束时间');
+            inPop(function() {
+                $('#filtrate').fadeOut(100);
+            });
+            $('#filtrate').fadeIn(100);
+        });
         $('#reset,#clear').on('click',function () {
             $searchInput.val('');
-            $('#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
-            resetPicker ()
+            $('#all-polices,#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
+            $('#pickerStart').text('开始时间');
+            $('#pickerEnd').text('结束时间');
         });
         $('#clear').on('click', function() {
             $('#filtrate').fadeOut(100);
@@ -245,7 +238,7 @@
                 end: new Date().getFullYear(),
                 onConfirm: function(result) {
                     $('#all-picker').removeClass('choice-after');
-                    var createTimeEndStr = container.data('data-time-end');
+                    var createTimeEndStr = $('#pickerEnd').text()
                     var endTime = 0;
                     var startTime = new Date().setFullYear(result[0], result[1], result[2])
                     if (createTimeEndStr) {
@@ -268,7 +261,7 @@
                 end: new Date().getFullYear(),
                 onConfirm: function(result) {
                     $('#all-picker').removeClass('choice-after');
-                    var createTimeStartStr = container.data('data-time-start');
+                    var createTimeStartStr =  $('#pickerStart').text();
                     var endTime = new Date().setFullYear(result[0], result[1], result[2])
                     var startTime = 0
                     if (createTimeStartStr) {
@@ -289,29 +282,24 @@
         $('.weui-dialog__btn').on('click', function() {
             $(this).parents('.js_dialog').fadeOut(200);
         });
-        $('#all-picker').on('click', function() {
-            resetPicker()
-        });
-        function resetPicker () {
-            $('#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
-            $('#pickerStart').text('开始时间');
-            $('#pickerEnd').text('结束时间');
-            container.data('data-time-start', '');
-            container.data('data-time-end', '');
-        }
         $('#showToast').on('click', function() {
             outPop();
             var texts = [];
             var policeIds = [];
             var val = $searchInput.val();
-            var createTimeStartStr = container.data('data-time-start');
-            var createTimeEndStr = container.data('data-time-end');
+            var createTimeStartStr = $('#pickerStart').text();
+            var createTimeEndStr = $('#pickerEnd').text();
             $('.polices.choice-after').each(function() {
                 policeIds.push($(this).attr('id'));
             })
             $('.choice-after .item-name').each(function(){
                 texts.push($(this).text());
             });
+            container.data('data-time-start', createTimeStartStr);
+            container.data('data-time-end', createTimeEndStr);
+            container.data('data-choice',texts.join(','));
+            container.data('data-choice-police-ids',policeIds.join(','));
+            container.data('data-choice-val-ids',val);
             currDataList.first({policeIds:policeIds.join(','),name:val,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
             $('#filtrate').fadeOut(100);
         });

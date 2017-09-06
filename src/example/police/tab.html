@@ -44,7 +44,7 @@
                 <div class="picker-box">
                     <div class="choice-title">时间</div>
                     <div class="cover-all-box">
-                        <span id="all-picker" class="all choice-after" style="background:none;">全部</span><span id="pickerStart" class="picker-button">开始时间</span>—<span id="pickerEnd" class="picker-button">结束时间</span>
+                        <span id="all-picker" class="all choice-after" style="background:none;">全部</span><input id="pickerStart" class="picker-button" placeholder="开始时间"/>—<input id="pickerEnd" class="picker-button" placeholder="结束时间"/>
                     </div>
                 </div>
                 <!-- <div class="area-box">
@@ -80,8 +80,6 @@
         $(function() {
             var container = $('#container');
             var currState = container.data('detail-source-state')||'0';
-            container.data('data-time-start','');
-            container.data('data-time-end','');
             changeTab(currState)
             var pagePanel = container.find('.page_box .page__bd');
             var currDataListCfg = {
@@ -211,6 +209,8 @@
             }).on('click', function() {
                 $searchInput.val('');
                 $('#all-picker,#all-polices').addClass('choice-after').siblings().removeClass('choice-after');
+                $('#pickerStart').val('');
+                $('#pickerEnd').val('');
                 inPop(function() {
                     $('#filtrate').fadeOut(100);
                 });
@@ -218,10 +218,15 @@
             });
     
             function click() {
-                $('#all-types,#all-polices').on('click', function() {
+                $('#all-polices').on('click', function() {
                     $(this).siblings().removeClass('choice-after');
                     $(this).toggleClass('choice-after');
                 })
+                $('#all-picker').on('click', function() {
+                    $(this).addClass('choice-after');
+                    $('#pickerStart').val('');
+                    $('#pickerEnd').val('');
+                });
                 $('.polices').on('click', function() {
                     $(this).toggleClass('choice-after');
                     $('#all-polices').removeClass('choice-after');
@@ -278,10 +283,8 @@
             $('#reset,#clear').on('click',function () {
                 $searchInput.val('');
                 $('#all-polices,#all-picker').addClass('choice-after').siblings().removeClass('choice-after');
-                $('#pickerStart').text('开始时间');
-                $('#pickerEnd').text('结束时间');
-                container.data('data-time-start', '');
-                container.data('data-time-end', '');
+                $('#pickerStart').val('');
+                $('#pickerEnd').val('');
             });
             $('#clear').on('click', function() {
                 $('#filtrate').fadeOut(100);
@@ -303,8 +306,7 @@
                             $('#iosDialog2').fadeIn(200);
                         } else {
                             var createTimeStartStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
-                            $('#pickerStart').text(createTimeStartStr)
-                            container.data('data-time-start', createTimeStartStr);
+                            $('#pickerStart').val(createTimeStartStr)               
                         }
                     },
                 });
@@ -326,34 +328,29 @@
                             $('#iosDialog2').fadeIn(200);
                         } else {
                             var createTimeEndStr = result[0] + '-' + (result[1] < 10 ? '0' + result[1] : result[1]) + '-' + result[2];
-                            $('#pickerEnd').text(createTimeEndStr)
-                            container.data('data-time-end', createTimeEndStr);
+                            $('#pickerEnd').val(createTimeEndStr)
                         }
-    
                     }
                 });
             });
             $('.weui-dialog__btn').on('click', function() {
                 $(this).parents('.js_dialog').fadeOut(200);
             });
-            $('#all-picker').on('click', function() {
-                $(this).addClass('choice-after');
-                $('#pickerStart').text('开始时间');
-                $('#pickerEnd').text('结束时间');
-                container.data('data-time-start', '');
-                container.data('data-time-end', '');
-            });
             $('#showToast').on('click', function() {
                 outPop();
                 var policeIds = [];
                 var texts = [];
                 var val = $searchInput.val();
+                var createTimeStartStr = $('#pickerStart').val();
+                var createTimeEndStr = $('#pickerEnd').val();
                 $('.polices.choice-after').each(function() {
                     policeIds.push($(this).attr('id'));
                 })
                 $('.choice-after .item-name').each(function(){
                     texts.push($(this).text());
                 });
+                container.data('data-time-start', createTimeStartStr);
+                container.data('data-time-end', createTimeEndStr);
                 container.data('data-choice',texts.join(','));
                 container.data('data-choice-police-ids',policeIds.join(','));
                 container.data('data-choice-val-ids',val);
