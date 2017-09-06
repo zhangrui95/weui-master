@@ -13,7 +13,7 @@
     <div class="alert" id="alert"><p>暂无数据</p></div>
     <div class="page__bd cell-y bg-page">
         <div id="box" class="bg-box">
-            <div class="weui-tab__panel panel_none" id="list">
+            <div class="weui-tab__panel panel_none" id="list" style="height:100px;overflow:hidden;">
             </div>
             <div class="weui-loadmore" id="load">
                 <i class="weui-loading"></i>
@@ -91,7 +91,6 @@
                 $("#fire-choice-header .num-right").html('<span class="type-red">'+data.nums.undo+
                     '</span>/<span style="color:#fff;">'+data.nums.num+'</span>')
                 $(".weui-cell").on('click', function() {
-                    container.data('data-pop-hash','hotel-choice-list')
                     var allnum=$(this).find('.type-blue').text();
                     if(allnum==0){
                         $searchInput.blur();

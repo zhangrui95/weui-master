@@ -91,7 +91,6 @@
                 $("#fire-choice-header .num-right").html('<span class="type-red">'+data.nums.undo+
                     '</span>/<span style="color:#fff;">'+data.nums.num+'</span>')
                 $(".weui-cell").on('click', function() {
-                    container.data('data-pop-hash','hotel-choice-list')
                     var allnum=$(this).find('.total').text();
                     if(allnum==0){
                         $searchInput.blur();

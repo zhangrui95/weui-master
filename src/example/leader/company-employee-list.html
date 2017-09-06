@@ -132,11 +132,11 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        if(container.data('data-pop-hash')=='hotel-choice-list'){
-            container.data('data-pop-hash','')
-            currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
-        }else{
+        if(container.data('data-pop-hash')=='hotel_news'){
             currDataList.first({cid:cid});
+        }else{
+            currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
         }
+        container.data('data-pop-hash','')
     });
 </script>
