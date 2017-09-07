@@ -79,6 +79,11 @@
 <script type="text/javascript">
     $(function() {
         var container = $('#container');
+        container.data('data-time-start', '');
+        container.data('data-time-end', '');
+        container.data('data-choice', '');
+        container.data('data-choice-police-ids', '');
+        container.data('data-choice-val-ids', '');
         var currState = container.data('detail-source-state')||'0';
         changeTab(currState)
         var pagePanel = container.find('.page_box .page__bd');
