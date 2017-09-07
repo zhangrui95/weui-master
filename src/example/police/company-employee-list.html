@@ -132,11 +132,6 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        if(container.data('pop-hash')=='tab'){
-            currDataList.first({cid:cid});
-        }else{
-            currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
-        }
-        container.data('pop-hash','')
+        currDataList.first({cid:cid,createTimeStartStr:createTimeStartStr,createTimeEndStr:createTimeEndStr});
     });
 </script>
