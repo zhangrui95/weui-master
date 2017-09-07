@@ -111,10 +111,12 @@
                             container.data('detail-source', 'hotel_news');
                             var tabPanel = tag?'tab1':'tab2';
                             if(currState=='0') {
-                            $('#taskId').val($(this).data('tid'));
-                            container.data('data-pop-hash','hotel_news')
-                        }
-                            else container.data('hotel-cid', $(this).data('tid'));
+                                $('#taskId').val($(this).data('tid'));
+                            }
+                            else {
+                                container.data('pop-hash','tab')
+                                container.data('hotel-cid', $(this).data('tid'))
+                            };
                             window.pageManager.go(id);
                         }
                     });
