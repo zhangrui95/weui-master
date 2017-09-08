@@ -129,6 +129,9 @@
             },
             after: function() {
                 $("#load").hide();
+                if($('#head-addr').height() >30){
+                    $('.cell-y').height($(window).height()-50)
+                }
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
