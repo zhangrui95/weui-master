@@ -60,10 +60,20 @@
                 $uploaderInput = $("#uploaderInput"),
                 $uploaderFiles = $("#uploaderFiles"),
                 localId,
-                $container = $('#container');
+                $container = $('#container'),
                 tag = false
                 ;
         var cid =  $container.data('data-company-name-cid');
+
+        var error = function (msg) {
+            var $idCard = $('#idCard');
+            $idCard.html(msg);
+            $idCard.fadeIn(100);
+            setTimeout(function () {
+                $('#idCard').fadeOut(100);
+            }, 2000);
+        };
+
         $uploaderInput.on("click", function(e){
             wx.chooseImage({
                 count: 1, // 默认9
@@ -83,11 +93,7 @@
                     })
                 },
                 fail:function(err){
-                    $('#idCard').html("选择照片失败！");
-                    $('#idCard').fadeIn(100);
-                    setTimeout(function () {
-                        $('#idCard').fadeOut(100);
-                    }, 2000);
+                    error("选择照片失败！");
                 }
             });
         });
@@ -139,17 +145,9 @@
             $('#empty').css('display', 'none');
             var value=$('#card').val();
             if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                error("身份证号码不能为空");
             } else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                error("无效的身份证号码");
                 $('#empty').css('display', 'block');
                 return ;
             }
@@ -166,42 +164,28 @@
             }
         });
         $('#showToast').on('click',function(){
+            if(cid==null||cid==''){
+                error("企业不能为空");
+                return;
+            }
             if(localId==null||localId==''){
-                $('#idCard').html("照片不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                error("照片不能为空");
                 return;
             }
             var value=$('#card').val().toUpperCase();
             if (value == '') {
-                $('#idCard').html("身份证号码不能为空");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                error("身份证号码不能为空");
                 return ;
             } else if(!cardValid(value)){
-                $('#idCard').html("无效的身份证号码");
-                $('#idCard').fadeIn(100);
-                setTimeout(function () {
-                    $('#idCard').fadeOut(100);
-                }, 2000);
+                error("无效的身份证号码");
                 $('#empty').css('display', 'block');
                 return ;
             }
             var phone = /^1[34578]\d{9}$/;
             var phonenum = $('#phone').val();
-            if(phonenum!=''){
-                if(phone.test(phonenum)==false){
-                    $('#idCard').html("手机号码不正确");
-                    $('#idCard').fadeIn(100);
-                    setTimeout(function () {
-                        $('#idCard').fadeOut(100);
-                    }, 2000);
-                    return;
-                }
+            if(phonenum!='' && !phone.test(phonenum)){
+                error("手机号码不正确");
+                return;
             }
             if(tag){
                 return;
@@ -230,6 +214,7 @@
                 data:{card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,mobile:phone,cid:cid},
                 success: function (card) {
                     window.history.go(-1);
+                    tag = false;
                 },
                 error: function () {
                     $('#error').css("display","block");
