@@ -266,7 +266,9 @@
                 });
             });
         }
-        $('#add-new-employee').on('click',function(){
+        $('#add-new-employee').on('drag',function(x,y){
+            return {x:x-25,y:y-25}
+        }).on('click',function(){
             var eid = $(this).data('id');
             window.pageManager.go(eid);
         });
