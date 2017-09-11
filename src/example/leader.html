@@ -75,15 +75,23 @@
     <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
     <script>
         var href = window.location.href;
-        var idx = href.indexOf('menu=');
-        if (idx != -1) {
-            href = href.substring(idx + 5);
-            idx = href.indexOf('&')
-            if (idx != -1) {
-                href = href.substring(0, idx);
+        var setVal = function (obj, href, name) {
+            var idx = href.indexOf(name+'=');
+            if (idx !== -1) {
+                href = href.substring(idx + name.length+1);
+                idx = href.indexOf('#');
+                if (idx !== -1) {
+                    href = href.substring(0, idx);
+                }
+                idx = href.indexOf('&');
+                if (idx !== -1) {
+                    href = href.substring(0, idx);
+                }
+                obj.val(href)
             }
-            $('#userPost').val(href)
-        }
+        };
+        setVal($('#userPost'), href, 'menu');
+        setVal($('#userid'), href, 'userid');
     </script>
     <script src="./example.js"></script>
     <script src="./wx-mock.js"></script>
