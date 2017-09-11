@@ -224,7 +224,7 @@
                 async: true,
                 data:{nomsg:1,card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,mobile:phone,cid:cid},
                 success: function (res) {
-                    if (res.state) {
+                    if (res.state === 1) {
                         $('#iosDialog').find('.weui-dialog__title').html('操作成功')
                         $('#iosDialog').find('.weui-dialog__bd').html('')
                     }else{
