@@ -222,7 +222,7 @@
                 type: "POST",
                 url: "api/employee/save.json",
                 async: true,
-                data:{card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,mobile:phone,cid:cid},
+                data:{nomsg:1,card:value.toUpperCase(),userid:$('#userid').val(),serverId:serverId,mobile:phone,cid:cid},
                 success: function (res) {
                     if (res.state) {
                         $('#iosDialog').find('.weui-dialog__title').html('操作成功')

@@ -1,5 +1,6 @@
 <!--旅店信息-->
 <div class="page page-list">
+    <img class="change-news" src="images/icon-new.png" id="add-new-employee" data-id="add-employee"/>
     <div class="weui-search-bar" id="searchBar">
         <form class="weui-search-bar__form">
             <div class="weui-search-bar__box">
@@ -71,6 +72,7 @@
             winPanel:container,
             itemsPanel:$('#employee-list'),
             xhrExternalProcess : function (params,xhr) {
+                if($('#userid') = xhr.company.police.id) $('#add-new-employee').hide()
                 var data=xhr,nums = data.undo+data.done;
                 $('#name').html(
                         '<span class="result-name overflow-name">'+data.company.name+'</span>'+
@@ -159,6 +161,12 @@
             $searchBar.addClass('weui-search-bar_focusing');
             $searchInput.val(val);
         }
+    });
+    $('#add-new-employee').on('drag',function(x,y){
+        return {x:x-25,y:y-25}
+    }).on('click',function(){
+        var eid = $(this).data('id');
+        window.pageManager.go(eid);
     });
 </script>
 
