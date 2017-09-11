@@ -24,10 +24,19 @@ var routes = [
         }
     },
     {
+        /**
+         * 从业人员上传
+         * @param card 身份证号
+         * @param serverId 照片微信id
+         * @param mobile 手机号
+         * @param nomsg 阻止发送微信消息 1 阻止 0 or ... 不阻止
+         * @return state 0 失败 1成功
+         *          error 失败信息
+         */
         route: "/example/api/employee/save.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
-            res.end(JSON.stringify({state:0}));
+            res.end(JSON.stringify({state:0, error:'身份证不能为空'}));
         }
     },
     {
