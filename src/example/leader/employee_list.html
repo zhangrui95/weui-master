@@ -72,7 +72,7 @@
             winPanel:container,
             itemsPanel:$('#employee-list'),
             xhrExternalProcess : function (params,xhr) {
-                if($('#userid') == xhr.company.police.id) $('#add-new-employee').show()
+                if($('#userid').val() === xhr.company.police.id) $('#add-new-employee').show()
                 var data=xhr,nums = data.undo+data.done;
                 $('#name').html(
                         '<span class="result-name overflow-name">'+data.company.name+'</span>'+
