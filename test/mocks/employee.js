@@ -160,12 +160,24 @@ var routes = [
         }
     },
     {
+        /**
+         * 指定企业从业人员列表
+         * @param cid 企业id
+         * @param card 身份证号
+         * @param createTimeStartStr 上报时间起始
+         * @param createTimeEndStr 上报时间结束
+         * @return company 企业
+         *              name 企业名
+         *              police 管辖民警
+         *                  id 管辖民警id
+         *          list 人员列表
+         */
         route: "/example/api/employee/listByCompany.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
                 {
-                    company:{name:'九转小磨九转小磨九转小磨九转小磨九转小磨'},
+                    company:{name:'九转小磨九转小磨九转小磨九转小磨九转小磨', police:{id:'q1'}},
                     list:[
                         {card:'231105199503232227',createTime:1482214046832,state:'0',id:'e1'},
                         {card:'232105199503232226',createTime:1482214046832,state:'1',id:'e2'},
