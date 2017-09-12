@@ -173,6 +173,60 @@ var routes = [
 
             ));
         }
+    },
+    {
+        /**
+         * 派出所大学列表-领导
+         */
+        route: "/example/api/company/university.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    list:[
+                        {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key2',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张二二'},groupType:1},
+                        {id:'key3',name:'九转小磨九转小磨九转小磨九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'},groupType:0},
+                        {id:'key5',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'},groupType:0},
+                        {id:'key6',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key7',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'},groupType:1},
+                        {id:'key8',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:1},
+                        {id:'key9',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'},groupType:0},
+                        {id:'key10',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key11',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key12',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0}
+                    ]
+                }
+            ));
+        }
+    },
+    {
+        /**
+         * 派出所大学列表-民警
+         */
+        route: "/example/api/company/mineUniversity.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {
+                    list:[
+                        {id:'key1',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key2',name:'南京灌汤包',type:{name:'饭店'},police:{name:'张二二'},groupType:1},
+                        {id:'key3',name:'九转小磨九转小磨九转小磨九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key4',name:'律师事务所',type:{name:'幼儿园'},police:{name:'张一一'},groupType:0},
+                        {id:'key5',name:'九转小磨',type:{name:'饭店'},police:{name:'张六六'},groupType:0},
+                        {id:'key6',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key7',name:'九转小磨',type:{name:'维修'},police:{name:'张五五'},groupType:1},
+                        {id:'key8',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:1},
+                        {id:'key9',name:'九转小磨',type:{name:'饭店'},police:{name:'张一'},groupType:0},
+                        {id:'key10',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key11',name:'律师事务所',type:{name:'饭店'},police:{name:'张一一'},groupType:0},
+                        {id:'key12',name:'九转小磨',type:{name:'饭店'},police:{name:'张一一'},groupType:0}
+                    ]
+                }
+            ));
+        }
     }
 ];
 
