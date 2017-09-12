@@ -244,7 +244,7 @@ gulp.task('mock-watch', function (done) {
 });
 
 gulp.task('server', function () {
-    yargs.p = yargs.p || 8080;
+    yargs.p = yargs.p || 8081;
     browserSync.init({
         server: {
             baseDir: "./dist"

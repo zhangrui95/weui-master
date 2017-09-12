@@ -1,0 +1,598 @@
+<div class="page page-list student-page">
+    <div id="error" class="error" style="display: none;">
+        <img src="images/error.png"/>
+        <span>当前网络不可用，请检查你的网络设置</span>
+    </div>
+    <div class="header-box" id="title">居住证明办理申请登记</div>
+    <div class="center-box padding-min">
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">自拍正面照</label></div>
+            <ul class="weui-uploader__files" id="uploaderImg"></ul>
+            <div class="img-uploader-box">
+                <input id="uploaderInput" class="weui-uploader__input" type="button"/>
+                <img class="change-upload" src="images/photo.png" id="checkUploader"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin live">
+            <div class="weui-cell__hd"><label class="weui-label">在读证明</label></div>
+            <ul class="weui-uploader__files" id="uploaderProve"></ul>
+            <div class="img-uploader-box">
+                <input id="ProveInput" class="weui-uploader__input" type="button"/>
+                <img class="change-upload" src="images/photo.png" id="ProveUploader"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">学生证</label></div>
+            <ul class="weui-uploader__files" id="uploaderStudent"></ul>
+            <div class="img-uploader-box">
+                <input id="StudentInput" class="weui-uploader__input" type="button"/>
+                <img class="change-upload" src="images/photo.png" id="StudentUploader"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="text" class="input-box" id="name"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="text" class="input-box input-box-padding" id="card"/>
+                <img src="images/empty.png" class="empty-input" id="empty-card"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="text" class="input-box input-box-padding" id="phone"/>
+                <img src="images/empty.png" class="empty-input" id="empty-phone"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="marital">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">血型</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="blood-type">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">身高(cm)</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="number" class="input-box" id="height"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">体重(kg)</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="number" class="input-box" id="weight"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">文化程度</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="culture">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">宗教信仰</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="religion">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">兵役状况</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="military">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">入学时间</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="time">请选择</span>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin live">
+            <div class="weui-cell__hd"><label class="weui-label">所在院系</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="text" class="input-box" id="department"/>
+            </div>
+        </div>
+        <div class="none-flex cell-border cell-margin live">
+            <div class="weui-cell__hd"><label class="weui-label">所在专业</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <input type="text" class="input-box" id="major"/>
+            </div>
+        </div>
+        <div class="height-fixed-min"></div>
+        <div class="height-fixed active"></div>
+        <ul id="console"></ul>
+    </div>
+    <div id="img-null" class="prompt"></div>
+    <div class="btn-box">
+        <a class="btn-min btn-min-gray" href="javascript:" id="out">取消</a>
+        <a class="btn-min" href="javascript:" id="showToast">提交</a>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <span class="weui-gallery__img" id="galleryImg"></span>
+        <div class="weui-gallery__opr">
+            <a href="javascript:" class="weui-gallery__del">
+                <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+            </a>
+        </div>
+    </div>
+    <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="name-color name-margin">提交成功</div>
+            <div class="weui-dialog__bd" id="alert-news"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="know">知道了</a>
+            </div>
+        </div>
+    </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd">
+                确定删除该照片？
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm">确定</a>
+            </div>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+    <form style="display: none;" id="addForm"></form>
+</div>
+<script>
+    $(function(){
+        var type = $('#type').val();
+        if(type == 1){
+            $('.live').hide();
+            $('#title').html('身份证办理申请登记');
+        }
+        var addForm = $('#addForm');
+        var $androidDialog2 = $('#androidDialog2'),
+            $iosDialog2 = $('#iosDialog2'),
+            $know = $('#know'),
+            container = $('#container');
+        var tag = false;
+        var $notNull = $('#notNull');
+        function hint(hints) {
+            $notNull.html(hints);
+            $notNull.fadeIn(100);
+            setTimeout(function () {
+                $notNull.fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
+        //选择婚姻状况
+        $('#marital').on('click',function(){
+            weui.picker([{label: '未婚',value: 1},{label: '已婚',value: 2}, {label: '离异',value: 3}, {label: '其他',value: 4}], {
+                onConfirm: function (result) {
+                    $('#marital').html(result[0].label);
+                    container.data('data-marital',result[0].value);
+                }
+            });
+        });
+        //选择血型
+        $('#blood-type').on('click',function(){
+            weui.picker([{label: 'A',value: 1}, {label: 'B', value: 2}, {label: 'O',value: 3},{label: 'AB',value: 4},
+                {label: '其他',value: 5}, {label: '不详', value: 6}], {
+                onConfirm: function (result) {
+                    $('#blood-type').html(result[0].label);
+                    container.data('data-blood',result[0].value);
+                }
+            });
+        });
+        //选择文化程度
+        $('#culture').on('click',function(){
+            weui.picker([{label: '本科', value: 1 }, {label: '本科以上', value: 2}], {
+                onConfirm: function (result) {
+                    $('#culture').html(result[0].label);
+                    container.data('data-culture',result[0].value);
+                }
+            });
+        });
+        //选择宗教信仰
+        $('#religion').on('click',function(){
+            weui.picker([{label: '佛教', value: 1 }, {label: '道教', value: 2}, {label: '天主教',value: 3},
+                {label: '基督教',value: 4}, {label: '伊斯兰教',value: 5}, {label: '喇嘛教',value: 6},
+                {label: '其他',value: 7 }, {label: '无宗教信仰',value: 8}], {
+                onConfirm: function (result) {
+                    $('#religion').html(result[0].label);
+                    container.data('data-religion',result[0].value);
+                }
+            });
+        });
+        //选择兵役情况
+        $('#military').on('click',function(){
+            weui.picker([{label: '未服兵役',value: 1}, {label: '退出现役', value: 2}, {label: '国防生',value: 3},
+                {label: '服现役',value: 4}], {
+                onConfirm: function (result) {
+                    $('#military').html(result[0].label);
+                    container.data('data-military',result[0].value);
+                }
+            });
+        });
+        //选择入学时间
+        $('#time').on('click', function () {
+            weui.datePicker({
+                start: 2000,
+                end: new Date().getFullYear(),
+                defaultValue: [new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate()],
+                onConfirm: function (result) {
+                    $('#time').html(result[0].label+result[1].label+result[2].label);
+                    container.data('data-schoolTime',result[0].value+'-'+result[1].value+'-'+result[2].value);
+                }
+            });
+        });
+        //选择照片
+        var tmpl = '<li class="weui-uploader__file check-img" style="background-image:url(#url#)" data-media-id="#mid#"></li>',
+                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+                $uploaderImg = $("#uploaderImg"),
+                $uploaderInput = $('#uploaderInput'),
+                $uploaderProve = $("#uploaderProve"),
+                $ProveInput = $('#ProveInput'),
+                $uploaderStudent = $("#uploaderStudent"),
+                $StudentInput = $('#StudentInput')
+                ;
+
+        var choose = function (limit, localCb) {
+            wx.chooseImage({
+                count: limit, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album','camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var localData = res.localData;
+                    var getImgData = res.getImgData;
+                    var len = localIds.length;
+                    var loading = weui.loading('上传中...');
+                    var nextFun = function () {
+                        loading.hide();
+                    };
+                    var localId = localIds.pop();
+                    while(localId){
+                        nextFun = (function (imLocalId,next) {
+                            return function () {
+                                if(getImgData){
+                                    getImgData(imLocalId,function (dataRes) {
+                                        localCb(imLocalId,dataRes.localData,next);
+                                    });
+                                }else{
+                                    var url = localData||imLocalId;
+                                    localCb(imLocalId,url,next);
+                                }
+                            }
+                        })(localId,nextFun);
+                        localId = localIds.pop();
+                    }
+                    nextFun();
+                },
+                fail:function(err){
+                    $('#img-null').html("选择照片失败！");
+                }
+            });
+        };
+
+        var upload = function (localId,serverCb,next) {
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 0,// 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    serverCb(localId,serverId);
+                    if(next){
+                        next();
+                    }
+                },
+                fail:function(err){
+                    $('#error').css("display","block");
+                }
+            });
+        };
+
+        var addItem = function(imgList,limit) {
+            choose(limit,function(localId,url,next){
+                var serverCb = function(localId,serverId){
+                    $('#img-null').html("");
+                    if(limit === 1){
+                        imgList.html(tmpl.replace('#url#', url).replace('#mid#',serverId));
+                    }else{
+                        imgList.append($(tmpl.replace('#url#', url).replace('#mid#',serverId)));
+                    }
+                };
+                upload(localId,serverCb,next);
+            });
+        };
+
+        $uploaderInput.on("click", function(e){
+            addItem($uploaderImg, 1);
+        });
+
+        $ProveInput.on("click", function(e){
+            addItem($uploaderProve, 1);
+        });
+
+        $StudentInput.on("click", function(e){
+            addItem($uploaderStudent, 9);
+        });
+
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        var preview = function (target,type) {
+            inPop(function(){
+                var trash = $('.weui-gallery__opr');
+                trash.data('curr-media-id',null);
+                trash.data('curr-media-type',null);
+                $('#btnPanel').show();
+                $gallery.hide();
+            });
+            $galleryImg.attr("style", target.getAttribute("style"));
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',$(target).data('media-id'));
+            trash.data('curr-media-type',type);
+            $gallery.show();
+        };
+        $uploaderImg.on("click", "li", function(){
+            $('#btnPanel').hide();
+            preview(this,1);
+        });
+        $uploaderProve.on("click", "li", function(){
+            $('#btnPanel').hide();
+            preview(this,3);
+        });
+        $uploaderStudent.on("click", "li", function(){
+            $('#btnPanel').hide();
+            preview(this,2);
+        });
+        $gallery.on("click", function(){
+            $('#btnPanel').show();
+            outPop();
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',null);
+            trash.data('curr-media-type',null);
+            $gallery.hide();
+        });
+        $('.weui-gallery__opr').click(function () {
+            $androidDialog2.fadeIn(100);
+            var oThis = $(this);
+            var curr = oThis.data('curr-media-id');
+            var type = oThis.data('curr-media-type');
+            var imgList;
+            if(type == '1'){
+                imgList = $uploaderImg;
+            }else if(type == '3'){
+                imgList = $uploaderProve;
+            }else if(type == '2'){
+                imgList = $uploaderStudent;
+            }
+            $('#confirm').unbind().on('click',function(){
+                if(imgList){
+                    imgList.find('[data-media-id="'+curr+'"]').remove();
+                }
+                $androidDialog2.fadeOut(100);
+            });
+        });
+
+        $('#cancel').on('click',function(){
+            tag = false;
+            $androidDialog2.fadeOut(100);
+        });
+
+        function add(json){
+            $('#img-null').html("");
+            $('#empty').css('display','none');
+            $('.weui-dialog__bd').html('是否确认提交申请？');
+            $androidDialog2.fadeIn(100);
+            $('#confirm').unbind().on('click',function(){
+                if(tag){
+                    return;
+                }
+                tag = true;
+                var loading = weui.loading('提交中...');
+                $.ajax({
+                    type: "POST",
+                    url: " api/studentCert/save.json?userid="+$('#userid').val(),
+                    data:json,
+                    success: function (xhr) {
+                        if(xhr.state === 0){
+                            loading.hide();
+                            tag = true;
+                            $androidDialog2.fadeOut(0);
+                            if(type == 1){
+                                $('#alert-news').html('请注意查看系统通知领取个人信息表');
+                            }else if(type == 2){
+                                $('#alert-news').html('请注意查看系统通知领取居住证明');
+                            }
+                            $iosDialog2.fadeIn(0);
+                        }else{
+                            loading.hide();
+                            hint('提交失败！');
+                            tag = false;
+                        }
+                    },
+                    error: function () {
+                        loading.hide();
+                        hint('提交失败！');
+                        tag = false;
+                    }
+                });
+            });
+            $know.on('click',function(){
+                $iosDialog2.fadeOut(100);
+                wx.closeWindow();
+            });
+        }
+        var getMids = function (lis) {
+            var ids = [];
+            lis.each (function(){
+                ids.push($(this).data('media-id'));
+            });
+            return ids.join(',');
+        };
+
+
+        $('#card').on('blur',function () {
+            var card = $('#card').val();
+            if(!cardValid(card)){
+                hint('请填写正确的身份证号');
+            }
+        });
+
+        $('#empty-card').on('click',function(){
+            $('#card').val('');
+            $('#card').focus();
+        });
+
+
+        $('#empty-phone').on('click',function(){
+            $('#phone').val('');
+            $('#phone').focus();
+        });
+
+        var phoneTest = /^1[34578]\d{9}$/;
+        $('#phone').on('blur',function () {
+            var phone = $('#phone').val();
+            if(!phoneTest.test(phone)){
+                hint('请填写正确的手机号码');
+            }
+        });
+
+        $('#showToast').on('click',function(){
+            $('input').blur();
+            var blood = container.data('data-blood');
+            var education = container.data('data-culture');
+            var marray = container.data('data-marital');
+            var military = container.data('data-military');
+            var religion = container.data('data-religion');
+            var enterSchoolTime = container.data('data-schoolTime');
+            var name = $('#name').val();
+            var card = $('#card').val();
+            var phone = $('#phone').val();
+            var height = $('#height').val();
+            var weight = $('#weight').val();
+            var department = $('#department').val();
+            var major = $('#major').val();
+            var selfLis = $uploaderImg.find('li'),
+                    proveLis = $uploaderProve.find('li'),
+                    cardLis = $uploaderStudent.find('li');
+            if(selfLis.length == 0 || cardLis.length == 0 ||(type == 2 && proveLis.length == 0)){
+                hint('照片不能为空');
+                return;
+            }else if(name.length == 0){
+                hint('请填写姓名');
+                return;
+            }else if(card.length == 0){
+                hint('请填写身份证号');
+                return;
+            }else if(!cardValid(card)){
+                hint('请填写正确的身份证号');
+                return;
+            } else if(phone.length == 0){
+                hint('请填写手机号');
+                return;
+            }else if(phoneTest.test(phone)==false){
+                hint('请填写正确的手机号码');
+                return;
+            }else if(marray == null){
+                hint('请选择婚姻状况');
+                return;
+            }else if(blood == null){
+                hint('请选择血型');
+                return;
+            }else if(height.length == 0){
+                hint('请填写身高');
+                return;
+            }else if(weight.length == 0){
+                hint('请填写体重');
+                return;
+            }else if(education == null){
+                hint('请选择文化程度');
+                return;
+            }else if(religion == null){
+                hint('请选择宗教信仰');
+                return;
+            }else if(military == null){
+                hint('请选择兵役情况');
+                return;
+            }else if(enterSchoolTime == null){
+                hint('请选择入学时间');
+                return;
+            }
+            if(type == 2){
+                if(department.length == 0){
+                    hint('请填写所在院系');
+                    return;
+                }else if(major.length == 0){
+                    hint('请填写所在专业');
+                    return;
+                }
+            }
+            if(tag){
+                return;
+            }
+            addForm.html(
+                    '<input type="text" name="type" value= "'+type+'" />'+
+                    '<input type="text" name="info.marray" value= "'+marray+'" />'+
+                    '<input type="text" name="info.blood" value= "'+blood+'" />'+
+                    '<input type="text" name="info.education" value= "'+education+'" />'+
+                    '<input type="text" name="info.military" value= "'+military+'" />'+
+                    '<input type="text" name="info.religion" value= "'+religion+'" />'+
+                    '<input type="text" name="info.enterSchoolTime" value= "'+enterSchoolTime+'" />'+
+                    '<input type="text" name="name" value= "'+name+'" />'+
+                    '<input type="text" name="info.card" value= "'+card+'" />'+
+                    '<input type="text" name="info.mobile" value= "'+phone+'" />'+
+                    '<input type="text" name="info.height" value= "'+height+'" />'+
+                    '<input type="text" name="info.weight" value= "'+weight+'" />'+
+                    '<input type="text" name="selfIds" value= "'+getMids(selfLis)+'" />'+
+                    '<input type="text" name="cardIds" value= "'+getMids(cardLis)+'" />'
+            );
+            if(type == 2){
+                addForm.append(
+                        '<input type="text" name="proveIds" value= "'+getMids(proveLis)+'" />'+
+                        '<input type="text" name="info.faculty" value= "'+department+'" />'+
+                        '<input type="text" name="info.specialty" value= "'+major+'" />'
+                );
+            }
+            var json = addForm.serialize();
+            add(json);
+        });
+        $('#out').on('click',function(){
+            $('.weui-dialog__bd').html('是否确定取消当前操作？');
+            $androidDialog2.fadeIn(100);
+            $('#confirm').unbind().on('click',function(){
+                $('input').blur();
+                wx.closeWindow();
+            });
+        });
+        $('.choice').click(function(){
+            $('input').blur();
+        });
+        var windowHeight = $(window).height();
+        $(window).resize(function(){
+            if ($(window).height() < windowHeight){
+                $('.height-fixed').show();
+            }else{
+                $('.height-fixed').hide();
+            }
+         });
+    });
+</script>
