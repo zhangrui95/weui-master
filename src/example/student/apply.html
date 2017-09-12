@@ -97,6 +97,12 @@
                 <span class="choice" id="time">请选择</span>
             </div>
         </div>
+        <div class="none-flex cell-border cell-margin">
+            <div class="weui-cell__hd"><label class="weui-label">所在学校</label></div>
+            <div class="weui-cell__bd bd-right font-color blur">
+                <span class="choice" id="schooName" style="display: inline-block; line-height: 20px; padding: 17px 0;">请选择</span>
+            </div>
+        </div>
         <div class="none-flex cell-border cell-margin live">
             <div class="weui-cell__hd"><label class="weui-label">所在院系</label></div>
             <div class="weui-cell__bd bd-right font-color blur">
@@ -173,6 +179,27 @@
             }, 2000);
             tag = false;
         }
+        // 获取派出所大学列表
+        var schoolList = []
+        $.ajax({
+            type: "POST",
+            url: "api/company/university.json",
+            data: {
+                userid: $('#userid').val(),
+            },
+            success: function(data) {
+                for(var i=0;i < data.list.length;i++){
+                    schoolList.push({
+                        label: data.list[i].name,
+                        value: data.list[i].id 
+                    })
+                }
+                [{label: '本科', value: 1 }, {label: '本科以上', value: 2}]
+            },
+            error: function(mes) {
+                console.log("error");
+            }
+        });
         //选择婚姻状况
         $('#marital').on('click',function(){
             weui.picker([{label: '未婚',value: 1},{label: '已婚',value: 2}, {label: '离异',value: 3}, {label: '其他',value: 4}], {
@@ -198,6 +225,15 @@
                 onConfirm: function (result) {
                     $('#culture').html(result[0].label);
                     container.data('data-culture',result[0].value);
+                }
+            });
+        });
+        //选择学校
+        $('#schooName').on('click',function(){
+            weui.picker(schoolList, {
+                onConfirm: function (result) {
+                    $('#schooName').html(result[0].label);
+                    container.data('data-school-name',result[0].value);
                 }
             });
         });
@@ -480,6 +516,7 @@
             $('input').blur();
             var blood = container.data('data-blood');
             var education = container.data('data-culture');
+            var schoolName = container.data('data-school-name');
             var marray = container.data('data-marital');
             var military = container.data('data-military');
             var religion = container.data('data-religion');
@@ -527,6 +564,9 @@
             }else if(education == null){
                 hint('请选择文化程度');
                 return;
+            }else if(schoolName == null){
+                hint('请选择所在学校');
+                return;
             }else if(religion == null){
                 hint('请选择宗教信仰');
                 return;
@@ -554,6 +594,7 @@
                     '<input type="text" name="info.marray" value= "'+marray+'" />'+
                     '<input type="text" name="info.blood" value= "'+blood+'" />'+
                     '<input type="text" name="info.education" value= "'+education+'" />'+
+                    '<input type="text" name="info.schoolName" value= "'+schoolName+'" />'+
                     '<input type="text" name="info.military" value= "'+military+'" />'+
                     '<input type="text" name="info.religion" value= "'+religion+'" />'+
                     '<input type="text" name="info.enterSchoolTime" value= "'+enterSchoolTime+'" />'+
