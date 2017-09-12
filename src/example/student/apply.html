@@ -1,4 +1,4 @@
-<div class="page page-list student-page">
+<div class="page page-list">
     <div id="error" class="error" style="display: none;">
         <img src="images/error.png"/>
         <span>当前网络不可用，请检查你的网络设置</span>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="none-flex cell-border cell-margin">
-            <div class="weui-cell__hd"><label class="weui-label">学生证</label></div>
+            <div class="weui-cell__hd"><label class="weui-label">学生证</label><span class="field-comment">(非学生卡)</span></div>
             <ul class="weui-uploader__files" id="uploaderStudent"></ul>
             <div class="img-uploader-box">
                 <input id="StudentInput" class="weui-uploader__input" type="button"/>
@@ -419,7 +419,7 @@
                             $androidDialog2.fadeOut(0);
                             if(type == 1){
                                 $('#alert-news').html('请注意查看系统通知领取个人信息表');
-                            }else {
+                            }else if(type == 2){
                                 $('#alert-news').html('请注意查看系统通知领取居住证明');
                             }
                             $iosDialog2.fadeIn(0);
@@ -494,7 +494,7 @@
             var selfLis = $uploaderImg.find('li'),
                     proveLis = $uploaderProve.find('li'),
                     cardLis = $uploaderStudent.find('li');
-            if(selfLis.length == 0 || cardLis.length == 0 ||(type != 1 && proveLis.length == 0)){
+            if(selfLis.length == 0 || cardLis.length == 0 ||(type == 2 && proveLis.length == 0)){
                 hint('照片不能为空');
                 return;
             }else if(name.length == 0){
@@ -537,7 +537,7 @@
                 hint('请选择入学时间');
                 return;
             }
-            if(type != 1){
+            if(type == 2){
                 if(department.length == 0){
                     hint('请填写所在院系');
                     return;
@@ -565,7 +565,7 @@
                     '<input type="text" name="selfIds" value= "'+getMids(selfLis)+'" />'+
                     '<input type="text" name="cardIds" value= "'+getMids(cardLis)+'" />'
             );
-            if(type != 1){
+            if(type == 2){
                 addForm.append(
                         '<input type="text" name="proveIds" value= "'+getMids(proveLis)+'" />'+
                         '<input type="text" name="info.faculty" value= "'+department+'" />'+
