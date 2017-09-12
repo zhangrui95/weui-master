@@ -179,27 +179,6 @@
             }, 2000);
             tag = false;
         }
-        // 获取派出所大学列表
-        var schoolList = []
-        $.ajax({
-            type: "POST",
-            url: "api/company/university.json",
-            data: {
-                userid: $('#userid').val(),
-            },
-            success: function(data) {
-                for(var i=0;i < data.list.length;i++){
-                    schoolList.push({
-                        label: data.list[i].name,
-                        value: data.list[i].id 
-                    })
-                }
-                [{label: '本科', value: 1 }, {label: '本科以上', value: 2}]
-            },
-            error: function(mes) {
-                console.log("error");
-            }
-        });
         //选择婚姻状况
         $('#marital').on('click',function(){
             weui.picker([{label: '未婚',value: 1},{label: '已婚',value: 2}, {label: '离异',value: 3}, {label: '其他',value: 4}], {
@@ -229,13 +208,32 @@
             });
         });
         //选择学校
-        $('#schooName').on('click',function(){
-            weui.picker(schoolList, {
-                onConfirm: function (result) {
-                    $('#schooName').html(result[0].label);
-                    container.data('data-school-name',result[0].value);
+        $.ajax({
+            type: "POST",
+            url: "api/company/university.json",
+            data: {
+                userid: $('#userid').val(),
+            },
+            success: function(data) {
+                var schoolList = []
+                for(var i=0;i < data.list.length;i++){
+                    schoolList.push({
+                        label: data.list[i].name,
+                        value: data.list[i].id 
+                    })
                 }
-            });
+                $('#schooName').on('click',function(){
+                    weui.picker(schoolList, {
+                        onConfirm: function (result) {
+                            $('#schooName').html(result[0].label);
+                            container.data('data-school-name',result[0].value);
+                        }
+                    });
+                });
+            },
+            error: function(mes) {
+                console.log("error");
+            }
         });
         //选择宗教信仰
         $('#religion').on('click',function(){
