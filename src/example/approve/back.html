@@ -1,0 +1,116 @@
+<div class="page page-list student-page">
+    <div class="header-box">退回原因</div>
+    <div class="center-box padding-min">
+        <div class="choice-problem">选择存在问题项</div>
+        <div class="list-all-checkbox">
+            <div class="problem"><label class="choice-label"><input class="check-problems" id="pot" type="checkbox"/></label><span class="problem-word">自拍正面照</span></div>
+            <div class="problem on-read"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">在读证明</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">学生证照片</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">姓名</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">身份证号</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">手机号码</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">血型</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">身高</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">体重</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">婚姻状况</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">宗教信仰</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">文化程度</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">兵役状况</span></div>
+            <div class="problem"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">入学时间</span></div>
+            <div class="problem on-read"><label class="choice-label"><input class="check-problems" type="checkbox"/></label><span class="problem-word">所在院系</span></div>
+            <div class="problem on-read"><label class="choice-label"><input class="check-problems"  type="checkbox"/></label><span class="problem-word">所在专业</span></div>
+            <div class="problem read"></div>
+        </div>
+        <div class="choice-problem">备注</div>
+        <textarea rows="5" class="text-area" id="text"></textarea>
+        <div class="height-fixed-min"></div>
+    </div>
+    <div class="btn-box">
+        <a class="btn" href="javascript:" id="showToast">发送</a>
+    </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">发送成功</p>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+</div>
+<script>
+    $(function(){
+        var container = $('#container');
+        var tag = false;
+        var type = $('#type').val();
+        if(type == 1){
+            $('.on-read').hide();
+            $('.read').show();
+        }else{
+            $('.on-read').show();
+            $('.read').hide();
+        }
+
+        $('.check-problems').on('change',function(){
+            if($(this).prop('checked')){
+                $(this).parent().addClass('label-checked');
+            }else{
+                $(this).parent().removeClass('label-checked');
+            }
+        })
+
+        $('#showToast').on('click',function(){
+            $('.text-area').blur();
+            if(tag){
+                return;
+            }
+            var types = [];
+            $('[type = "checkbox"]').each(function(){
+                if($(this).prop("checked")==true){
+                    types.push($(this).parent().siblings().text());
+                }
+            });
+            var id = container.data('data-cid');
+            var text = $('#text').val();
+            if(types.join(',')!==''||text!==''){
+                var loading = weui.loading('发送中...');
+                $.ajax({
+                    type: "POST",
+                    url: "api/studentCert/fail.json",
+                    data:{userid:$('#userid').val(),type:type,id:id,items:types.join(','),remark:text},
+                    success: function (data) {
+                        if(data.state === 0){
+                            loading.hide();
+                            var $toast = $('#toast');
+                            if ($toast.css('display') != 'none') return;
+                            $toast.fadeIn(100);
+                            setTimeout(function () {
+                                $toast.fadeOut(100);
+                                window.pageManager.go('approve');
+                            }, 2000);
+                            tag = true;
+                        }else{
+                            loading.hide();
+                            hint('操作失败');
+                        }
+                    },
+                    error: function () {
+                        loading.hide();
+                        hint('操作失败');
+                        tag = false;
+                    }
+                });
+            }else{
+                hint('请选择存在问题项或填写备注');
+                tag = false;
+            }
+        });
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
+    });
+</script>

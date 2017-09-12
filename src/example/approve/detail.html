@@ -1,0 +1,155 @@
+<div class="page page-list student-page">
+    <div class="header-box" id="nameTime"></div>
+    <div class="center-box center-box-detail padding-min">
+        <div class="choice-problem img-title">自拍正面照</div>
+        <div class="img-box" id="self"></div>
+        <div class="choice-problem img-title on-read">在读证明</div>
+        <div class="img-box on-read" id="prove"></div>
+        <div class="choice-problem img-title">学生证</div>
+        <div class="img-box" id="student-card"></div>
+        <div class="choice-problem img-title">联系方式</div>
+        <div class="constent-box phone-blue" id="phone" href=""></div>
+        <div id="back"></div>
+        <div class="height-fixed-min"></div>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <img src="" class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
+    <div id="img-big-box2">
+        <div class="swiper-container weui-gallery" id="gallery2" style="position: absolute;left: 0;">
+            <div class="swiper-wrapper" id="gallery-box2"></div>
+            <div class="swiper-next-box" style="position: absolute;top: 50%;right:10px;width: 27px;height: 44px;margin-top: -22px;z-index: 9;"></div>
+            <div class="swiper-prev-box" style="position: absolute;top: 50%;left:10px;width: 27px;height: 44px;margin-top: -22px;z-index: 9;"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+</div>
+<script>
+    $(function(){
+        var $gallery = $("#gallery"), $galleryImg = $("#galleryImg"), $gallery2 = $("#gallery2");
+        var container = $('#container');
+        var cid = container.data('data-cid');
+        var type = $('#type').val();
+        $.ajax({
+            type: "POST",
+            url: "api/studentCert/detail.json",
+            data:{userid:$('#userid').val(),type:type,id:cid},
+            success: function (data) {
+                var item = data.data;
+                var n = 0;
+                if(type == 1){
+                    $('.on-read').hide();
+                }
+                var photos = item.photos.sort(function(a,b){return a.createTime - b.createTime;}),subItem;
+                for(var i in photos){
+                    subItem = photos[i];
+                    if(subItem.type == 1){
+                        $('#self').html('<img class="img-size only-img" src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }else if(subItem.type == 3){
+                        $('#prove').html('<img  class="img-size only-img" src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }else if(subItem.type == 2){
+                        n++;
+                        $('#student-card').append(' <img class="img-size many-img" data-index="'+n+'"  src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }
+                }
+                $('#nameTime').html(''+item.name+'<span class="header-time">'+getLocalTime(item.createTime)+'</span>');
+                $('.only-img').on("click", function(){
+                    preview(this,'check');
+                });
+                $('#phone').html(item.mobile);
+                $('#phone').attr('href','tel:'+item.mobile);
+                var result = item.result;
+                if(result === -1){
+                    $('#back').html('<div class="choice-problem img-title">退回原因</div>'+
+                            '<div class="constent-box">'+item.remark+'</div>');
+                }
+                BigImg();
+            },
+            error: function () {
+                hint('操作失败');
+            }
+        });
+        var swiper = '';
+        var widths = $(window).width();
+        function BigImg(){
+            $('.many-img').on("click", function(){
+                $('#gallery-box2').html('');
+                $('.swiper-button-next,.swiper-button-prev').hide();
+                inPop(function(){
+                    $('#gallery2').fadeOut(100);
+                });
+                var n= $(this).data('index')-1;
+                $gallery2.show();
+                var images = [];
+                $('.many-img').each (function(){
+                    var src = $(this).attr('src');
+                    images.push(src);
+                });
+                for(var i = 0;i<$('#student-card .many-img').length;i++){
+                    $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
+                };
+                if(swiper!=''){
+                    if(n == 0){
+                        swiper.slideTo(0,1);
+                    }
+                }
+                swiper = new Swiper('#img-big-box2 .swiper-container', {
+                    initialSlide :n,
+                    pagination: '#img-big-box2 .swiper-pagination',
+                    paginationClickable: true,
+                    spaceBetween:20,
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev'
+                });
+            });
+        };
+        $('#gallery-box2').on("click", function(){
+            outPop();
+            $gallery2.hide();
+        }).on('mouseenter',function(){
+            $('.swiper-button-next,.swiper-button-prev').show();
+            $('.swiper-slide').addClass('swiper-no-swiping');
+        });
+        var preview = function (target,type) {
+            inPop(function(){
+                var trash = $('.weui-gallery__opr');
+                trash.data('curr-media-id',null);
+                trash.data('curr-media-type',null);
+                $('#btnPanel').show();
+                $gallery.hide();
+            });
+            $galleryImg.attr("src", target.getAttribute("src"));
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',$(target).data('media-id'));
+            trash.data('curr-media-type',type);
+            $gallery.show();
+        };
+        $gallery.on("click", function(){
+            outPop();
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',null);
+            trash.data('curr-media-type',null);
+            $gallery.hide();
+        });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+        }
+    });
+</script>

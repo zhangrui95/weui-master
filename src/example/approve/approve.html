@@ -1,0 +1,121 @@
+<div class="page page-list student-page">
+    <div class="nocard-title rent-head-height">
+        <div class="fire-header-left" id="title"></div>
+        <div class="white-position" id="white-position">
+            <div class="fire-num-box" id="all-rent-building">
+                <dl class="num-center">
+                    <dt class="purple-font" id="init"></dt>
+                    <dd>未办理</dd>
+                </dl>
+            </div>
+            <div class="fire-num-box rent-num" id="noInform" data-id="noInform">
+                <dl class="num-center">
+                    <dt class="gray-font" id="done"></dt>
+                    <dd>未通知</dd>
+                </dl>
+            </div>
+            <div class="fire-num-box fire-num-box-border rent-num" id="notify" data-id="done">
+                <dl class="num-center">
+                    <dt class="gray-font" id="notify-num"></dt>
+                    <dd>已完成</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="list-box center-box center-height">
+        <div id="box" class="bg-box">
+            <div id="list"></div>
+            <div class="weui-loadmore" id="load">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line active">
+                <span class="weui-loadmore__tips">暂无更多数据</span>
+            </div>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+</div>
+<script>
+    $(function(){
+        var type = $('#type').val(),index = 0;
+        if(type == 1){
+            $('#title').html('身份证申请');
+        }else{
+            $('#title').html('居住证明申请');
+        }
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
+        $("#noInform,#notify").on('click',function () {
+            container.data('search-name','');
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        $.ajax({
+            type: "POST",
+            url: "api/studentCert/groupByState.json",
+            data:{userid:$('#userid').val(),type:type},
+            success: function (data) {
+                $('#init').html(data.init);
+                $('#done').html(data.done);
+                $('#notify-num').html(data.notify);
+            },
+            error: function () {
+                hint('操作失败');
+            }
+        });
+        var pagePanel = $('.center-box');
+        var container = $('#container');
+        var currDataListCfg = {
+            url:'api/studentCert.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel.find('#box'),
+            winPanel:container,
+            itemsPanel:$('#list'),
+            xhrExternalProcess : function (params,xhr) {
+                $(".list").on('click',function () {
+                    var id = $(this).data('id');
+                    var cid = $(this).data('tid');
+                    container.data('data-cid',cid);
+                    window.pageManager.go(id);
+                });
+            },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items,i) {
+                index++;
+                var num = index < 10?'0'+index:index;
+               return  '<div class="list" data-id="undone" data-tid="'+items.id+'">'+
+                        '<div class="number">'+num+'</div>'+
+                        '<div class="list-news">'+
+                        '<div class="name-color">'+items.name+'</div>'+
+                        '<div class="time-color">'+getLocalTime(items.createTime)+'</div>'+
+                        '</div>'+
+                        '</div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({type:type,state:0});
+    });
+</script>

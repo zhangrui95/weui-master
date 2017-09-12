@@ -419,7 +419,7 @@
                             $androidDialog2.fadeOut(0);
                             if(type == 1){
                                 $('#alert-news').html('请注意查看系统通知领取个人信息表');
-                            }else if(type == 2){
+                            }else {
                                 $('#alert-news').html('请注意查看系统通知领取居住证明');
                             }
                             $iosDialog2.fadeIn(0);
@@ -494,7 +494,7 @@
             var selfLis = $uploaderImg.find('li'),
                     proveLis = $uploaderProve.find('li'),
                     cardLis = $uploaderStudent.find('li');
-            if(selfLis.length == 0 || cardLis.length == 0 ||(type == 2 && proveLis.length == 0)){
+            if(selfLis.length == 0 || cardLis.length == 0 ||(type != 1 && proveLis.length == 0)){
                 hint('照片不能为空');
                 return;
             }else if(name.length == 0){
@@ -537,7 +537,7 @@
                 hint('请选择入学时间');
                 return;
             }
-            if(type == 2){
+            if(type != 1){
                 if(department.length == 0){
                     hint('请填写所在院系');
                     return;
@@ -565,7 +565,7 @@
                     '<input type="text" name="selfIds" value= "'+getMids(selfLis)+'" />'+
                     '<input type="text" name="cardIds" value= "'+getMids(cardLis)+'" />'
             );
-            if(type == 2){
+            if(type != 1){
                 addForm.append(
                         '<input type="text" name="proveIds" value= "'+getMids(proveLis)+'" />'+
                         '<input type="text" name="info.faculty" value= "'+department+'" />'+

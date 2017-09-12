@@ -1,0 +1,146 @@
+<div class="page page-list student-page">
+    <div class="header-box" id="headerText"></div>
+    <div class="center-box center-box-detail padding-min">
+        <div id="list"></div>
+        <div class="weui-loadmore" id="load">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line active">
+            <span class="weui-loadmore__tips">暂无更多数据</span>
+        </div>
+    </div>
+    <div class="position-choice" id="choice-alert">
+        <img src="images/Iconset.png" class="choice-img"/>
+    </div>
+    <div class="filtrate" id="filtrate">
+        <div class="filtrate-header">
+            <div class="fire-header-left-top">筛选条件</div>
+            <div class="fire-header-right" id="clear">取消</div>
+            <div class="input-border">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入您要查询的姓名" required/>
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+            </div>
+        </div>
+        <div class="btn-box" id="btnPanel" >
+            <a class="btn" href="javascript:" id="showToast">确定</a>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var container = $('#container');
+        var $searchClear = $('#searchClear');
+        var $searchInput = $('#searchInput');
+        var searchName = container.data('search-name');
+        $searchClear.on('click',function(){
+            $searchInput.val('');
+        })
+        $('#clear').on('click',function () {
+            $('#filtrate').fadeOut(100);
+            $searchInput.val('');
+            outPop();
+        });
+        $('#choice-alert').on('drag',function(x,y){
+            return {x:x-25,y:y-25}
+        }).on('click',function(){
+            $searchInput.val('');
+            inPop(function(){
+                $('#filtrate').fadeOut(100);
+            });
+            $('#filtrate').fadeIn(100);
+        });
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null);
+        }
+
+        var $list = $('#list');
+        var lastDate = '';
+        var type = $('#type').val();
+        var total = 0,index = 0;
+
+        $.ajax({
+            type: "POST",
+            url: "api/studentCert/groupByState.json",
+            data:{userid:$('#userid').val(),type:type},
+            success: function (data) {
+                total = data.done;
+            },
+            error: function () {
+            }
+        });
+
+        var pagePanel = $('.center-box');
+        var currDataListCfg = {
+            url:'api/studentCert.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel,
+            winPanel:container,
+            itemsPanel:$list,
+            xhrExternalProcess : function (params,xhr) {
+                total = xhr.count;
+                $('#headerText').text('已完成('+total+')');
+                $(".list").on('click',function () {
+                    var cid = $(this).data('tid');
+                    container.data('data-cid',cid);
+                    var id = $(this).data('id');
+                    window.pageManager.go(id);
+                });
+            },
+            emptyCb : function () {
+                $('#list').html('<div class="empty-box">'+
+                        '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                        '<p class="null-word">暂无数据</p>'+
+                        '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items,i) {
+                index++;
+                var head = '';
+                var date = getLocalDate(items.createTime).split('-');
+                var dateText = date.join('');
+                if(lastDate !== dateText && date.length > 2){
+                    index = 1;
+                    head = '<div class="time-box time-top"><span class="time-title">'+date[0]+'年'+date[1]+'月'+date[2]+'日</span></div>';
+                    lastDate = dateText;
+                }
+                return head + '<div class="list" data-id="detail" data-tid="'+items.id+'"><div class="time-box">' +
+                        '<div class="number number-line-height">'+(index<10?'0'+index:index)+'.</div>' +
+                        '<div class="list-news"><div class="name-color name-color-line">'+items.name+'</div></div></div>' +
+                         '<div class="outed'+(items.result === -1?'':' active')+'">已退回</div>'+
+                        '</div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({type:type,state:2,name:searchName});
+        $('#showToast').on('click',function(){
+            lastDate = '';
+           var name = $('#searchInput').val();
+            container.data('search-name',name);
+            outPop();
+            currDataList.first({type:type,state:2,name:name});
+            $('#filtrate').fadeOut(100);
+        });
+
+    });
+</script>

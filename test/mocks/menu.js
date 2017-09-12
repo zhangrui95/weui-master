@@ -22,7 +22,8 @@ var menus = [
 
     {id:'18',name:"未带身份证入住",href:"hotel.html",icon:"images/icon2.png",state:1,orderNum:1},
     {id:'19',name:"从业人员上报",hash:"employee-report",icon:"images/icon3.png",state:1,orderNum:2},
-    {id:'20',name:"散装油交易登记",href:"station.html",icon:"images/icon12.png",state:1,orderNum:3}
+    {id:'20',name:"散装油交易登记",href:"station.html",icon:"images/icon12.png",state:1,orderNum:3},
+    {id:'21',name:"居住证明办理",href:"approve.html",icon:"images/icon8.png",state:1,orderNum:8}
 
 ].reduce(function(ret,it){
     ret[it.id] = it;
@@ -32,7 +33,7 @@ var menus = [
 var menuIds = {
     leader: function(){return ['1','2','3','4','5','6','7','8'];},
     police: function(buf){
-        var menu = ['12','13','14','15','16','17'];
+        var menu = ['12','13','14','15','16','17','21'];
         if(buf.indexOf('target=dept_police-CAdmin') !== -1){
             menu = ['10'].concat(menu)
         }else if(buf.indexOf('target=dept_police-PAdmin') !== -1){

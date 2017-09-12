@@ -1,0 +1,249 @@
+<div class="page page-list student-page">
+    <div class="header-box" id="headerText">未通知</div>
+    <div class="draw-time-box">
+        <div class="draw-time-title">领取时间</div>
+        <div class="draw-time" id="time">请选择</div>
+    </div>
+    <div class="draw-time-box">
+        <div class="draw-time-title">领取地址</div>
+        <div class="draw-time" ><input class="text-place" type="text" id="address"></div>
+    </div>
+    <div class="center-box center-height-min padding-min">
+        <div class="weui-cells weui-cells_checkbox" id="list"></div>
+        <div class="weui-loadmore" id="load">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line active">
+            <span class="weui-loadmore__tips">暂无更多数据</span>
+        </div>
+    </div>
+    <div class="btn-box">
+        <div>
+            <input class="all-choice-check" name="check" id="checkAll"  type="checkbox" checked/>
+            <label for="checkAll"></label>
+            <span class="problem-word choice-top" id="allText">全部选择</span>
+        </div>
+        <a class="btn-right" href="javascript:" id="showToast">通知</a>
+    </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd">
+                是否确认发送通知？
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm">确定</a>
+            </div>
+        </div>
+    </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">发送成功</p>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+</div>
+<script>
+    $(function(){
+
+        var  $androidDialog2 = $('#androidDialog2'),$toast = $('#toast');
+        //选择领取时间
+
+        $('#time').on('click', function () {
+            var currentDate = new Date();
+            var options = {
+                start: currentDate,
+                defaultValue: [currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate()],
+                onConfirm: function (result) {
+                    var year = result[0];
+                    var month = parseInt(result[1]);
+                    month = month < 10 ? '0' + month : month;
+                    var day = result[2];
+                    day = day < 10 ? '0' + day : day;
+                    $('#time').html(result[0].value+'-'+month+'-'+day);
+                    pageManager.setBeforeHashchangeOnce(null);
+                },
+                onChange: function (result) {
+
+                }
+            }
+            var datePicker = weui.datePicker(options);
+            $(datePicker).on('click', '.weui-mask', function () {
+                pageManager.setBeforeHashchangeOnce(null);
+            });
+            $(datePicker).on('click', '.weui-picker__action', function () {
+                pageManager.setBeforeHashchangeOnce(null);
+            });
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                datePicker.hide();
+                return false;
+            });
+        });
+
+        var $list = $('#list');
+        var lastDate = '';
+        var type = $('#type').val();
+        var total = 0,index = 0;
+
+        var pagePanel = $('.center-box');
+        var container = $('#container');
+        var currDataListCfg = {
+            url:'api/studentCert.json',
+            pagePanel:pagePanel,
+            scrollPanel:pagePanel,
+            winPanel:container,
+            itemsPanel:$list,
+            xhrExternalProcess : function (params,xhr) {
+                total = xhr.count;
+                $('#headerText').text('未通知('+total+')');
+                $('#allText').text('全部选择('+total+')');
+                if($('#checkAll').prop('checked')){
+                    $list.find('[type = "checkbox"]').prop('checked',true);
+                }else if($('[data-date-group="'+lastDate+'"]').prop('checked')){
+                    $list.find('[data-date="'+lastDate+'"]').prop('checked',true);
+                }
+            },
+            emptyCb : function () {
+                tag = true;
+                $('#list').html('<div class="empty-box inform-empty-box">'+
+                    '<img src="images/icon-over.jpg" class="empty-img"/>'+
+                    '<p class="null-word">暂无数据</p>'+
+                    '</div>');
+            },
+            noMoreCb : function () {
+                $('.weui-loadmore_line').show();
+                $('.empty-box').hide();
+            },
+            templateProcess : function (items,i) {
+                index++;
+                var head = '';
+                var date = getLocalDate(items.createTime).split('-');
+                var dateText = date.join('');
+                if(lastDate !== dateText && date.length > 2){
+                    index = 1;
+                    head = '<div class="time-box time-top"><input class="check-problem check-problem-margin" id="'+dateText+'"  data-date-group="'+dateText+'" type="checkbox"/><label for="'+dateText+'"></label><span class="time-title">'+date[0]+'年'+date[1]+'月'+date[2]+'日</span></div>';
+                    lastDate = dateText;
+                }
+                return head + '<div class="list"><div class="time-box">' +
+                    '<input class="check-problem checkbox" id="'+items.id+'" data-id="'+items.id+'" data-date="'+dateText+'" type="checkbox"/><label for="'+items.id+'"></label><div class="number checkbox-left-num number-line-height">'+(index<10?'0'+index:index)+'.</div>' +
+                    '<div class="list-news"><div class="name-color name-color-line">'+items.name+'</div></div></div></div>'
+            },
+            before:function(){
+                $("#load").show();
+                $(".weui-loadmore_line").hide();
+            },
+            after:function(){
+                $("#load").hide();
+            }
+        };
+        var currDataList = window.dataList.newList(currDataListCfg);
+        currDataList.first({type:type,state:1});
+
+        //全选
+        $('#checkAll').on('change',function(){
+            $list.find('[type = "checkbox"]').prop('checked',$(this).prop('checked'));
+        });
+
+        $list.on('change','[data-id]',function(){
+            var num = $list.find('[data-id]:checked').length;
+            $('#checkAll').prop("checked",num === total);
+        });
+
+        $list.on('change','[data-date-group]',function(){
+            var oThis = $(this);
+            var date = oThis.data('date-group');
+            $list.find('[data-date="'+date+'"]').prop('checked',oThis.prop('checked'));
+            var num = $list.find('[data-id]:checked').length;
+            $('#checkAll').prop("checked",num === total);
+        });
+
+        $list.on('change','[data-id]',function(){
+            var oThis = $(this);
+            var date = oThis.data('date');
+            var num1 = $list.find('[data-date="'+date+'"]').length;
+            var num2 = $list.find('[data-date="'+date+'"]:checked').length;
+            $list.find('[data-date-group="'+date+'"]').prop("checked",num1 === num2);
+        });
+
+        $('#cancel').on('click',function(){
+            $androidDialog2.fadeOut(100);
+        });
+
+        //通知
+        var tag = false;
+        $('#showToast').on('click',function(){
+            if(tag){
+                return;
+            }
+            var time = $('#time').html();
+            var address = $('#address').val();
+            if(time === '请选择'||address === ''){
+                hint('请填写领取时间和领取地址');
+                return;
+            }
+            var ids = [],dates = '';
+            var all = $('#checkAll').prop('checked');
+            if(!all){
+                $('[data-id]:checked').each(function(){
+                    ids.push($(this).data('id'));
+                });
+                if($('[data-date-group="'+lastDate+'"]').prop('checked')){
+                    dates = lastDate;
+                }
+                if(ids.length === 0){
+                    hint('请选择通知人员');
+                    return;
+                }
+            }
+            $androidDialog2.fadeIn(100);
+            $('#confirm').unbind().on('click',function(){
+                $androidDialog2.fadeOut(0);
+                tag = true;
+                var loading = weui.loading('发送中...');
+                $.ajax({
+                    type: "POST",
+                    url: "api/studentCert/notifyUsers.json",
+                    data:{userid:$('#userid').val(),type:type,id:ids.join(','),dates:dates,time:time,address:address,all:all?1:0},
+                    success: function (data) {
+                        if(data.state === 0){
+//                            if ($toast.css('display') !== 'none') return;
+                            loading.hide();
+                            $toast.fadeIn(100);
+                            setTimeout(function () {
+                                $toast.fadeOut(100);
+                            }, 2000);
+                            lastDate = '';
+                            currDataList.first({type:type,state:1});
+                            $('#time').html('请选择');
+                            $('#address').val('');
+                            $('#checkAll').prop("checked",true);
+                            tag = false;
+                        }else{
+                            loading.hide();
+                            hint('操作失败');
+                        }
+                    },
+                    error: function () {
+                        loading.hide();
+                        hint('操作失败');
+                    }
+                });
+            });
+        });
+        var $notNull = $('#notNull');
+        function hint(hints) {
+            $notNull.html(hints);
+            $notNull.fadeIn(100);
+            setTimeout(function () {
+                $notNull.fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
+
+
+    });
+</script>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <!-- build:remove -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <!-- /build -->
+    <meta name="layout" content="main"/>
+    <title>居住证明</title>
+    <!-- build:remove -->
+    <link rel="stylesheet" href="../style/weui.css"/>
+    <link rel="stylesheet" href="./example.css"/>
+    <link rel="stylesheet" href="swiper-3.3.1.min.css"/>
+    <!-- /build -->
+</head>
+<body ontouchstart="">
+<!-- build:remove -->
+<input type="hidden" id="userid" value=""/>
+<input type="hidden" id="type" value=""/>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+<!-- /build -->
+<link rel="import" href="./approve/home.html">
+<link rel="import" href="./approve/approve.html" title="未办理列表">
+<link rel="import" href="./approve/undone.html" title="未办理">
+<link rel="import" href="./approve/back.html" title="退回原因">
+<link rel="import" href="./approve/noInform.html" title="未通知列表">
+<link rel="import" href="./approve/done.html" title="已完成列表">
+<link rel="import" href="./approve/detail.html" title="已完成详情">
+<!-- build:remove -->
+<script src="./zepto.min.js"></script>
+<script src="swiper.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
+<script>
+    var href = window.location.href;
+    var idx = href.indexOf('type=');
+    if(idx!==-1){
+        href = href.substring(idx+5);
+        idx = href.indexOf('&');
+        if(idx!==-1){
+            href = href.substring(0,idx);
+        }
+        $('#type').val(href)
+    }
+</script>
+<script src="./example.js"></script>
+<script src="./wx-mock.js"></script>
+<!-- /build -->
+</body>
+</html>

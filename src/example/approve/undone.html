@@ -1,0 +1,352 @@
+<div class="page page-list student-page">
+    <div class="header-box">未办理</div>
+    <div class="center-box padding-min">
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">自拍正面照</label></div>
+            <div class="weui-cell__bd bd-right font-color blur" id="self"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding on-read">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">在读证明</label></div>
+            <div class="weui-cell__bd bd-right font-color blur" id="prove"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">学生证</label></div>
+            <div class="weui-cell__bd bd-right font-color blur" id="student-card"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">姓名</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="name"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">身份证号</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="card"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">手机号</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="phone"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">婚姻状况</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="marray"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">血型</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="blood"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">身高(cm)</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="height"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">体重(kg)</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="weight"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">文化程度</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="education"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">宗教信仰</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="religion"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">兵役状况</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="military"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">入学时间</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="time"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding on-read">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">所在院系</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="faculty"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding on-read">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">所在专业</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="specialty"></div>
+        </div>
+        <div class="height-fixed-min"></div>
+    </div>
+    <div class="btn-box">
+        <a class="btn-min btn-min-gray" href="javascript:" id="back" data-id="back">退回</a>
+        <a class="btn-min" href="javascript:" id="showToast">办理完成</a>
+    </div>
+    <div class="weui-gallery" id="gallery">
+        <img src="" class="weui-gallery__img center-img" id="galleryImg"/>
+    </div>
+    <div class="js_dialog" id="iosDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="name-color name-margin">办理完成</div>
+            <div class="weui-dialog__bd" id="alert-news"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="know">知道了</a>
+            </div>
+        </div>
+    </div>
+    <div class="js_dialog" id="androidDialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__bd">
+                是否确认办理完成？
+            </div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel">取消</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm">确定</a>
+            </div>
+        </div>
+    </div>
+    <div id="img-big-box2">
+        <div class="swiper-container weui-gallery" dir="rtl" id="gallery2" style="position: absolute;left: 0;">
+            <div class="swiper-wrapper" id="gallery-box2"></div>
+            <div class="swiper-next-box" style="position: absolute;top: 50%;right:10px;width: 27px;height: 44px;margin-top: -22px;z-index: 9;"></div>
+            <div class="swiper-prev-box" style="position: absolute;top: 50%;left:10px;width: 27px;height: 44px;margin-top: -22px;z-index: 9;"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div class="prompt active" id="notNull"></div>
+</div>
+<script>
+    $(function(){
+        var $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),$gallery2 = $("#gallery2"),
+                $androidDialog2 = $('#androidDialog2'), $iosDialog2 = $('#iosDialog2'),
+                $know = $('#know'),type = $('#type').val(),container = $('#container'),
+                tag = false;
+        function hint(hints) {
+            $('#notNull').html(hints);
+            $('#notNull').fadeIn(100);
+            setTimeout(function () {
+                $('#notNull').fadeOut(100);
+            }, 2000);
+            tag = false;
+        }
+        $("#back").on('click',function () {
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        if(type == 1){
+            $('#alert-news').html('请及时通知申请人领取个人信息表');
+            $('.on-read').hide();
+        }else {
+            $('#alert-news').html('请及时通知申请人领取证明表');
+        }
+        var cid = container.data('data-cid');
+        $.ajax({
+            type: "POST",
+            url: "api/studentCert/detail.json",
+            data:{userid:$('#userid').val(),type:type,id:cid},
+            success: function (data) {
+                var item = data.data;
+                var n = 0;
+                var photos = item.photos.sort(function(a,b){return a.createTime - b.createTime;}),subItem;
+                for(var i in photos){
+                    subItem = photos[i];
+                    if(subItem.type === 1){
+                        $('#self').html('<img class="detail-img only-img" src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }else if(subItem.type === 3){
+                        $('#prove').html('<img  class="detail-img only-img" src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }else if(subItem.type === 2){
+                        n++;
+                        $('#student-card').append(' <img class="detail-img many-img" data-index="'+n+'" src="api/studentCert/photo?id='+subItem.id+'"/>');
+                    }
+                }
+                $('#name').html(item.name);
+                $('#card').html(item.info.card);
+                $('#phone').html(item.info.mobile);
+                $('#height').html(item.info.height);
+                $('#weight').html(item.info.weight);
+                $('#time').html(getLocalDate(item.info.enterSchoolTime));
+                $('#faculty').html(item.info.faculty);
+                $('#specialty').html(item.info.specialty);
+                marray(item);
+                blood(item);
+                education(item);
+                religion(item);
+                military(item);
+                $('.only-img').on("click", function(){
+                    preview(this,'check');
+                });
+                BigImg();
+            },
+            error: function () {
+                hint('操作失败');
+            }
+        });
+        function marray(item){
+            var mar = '';
+            switch(item.info.marray){
+                case 1:mar = '未婚';break;
+                case 2:mar = '已婚';break;
+                case 3:mar = '离异';break;
+                case 4:mar = '其他';break;
+                default:
+            }
+            $('#marray').html(mar);
+        }
+        function blood(item){
+            var blood = '';
+            switch(item.info.blood){
+                case 1:blood = 'A';break;
+                case 2:blood = 'B';break;
+                case 3:blood = 'O';break;
+                case 4:blood = 'AB';break;
+                case 5:blood = '其他';break;
+                case 6:blood = '不详';break;
+                default:
+            }
+            $('#blood').html(blood);
+        }
+        function education(item){
+            var education = '';
+            switch(item.info.education){
+                case 1:education = '本科';break;
+                case 2:education = '本科以上';break;
+                default:
+            }
+            $('#education').html(education);
+        }
+        function religion(item){
+            var religion = '';
+            switch(item.info.religion){
+                case 1:religion = '佛教';break;
+                case 2:religion = '道教';break;
+                case 3:religion = '天主教';break;
+                case 4:religion = '基督教';break;
+                case 5:religion = '伊斯兰教';break;
+                case 6:religion = '喇嘛教';break;
+                case 7:religion = '其他';break;
+                case 8:religion = '无宗教信仰';break;
+                default:
+            }
+            $('#religion').html(religion);
+        }
+        function military(item){
+            var military = '';
+            switch(item.info.military){
+                case 1:military = '未服兵役';break;
+                case 2:military = '退出现役';break;
+                case 3:military = '国防生';break;
+                case 4:military = '服现役';break;
+                default:
+            }
+            $('#military').html(military);
+        }
+
+        var swiper = '';
+        var widths = $(window).width();
+        function BigImg(){
+            $('.many-img').on("click", function(){
+                $('#gallery-box2').html('');
+                $('.swiper-button-next,.swiper-button-prev').hide();
+                inPop(function(){
+                    $('#gallery2').fadeOut(100);
+                });
+                var n= $(this).data('index')-1;
+                $gallery2.show();
+                var images = [];
+                $('.many-img').each (function(){
+                    var src = $(this).attr('src');
+                    images.push(src);
+                });
+                for(var i = 0;i<$('#student-card .many-img').length;i++){
+                    $('#img-big-box2 .swiper-container #gallery-box2').append('<div class="swiper-slide"><img style="width:'+widths+'px" src="'+images[i]+'"/></div>');
+                };
+                if(swiper!=''){
+                    if(n == 0){
+                        swiper.slideTo(0,1);
+                    }
+                }
+                swiper = new Swiper('#img-big-box2 .swiper-container', {
+                    initialSlide :n,
+                    pagination: '#img-big-box2 .swiper-pagination',
+                    paginationClickable: true,
+                    spaceBetween:20,
+                    nextButton: '.swiper-button-next',
+                    prevButton: '.swiper-button-prev'
+                });
+            });
+        };
+        $('#gallery-box2').on("click", function(){
+            outPop();
+            $gallery2.hide();
+        }).on('mouseenter',function(){
+            $('.swiper-button-next,.swiper-button-prev').show();
+            $('.swiper-slide').addClass('swiper-no-swiping');
+        });
+
+        var preview = function (target,type) {
+            inPop(function(){
+                var trash = $('.weui-gallery__opr');
+                trash.data('curr-media-id',null);
+                trash.data('curr-media-type',null);
+                $('#btnPanel').show();
+                $gallery.hide();
+            });
+            $galleryImg.attr("src", target.getAttribute("src"));
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',$(target).data('media-id'));
+            trash.data('curr-media-type',type);
+            $gallery.show();
+        };
+        $gallery.on("click", function(){
+            outPop();
+            var trash = $('.weui-gallery__opr');
+            trash.data('curr-media-id',null);
+            trash.data('curr-media-type',null);
+            $gallery.hide();
+        });
+
+        function inPop(callback){
+            pageManager.setBeforeHashchangeOnce(function (e) {
+                callback();
+                return false;
+            })
+        }
+
+        function outPop(){
+            pageManager.setBeforeHashchangeOnce(null)
+        }
+
+        $('#showToast').on('click',function(){
+            $androidDialog2.fadeIn(100);
+            $('#cancel').on('click',function(){
+                $androidDialog2.fadeOut(100);
+            });
+            if(tag){
+                return;
+            }
+            $('#confirm').on('click',function(){
+                var loading = weui.loading('提交中...');
+                $.ajax({
+                    type: "POST",
+                    url: "api/studentCert/done.json",
+                    data:{userid:$('#userid').val(),type:type,id:cid},
+                    success: function (data) {
+                        if(data.state == 0){
+                            loading.hide();
+                            tag = true;
+                            $androidDialog2.fadeOut(0);
+                            $iosDialog2.fadeIn(100);
+                        }else{
+                            loading.hide();
+                            hint('提交失败！');
+                            tag = false;
+                        }
+                    },
+                    error: function () {
+                        loading.hide();
+                        hint('提交失败！');
+                        tag = false;
+                    }
+                });
+            });
+        });
+
+        $know.on('click',function(){
+            $iosDialog2.fadeOut(100);
+            window.history.go(-1);
+        });
+
+    })
+</script>
