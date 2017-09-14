@@ -138,6 +138,19 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));
         }
+    },
+    {
+        /**
+         * 用户解绑微信
+         * @param id 用户id
+         * @return state 0 成功, -1 失败
+         *          error 信息
+         */
+        route: "/example/api/user/unbind.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:0}));
+        }
     }
 ];
 
