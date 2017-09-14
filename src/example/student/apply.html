@@ -215,6 +215,9 @@
                 userid: $('#userid').val(),
             },
             success: function(data) {
+                if(!data.list || data.list.length === 0){
+                    return;
+                }
                 var schoolList = []
                 for(var i=0;i < data.list.length;i++){
                     schoolList.push({
