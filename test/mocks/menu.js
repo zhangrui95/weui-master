@@ -23,9 +23,9 @@ var menus = [
     {id:'18',name:"未带身份证入住",href:"hotel.html",icon:"images/icon2.png",state:1,orderNum:1},
     {id:'19',name:"从业人员上报",hash:"employee-report",icon:"images/icon3.png",state:1,orderNum:2},
     {id:'20',name:"散装油交易登记",href:"station.html",icon:"images/icon12.png",state:1,orderNum:3},
-    {id:'21',name:"居住证明办理",href:"approve.html",icon:"images/icon13.png",state:1,orderNum:8},
-    {id:'22',name:"居住证明办理",href:"student.html",icon:"images/icon13.png",state:1,orderNum:8},
-    {id:'23',name:"绑定手机",href:"checkMobile.html",icon:"images/icon14.png",state:1,orderNum:8}
+    {id:'21',name:"居住证明办理",href:"approve.html",icon:"images/icon13.png",state:1,orderNum:9},
+    {id:'22',name:"居住证明办理",href:"student.html",icon:"images/icon13.png",state:1,orderNum:4},
+    {id:'23',name:"绑定手机",href:"checkMobile.html",icon:"images/icon14.png",state:1,orderNum:1}
 
 ].reduce(function(ret,it){
     ret[it.id] = it;
@@ -33,6 +33,7 @@ var menus = [
 },{});
 
 var menuIds = {
+    guest: function(){return ['22','23'];},
     leader: function(){return ['1','2','3','4','5','6','7','8'];},
     police: function(buf){
         var menu = ['12','13','14','15','16','17','21'];
@@ -75,6 +76,8 @@ var getMenu = function (buf) {
         menu = getMenuByKey(buf,'police');
     }else if(buf.indexOf('target=dept_company') !== -1){
         menu = getMenuByKey(buf,'company');
+    }else if(buf.indexOf('target=dept_guest') !== -1){
+        menu = getMenuByKey(buf,'guest');
     }else if(buf.indexOf('target=dept_community') !== -1){
         menu = []
     }else{
