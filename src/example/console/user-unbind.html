@@ -1,0 +1,97 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>手机：<input id="mobile" type="text"/><button id="query">查询</button></div>
+    </div>
+    <div style="margin-top: 10px">
+        <ul>
+            <input type="hidden" id="itemId"/>
+            <li>名称：<span id="name"></span></li>
+            <li>角色：<span id="role"></span></li>
+            <li>职务：<span id="post"></span></li>
+            <li>状态：<span id="state"></span></li>
+            <li><button id="unbind">解绑</button></li>
+        </ul>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var baseAction = {
+            method:'POST',
+            url:undefined,
+            done:function (xhr) {
+                $('#result').html(JSON.stringify(xhr));
+                actions.list && actions.list.doAction({userid:$('#userid').val(),mobile:$('#mobile').val()});
+            },
+            fail:function (err) {
+                $('#result').html(JSON.stringify(err));
+            },
+            doAction : function (data) {
+                var remote = {
+                    type: this.method,
+                    url: this.url,
+                    success: this.done,
+                    error: this.fail
+                };
+                if(this.method == 'POST'){
+                    remote.data = data;
+                }else{
+                    remote.url += '?'+data;
+                }
+                $.ajax(remote);
+            }
+        };
+
+        var actions = {};
+        var initAction = function (action) {
+            var obj;
+            if(typeof action == 'string'){
+                obj = $.extend({url:action},baseAction);
+            }else if(typeof action == 'object'){
+                obj = $.extend({},baseAction,action);
+            }else{
+                return;
+            }
+            return obj;
+        };
+
+        var initActions = function (option) {
+            for(var i in option){
+                actions[i] = initAction(option[i])
+            }
+        };
+
+        var option = {
+            unbind:'api/user/unbind.json',
+            list:{
+                url:'api/user/list.json',
+                done:function (xhr) {
+                    var item = xhr && xhr.length > 0 ?xhr[0]:{};
+                    $('#itemId').val(item.id);
+                    $('#name').html(item.name);
+                    $('#role').html(item.role);
+                    $('#post').html(item.post);
+                    $('#state').html(item.state);
+                }
+            }
+        };
+        initActions(option);
+
+        var unbind = function () {
+            actions.unbind.doAction({userid:$('#userid').val(),id:$('#itemId').val()});
+        };
+
+        var list = function (mobile) {
+            actions.list.doAction({userid:$('#userid').val(),mobile:mobile});
+        };
+
+        var mobile = $('#mobile');
+        $('#query').on('click',function(){
+            list(mobile.val());
+        });
+
+        $('#unbind').on('click',unbind);
+
+    });
+</script>
