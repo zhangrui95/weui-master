@@ -24,8 +24,8 @@ var menus = [
     {id:'19',name:"从业人员上报",hash:"employee-report",icon:"images/icon3.png",state:1,orderNum:2},
     {id:'20',name:"散装油交易登记",href:"station.html",icon:"images/icon12.png",state:1,orderNum:3},
     {id:'21',name:"居住证明办理",href:"approve.html",icon:"images/icon13.png",state:1,orderNum:9},
-    {id:'22',name:"居住证明办理",href:"student.html",icon:"images/icon13.png",state:1,orderNum:4},
-    {id:'23',name:"绑定手机",href:"checkMobile.html",icon:"images/icon14.png",state:1,orderNum:1}
+    {id:'22',name:"居住证明办理",href:"student.html",icon:"images/icon13.png",state:1,orderNum:4, serviceGroupKey:'public'},
+    {id:'23',name:"绑定手机",href:"checkMobile.html",icon:"images/icon14.png",state:1,orderNum:1, serviceGroupKey:'public'}
 
 ].reduce(function(ret,it){
     ret[it.id] = it;
