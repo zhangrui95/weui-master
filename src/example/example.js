@@ -349,8 +349,9 @@ $(function () {
     var maxLen = function (menu, option) {
         var len = menu.length, setLen = option.col * option.row;
         if (len > setLen) {
-            var off = len % option.col;
-            len = off == 0 ? len : (len + option.col - off)
+            // var off = len % option.col;
+            // len = off == 0 ? len : (len + option.col - off)
+            len = (parseInt(len/3)+1)*3
         } else {
             len = setLen;
         }
