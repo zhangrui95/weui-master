@@ -377,12 +377,14 @@ $(function () {
     var renderMenu = function (option, menu) {
         var len = maxLen(menu, option);
         var html = '',item;
+        html += '<div class="weui-grids" style="margin-top:0;border-top:10px solid #f0f0f0">'
         for (var i = 0; i < len; i++) {
             item = menu[i];
             option.processMenuItem(item);
             html += renderMenuItem(item);
         }
-        $(option.menu).html(html);
+        html += '</div>'
+        $(option.menu).append(html);
     };
     var bindMenuItemHandler = function (option) {
         $('.weui-grid').on('click', function () {
@@ -459,7 +461,22 @@ $(function () {
         //     redirectOneItem(option, menu[0]);
         //     return;
         // }
-        renderMenu(option, filterMenu(menu).sort(menuSort));
+        var menuByGroup = {}
+        for (var i = 0; i < menu.length; i++) {
+            var group = menu[i].serviceGroupKey || 'default'
+            if (!menuByGroup[group]) {
+                menuByGroup[group] = []
+            }
+            menuByGroup[group].push(menu[i])
+        }
+        var groupArr = []
+        for (var i in menuByGroup) {
+            groupArr.push(i)
+        }
+        groupArr.sort()
+        for (var i = 0; i < groupArr.length; i++) {
+            renderMenu(option, filterMenu(menuByGroup[groupArr[i]]).sort(menuSort));
+        }
         bindMenuItemHandler(option);
     };
 

@@ -1,14 +1,12 @@
 <div class="page">
     <div class="header-bg"><span id="imgandname"></span><img src="images/index-icon.png" class="police-title-img"/></div>
-    <div id="menu" class="weui-grids"></div>
+    <div id="menu"></div>
 </div>
 <script>
      $('#container').data('detail-source-state',"0");
     var target = $('#userPost').val();
     target = target == null || target == '' ? 'police' : target;
     var menuOpt = {
-        row:4,
-        col:3,
         target:target,//police 民警 police|RAdmin 值班管理员 police|CAdmin企业管理员
         beforePageChange : function (hash) {
             var $container = $('#container');

@@ -3,15 +3,13 @@
         今日值班民警：<span></span>
         <img src="images/index-icon.png" class="police-title-img"/>
     </div>
-    <div id="menu" class="weui-grids"></div>
+    <div id="menu"></div>
 </div>
 <script>
     $('#container').data('detail-source-state',"0");
     var target = $('#userPost').val();
     target = target == null || target == '' ? 'leader' : target;
     var menuOpt = {
-        row:4,
-        col:3,
         target:target,
         beforePageChange : function (hash) {
             var $container = $('#container');
