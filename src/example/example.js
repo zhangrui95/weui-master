@@ -351,7 +351,8 @@ $(function () {
         if (len > setLen) {
             // var off = len % option.col;
             // len = off == 0 ? len : (len + option.col - off)
-            len = (parseInt(len/3)+1)*3
+            var off = len%3===0?0:1
+            len = (parseInt(len/3)+off)*3
         } else {
             len = setLen;
         }
