@@ -15,7 +15,6 @@
 <body ontouchstart="">
 <!-- build:remove -->
 <input type="hidden" id="userid" value=""/>
-<input type="hidden" id="type" value=""/>
 <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
 <div class="container" id="container"></div>
 <!-- /build -->
@@ -26,18 +25,6 @@
 <script src="./zepto.min.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.1.1/weui.min.js"></script>
-<script>
-    var href = window.location.href;
-    var idx = href.indexOf('type=');
-    if(idx!==-1){
-        href = href.substring(idx+5);
-        idx = href.indexOf('&');
-        if(idx!==-1){
-            href = href.substring(0,idx);
-        }
-        $('#type').val(href)
-    }
-</script>
 <script src="./example.js"></script>
 <script src="./wx-mock.js"></script>
 <!-- /build -->

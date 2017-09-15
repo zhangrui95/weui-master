@@ -55,7 +55,7 @@ var menuIds = {
         }else if(buf.indexOf('target=dept_company-Oil') !== -1){
             menu = menu.concat(['20'])
         }
-        return menu;
+        return menu.concat(['22']);
     }
 };
 
