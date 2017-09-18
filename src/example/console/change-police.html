@@ -1,0 +1,94 @@
+<div class="page">
+    <div class="weui-grids">
+        <div>从：<label><select id="oldPolice"></select></label>到<label><select id="newPolice"></select></label></div>
+        <div><label>包含未带身份证数据<input type="checkbox" id="isAll" checked></label></div>
+        <div><button id="change">交接</button></div>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    $(function(){
+
+        var baseAction = {
+            method:'POST',
+            url:undefined,
+            done:function (xhr) {
+                $('#result').html(JSON.stringify(xhr));
+            },
+            fail:function (err) {
+                $('#result').html(JSON.stringify(err));
+            },
+            doAction : function (data) {
+                $('#result').html('');
+                var remote = {
+                    type: this.method,
+                    url: this.url,
+                    success: this.done,
+                    error: this.fail
+                };
+                if(this.method === 'POST'){
+                    remote.data = data;
+                }else{
+                    remote.url += '?'+data;
+                }
+                $.ajax(remote);
+            }
+        };
+
+        var actions = {};
+        var initAction = function (action) {
+            var obj;
+            if(typeof action === 'string'){
+                obj = $.extend({url:action},baseAction);
+            }else if(typeof action === 'object'){
+                obj = $.extend({},baseAction,action);
+            }else{
+                return;
+            }
+            return obj;
+        };
+
+        var initActions = function (option) {
+            for(var i in option){
+                actions[i] = initAction(option[i])
+            }
+        };
+
+        var option = {
+            change:'api/user/changePolice.json',
+            list:{
+                url:'api/user/list.json',
+                done:function (xhr) {
+                    var html = '',item;
+                    for(var i in xhr){
+                        item = xhr[i];
+                        html += '<option value="'+item.id+'">'+item.name+'</option>';
+                    }
+                    $('#oldPolice').html(html);
+                    $('#newPolice').html(html);
+                }
+            }
+        };
+        initActions(option);
+
+        var change = function () {
+            var oldPolice = $('#oldPolice').val();
+            var newPolice = $('#newPolice').val();
+            if(oldPolice === newPolice){
+                $('#result').html('新旧不能相同');
+                return;
+            }
+            var isAll = $('#isAll').prop('checked');
+            actions.change.doAction({userid:$('#userid').val(),oldPoliceId:oldPolice, newPoliceId:newPolice, isAll:isAll});
+        };
+
+        var list = function () {
+            actions.list.doAction({userid:$('#userid').val(),role:'dept_police'});
+        };
+
+        list();
+
+        $('#change').on('click',change);
+
+    });
+</script>
