@@ -151,6 +151,21 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));
         }
+    },
+    {
+        /**
+         * 民警交接
+         * @param oldPoliceId 旧民警id
+         * @param newPoliceId 新民警id
+         * @param isAll 是否包含非警区关联数据 目前只有值班数据
+         * @return state 0 成功, -1 失败
+         *          error 信息
+         */
+        route: "/example/api/user/changePolice.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:0}));
+        }
     }
 ];
 
