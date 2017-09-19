@@ -1,15 +1,18 @@
 <div class="page">
     <div class="weui-grids">
-        <div>手机：<input id="mobile" type="text"/><button id="query">查询</button></div>
+        <div>手机：<label><input id="mobile" type="text"/></label><button id="query">查询</button></div>
     </div>
     <div style="margin-top: 10px">
+        <input type="hidden" id="itemId"/>
         <ul>
-            <input type="hidden" id="itemId"/>
             <li>名称：<span id="name"></span></li>
             <li>角色：<span id="role"></span></li>
             <li>职务：<span id="post"></span></li>
             <li>状态：<span id="state"></span></li>
-            <li><button id="unbind">解绑</button></li>
+            <li>openId：<span id="openId"></span></li>
+            <li><button id="unbind">解绑</button>会抹掉游客手机号</li>
+            <li>重设手机：<label><input id="newMobile" type="text"/></label></li>
+            <li><button id="unbindWithMobile">解绑并重设手机号</button>保留游客为旧手机号,重设原用户手机号</li>
         </ul>
     </div>
     <div id="result"></div>
@@ -34,7 +37,7 @@
                     success: this.done,
                     error: this.fail
                 };
-                if(this.method == 'POST'){
+                if(this.method === 'POST'){
                     remote.data = data;
                 }else{
                     remote.url += '?'+data;
@@ -46,9 +49,9 @@
         var actions = {};
         var initAction = function (action) {
             var obj;
-            if(typeof action == 'string'){
+            if(typeof action === 'string'){
                 obj = $.extend({url:action},baseAction);
-            }else if(typeof action == 'object'){
+            }else if(typeof action === 'object'){
                 obj = $.extend({},baseAction,action);
             }else{
                 return;
@@ -64,6 +67,7 @@
 
         var option = {
             unbind:'api/user/unbind.json',
+            unbindWithMobile:'api/user/unbindWithMobile.json',
             list:{
                 url:'api/user/list.json',
                 done:function (xhr) {
@@ -73,14 +77,44 @@
                     $('#role').html(item.role);
                     $('#post').html(item.post);
                     $('#state').html(item.state);
+                    $('#openId').html(item.openId);
                 }
             }
         };
         initActions(option);
 
         var unbind = function () {
-            actions.unbind.doAction({userid:$('#userid').val(),id:$('#itemId').val()});
+            var $result = $('#result');
+            $result.html('');
+            var id = $('#itemId').val();
+            if(!id || id.length === 0){
+                $result.html('先查询用户才能解绑');
+                return
+            }
+            actions.unbind.doAction({userid:$('#userid').val(),id: id});
         };
+
+        var unbindWithMobile = function () {
+            var $result = $('#result');
+            $result.html('');
+            var id = $('#itemId').val();
+            if(!id || id.length === 0){
+                $result.html('先查询用户才能解绑');
+                return
+            }
+            var role = $('#role').text();
+            if(role === 'dept_guest'){
+                $result.html('游客不能重设');
+                return
+            }
+            var mobile = $('#newMobile').val();
+            if(!mobile || mobile.length === 0){
+                $result.html('重设手机不能为空');
+                return
+            }
+            actions.unbindWithMobile.doAction({userid:$('#userid').val(),id: id, mobile:mobile});
+        };
+
 
         var list = function (mobile) {
             actions.list.doAction({userid:$('#userid').val(),mobile:mobile});
@@ -92,6 +126,7 @@
         });
 
         $('#unbind').on('click',unbind);
+        $('#unbindWithMobile').on('click',unbindWithMobile);
 
     });
 </script>

@@ -81,7 +81,7 @@ var routes = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify([
-                {name:'艾一一',state:-1,id:'key1',role:'dept_dev'},
+                {name:'艾一一',state:-1,id:'key1',role:'dept_dev',openId:'test1'},
                 {name:'陈二二',state:1,id:'key2',role:'dept_dev',post:'所长'},
                 {name:'傅志强',state:2,id:'key3',role:'dept_dev',post:'副所长'},
                 {name:'关四四',state:1,id:'key4',role:'dept_dev',post:'教导员'},
@@ -141,12 +141,26 @@ var routes = [
     },
     {
         /**
-         * 用户解绑微信
+         * 用户解绑微信 抹掉游客手机号
          * @param id 用户id
          * @return state 0 成功, -1 失败
          *          error 信息
          */
         route: "/example/api/user/unbind.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify({state:0}));
+        }
+    },
+    {
+        /**
+         * 用户解绑微信 保留游客手机号 修改非游客手机号
+         * @param id 用户id
+         * @param mobile 非游客新手机号
+         * @return state 0 成功, -1 失败
+         *          error 信息
+         */
+        route: "/example/api/user/unbindWithMobile.json",
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));
