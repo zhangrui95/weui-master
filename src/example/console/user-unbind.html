@@ -69,9 +69,9 @@
             unbind:'api/user/unbind.json',
             unbindWithMobile:'api/user/unbindWithMobile.json',
             list:{
-                url:'api/user/list.json',
+                url:'api/user/queryByMobile.json',
                 done:function (xhr) {
-                    var item = xhr && xhr.length > 0 ?xhr[0]:{};
+                    var item = xhr && xhr.data ?xhr.data:{};
                     $('#itemId').val(item.id);
                     $('#name').html(item.name);
                     $('#role').html(item.role);
