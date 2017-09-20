@@ -3,24 +3,24 @@
 </div>
 <script>
     var menuOpt = {
-        row:4,
+        row:1,
         col:3,
         data:{menu:[
             {name:"企业类型",hash:"com-type",icon:"images/icon8.png"},
-            {name:"社区",hash:"community",icon:"images/icon8.png"},
-            {name:"民警社区",hash:"policeCmm",icon:"images/icon8.png"},
-            {name:"用户",hash:"user",icon:"images/icon8.png"},
-            {name:"用户解绑",hash:"user-unbind",icon:"images/icon8.png"},
+            {name:"社区",hash:"community",icon:"images/icon8.png", serviceGroupKey: 'comm'},
+            {name:"民警社区",hash:"policeCmm",icon:"images/icon8.png", serviceGroupKey: 'comm'},
+            {name:"用户",hash:"user",icon:"images/icon8.png", serviceGroupKey: 'user'},
+            {name:"用户解绑",hash:"user-unbind",icon:"images/icon8.png", serviceGroupKey: 'user'},
             {name:"民警交接",hash:"change-police",icon:"images/icon8.png"},
-            {name:"社区楼长",hash:"comm-user",icon:"images/icon8.png"},
-            {name:"社区领导",hash:"comm-leader",icon:"images/icon8.png"},
-            {name:"用户导入",hash:"user-imp",icon:"images/icon8.png"},
+            {name:"社区楼长",hash:"comm-user",icon:"images/icon8.png", serviceGroupKey: 'comm'},
+            {name:"社区领导",hash:"comm-leader",icon:"images/icon8.png", serviceGroupKey: 'comm'},
+            {name:"用户导入",hash:"user-imp",icon:"images/icon8.png", serviceGroupKey: 'user'},
             {name:"九宫格菜单",hash:"app-menu",icon:"images/icon8.png"},
             {name:"油价设置",hash:"set-oil",icon:"images/icon8.png"},
             {name:"重载",hash:"reload",icon:"images/icon8.png"},
-            {name:"增加派出所用户",hash:"add-user",icon:"images/icon8.png"},
-            {name:"设置轮询时间",hash:"time",icon:"images/icon8.png"},
-            {name:"添加类型",hash:"add-type",icon:"images/icon8.png"},
+            {name:"增加派出所用户",hash:"add-user",icon:"images/icon8.png", serviceGroupKey: 'inner'},
+            {name:"设置轮询时间",hash:"time",icon:"images/icon8.png", serviceGroupKey: 'inner'},
+            {name:"添加类型",hash:"add-type",icon:"images/icon8.png", serviceGroupKey: 'inner'}
         ]},
         error:function (err) {
             console.log(err)

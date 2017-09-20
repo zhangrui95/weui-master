@@ -5,6 +5,8 @@
     var target = $('#userPost').val();
     target = target == null || target == '' ? 'company' : target;
     var menuOpt = {
+        row:1,
+        col:3,
         target:target,//company company|Hotel company|Oil
         error:function (err) {
             console.log(err)
