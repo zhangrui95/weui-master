@@ -200,7 +200,7 @@
         });
         //选择文化程度
         $('#culture').on('click',function(){
-            weui.picker([{label: '本科', value: 1 }, {label: '本科以上', value: 2}], {
+            weui.picker([{label: '本科以上', value: 2}, {label: '本科', value: 1 }, {label: '大专', value: 3 }], {
                 onConfirm: function (result) {
                     $('#culture').html(result[0].label);
                     container.data('data-culture',result[0].value);
