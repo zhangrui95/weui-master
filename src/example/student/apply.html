@@ -150,7 +150,9 @@
             </div>
             <div class="weui-dialog__ft">
                 <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel">取消</a>
-                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm">确定</a>
+                <!-- build:[data-href] company -->
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" data-href="company.html" id="confirm">确定</a>
+                <!-- /build -->
             </div>
         </div>
     </div>
@@ -622,7 +624,8 @@
             $androidDialog2.fadeIn(100);
             $('#confirm').unbind().on('click',function(){
                 $('input').blur();
-                wx.closeWindow();
+                var href = $(this).data('href');
+                window.location.href = href+'?userid='+$('#userid').val()+'&menu=dept_guest#menu';
             });
         });
         $('.choice').click(function(){
