@@ -191,7 +191,7 @@ var routes = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify(
-                {state:0, data:{id:'k1',name:'张三',avatar:'images/icon1.png?'}}
+                {state:0, data:{name:'艾一一',state:-1,id:'key1',role:'dept_dev',openId:'test1'}}
             ));
         }
     },
