@@ -180,7 +180,21 @@ var routes = [
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             res.end(JSON.stringify({state:0}));
         }
-    }
+    },
+    {
+        /**
+         * @param mobile 手机号
+         * @return state 0 成功, -1 失败
+         *          data user
+         */
+        route: "/example/api/user/queryByMobile.json",
+        handle: function (req, res, next) {
+            res.setHeader('Content-Type','application/json; charset=UTF-8');
+            res.end(JSON.stringify(
+                {id:'k1',name:'张三',avatar:'images/icon1.png?'}
+            ));
+        }
+    },
 ];
 
 module.exports = routes;
