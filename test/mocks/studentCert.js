@@ -5,6 +5,7 @@ var routes = [
      * @param name like name
      * @param type eq type 1身份证2居住证
      * @param state eq state 0申请1完成2通知
+     * @param cid eq 学校id
      * @return studentCert list pageable
      */
     {
@@ -12,15 +13,15 @@ var routes = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             var ret = {"state":0,"count":9,"list":[
-                {"id":"1","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175965000,"info":null,"name":"test三1","photos":null,"state":0,"type":1,"user":null,result:1},
-                {"id":"2","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三2","photos":null,"state":0,"type":1,"user":null,result:1},
-                {"id":"3","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三3","photos":null,"state":0,"type":1,"user":null,result:-1},
-                {"id":"4","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三4","photos":null,"state":0,"type":1,"user":null,result:1},
-                {"id":"5","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三5","photos":null,"state":0,"type":1,"user":null,result:1},
-                {"id":"6","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三6","photos":null,"state":0,"type":1,"user":null,result:-1},
-                {"id":"7","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三7","photos":null,"state":0,"type":1,"user":null,result:-1},
-                {"id":"8","aid":"4028b881594edc0301594edc1ec20030","createTime":1482175985000,"info":null,"name":"test三8","photos":null,"state":0,"type":1,"user":null,result:1},
-                {"id":"9","aid":"4028b881594edc0301594edc1ec20030","createTime":1482175985000,"info":null,"name":"test三9","photos":null,"state":0,"type":1,"user":null,result:-1}
+                {"id":"1","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175965000,"info":null,"name":"test三1","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c1","name":"随便哪个学校1"},result:1},
+                {"id":"2","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三2","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c2","name":"随便哪个学校2"},result:1},
+                {"id":"3","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三3","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c3","name":"随便哪个学校3"},result:-1},
+                {"id":"4","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三4","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c4","name":"随便哪个学校4"},result:1},
+                {"id":"5","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三5","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c5","name":"随便哪个学校5"},result:1},
+                {"id":"6","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三6","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c6","name":"随便哪个学校6"},result:-1},
+                {"id":"7","aid":"4028b881594edc0301594edc1ec20030","createTime":1492175985000,"info":null,"name":"test三7","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c7","name":"随便哪个学校7"},result:-1},
+                {"id":"8","aid":"4028b881594edc0301594edc1ec20030","createTime":1482175985000,"info":null,"name":"test三8","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c8","name":"随便哪个学校8"},result:1},
+                {"id":"9","aid":"4028b881594edc0301594edc1ec20030","createTime":1482175985000,"info":null,"name":"test三9","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c9","name":"随便哪个学校9"},result:-1}
                 ]};
             res.end(JSON.stringify(ret));
         }
@@ -29,6 +30,7 @@ var routes = [
      * @param name like name
      * @param type eq type 1身份证2居住证
      * @param state eq state 0申请1完成2通知
+     * @param cid eq 学校id
      * @return studentCert list
      */
     {
@@ -36,8 +38,8 @@ var routes = [
         handle: function (req, res, next) {
             res.setHeader('Content-Type','application/json; charset=UTF-8');
             var ret = {"state":0,"list":[
-                {"id":"1","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175965000,"info":null,"name":"test三1","photos":null,"state":0,"type":1,"user":null},
-                {"id":"2","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三2","photos":null,"state":0,"type":1,"user":null}
+                {"id":"1","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175965000,"info":null,"name":"test三1","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c1","name":"随便哪个学校1"}},
+                {"id":"2","aid":"4028b881594edc0301594edc1ec20030","createTime":1502175985000,"info":null,"name":"test三2","photos":null,"state":0,"type":1,"user":null,"company":{"id":"c2","name":"随便哪个学校2"}}
             ]};
             res.end(JSON.stringify(ret));
         }

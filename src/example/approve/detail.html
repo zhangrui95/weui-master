@@ -9,6 +9,8 @@
         <div class="img-box" id="student-card"></div>
         <div class="choice-problem img-title">联系方式</div>
         <div class="constent-box phone-blue" id="phone" href=""></div>
+        <div class="choice-problem img-title">所在学校</div>
+        <div class="constent-box" id="school"></div>
         <div id="back"></div>
         <div class="height-fixed-min"></div>
     </div>
@@ -60,6 +62,7 @@
                 });
                 $('#phone').html(item.mobile);
                 $('#phone').attr('href','tel:'+item.mobile);
+                $('#school').html(item.company.name);
                 var result = item.result;
                 if(result === -1){
                     $('#back').html('<div class="choice-problem img-title">退回原因</div>'+

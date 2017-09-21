@@ -119,7 +119,7 @@
                 }
                 return head + '<div class="list" data-id="detail" data-tid="'+items.id+'"><div class="time-box">' +
                         '<div class="number number-line-height">'+(index<10?'0'+index:index)+'.</div>' +
-                        '<div class="list-news"><div class="name-color name-color-line">'+items.name+'</div></div></div>' +
+                        '<div class="list-news"><div class="name-color name-color-line">'+items.name+' '+items.company.name+'</div></div></div>' +
                          '<div class="outed'+(items.result === -1?'':' active')+'">已退回</div>'+
                         '</div>'
             },

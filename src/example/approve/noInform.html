@@ -130,7 +130,7 @@
                 }
                 return head + '<div class="list"><div class="time-box">' +
                     '<input class="check-problem checkbox" id="'+items.id+'" data-id="'+items.id+'" data-date="'+dateText+'" type="checkbox"/><label for="'+items.id+'"></label><div class="number checkbox-left-num number-line-height">'+(index<10?'0'+index:index)+'.</div>' +
-                    '<div class="list-news"><div class="name-color name-color-line">'+items.name+'</div></div></div></div>'
+                    '<div class="list-news"><div class="name-color name-color-line">'+items.name+' '+items.company.name+'</div></div></div></div>'
             },
             before:function(){
                 $("#load").show();
