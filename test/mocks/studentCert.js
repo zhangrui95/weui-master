@@ -53,6 +53,8 @@ var routes = [
      *              religion 1佛教2道教3天主教4基督教5伊斯兰教6喇嘛教7其他8无宗教信仰
      *          photos -> studentCertPhoto
      *              type 1正面照2学生证3在读证明
+     *          company 学校
+     *              name 名称
      */
     {
         route: "/example/api/studentCert/detail.json",
@@ -69,7 +71,8 @@ var routes = [
                     {"id":"3","cert":null,"createTime":1502121600000,"name":"33","path":"/w","type":3}
                     ],
                 "state":0,"type":1,
-                "user":{"id":"8a238ae15be7400b015be7419f580000","aid":"4028b881594edc0301594edc1ec20030","avatar":"","createTime":1494233489256,"name":"(｀?ω?′)","openId":"oLb11wQ2gzM8dDO51rsul7oEB8X8","role":"dev","state":1,"updateStamp":1494233489334}
+                "user":{"id":"8a238ae15be7400b015be7419f580000","aid":"4028b881594edc0301594edc1ec20030","avatar":"","createTime":1494233489256,"name":"(｀?ω?′)","openId":"oLb11wQ2gzM8dDO51rsul7oEB8X8","role":"dev","state":1,"updateStamp":1494233489334},
+                "company":{"id":"c1","name":"随便哪个学校"}
             }};
             res.end(JSON.stringify(ret));
         }

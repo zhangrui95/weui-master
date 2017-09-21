@@ -58,6 +58,10 @@
             <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="time"></div>
         </div>
         <div class="none-flex cell-border cell-margin cell-border-padding on-read">
+            <div class="weui-cell__hd"><label class="weui-label label-line-height">所在学校</label></div>
+            <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="school"></div>
+        </div>
+        <div class="none-flex cell-border cell-margin cell-border-padding on-read">
             <div class="weui-cell__hd"><label class="weui-label label-line-height">所在院系</label></div>
             <div class=" weui-cell__bd bd-right font-color blur label-line-height" id="faculty"></div>
         </div>
@@ -157,6 +161,7 @@
                 $('#height').html(item.info.height);
                 $('#weight').html(item.info.weight);
                 $('#time').html(getLocalDate(item.info.enterSchoolTime));
+                $('#school').html(item.company.name);
                 $('#faculty').html(item.info.faculty);
                 $('#specialty').html(item.info.specialty);
                 marray(item);
