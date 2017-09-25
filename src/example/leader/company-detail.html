@@ -196,55 +196,9 @@
                 console.log("error");
             }
         });
-        $('#change').on('touchstart',function(e){
-            var left = e.touches[0].pageX;
-            var top = e.touches[0].pageY;
-            e.preventDefault();
-            $('body').on('touchmove',function(e){
-                var x = e.touches[0].clientX-25;
-                var y = e.touches[0].clientY-25;
-                $('#change').css('left',x + "px");
-                $('#change').css('top',y + "px");
-            });
-            $('#change').on('touchend',function(e){
-                var endX = e.changedTouches[0].pageX;
-                var endY= e.changedTouches[0].pageY;
-                var moveX = left - endX;
-                var moveY = top -endY;
-                $('body').unbind();
-//                if(moveX==0&&moveY==0){
-//                    changeClick();
-//                }
-                if(moveX<5&&moveX>-5&&moveY<5&&moveY>-5){
-                    changeClick();
-                }
-            });
-        });
-        $('#change').on('mousedown',function(e){
-            var _event = window.event||e;
-            var left = _event.offsetX;
-            var top = _event.offsetY;
-            var downX = _event.pageX;
-            var downY = _event.pageY;
-            _event.preventDefault();
-            $('body').on('mousemove',function(e){
-                var _event = window.event||e;
-                var x = _event.clientX-left;
-                var y = _event.clientY-top;
-                $('#change').css('left',x + "px");
-                $('#change').css('top',y + "px");
-            });
-            $('#change').on('mouseup',function(e){
-                $('body').unbind();
-                var upX = e.pageX;
-                var upY = e.pageY;
-                var moveX = downX - upX;
-                var moveY = downY - upY;
-                if(moveX==0&&moveY==0){
-                    changeClick();
-                }
-            });
-        });
+        $('#change').on('drag',function(x,y){
+            return {x:x-25,y:y-25}
+        }).on('click',changeClick);
         function changeClick() {
             $('.bd-right').css('margin-right','25px');
             $('.icon-go-width').show();
@@ -713,17 +667,25 @@
                 getMobile(linkPhone);
             }
             function getMobile(linkPhone) {
+                if($('#link-box').find('[data-phone="'+linkPhone+'"]').length !== 0){
+                    hint('操作失败，联系人手机号码已存在！');
+                    return;
+                }
+                if(tag){
+                    return;
+                }
+                tag = true;
                 $.ajax({
                     type: "POST",
                     url: 'api/user/checkMobile.json',
                     data:{userid:$('#userid').val(),mobile:linkPhone},
                     success: function (xhr) {
                         if(xhr.state == 0){
-                            tag = false;
                             Link();
                         }else{
                             hint('操作失败，联系人手机号码已存在！')
                         }
+                        tag = false;
                     },
                     error: function (err) {
                         $('#result').html(JSON.stringify(err));
@@ -813,13 +775,20 @@
                     }
                 });
                 function getLinkman(linkPhone) {
+                    if($('#link-box').find('[data-phone="'+linkPhone+'"]').length !== 0){
+                        hint('操作失败，联系人手机号码已存在！');
+                        return;
+                    }
+                    if(tag){
+                        return;
+                    }
+                    tag = true;
                     $.ajax({
                         type: "POST",
                         url: 'api/user/checkMobile.json',
                         data:{userid:$('#userid').val(),mobile:linkPhone},
                         success: function (xhr) {
                             if(xhr.state == 0){
-                                tag = false;
                                 _this.html($('#linkName').val());
                                 _this_phone.html($('#linkPhone').val());
                                 $('#alert-person,#changeground,#amend').fadeOut(100);
@@ -827,6 +796,7 @@
                             }else{
                                 hint('操作失败，联系人手机号码已存在！');
                             }
+                            tag = false;
                         },
                         error: function (err) {
                             $('#result').html(JSON.stringify(err));
