@@ -132,13 +132,13 @@
             }
         };
         var currDataList = window.dataList.newList(currDataListCfg);
-        currDataList.first({type:type,state:2,name:searchName});
+        currDataList.first({type:type,state:2,name:searchName, isNewFirst: true});
         $('#showToast').on('click',function(){
             lastDate = '';
            var name = $('#searchInput').val();
             container.data('search-name',name);
             outPop();
-            currDataList.first({type:type,state:2,name:name});
+            currDataList.first({type:type,state:2,name:name, isNewFirst: true});
             $('#filtrate').fadeOut(100);
         });
 
