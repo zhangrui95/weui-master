@@ -8,7 +8,7 @@
         <div class="draw-time-title">领取地址</div>
         <div class="draw-time" ><input class="text-place" type="text" id="address"></div>
     </div>
-    <div class="center-box padding-min" style="height:calc(100vh - 240px)">
+    <div class="center-box padding-min" style="height:calc(100vh - 245px)">
         <div class="weui-cells weui-cells_checkbox" id="list"></div>
         <div class="weui-loadmore" id="load">
             <i class="weui-loading"></i>
@@ -99,6 +99,7 @@
             itemsPanel:$list,
             xhrExternalProcess : function (params,xhr) {
                 total = xhr.count;
+                if(xhr.list.length < 10) $('.weui-loadmore_line').show()
                 $('#headerText').text('未通知('+total+')');
                 $('#allText').text('全部选择('+total+')');
                 if($('#checkAll').prop('checked')){
