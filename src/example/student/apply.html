@@ -442,6 +442,7 @@
             $('.weui-dialog__bd').html('是否确认提交申请？');
             $androidDialog2.fadeIn(100);
             $('#confirm').unbind().on('click',function(){
+                $androidDialog2.fadeOut(0);
                 if(tag){
                     return;
                 }
@@ -455,7 +456,6 @@
                         if(xhr.state === 0){
                             loading.hide();
                             tag = true;
-                            $androidDialog2.fadeOut(0);
                             if(type == 1){
                                 $('#alert-news').html('请注意查看系统通知领取个人信息表');
                             }else if(type == 2){
@@ -639,7 +639,7 @@
             $('#confirm').unbind().on('click',function(){
                 $('input').blur();
                 var href = $(this).data('href');
-                window.location.href = href+'?userid='+$('#userid').val()+'&menu=dept_guest#menu';
+                window.history.go(-2)
             });
         });
         $('.choice').click(function(){
