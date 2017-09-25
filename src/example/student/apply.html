@@ -515,6 +515,20 @@
             }
         });
 
+        $('#height').on('blur',function () {
+            var height = $(this).val()*1;
+            if(height < 10 || height > 999){
+                hint('请填写正确的身高');
+            }
+        });
+
+        $('#weight').on('blur',function () {
+            var weight = $(this).val()*1;
+            if(weight < 10 || weight > 999){
+                hint('请填写正确的体重');
+            }
+        });
+
         $('#showToast').on('click',function(){
             $('input').blur();
             var blood = container.data('data-blood');
@@ -527,8 +541,8 @@
             var name = $('#name').val();
             var card = $('#card').val();
             var phone = $('#phone').val();
-            var height = $('#height').val();
-            var weight = $('#weight').val();
+            var height = $('#height').val()*1;
+            var weight = $('#weight').val()*1;
             var department = $('#department').val();
             var major = $('#major').val();
             var selfLis = $uploaderImg.find('li'),
@@ -558,11 +572,11 @@
             }else if(blood == null){
                 hint('请选择血型');
                 return;
-            }else if(height.length == 0){
-                hint('请填写身高');
+            }else if(height < 10 || height > 999){
+                hint('请填写正确的身高');
                 return;
-            }else if(weight.length == 0){
-                hint('请填写体重');
+            }else if(weight < 10 || weight > 999){
+                hint('请填写正确的体重');
                 return;
             }else if(education == null){
                 hint('请选择文化程度');
